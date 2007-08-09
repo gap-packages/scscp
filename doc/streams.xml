@@ -1,0 +1,186 @@
+<!-- $Id: $ -->
+
+<Chapter Label="UsingStreams">
+<Heading>Using streams</Heading>    
+
+The package implements new kind of &GAP; input-output streams, namely
+input-output TCP streams. Such streams are based on the functionality 
+for the TCP/IP protocol usage provided by the &GAP; package &IO;, and 
+may constitute an independent interest for &GAP; users.
+
+<Section Label="Streams">
+<Heading>Input-output TCP streams</Heading>
+
+<ManSection>
+   <Filt Name="IsInputOutputTCPStream" />   
+   <Description>
+     <C>IsInputOutputTCPStream</C> is a subcategory of
+     <C>IsInputOutputStream</C>. Streams in the category
+     <C>IsInputOutputTCPStream</C> are created with the
+     help of the function
+     <Ref Func="InputOutputTCPStream" Label="for client" /> with
+     one or two arguments dependently on whether they will be
+     used in the client or server mode. Examples of their creation
+     and usage will be given in subsequent sections.
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Filt Name="IsInputOutputTCPStreamRep" />
+   <Description>
+     This is the representation that is used for streams in the category 
+     <C>IsInputOutputTCPStream</C>.
+   </Description>
+</ManSection>
+ 
+<ManSection>
+   <Func Name="InputOutputTCPStream"  
+        Label="for server"
+          Arg="socket_descriptor" />        
+   <Returns>
+     stream   
+   </Returns>	 
+   <Description>
+     Returns stream in the category <C>IsInputOutputTCPStream</C> 
+     for the given socket descriptor that will be used to accept 
+     incoming connections. An example demonstrating this will be 
+     given after the next section.
+     <P/>
+     However, the service provider much likely will create such stream 
+     automatically inside the function <Ref Func="RunSCSCPserver"/>
+     rather then manually.    
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="InputOutputTCPStream" 
+        Label="for client"
+          Arg="hostname port" />
+   <Returns>
+     stream
+   </Returns>	 
+   <Description>
+     Returns stream in the category <C>IsInputOutputTCPStream</C> 
+     that will be used by client for communication with the 
+     specified server and port.
+   </Description>
+</ManSection>
+
+Input-output TCP streams are intended to support all operations, implemented
+for streams in &GAP;. It is assumed that all existing code using streams 
+should work with this kind of streams as well (please let us know, if you
+will notice that this is not the case!). We installed methods for
+input-output TCP streams to support the following operations:
+<C>ViewObj</C>,
+<C>PrintObj</C>,
+<C>ReadByte</C>,
+<C>ReadLine</C>,
+<C>ReadAll</C>,
+<C>WriteByte</C>,
+<C>WriteLine</C>,
+<C>WriteAll</C>,
+<C>IsEndOfStream</C>,
+<C>CloseStream</C>,
+<C>FileDescriptorOfStream</C>,
+<C>UNIXSelect</C>.
+<P/>
+
+The following example demonstrates an interaction between client and
+server using input-output TCP stream, and shows how such streams are
+created in the function <Ref Func="RunSCSCPserver"/>. It uses
+some functions from the &IO; package, see the &IO; manual for their
+description. Now we will show step by step what is happens on server and 
+client (of course, if you will try this example, the numbers denoting to 
+descriptors may be different).
+<P/>
+
+First, we enter the following commands on the server's side:
+
+<Example>
+<![CDATA[
+gap> sock := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
+3
+gap> lookup := IO_gethostbyname( "localhost" );
+rec( name := "localhost", aliases := [  ], addrtype := 2, length := 4, 
+  addr := [ "\177\000\000\>" ] )
+gap> port:=26133;
+26133
+gap> res := IO_bind( sock, IO_make_sockaddr_in( lookup.addr[1], port ) );
+true
+gap> IO_listen( sock, 5 );
+true
+gap> socket_descriptor := IO_accept( sock, IO_MakeIPAddressPort("0.0.0.0",0) );
+]]>
+</Example>
+
+After the last command you will not see the &GAP; prompt because the 
+server starts to wait for an incoming connection. 
+Now we go to the client's side and create an input-output TCP stream to
+the server. Here it can be created in one step:
+
+<Example>
+<![CDATA[
+gap> stream:=InputOutputTCPStream( "localhost", 26133 );
+Creating a socket...
+Connecting to a remote socket via TCP/IP...
+]]>
+</Example>
+
+Now we are trying to connect to the server, and as soon as the connection 
+will be established, the stream will be created at the client side, and 
+we will see the output and the new &GAP; prompt:
+
+<Example>
+<![CDATA[
+< input/output TCP stream to localhost >
+gap>
+]]>
+</Example>
+
+On the server you will get the socket descriptor and then you will be able
+to create a stream from it:
+
+<Example>
+<![CDATA[
+4
+gap> stream := InputOutputTCPStream( socket_descriptor );
+< input/output TCP stream to socket >
+]]>
+</Example>
+
+Now we can write to this stream on the client side and then read from it
+on the server side and backwards. First, write on the client:
+
+<Example>
+<![CDATA[
+gap> WriteLine( stream, "12345" );
+true
+]]>
+</Example>
+
+Now read and write on the server:
+
+<Example>
+<![CDATA[
+gap> ReadLine( stream );
+"12345\n"
+gap> WriteLine( stream, "54321" );
+true
+]]>
+</Example>
+
+And finally we read on the client and close the stream:
+
+<Example>
+<![CDATA[
+gap> ReadLine( stream );
+"54321\n"
+gap> CloseStream( stream );
+]]>
+</Example>
+
+and similarly we close the stream on the server.
+
+</Section>
+
+</Chapter>

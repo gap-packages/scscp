@@ -1,0 +1,113 @@
+<!-- $Id: $ -->
+
+<Chapter Label="Server">
+<Heading>Running SCSCP server</Heading>    
+
+<Section Label="InstallProcedures">
+<Heading>Installing procedures</Heading>
+
+<ManSection>
+   <Func Name="InstallSCSCPprocedure" 
+          Arg="procname procfunc"
+         Comm="" />
+   <Returns>
+     Nothing
+   </Returns>	 
+   <Description>
+     For a string <A>procname</A> is a string and a function <A>procfunc</A>, 
+     makes the <A>procfunc</A> available as SCSCP procedure under the 
+     name <A>procname</A>.
+     <P/>
+     The second argument <A>procfunc</A> maybe either standard or 
+     user-defined function or procedure.
+   </Description>
+</ManSection>
+
+In the following example we define the function <C>FactorialAsString</C>
+that takes an integers and returns its factorial in the form of a string.
+This allows correct handling of the case when the result is displayed as
+an integer too large to be printed.
+
+<Example>
+<![CDATA[
+gap> FactorialAsString := x -> String(Factorial( x ) );
+function( x ) ... end
+gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
+InstallSCSCPprocedure : procedure WS_factorial installed. 
+]]>
+</Example>
+
+The user is able to reinstall SCSCP procedures: 
+
+<Example>
+<![CDATA[
+gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
+WS_factorial is already installed. Do you want to reinstall it [y/n]? y
+InstallSCSCPprocedure : procedure WS_factorial reinstalled. 
+]]>
+</Example>
+
+In the following example we install the procedure that will accept a list
+of permutations and return the number in the &GAP; Small Groups library
+of the group they generate (for the sake of simplicity we omit tests of
+validity of arguments, working of <C>IdGroup</C> for groups of given order
+etc.)
+
+<Example>
+<![CDATA[
+gap> IdGroupByGenerators:=function( permlist )
+> return IdGroup( Group( permlist ) );
+> end;
+function( permlist ) ... end
+gap> InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
+InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
+]]>
+</Example>
+
+Some more examples of installation of SCSCP procedures 
+are given in the file <File>scscp/tst/myserver.g</File>. 
+In particular, the procedure <C>Terminate</C> allows the user
+to stop the SCSCP server without quitting from the &GAP; 
+session. It is not intended to be available for the user in 
+the future versions.
+
+</Section>
+
+<Section Label="RunServer">
+<Heading>Starting SCSCP server</Heading>
+
+<ManSection>
+   <Func Name="RunSCSCPserver" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+     Nothing
+   </Returns>	 
+   <Description>
+     For a server hostname, given as a string <A>server</A> and
+     an integer <A>port</A> specifying the port number,
+     starts SCSCP server at <C>server</C>:<C>port</C>. 
+     If the specified port is not available at a moment, will
+     try the next possible port until it will find available one
+     (This behavior is intended for debugging purposes,
+     and may not be possible in the official release).
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> RunSCSCPserver( "localhost", 26133 );
+Ready to accept TCP/IP connections at localhost:26133 ...
+Waiting for new client connection at localhost:26133 ...
+
+]]>
+</Example>
+
+It is assumed that the service provider will write the server
+configuration file, and will be able to start the SCSCP server
+launching &GAP; e.g. with the command <C>gap myserver.g</C>. An example
+of such configuration file is given in <File>scscp/tst/myserver.g</File>. 
+
+</Section>
+
+</Chapter>

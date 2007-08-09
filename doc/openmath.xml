@@ -1,0 +1,166 @@
+<!-- $Id: $ -->
+
+<Chapter Label="OpenMathFunctionality">
+<Heading>&OpenMath; functionality of the &SCSCP; package</Heading>    
+
+The &SCSCP; package extends the &openmath; package to support
+&OpenMath; symbols from the &cascall1; content dictionary <Cite Key="cascall"/>.
+The &SCSCP; package installs some new functions, and also overwrites
+some functions and global variables from the &openmath; package 
+(this is not documented yet, but all changes are backwards compatible).
+
+<Section Label="OpenMath">
+<Heading>OpenMath</Heading>
+
+<ManSection>
+   <Func Name="OMGetObjectWithAttributes" 
+          Arg="stream"
+         Comm="" />
+   <Returns>
+     record with components <C>object</C> and <C>attributes</C> or <K>fail</K>
+   </Returns>	 
+   <Description>
+     This function is similar to the function <C>OMGetObject</C>
+     from the &openmath; package, and the main difference is that it is 
+     able to understand &OpenMath; attribution pairs. It retrieves
+     exactly one &OpenMath; object from the stream <A>stream</A>, and
+     stores it in the <C>object</C> component of the returned record.
+     If the &OpenMath; object has no attributes, the <C>attributes</C> 
+     component of the returned record will be an empty list, otherwise
+     it will contain pairs <C>[attribute&uscore;name,attribute&uscore;value]</C>,
+     where <C>attribute&uscore;name</C> is a string, and 
+     <C>attribute&uscore;value</C> is a &GAP; object, whose type is 
+     determined by the kind of an attribute. Only attributes, defined by 
+     the SCSCP are allowed, otherwise an error message will be displayed.
+     <P/>
+     If the procedure was not successful, the function returns <K>fail</K>
+     instead of an error message like <C>OMGetObject</C> does. Returning
+     <K>fail</K> is useful when <C>OMGetObjectWithAttributes</C> is used
+     inside accept-evaluate-return loop.
+   </Description>
+</ManSection>
+
+As an example, the file <File>scscp/tst/omdemo.om</File> contains some 
+&OpenMath; objects, including those from the SCSCP Specification 
+<Cite Key="SCSCP"/>. We can retrieve them from this file,
+preliminary installing some SCSCP procedures
+using the function <Ref Func="InstallSCSCPprocedure"/>:
+
+<Example>
+<![CDATA[
+gap> InstallSCSCPprocedure( "WS_factorial", Factorial );
+InstallSCSCPprocedure : procedure WS_factorial installed. 
+gap> InstallSCSCPprocedure( "GroupIdentificationService", IdGroup );
+InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
+gap> test:=Filename(Directory("~/scscp/tst"),"omdemo.om");;
+gap> str:=InputTextFile(test);;
+gap> OMGetObjectWithAttributes( str );
+rec( object := 1, attributes := [  ] )
+gap> OMGetObjectWithAttributes( str );
+rec( object := 120, attributes := [  ] )
+gap> OMGetObjectWithAttributes( str );
+rec( object := [ 24, 12 ], 
+  attributes := [ [ "call_ID", "alexk_9053" ], [ "option_runtime", 300000 ], 
+      [ "option_max_memory", "134217728" ], [ "option_debuglevel", 2 ], 
+      [ "option_return_object", "" ] ] )
+gap> OMGetObjectWithAttributes( str );
+rec( object := [ 24, 12 ], 
+  attributes := [ [ "call_ID", "alexk_9053" ], [ "info_runtime", 1234 ], 
+      [ "info_memory", 134217728 ] ] )
+gap> CloseStream( str );
+]]>
+</Example>
+
+<ManSection>
+   <Func Name="OMPutProcedureCall" 
+          Arg="stream proc_name objrec"
+         Comm="" />
+   <Returns>
+     Nothing
+   </Returns>	 
+   <Description>
+     Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a record 
+     <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
+     <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A>,
+     arguments given by the list <C>objrec.object</C> and options
+     (as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> t:="";; stream:=OutputTextString(t,true);;
+gap> OMPutProcedureCall( stream, "WS_factorial", rec( object:= [ 5 ], 
+>      attributes:=[ [ "call_ID", "user007" ], 
+>                    ["option_runtime",1000],
+>                    ["option_min_memory",1024], 
+>                    ["option_max_memory",2048],
+>                    ["option_debuglevel",1], 
+>                    ["option_return_object"] ] ) );;
+gap> Print(t);
+<OMOBJ>
+        <OMATTR>
+                <OMATP>
+                        <OMS cd="cascall1" name="call_ID"/>
+                        <OMSTR>user007</OMSTR>
+                        <OMS cd="cascall1" name="option_runtime"/>
+                        <OMI>1000</OMI>
+                        <OMS cd="cascall1" name="option_min_memory"/>
+                        <OMI>1024</OMI>
+                        <OMS cd="cascall1" name="option_max_memory"/>
+                        <OMI>2048</OMI>
+                        <OMS cd="cascall1" name="option_debuglevel"/>
+                        <OMI>1</OMI>
+                        <OMS cd="cascall1" name="option_return_object"/>
+                        <OMSTR></OMSTR>
+                </OMATP>
+                <OMA>
+                        <OMS cd="cascall1" name="procedure_call"/>
+                        <OMSTR>WS_factorial</OMSTR>
+                        <OMI> 5</OMI>
+                </OMA>
+        </OMATTR>
+</OMOBJ>
+]]>
+</Example>
+
+<ManSection>
+   <Func Name="OMPutProcedureCompleted" 
+          Arg="stream objrec"
+         Comm="" />
+   <Returns>
+   </Returns>	 
+   <Description>
+     Takes a stream <A>stream</A>, and a record 
+     <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
+     <C>procedure&uscore;completed</C> 
+     with the result being <C>objrec.object</C> and information messages
+     (as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> t:="";; stream:=OutputTextString(t,true);;
+gap> OMPutProcedureCompleted( stream, 
+>                             rec(object:=120, 
+>                                 attributes:=[ [ "call_ID", "user007" ] ] ));
+gap> Print(t);
+<OMOBJ>
+        <OMATTR>
+                <OMATP>
+                        <OMS cd="cascall1" name="call_ID"/>
+                        <OMSTR>user007</OMSTR>
+                </OMATP>
+                <OMA>
+                        <OMS cd="cascall1" name="procedure_completed"/>
+                        <OMI> 120</OMI>
+                </OMA>
+        </OMATTR>
+</OMOBJ>
+]]>
+</Example>
+
+</Section>
+
+</Chapter>

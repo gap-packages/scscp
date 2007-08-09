@@ -1,0 +1,51 @@
+<!-- $Id: $ -->
+
+<Chapter Label="Preface">
+<Heading>Preface</Heading>    
+
+The GAP package with the provisional name &SCSCP; package is the
+prototype implementation of  
+the Symbolic Computation Software Composability protocol 
+for the computational algebra system &GAP; in accordance 
+with the SCSCP specification <Cite Key="SCSCP"/> and the 
+&OpenMath; dictionary &cascall1; <Cite Key="cascall"/>.
+<P/>
+
+The package has two main components:<P/>
+1) SCSCP server;<P/>
+2) SCSCP client.<P/>
+
+The SCSCP server can be started from the &GAP; session or by starting
+&GAP; with the configuration file, i.e. <C>gap myserver.g</C>.
+On this stage the server loads all functions that it will provide and also
+loads lookup mechanisms for them, and then starts to listen to the specified 
+port (e.g. 26133).<P/>
+
+When the server accepts a connection from client, it starts the 
+"accept-evaluate-return" loop:<P/>
+- accepts OM message <C>"procedure&uscore;call";</C><P/>
+- performs lookup of the appropriate GAP function;<P/>
+- evaluates the result (or produces a side-effect);<P/>
+- returns the result in the form of the <C>"procedure&uscore;completed"</C> message.<P/>
+
+In the current implementation the server works in a kind of a "multi-user"
+mode. When one client is connected, the server is busy for other clients.
+As soon as the computation is finished and the client is disconnected, the
+server is waiting for the next connection, and normally it never stops until 
+it will be terminated by the service provider. Such multi-user mode is 
+intended to perform single quickly evaluated requests. Thus, on each 
+iteration the server evaluates next request from the queue.<P/>
+    
+The SCSCP client:<P/> 
+- establishes connection with the server at the specified port;<P/>
+- sends OM message <C>"procedure&uscore;call"</C> to the server;<P/>
+- waits for the result of the computation;<P/>
+- gets <C>"procedure&uscore;completed"</C> message and extracts from
+  it the result.
+<P/>
+
+The package also implements new kind of &GAP; input-output streams, namely
+input-output TCP streams, based on the functionality for TCP/IP protocol 
+usage provided by the &GAP; package &IO;.
+
+</Chapter>

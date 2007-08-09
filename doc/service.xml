@@ -1,0 +1,184 @@
+<!-- $Id: $ -->
+
+<Chapter Label="Service">
+<Heading>Service functions</Heading>
+
+<Section Label="Doctools">
+<Heading>Tools for making documentation</Heading>
+
+<ManSection>
+   <Func Name="SCSCPBuildManual" 
+          Arg="" 
+         Comm="requires GAPDoc, UNIX or Linux and TeX;" />
+   <Description>
+      This function is used to build the manual in the following formats:
+      DVI, PDF, PS, HTML and text for online help.
+      We recommend that the user should have a recent and fairly
+      complete &TeX; distribution.
+      Since the &SCSCP; package is distributed together with its manual,
+      it is not necessary for the user to use this function. Normally
+      it is intended to be used by the developers only. This is the only 
+      function of the &SCSCP; package which requires UNIX/Linux environment.
+   </Description>
+</ManSection>
+
+
+<ManSection>
+   <Func Name="SCSCPBuildManualHTML" 
+          Arg=""
+	     Comm="requires only GAPDoc" />
+   <Description>
+      This function is used to build the manual only in HTML format.
+      This does not depend on the availability of the &TeX; installation
+      and works under Windows and Mac OS as well.
+      Since &SCSCP; is distributed together with its manual,
+      it is not necessary for the user to use this function. Normally
+      it is intended to be used by the developers only.
+   </Description>
+</ManSection>
+
+</Section>
+
+<Section Label="Other">
+<Heading>Other commands</Heading>
+
+<ManSection>
+   <Func Name="PingWebService"
+         Arg="hostname portnumber" />
+   <Returns>
+     <K>true</K> or <K>fail</K>
+   </Returns>	 
+   <Description>
+        This function returns <K>true</K> if the client can establish
+        connection with the SCSCP server at <A>hostname</A>:<A>portnumber</A>, 
+        printing in this case also the connection initiation messages as a 
+        side-effect. Otherwise, the function returns <K>fail</K>.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> PingWebService("localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+Got connection initiation message SCSCP_VERSION 0 CAS_PID 1
+true
+gap> PingWebService("localhost",26134);                     
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+Error: rec(
+  number := 61,
+  message := "Connection refused" )
+fail
+]]>
+</Example>
+
+
+<ManSection>
+   <Func Name="PingStatistic" 
+         Arg="hostname portnumber n" />
+   <Returns>
+     nothing
+   </Returns>	 
+   <Description>
+        The function is similar to the UNIX <C>ping</C>. It tries <A>n</A> times 
+        to establish connection with the SCSCP server at 
+        <A>hostname</A>:<A>portnumber</A>, and then displays statistical information.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> PingStatistic("localhost",26133,5);        
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+Got connection initiation message nr 1 : SCSCP_VERSION 0 CAS_PID 2
+...
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+Got connection initiation message nr 5 : SCSCP_VERSION 0 CAS_PID 6
+5 packets transmitted, 5 received, 0% packet loss, time 6ms
+min/avg/max = [ 0, 1.2, 4 ]
+]]>
+</Example>
+
+
+<ManSection>
+   <InfoClass Name="InfoSCSCP"
+              Comm="Info class for SCSCP algorithms" />
+   <Description>
+      <C>InfoSCSCP</C> is a special Info class for the &SCSCP; package.
+      The amount of information to be displayed can be specified by the user 
+      by setting InfoLevel for this class from 0 to 3, and the default value
+      of InfoLevel for the package is 1. 
+      The higher the level the more information will be displayed. 
+      To change the InfoLevel to <C>k</C>, use the command 
+      <C>SetInfoLevel(InfoSCSCP, k)</C>. 
+      Note that &OpenMath; messages will be displayed only on the sending
+      side, i.e. to view the <C>procedure&uscore;call</C> message you need
+      to set InfoLevel to 3 on client, and to view the 
+      <C>procedure&uscore;completed</C> message you need to do the same
+      on the server.
+      In the following examples we demonstrate various degrees of output 
+      detalisation using Info messages.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);      
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Request sent, waiting for reply ...
+rec( object := "3628800", attributes := [  ] )
+]]>
+</Example>
+
+<Example>
+<![CDATA[
+gap> SetInfoLevel(InfoSCSCP,0);
+gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
+rec( object := "3628800", attributes := [  ] )
+]]>
+</Example>
+
+<Example>
+<![CDATA[
+gap> SetInfoLevel(InfoSCSCP,3);
+gap> G:=SymmetricGroup(4);;
+gap> gens:=GeneratorsOfGroup(G);                                              
+[ (1,2,3,4), (1,2) ]
+gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Composing procedure_call message: 
+<OMOBJ>
+        <OMA>
+                <OMS cd="cascall1" name="procedure_call"/>
+                <OMSTR>GroupIdentificationService</OMSTR>
+                <OMA>
+                        <OMS cd="list1" name="list"/>
+                        <OMA>
+                                <OMS cd="permut1" name="Permutation"/>
+                                <OMI> 2</OMI>
+                                <OMI> 3</OMI>
+                                <OMI> 4</OMI>
+                                <OMI> 1</OMI>
+                        </OMA>
+                        <OMA>
+                                <OMS cd="permut1" name="Permutation"/>
+                                <OMI> 2</OMI>
+                                <OMI> 1</OMI>
+                        </OMA>
+                </OMA>
+        </OMA>
+</OMOBJ>
+#I  Request sent, waiting for reply ...
+#I  Got back: object [ 24, 12 ] with attributes [  ]
+rec( object := [ 24, 12 ], attributes := [  ] )
+]]>
+</Example>
+
+</Section>
+
+</Chapter>

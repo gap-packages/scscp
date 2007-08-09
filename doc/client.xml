@@ -1,0 +1,139 @@
+<!-- $Id: $ -->
+
+<Chapter Label="ClientFunctionality">
+<Heading>Client's functionality</Heading>    
+
+<Section Label="Client">
+<Heading>Sending request and getting result</Heading>
+
+<ManSection>
+   <Func Name="EvaluateBySCSCP" 
+          Arg="command listargs server port"
+         Comm="" />
+   <Returns>
+     record with components <C>object</C> and <C>attributes</C> 
+   </Returns>	 
+   <Description>
+     <A>command</A> and <C>server</C> are strings, <A>listargs</A>
+     is a list of &GAP; objects and <C>port</C> is an integer.
+     Calls the SCSCP procedure with the name <A>command</A> 
+     and the list of arguments <A>listargs</A> at the server and port
+     given by <C>server</C> and <C>port</C>.
+   </Description>
+</ManSection>
+
+In the next example we call the procedure, installed
+in the previous chapter:
+
+<Example>
+<![CDATA[
+gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);      
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Request sent, waiting for reply ...
+rec( object := "3628800", attributes := [  ] )
+]]>
+</Example>
+
+Now we demonstrate the procedure <C>GroupIdentificationService</C>,
+also given in the previous chapter:
+
+<Example>
+<![CDATA[
+gap> G:=SymmetricGroup(4);
+Sym( [ 1 .. 4 ] )
+gap> gens:=GeneratorsOfGroup(G);
+[ (1,2,3,4), (1,2) ]
+gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Request sent, waiting for reply ...
+rec( object := [ 24, 12 ], attributes := [  ] )
+]]>
+</Example>
+
+Service provider can build some clients function on top of this functionality
+and offer them to client, for example, the client can read the function
+
+<Example>
+<![CDATA[
+IdGroupWS:=function( G )
+local H, result;
+if not IsPermGroup(G) then
+  H:= Image( IsomorphismPermGroup( G ) );
+else
+  H := G;
+fi;  
+result := EvaluateBySCSCP ( "GroupIdentificationService", 
+            [ GeneratorsOfGroup(H) ], "localhost", 26133 );
+return result.object;
+end;
+]]>
+</Example>
+
+and then use it in the following way:
+
+<Example>
+<![CDATA[
+gap> G:=DihedralGroup(64);
+<pc group of size 64 with 6 generators>
+gap> G:=DihedralGroup(64);
+<pc group of size 64 with 6 generators>
+gap> IdGroupWS(G);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Request sent, waiting for reply ...
+[ 64, 52 ]
+]]>
+</Example>
+
+<ManSection>
+    <Func Name="ParEvaluateBySCSCP" 
+           Arg="commands listargs servers ports" />
+    <Returns>
+        record with components <C>object</C> and <C>attributes</C> 
+    </Returns>	 
+    <Description>
+        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>.
+        It can be used when the user can not predict which partcular method will
+        be more efficent and wants to apply to the same arguments all available 
+        methods in parallel, being interested only in the first returned result.
+        <P/>  
+        All arguments are lists. The list of argumemnts <A>listargs</A> has
+        the same meaning as in <Ref Func="EvaluateBySCSCP"/>. The length of
+        the other three lists should coincide. Then the function will call
+        <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
+        arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
+    </Description>
+</ManSection>
+
+In the example below we call two factorization methods from the &GAP; package 
+<Package>FactInt</Package> to factorize <M>2^{150}+1</M>. The runtime for 
+these two methods here is approximately the same, so you should expect results 
+from both methods in some random order from repeated calls.
+
+<Example>
+<![CDATA[
+gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], 
+>    [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+Got connection initiation message SCSCP_VERSION 0 CAS_PID 114
+#I  Request to service 1 sent, waiting for reply ...
+Got connection initiation message SCSCP_VERSION 0 CAS_PID 1
+#I  Request to service 2 sent, waiting for reply ...
+#I  Service number 2 reported
+rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
+      13334701, 1182468601 ], attributes := [ [ "call_ID", "1_2" ] ] )
+]]>
+</Example>
+
+Note that in the current implementation there will be no interrupt sygnal 
+sent to the other SCSCP servers, so they will continue computation until the
+end, and will be able to accept new requests after its finishing.
+
+</Section>
+
+</Chapter>

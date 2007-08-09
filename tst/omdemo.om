@@ -1,0 +1,117 @@
+<!-- Simple argument without options -->
+
+<OMOBJ><OMI>1</OMI></OMOBJ>
+
+<OMOBJ>
+     <OMATTR>
+         <OMATP>
+            <OMS cd="cascall1" name="call_ID" />
+            <OMSTR>call_identifier</OMSTR>
+         </OMATP>
+         <OMR xref="Primes" />
+     </OMATTR>
+</OMOBJ>
+
+<OMOBJ>
+    <OMA>
+        <OMS cd="cascall1" name="procedure_call" />
+        <OMSTR>WS_factorial</OMSTR>
+        <OMI>5</OMI>
+    </OMA>
+</OMOBJ>
+
+<!-- Example from the Appendix B.1 of the Specification -->
+
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="cascall1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+            <OMS cd="cascall1" name="option_runtime" />
+            <OMI>300000</OMI>
+            <OMS cd="cascall1" name="option_max_memory" />
+            <OMSTR>134217728</OMSTR>
+            <OMS cd="cascall1" name="option_debuglevel" />
+            <OMI>2</OMI>
+            <OMS cd="cascall1" name="option_return_object" />
+            <!-- another possibility is "option_return_cookie"-->
+            <!-- GAP did not undestand usage of <OMSTR/> yet -->
+            <OMSTR></OMSTR>
+        </OMATP>
+        <OMA>
+            <OMS cd="cascall1" name="procedure_call" />
+            <OMSTR>GroupIdentificationService</OMSTR>
+            <!-- Argument 1 -->
+            <OMA>
+                <OMS cd="group1" name="Group"/>
+                <!-- we must use 'group' and 'permutation' in lowercase, but 
+                     OpenMath package requires first capital letter -->
+                <OMA>
+                    <OMS cd="permut1" name="Permutation"/>
+                    <OMI> 2</OMI>
+                    <OMI> 3</OMI>
+                    <OMI> 1</OMI>
+                </OMA>
+                <OMA>
+                    <OMS cd="permut1" name="Permutation"/>
+                    <OMI> 1</OMI>
+                    <OMI> 2</OMI>
+                    <OMI> 4</OMI>
+                    <OMI> 3</OMI>
+                </OMA>
+            </OMA>
+           <!-- End of argument 1 -->
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+
+<!-- Example from the Appendix B.2 of the Specification -->
+
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="cascall1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+            <OMS cd="cascall1" name="info_runtime" />
+            <!-- The runtime in milliseconds as OM integer -->
+            <OMI>1234</OMI>
+            <OMS cd="cascall1" name="info_memory" />
+            <!-- Memory occupied by CAS in bytes as OM integer -->
+            <OMI>134217728</OMI>
+        </OMATP>        
+        <OMA>
+            <OMS cd="cascall1" name="procedure_completed" />
+            <OMA>
+                <OMS cd="linalg2" name="vector"/>
+                <OMI> 24</OMI>
+                <OMI> 12</OMI>
+            </OMA>
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+
+<!-- Example from the Appendix B.3 of the Specification -->
+
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="cascall1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+        </OMATP>
+        <OMA>
+            <OMS cd="cascall1" name="procedure_terminated" />
+            <OME>
+                 <OMS cd="cascall1" name="error_CAS"/>
+                 <OMSTR>Error, the group identification for groups of size 3628800 is not available</OMSTR>
+            </OME>
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+
+
+<OMOBJ>
+    <OMA>
+        <OMS cd="cascall1" name="procedure_call"/>
+        <OMSTR>Terminate</OMSTR>
+    </OMA>
+</OMOBJ>

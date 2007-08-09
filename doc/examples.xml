@@ -1,0 +1,46 @@
+<!-- $Id: $ -->
+
+<Chapter Label="Examples">
+<Heading>Examples of &SCSCP; usage</Heading>    
+
+In this chapter we are going to demonstrate some examples of communication
+between client and server using the SCSCP.
+
+<Section Label="Writing">
+<Heading>Providing Web services with the SCSCP package</Heading>
+
+You can try to run the SCSCP server with the configuration file
+<File>scscp/tst/myserver.g</File>. To do this, go to that directory
+and enter <C>gap myserver.g</C>. After this you will see some diagnostic
+messages and finally the server will be waiting for the connection. The
+final part of the statrtup screen will look as follows:
+
+<Example>
+<![CDATA[
+InstallSCSCPprocedure : procedure WS_factorial installed. 
+InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
+InstallSCSCPprocedure : procedure IdGroup512ByCode installed. 
+InstallSCSCPprocedure : procedure Disconnect installed. 
+InstallSCSCPprocedure : procedure Terminate installed. 
+Ready to accept TCP/IP connections at localhost:26133 ...
+Waiting for new client connection at localhost:26133 ...
+]]>
+</Example>
+
+Note that the procedure <C>IdGroup512ByCode</C> requires the &GAP;
+package &ANUPQ;. Further comments are given in the file 
+<File>scscp/tst/myserver.g</File> and they are self-explanatory.
+<P/>
+
+There also some test files in the directory <File>scscp/tst/</File>
+supplied with detailed comments. First, you may use demonstration
+files, preliminary loading the code for the demonstration mode as it is
+explained in these files, or just executing step by step each command
+from <File>scscp/tst/demo.g</File> and <File>scscp/tst/omdemo.g</File>.
+Then you can try to use client's tools to access SCSCP services from 
+files <File>scscp/tst/id512.g</File>, <File>scscp/tst/idperm.g</File> 
+and <File>scscp/tst/factor.g</File>.
+
+</Section>
+
+</Chapter>

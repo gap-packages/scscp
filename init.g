@@ -1,0 +1,26 @@
+#############################################################################
+##
+#W init.g                   The SCSCP package             Alexander Konovalov
+#W                                                               Steve Linton
+##
+#H $Id: $
+##
+#############################################################################
+
+# read the function declarations
+ReadPackage("scscp/lib/openmath.gd");
+ReadPackage("scscp/lib/xstream.gd");
+ReadPackage("scscp/lib/remote.gd");
+
+# setting the default InfoLevel
+SetInfoLevel( InfoSCSCP, 1 );
+
+SCSCPprocTable:=[ ];
+MakeReadOnlyGlobal( "SCSCPprocTable" );
+
+# read the other part of code         
+ReadPackage("scscp/lib/client.g");
+ReadPackage("scscp/lib/openmath.g");
+ReadPackage("scscp/lib/server.g");
+ReadPackage("scscp/lib/webservice.g");
+ReadPackage("scscp/lib/buildman.g");

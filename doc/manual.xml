@@ -1,0 +1,100 @@
+<!-- $Id: $ -->
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE Book SYSTEM "gapdoc.dtd"
+[<!ENTITY IO "<Package>IO</Package>">]
+[<!ENTITY openmath "<Package>openmath</Package>">]
+[<!ENTITY OpenMath "<Package>OpenMath</Package>">]
+[<!ENTITY cascall1 "<Package>cascall1</Package>">]
+[<!ENTITY ANUPQ "<Package>ANUPQ</Package>">]
+[<!ENTITY SCSCP "<Package>SCSCP</Package>">] >
+
+<Book Name="scscp">
+
+<TitlePage>
+  <Title>&SCSCP;</Title>
+  <Subtitle>Symbolic computations software composability protocol</Subtitle>
+  <Version>Version 0.1</Version>
+
+  <Author>Alexander Konovalov
+          <Email>konovalov@member.ams.org</Email>
+	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
+          <Address>
+            School of Computer Science<Br/>
+            University of St Andrews<Br/>
+            Jack Cole Building, North Haugh,<Br/>
+            St Andrews, Fife, KY16 9SX, Scotland
+          </Address> 
+  </Author>
+
+  <Author>Steve Linton
+          <Email>sal@cs.st-and.ac.uk</Email>
+	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;sal/</Homepage>
+          <Address>
+            School of Computer Science<Br/>
+            University of St Andrews<Br/>
+            Jack Cole Building, North Haugh,<Br/>
+            St Andrews, Fife, KY16 9SX, Scotland
+          </Address> 
+  </Author>
+  
+  <Date>22 July 2007</Date>
+
+<Abstract>
+
+<Index Key="SCSCP package">&SCSCP; package</Index> 
+
+The &GAP; with the provisional name &SCSCP; is the prototype
+implementation if the Symbolic Computation Software Composability 
+protocol (SCSCP) for the computational algebra system &GAP;.
+
+</Abstract>
+
+<Copyright>
+  &copyright; 2007 by Alexander Konovalov and Steve Linton<P/>
+
+  &SCSCP; is free software; you can redistribute it and/or modify it 
+  under the terms of the GNU General Public License as published by 
+  the Free Software Foundation; either version 2 of the License, or 
+  (at your option) any later version. For details, see the FSF's own site
+  <URL>http://www.gnu.org/licenses/gpl.html</URL>.<P/>
+
+  If you obtained &SCSCP;, we would be grateful for a short notification
+  sent to one of the authors.<P/>
+
+  If you publish a result which was partially obtained with the usage of
+  &SCSCP;, please cite it in the following form:<P/>
+
+  A. Konovalov and S. Linton. 
+  <E>SCSCP --- Symbolic computations software composability protocol, Version 0.1;</E> 2007 
+     (<URL>http://www.symbolic-computation.org/</URL>).
+</Copyright>
+  
+<Acknowledgements>
+The project 026133 "SCIEnce - Symbolic Computation in Europe" is supported
+by the EU FP6 Programme.
+</Acknowledgements>
+
+</TitlePage>
+
+<TableOfContents/>
+
+<Body>
+
+<#Include SYSTEM "preface.xml">
+<#Include SYSTEM "install.xml">
+<#Include SYSTEM "streams.xml">
+<#Include SYSTEM "openmath.xml">
+<#Include SYSTEM "server.xml"> 
+<#Include SYSTEM "client.xml">
+<#Include SYSTEM "examples.xml">
+<#Include SYSTEM "service.xml"> 
+
+</Body>
+
+<Bibliography Databases="manual"/>
+
+<TheIndex/>
+
+</Book>
