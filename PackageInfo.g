@@ -3,7 +3,7 @@
 #W PackageInfo.g            The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: $
+#H $Id$
 ##
 #############################################################################
 
@@ -12,7 +12,7 @@ SetPackageInfo( rec(
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol for GAP",
 Version := "0.2",
-Date := "08/08/2007",
+Date := "09/08/2007",
 ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk",
 ArchiveFormats := ".tar.gz .tar.bz2 -win.zip",
 
