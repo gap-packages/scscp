@@ -1,4 +1,6 @@
-# This is a GAP demonstration file, ver. 08.08.2007
+# $Id$
+#
+# This is a GAP demonstration file
 # To run a demonstration enter the following:
 # gap> LogTo(); # (if you are logging to a file)
 # gap> ReadLib("demo.g");

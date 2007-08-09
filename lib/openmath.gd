@@ -3,7 +3,7 @@
 #W openmath.gd              The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: $
+#H $Id$
 ##
 #############################################################################
 

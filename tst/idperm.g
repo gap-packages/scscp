@@ -1,4 +1,4 @@
-# ver. 08.08.2007
+# $Id$
 
 IdGroupWS := function( G )
 # this is the client's counterpart for the SCSCP service for the 

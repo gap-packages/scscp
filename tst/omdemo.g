@@ -1,3 +1,5 @@
+# $Id$
+#
 # This is a GAP demonstration file. 
 # To run a demonstration enter the following:
 # gap> LogTo(); # (if you are logging to a file)
