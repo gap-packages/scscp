@@ -18,6 +18,12 @@ SetInfoLevel( InfoSCSCP, 1 );
 SCSCPprocTable:=[ ];
 MakeReadOnlyGlobal( "SCSCPprocTable" );
 
+# we introduce the global variable SCSCPserverMode because 
+# of different handling of OMR at server and client sides. 
+# It might be useful in other cases as well.
+SCSCPserverMode := false;
+MakeReadWriteGlobal( "SCSCPprocTable" );
+
 # read the other part of code         
 ReadPackage("scscp/lib/client.g");
 ReadPackage("scscp/lib/openmath.g");

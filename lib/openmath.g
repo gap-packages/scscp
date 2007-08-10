@@ -202,12 +202,16 @@ end;
 ##  This overwrites OMObjects.OMR defined in OpenMath package as
 ##  return OMTempVars.OMREF.(node.attributes.href);
 OMObjects.OMR := function ( node )
-if IsBound( node.attributes.xref ) then
-  return EvalString( node.attributes.xref );
-elif IsBound( node.attributes.href ) then
-  return OMTempVars.OMREF.(node.attributes.href);
+if SCSCPserverMode then
+    if IsBound( node.attributes.xref ) then
+        return EvalString( node.attributes.xref );
+    elif IsBound( node.attributes.href ) then
+        return OMTempVars.OMREF.(node.attributes.href);
+    else
+        Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
+    fi;
 else
-  Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
+  return node.attributes.xref;
 fi;
 end; 
    

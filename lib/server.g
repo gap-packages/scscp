@@ -13,9 +13,11 @@ RunSCSCPserver:= function( server, port )
 # "localhost" or "http://someserver.somewhere"
 #
 local sock, lookup, res, terminate, disconnect, socket_descriptor, 
-     stream, objrec, call_ID_pos, call_ID_value, atp, attrlist,
-     omtext, localstream, callresult, errormessage, str, session_id;
+     stream, objrec, pos, call_ID_value, atp, callinfo, output, 
+     return_cookie, cookie, omtext, localstream, callresult, 
+     errormessage, str, session_id;
 
+SCSCPserverMode := true;
 session_id:=0;
 sock := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( sock,IO.SOL_SOCKET,IO.SO_REUSEADDR,"xxxx" );
@@ -83,46 +85,62 @@ else
               break;            
             fi;  
             if objrec = fail then
-              Print("\nConnection was closed by the client\n");
+              Print("Connection was closed by the client\n");
               disconnect:=true;
               break;
             fi;
             Print("done.\n");
             
-            # TO-DO: Rewrite analising options ???
+            # TO-DO: Rewrite analising attributes (i.e. options)
             
-            if IsBound( objrec.attributes ) then
-                Print("objrec.attributes := ", objrec.attributes, "\n");
-                call_ID_pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
-                if call_ID_pos<>fail then 
-                    call_ID_value := objrec.attributes[call_ID_pos][2];
+            pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
+            if pos<>fail then 
+                call_ID_value := objrec.attributes[pos][2];
+            else
+                call_ID_value := "N/A";
+            fi;
+            
+            pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_cookie" );
+            if pos<>fail then 
+                return_cookie := true;
+            else
+                return_cookie := false;
+            fi;           
+            
+            # we gather in callinfo additional information about the
+            # procedure call: now it is only call_ID, in the future we
+            # will add used memory, runtime, etc.
+            callinfo:= [ [ "call_ID", call_ID_value ] ];
+            
+            Info( InfoSCSCP, 2, "call_ID ", call_ID_value, 
+                  " : sending to client ", objrec.object ); 
+            
+            if return_cookie then
+                cookie := TemporaryGlobalVarName( "TEMPVarSCSCP" );  
+                ASS_GVAR( cookie, objrec.object );
+                if ISBOUND_GLOBAL( cookie ) then                                             
+                    Info( InfoSCSCP, 2, "Result stored in the global variable ", cookie );  
                 else
-                    call_ID_value := fail;
+                    Error( "Failed to store result in the global variable ", cookie, "\n" );                                                  
                 fi;
+                output := RemoteObject( cookie, server, port );
             else
-                call_ID_value := fail;
-            fi;
-            if call_ID_value = fail then
-               attrlist:= [ ];
-            else
-               attrlist:= [ [ "call_ID", call_ID_value ] ];
-            fi;
-            
-            Print("Sending to client : ", objrec.object, 
-                  " in response to call_ID ", call_ID_value, "\n");  
+              output := objrec.object;
+            fi;       
                   
             if InfoLevel( InfoSCSCP ) > 2 then
               Print("#I  Composing procedure_completed message: \n");
               omtext:="";
               localstream := OutputTextString( omtext, true );
-              OMPutProcedureCompleted( localstream, rec( object:=objrec.object ) );
+              OMPutProcedureCompleted( localstream, 
+                rec( object := output, 
+                  attributes:= callinfo ) );
               Print(omtext);
             fi;          
 
             OMPutProcedureCompleted( stream, 
-              rec( object := objrec.object, 
-                attributes:= attrlist ) );
-            # IO_Flush( stream![1] );
+              rec( object := output, 
+                attributes:= callinfo ) );
             if objrec.object="Terminated" then
                 disconnect:=true;
                 terminate:=true;

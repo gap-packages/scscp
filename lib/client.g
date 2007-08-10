@@ -115,6 +115,9 @@ OMPutProcedureCall( stream,
 Info( InfoSCSCP, 1, "Request sent, waiting for reply ...");
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
 result := OMGetObjectWithAttributes( stream );
+if return_cookie then
+  result.object := RemoteObject( result.object, server, port );
+fi;
 Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
 CloseStream(stream); 
 return result;

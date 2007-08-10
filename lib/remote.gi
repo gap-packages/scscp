@@ -37,6 +37,13 @@ fi;
 end);
 
 
+# TO-DO: 
+# equality for remote objects
+# StoreRemoteObject
+# RetrieveRemoteObject
+# Unbind for remote objects
+
+
 #############################################################################
 ##
 #M  ViewObj( <RemoteObject> )
@@ -44,7 +51,7 @@ end);
 InstallMethod( ViewObj, "for RemoteObject",
 [ IsRemoteObjectRep and IsRemoteObject ],
 function( obj )
-    Print("< remote object with identifier ", obj![1], " at ", obj![2], ":", obj![3], " >");
+    Print("< remote object ", obj![1], " at ", obj![2], ":", obj![3], " >");
 end);
 
 
@@ -52,8 +59,20 @@ end);
 ##
 #M  PrintObj( <RemoteObject> )
 ##
-InstallMethod( ViewObj, "for RemoteObject",
+InstallMethod( PrintObj, "for RemoteObject",
 [ IsRemoteObjectRep and IsRemoteObject ],
 function( obj )
-    Print("< remote object with identifier ", obj![1], " at ", obj![2], ":", obj![3], " >");
+    Print("RemoteObject(\"", obj![1], "\",\"", obj![2], "\",", obj![3], ")" );
+end);
+
+
+#############################################################################
+##
+#M  OMPut( <RemoteObject> )
+##
+InstallMethod( OMPut, "for stream and RemoteObject",
+[ IsOutputStream, IsRemoteObjectRep and IsRemoteObject ],
+function ( stream, x )
+    OMWriteLine( stream, [ "<OMR xref=\"", x![1], "\" />" ] );
+return;
 end);
