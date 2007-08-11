@@ -7,8 +7,8 @@
 ##
 #############################################################################
 
-MakeReadWriteGlobal("ErrorInner");
-UnbindGlobal("ErrorInner");
+MakeReadWriteGlobal( "ErrorInner" );
+UnbindGlobal( "ErrorInner" );
 
 BIND_GLOBAL( "ErrorInner",
     function(arg) 

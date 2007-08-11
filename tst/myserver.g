@@ -19,39 +19,16 @@ LoadPackage("openmath");
 LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
-#ReadPackage("scscp/lib/errors.g");  
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 SetInfoLevel(InfoSCSCP,3);
 
 #############################################################################
 #
 # Procedures and functions available for the SCSCP server
+# (you will be able also to install procedures contained in other files,
+# including standard GAP procedures and functions)
 #
 #############################################################################
-
-Terminate:=function()
-# Here we may want to do some cleanup, and maybe even we may want to 
-# request some arguments. For now we return only the word saying about
-# the result. We want this function to be able to terminate the
-# SCSCP server without quitting GAP.
-return "Terminated";
-end;
-
-
-Retrieve := x -> x;
-
-
-Store := function( x )
-local var, command;
-var := TemporaryGlobalVarName( "TEMPVarSCSCP" );  
-ASS_GVAR( var, x );
-if ISBOUND_GLOBAL( var ) then                                             
-  Print( x, " is stored in the global variable ", var, "\n" );  
-  return var;   
-else
-  Error( "Failed to store ", x, " in the global variable ", var, "\n" );                                                  
-fi;
-end;
-
 
 FactorialAsString := x -> String(Factorial( x ) );
 # Returns Factorial(x) as a string to deal also with cases when
@@ -76,16 +53,20 @@ end;
 #############################################################################
 #
 # Installation of procedures to make them available for WS 
-# (may include also standard GAP functions and procedures)
+# (you can also install procedures contained in other files,
+# including standard GAP procedures and functions)
 #
 #############################################################################
 
+# Store and retrieve functionality (if not permitted, remove these lines)
+InstallSCSCPprocedure( "SCSCP_STORE", SCSCP_STORE );
+InstallSCSCPprocedure( "SCSCP_RETRIEVE", SCSCP_RETRIEVE );
+InstallSCSCPprocedure( "SCSCP_UNBIND", SCSCP_UNBIND );
+
+# Other procedures
 InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
 InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode );
-InstallSCSCPprocedure( "Terminate", Terminate );
-InstallSCSCPprocedure( "Retrieve", Retrieve );
-InstallSCSCPprocedure( "Store", Store );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup );
 
 # Series of factorisation methods from the GAP package FactInt

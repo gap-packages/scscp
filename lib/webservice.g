@@ -16,7 +16,8 @@
 # SCSCPprocTable     : global variable, defined in init.g, with the list 
 #                      of pairs [ procname, procfunc ]
 #
-InstallSCSCPprocedure := function( procname, procfunc )
+InstallGlobalFunction( InstallSCSCPprocedure,
+function( procname, procfunc )
 local pos, userinput, answer;
 pos:=PositionProperty( SCSCPprocTable, x -> x[1]= procname );
 if pos=fail then
@@ -44,4 +45,36 @@ else
   until answer in [ "y\n", "n\n" ];
   CloseStream( userinput );
 fi;
-end;
+end);
+
+
+##############################################################################
+#
+# SCSCP_RETRIEVE( <varnameasstring> )
+#
+InstallGlobalFunction( SCSCP_RETRIEVE,
+function( varnameasstring )
+if IsBoundGlobal( varnameasstring ) then
+  return EvalString( varnameasstring );
+else
+  Error( "Unbound global variable ", varnameasstring, "\n" );
+fi;
+end);
+
+
+##############################################################################
+#
+# SCSCP_STORE( <obj> )
+#
+InstallGlobalFunction( SCSCP_STORE, x -> x );
+
+
+##############################################################################
+#
+# SCSCP_UNBIND( <varnameasstring> )
+#
+InstallGlobalFunction( SCSCP_UNBIND,
+function( varnameasstring )
+UnbindGlobal( varnameasstring );
+return not IsBoundGlobal( varnameasstring );
+end);

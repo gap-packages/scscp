@@ -12,25 +12,27 @@
 #
 # PingWebService( server, port )
 #
-PingWebService := function( server, port )
+InstallGlobalFunction( PingWebService,
+function( server, port )
 local stream, initmessage, rt;
 stream := InputOutputTCPStream( server, port );
 if stream <> fail then
   initmessage := ReadLine( stream );
-  Print( "Got connection initiation message ", initmessage );
+  Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
   CloseStream(stream); 
   return true;
 else
   return fail;
 fi;    
-end;
+end);
 
 
 #############################################################################
 #
 # PingStatistic( server, port, nr )
 #
-PingStatistic := function( server, port, nr )
+InstallGlobalFunction( PingStatistic,
+function( server, port, nr )
 local stream, initmessage, i, rt, rt1, rt2, res, t, 
       nr_good, nr_lost, min_time, max_time;
 nr_good := 0;
@@ -43,7 +45,7 @@ for i in [ 1 .. nr ] do
   stream := InputOutputTCPStream( server, port );
   if stream <> fail then
     initmessage := ReadLine( stream );
-    Print( "Got connection initiation message nr ", i, " : ", initmessage );
+    Info( InfoSCSCP, 1, "Got connection initiation message nr ", i, " : ", initmessage );
     rt2:=Runtime();
     t:=rt2-rt1;
     CloseStream(stream); 
@@ -69,14 +71,15 @@ Print( nr, " packets transmitted, ",
 if nr_good > 0 then       
        Print( "min/avg/max = ", [ min_time, Float(rt/nr_good), max_time], "\n" );
 fi;      
-end;
+end);
 
 
 #############################################################################
 #
 # EvaluateBySCSCP( command, listargs, server, port )
 #
-EvaluateBySCSCP := function( command, listargs, server, port )
+InstallGlobalFunction( EvaluateBySCSCP,
+function( command, listargs, server, port )
 
 local stream, initmessage, session_id, result, omtext, localstream,
       return_cookie, attribs;
@@ -89,7 +92,7 @@ fi;
   
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
-Print( "Got connection initiation message ", initmessage );
+Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
 session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1 ] };
 attribs := [ [ "call_ID", session_id ] ];
 
@@ -121,7 +124,7 @@ fi;
 Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
 CloseStream(stream); 
 return result;
-end;
+end);
 
 
 #############################################################################
@@ -140,7 +143,8 @@ end;
 #
 # ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
 #
-ParEvaluateBySCSCP := function( commands, listargs, servers, ports )
+InstallGlobalFunction( ParEvaluateBySCSCP,
+function( commands, listargs, servers, ports )
 local nserv, streams, nr, initmessage, session_id, fdlist, s, result;
 if Length( Set ( List( [ commands, servers, ports ], Length ) ) ) <> 1 then
   Error("ParEvaluateBySCSCP : Arguments commands, servers and ports must have equal length!!!\n");
@@ -149,7 +153,7 @@ nserv := Length(ports);
 streams := List( [ 1 .. nserv ], nr -> InputOutputTCPStream( servers[nr], ports[nr] ) );
 for nr in [ 1 .. nserv ] do
   initmessage := ReadLine( streams[nr] );
-  Print( "Got connection initiation message ", initmessage );
+  Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
   session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1] };
   OMPutProcedureCall( streams[nr], 
                       commands[nr], 
@@ -167,4 +171,4 @@ for nr in [ 1 .. nserv ] do
   CloseStream( streams[nr] );
 od; 
 return result;
-end;
+end);

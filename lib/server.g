@@ -7,11 +7,17 @@
 ##
 #############################################################################
 
-RunSCSCPserver:= function( server, port )
+
+#############################################################################
 #
-# the argument is the name of the server, e.g. 
-# "localhost" or "http://someserver.somewhere"
+# RunSCSCPserver( <server>, <port> )
 #
+# the 1st argument is the name of the server, e.g. "localhost" or 
+# "http://someserver.somewhere", the 2nd is the port number as an integer
+#
+InstallGlobalFunction( RunSCSCPserver,
+function( server, port )
+
 local sock, lookup, res, terminate, disconnect, socket_descriptor, 
      stream, objrec, pos, call_ID_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, 
@@ -157,4 +163,4 @@ else
     IO_close(sock);
     Print("done \n");
 fi;
-end;
+end);

@@ -11,6 +11,7 @@
 ReadPackage("scscp/lib/openmath.gd");
 ReadPackage("scscp/lib/xstream.gd");
 ReadPackage("scscp/lib/remote.gd");
+ReadPackage("scscp/lib/scscp.gd");
 
 # setting the default InfoLevel
 SetInfoLevel( InfoSCSCP, 1 );

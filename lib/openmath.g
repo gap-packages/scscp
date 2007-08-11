@@ -12,7 +12,8 @@
 ##
 #F  SCSCPprocLookup( <procname> )
 ##
-SCSCPprocLookup := function( procname )
+InstallGlobalFunction( SCSCPprocLookup,
+function( procname )
 local pos;
 pos := PositionProperty( SCSCPprocTable, x -> x[1] = procname );
 if pos<>fail then
@@ -20,14 +21,14 @@ if pos<>fail then
 else
   Error("SCSCPprocLookup : the procedure ",  procname , " is not available \n" );
 fi;
-end;
+end);
 
 
 #############################################################################
 ##
 #F  OMgapRPC( <x> )
 ##
-InstallGlobalFunction( "OMgapRPC",
+InstallGlobalFunction( OMgapRPC,
 function( x )
 local procname, listargs;
 procname := SCSCPprocLookup( x[1] );
@@ -204,7 +205,11 @@ end;
 OMObjects.OMR := function ( node )
 if SCSCPserverMode then
     if IsBound( node.attributes.xref ) then
-        return EvalString( node.attributes.xref );
+        if IsBoundGlobal( node.attributes.xref ) then
+            return EvalString( node.attributes.xref );
+        else
+            Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
+        fi;    
     elif IsBound( node.attributes.href ) then
         return OMTempVars.OMREF.(node.attributes.href);
     else
@@ -229,7 +234,7 @@ end;
 ##    attributes := [ [ "option_runtime", 1000 ],
 ##                    [ "call_ID", "user007" ] ] )
 ##
-InstallGlobalFunction( "OMPutProcedureCall",
+InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
 local has_attributes, attr, nameandargs;
 if IsClosedStream( stream )  then
@@ -307,7 +312,7 @@ end);
 ##                    [ "info_memory", 2048 ],
 ##                    [ "call_ID", "user007" ] ] )
 ##
-InstallGlobalFunction( "OMPutProcedureCompleted",
+InstallGlobalFunction( OMPutProcedureCompleted,
 function( stream, objrec )
 local has_attributes, attr;
 if IsClosedStream( stream )  then
@@ -360,7 +365,8 @@ end);
 ##
 ##  OMPutError( stream, cd, name, list )
 ##
-OMPutError := function ( stream, cd, name, list )
+InstallGlobalFunction( OMPutError,
+function ( stream, cd, name, list )
 local  obj;
 OMWriteLine( stream, [ "<OME>" ] );
 OMIndent := OMIndent + 1;
@@ -371,7 +377,7 @@ od;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OME>" ] );
 return;
-end;
+end);
 
 
 #############################################################################
@@ -389,7 +395,7 @@ end;
 ##  "error_memory", "error_runtime", "error_system_specific" as defined
 ##  in the 'cascall1' OM CD.
 ##
-InstallGlobalFunction( "OMPutProcedureTerminated",
+InstallGlobalFunction( OMPutProcedureTerminated,
 function( stream, objrec, error_type )
 local has_attributes, attr;
 if IsClosedStream( stream )  then

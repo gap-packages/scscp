@@ -18,14 +18,18 @@
 ##
 DeclareInfoClass("InfoSCSCP");
 
-DeclareGlobalFunction ( "OMgapRPC" );
+DeclareGlobalFunction( "SCSCPprocLookup" );
 
-DeclareGlobalFunction ( "OMGetObjectWithAttributes" );
+DeclareGlobalFunction( "OMgapRPC" );
 
-DeclareGlobalFunction ( "OMgetObjectXMLTreeWithAttributes" );
+DeclareGlobalFunction( "OMGetObjectWithAttributes" );
 
-DeclareGlobalFunction ( "OMPutProcedureCall" );
+DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 
-DeclareGlobalFunction ( "OMPutProcedureCompleted" );
+DeclareGlobalFunction( "OMPutProcedureCall" );
 
-DeclareGlobalFunction ( "OMPutProcedureTerminated" );
+DeclareGlobalFunction( "OMPutProcedureCompleted" );
+
+DeclareGlobalFunction( "OMPutError" );
+
+DeclareGlobalFunction( "OMPutProcedureTerminated" );
