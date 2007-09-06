@@ -92,14 +92,14 @@ function( stream )
     # using PipeOpenMathObject
 
     success := PipeOpenMathObject( stream, fromgap );
-
+    
     if success <> true  then
       Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
       return fail;
     fi;
     
     # Now 'fromgap' is the string with OpenMath encoding
-    
+        
     if InfoLevel( InfoSCSCP ) > 2 then
       Print("#I Received message: \n");
       Print( fromgap );
