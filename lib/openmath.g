@@ -78,12 +78,19 @@ InstallGlobalFunction( OMGetObjectWithAttributes,
 function( stream )
     local
         fromgap, # string
-        success; # whether PipeOpenMathObject worked
-
+        success, # whether PipeOpenMathObject worked
+        ns;
+        
     if IsClosedStream( stream )  then
         Error( "closed stream" );
     elif IsEndOfStream( stream )  then
         Error( "end of stream" );
+    fi;
+    
+    if ValueOption("namespace") <> fail then
+      ns := ValueOption( "namespace" );
+    else
+      ns := fail;  
     fi;
 
     fromgap := "";
@@ -91,7 +98,11 @@ function( stream )
     # Get one OpenMath object from 'stream' and put into 'fromgap',
     # using PipeOpenMathObject
 
-    success := PipeOpenMathObject( stream, fromgap );
+    if ns <> fail then
+      success := PipeOpenMathObject( stream, fromgap : namespace:=ns );
+    else
+      success := PipeOpenMathObject( stream, fromgap );
+    fi;
     
     if success <> true  then
       Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );

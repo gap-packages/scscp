@@ -82,12 +82,18 @@ InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, result, omtext, localstream,
-      return_cookie, attribs;
+      return_cookie, attribs, ns;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
 else
   return_cookie := false;  
+fi;
+
+if ValueOption("namespace") <> fail then
+  ns := ValueOption( "namespace" );
+else
+  ns := fail;  
 fi;
   
 stream := InputOutputTCPStream( server, port );
@@ -117,7 +123,13 @@ OMPutProcedureCall( stream,
                            attributes := attribs ) );
 Info( InfoSCSCP, 1, "Request sent, waiting for reply ...");
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
-result := OMGetObjectWithAttributes( stream );
+
+if ns <> fail then
+  result := OMGetObjectWithAttributes( stream : namespace:=ns );
+else
+  result := OMGetObjectWithAttributes( stream );
+fi;
+
 if return_cookie then
   result.object := RemoteObject( result.object, server, port );
 fi;
@@ -142,6 +154,7 @@ end);
 # methods in some random order from repeated calls):
 #
 # ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+# ParEvaluateBySCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
 #
 InstallGlobalFunction( ParEvaluateBySCSCP,
 function( commands, listargs, servers, ports )
@@ -153,6 +166,9 @@ nserv := Length(ports);
 streams := List( [ 1 .. nserv ], nr -> InputOutputTCPStream( servers[nr], ports[nr] ) );
 for nr in [ 1 .. nserv ] do
   initmessage := ReadLine( streams[nr] );
+  if initmessage[Length(initmessage)] = '\n' then
+    initmessage:=initmessage{[1..Length(initmessage)-1]};
+  fi;
   Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
   session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1] };
   OMPutProcedureCall( streams[nr], 
