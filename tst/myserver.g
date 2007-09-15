@@ -41,7 +41,7 @@ return IdGroup( Group( permlist ) );
 end;
 
 IdGroup512ByCode:=function( code )
-# The function accepts the integer number that is the code for pcsg of 
+# The function accepts the integer number that is the code for pcgs of 
 # a group of order 512 and returns the number of this group in the
 # GAP Small Groups library. It is assumed that the client will make sure
 # that the code is valid.
