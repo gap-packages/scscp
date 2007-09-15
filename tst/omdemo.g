@@ -19,8 +19,9 @@ InstallSCSCPprocedure("WS_factorial", Factorial );
 InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 Terminate:=function() return "Terminated"; end;
 InstallSCSCPprocedure( "Terminate", Terminate );
-test:=Filename( Directory("~/scscp-gapdev/tst"), "omdemo.om");
+test:=Filename( Directory("~/scscp_gapdev/tst"), "omdemo.om");
 stream:=InputTextFile(test);
+s:="";PipeOpenMathObject(stream,s);s;
 OMGetObjectWithAttributes(stream); # 1
 OMGetObjectWithAttributes(stream); # Primes
 OMGetObjectWithAttributes(stream); # 120
