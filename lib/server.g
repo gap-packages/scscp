@@ -24,6 +24,8 @@ local sock, lookup, res, terminate, disconnect, socket_descriptor,
      errormessage, str, session_id;
 
 SCSCPserverMode := true;
+SCSCPserverAddress := server;
+SCSCPserverPort := port;
 session_id:=0;
 sock := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( sock,IO.SOL_SOCKET,IO.SO_REUSEADDR,"xxxx" );

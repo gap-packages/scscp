@@ -214,18 +214,29 @@ end;
 ##  This overwrites OMObjects.OMR defined in OpenMath package as
 ##  return OMTempVars.OMREF.(node.attributes.href);
 OMObjects.OMR := function ( node )
+local ref, pos1, pos2, name, address, port;
+ref := node.attributes.xref;
+pos1:=Position( ref, '@' );
+pos2:=Position( ref, ':' );
+name := ref{[1..pos1-1]};
+address:=ref{[pos1+1..pos2-1]};
+port:=Int(ref{[pos2+1..Length(ref)]});
 if SCSCPserverMode then
-    if IsBound( node.attributes.xref ) then
-        if IsBoundGlobal( node.attributes.xref ) then
-            return EvalString( node.attributes.xref );
+    if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
+        if IsBound( node.attributes.xref ) then
+            if IsBoundGlobal( node.attributes.xref ) then
+                return EvalString( node.attributes.xref );
+            else
+                Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
+            fi;    
+        elif IsBound( node.attributes.href ) then
+            return OMTempVars.OMREF.(node.attributes.href);
         else
-            Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
-        fi;    
-    elif IsBound( node.attributes.href ) then
-        return OMTempVars.OMREF.(node.attributes.href);
+            Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
+        fi;
     else
-        Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
-    fi;
+        return EvaluateBySCSCP( "SCSCP_RETRIEVE", [ name ], address, port ).object;
+    fi;        
 else
   return node.attributes.xref;
 fi;

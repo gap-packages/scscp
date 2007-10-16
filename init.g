@@ -23,6 +23,9 @@ MakeReadOnlyGlobal( "SCSCPprocTable" );
 # of different handling of OMR at server and client sides. 
 # It might be useful in other cases as well.
 SCSCPserverMode := false;
+SCSCPserverAddress := name;
+SCSCPserverPort := 26133;
+
 MakeReadWriteGlobal( "SCSCPprocTable" );
 
 # read the other part of code         

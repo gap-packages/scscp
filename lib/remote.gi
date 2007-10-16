@@ -27,7 +27,12 @@ RemoteObjectDefaultType :=
 ##        
 InstallGlobalFunction( RemoteObject,
 function( identifier, hostname, port )
+local pos;
 if IsString(identifier) and IsString(hostname) and IsPosInt(port) then
+pos := Position( identifier, '@');
+if pos <> fail then
+  identifier := identifier{[1..pos-1]};
+fi;  
 return Objectify( RemoteObjectDefaultType,
                     [ identifier, hostname, port ] ); 
 else
@@ -60,7 +65,7 @@ InstallMethod( \=,
 InstallMethod( ViewObj, "for RemoteObject",
 [ IsRemoteObjectRep and IsRemoteObject ],
 function( obj )
-    Print("< remote object ", obj![1], " at ", obj![2], ":", obj![3], " >");
+    Print("< remote object ", obj![1], "@", obj![2], ":", obj![3], " >");
 end);
 
 
@@ -82,7 +87,7 @@ end);
 InstallMethod( OMPut, "for stream and RemoteObject",
 [ IsOutputStream, IsRemoteObjectRep and IsRemoteObject ],
 function ( stream, x )
-    OMWriteLine( stream, [ "<OMR xref=\"", x![1], "\" />" ] );
+    OMWriteLine( stream, [ "<OMR xref=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
 return;
 end);
 

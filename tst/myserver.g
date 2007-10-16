@@ -109,4 +109,6 @@ fi;
 #
 #############################################################################
 
-RunSCSCPserver( name, 26133 );
+SCSCPserverAddress := name;
+SCSCPserverPort := 26133;
+RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
