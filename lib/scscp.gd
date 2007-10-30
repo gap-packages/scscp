@@ -24,3 +24,7 @@ DeclareGlobalFunction( "PingStatistic" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
 
 DeclareGlobalFunction( "ParEvaluateBySCSCP" );
+
+DeclareGlobalFunction( "NewThread" );
+
+DeclareGlobalFunction( "CloseThread" );

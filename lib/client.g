@@ -188,3 +188,150 @@ for nr in [ 1 .. nserv ] do
 od; 
 return result;
 end);
+
+
+#############################################################################
+#
+# NewThread( command, listargs, server, port )
+#
+# The function performs initial steps from EvaluateBySCSCP, and then
+# returns the InputOutputTCPStream for waiting the result
+#
+InstallGlobalFunction( NewThread,
+function( command, listargs, server, port )
+
+local stream, initmessage, session_id, omtext, localstream,
+      return_cookie, attribs, ns;
+
+if ValueOption("return_cookie") <> fail then
+  return_cookie := ValueOption( "return_cookie" );
+else
+  return_cookie := false;  
+fi;
+
+if ValueOption("namespace") <> fail then
+  ns := ValueOption( "namespace" );
+else
+  ns := fail;  
+fi;
+  
+stream := InputOutputTCPStream( server, port );
+initmessage := ReadLine( stream );
+Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
+session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1 ] };
+attribs := [ [ "call_ID", session_id ] ];
+
+if return_cookie then
+  Add( attribs, [ "option_return_cookie", "" ] );
+fi;
+
+if InfoLevel( InfoSCSCP ) > 2 then
+  Print("#I Composing procedure_call message: \n");
+  omtext:="";
+  localstream := OutputTextString( omtext, true );
+  OMPutProcedureCall( localstream, 
+                      command, 
+                      rec(     object := listargs, 
+                           attributes := attribs ) );
+  Print(omtext);
+fi;
+
+OMPutProcedureCall( stream, 
+                    command, 
+                      rec(     object := listargs, 
+                           attributes := attribs ) );
+              
+Info( InfoSCSCP, 1, "Request sent, returning stream ...");                           
+return stream;
+end); 
+
+
+#############################################################################
+#
+# CloseThread( <stream> )
+#
+# The function performs final steps from EvaluateBySCSCP
+# and returns the result of the procedure call
+#
+InstallGlobalFunction( CloseThread,
+function( stream )
+
+local result, return_cookie, ns;
+
+if ValueOption("return_cookie") <> fail then
+  return_cookie := ValueOption( "return_cookie" );
+else
+  return_cookie := false;  
+fi;
+
+if ValueOption("namespace") <> fail then
+  ns := ValueOption( "namespace" );
+else
+  ns := fail;  
+fi;
+
+Info( InfoSCSCP, 1, "Waiting for reply ...");
+
+IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
+
+if ns <> fail then
+  result := OMGetObjectWithAttributes( stream : namespace:=ns );
+else
+  result := OMGetObjectWithAttributes( stream );
+fi;
+
+if return_cookie then
+  result.object := RemoteObject( result.object, stream![2], stream![3][1] );
+fi;
+Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
+CloseStream(stream); 
+return result;
+end);
+
+
+#############################################################################
+#
+# Synchronize( <list of threads> )
+#
+Synchronize := function( threads )
+local result, waitinglist, descriptors, s, nrdesc, i, nrthread;
+result := [];
+waitinglist:=[ 1 .. Length(threads) ];
+while Length(waitinglist) > 0 do
+  descriptors := List( threads{waitinglist}, s -> IO_GetFD( s![1] ) );  
+  IO_select( descriptors, [ ], [ ], 60*60, 0 );
+  nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i]<>fail );
+  nrthread := waitinglist[ nrdesc ];
+  Info( InfoSCSCP, 1, "Thread number ", nrthread, " is ready");
+  result[nrthread] := CloseThread( threads[nrthread] );
+  SubtractSet(waitinglist,[nrthread]); 
+od;
+return result;
+end;
+
+
+#############################################################################
+#
+# Synchronize2( a, b )
+#
+# We can faster synchronize two threads, avoiding list manipulations
+#
+Synchronize2 := function( a, b )
+local result, descriptors;
+result:=[];
+descriptors := [ IO_GetFD( a![1] ), IO_GetFD( b![1] ) ];
+IO_select( descriptors, [ ], [ ], 60*60, 0 );
+if descriptors[1]<>fail then # 1st thread is ready
+  Info( InfoSCSCP, 1, "Thread number 1 is ready");
+  result[1] := CloseThread( a );
+  result[2] := CloseThread( b );
+  return result;
+elif descriptors[1]<>fail then # 2nd thread is ready
+  Info( InfoSCSCP, 1, "Thread number 2 is ready");
+  result[2] := CloseThread( b );
+  result[1] := CloseThread( a );  
+  return result;
+else
+  Error("Error in SynchronizeTwoThreads, both descriptors failed!!! \n");
+fi;
+end;
