@@ -2,7 +2,11 @@
 
 <!-- Simple argument without options -->
 
+<?scscp start ?>
+
 <OMOBJ><OMI>1</OMI></OMOBJ>
+
+<?scscp end ?>
 
 <OMOBJ>
      <OMATTR>

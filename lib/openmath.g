@@ -97,7 +97,7 @@ function( stream )
 
     # Get one OpenMath object from 'stream' and put into 'fromgap',
     # using PipeOpenMathObject
-
+    
     if ns <> fail then
       success := PipeOpenMathObject( stream, fromgap : namespace:=ns );
     else

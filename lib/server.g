@@ -21,7 +21,7 @@ function( server, port )
 local sock, lookup, res, terminate, disconnect, socket_descriptor, 
      stream, objrec, pos, call_ID_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, 
-     errormessage, str, session_id;
+     errormessage, str, session_id, welcome_string, client_message;
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
@@ -57,17 +57,27 @@ else
         Print("Got connection ... ");
         stream := InputOutputTCPStream( socket_descriptor );
         Print("Stream created ... \n");
-        Print("Sending connection information message \c ");
+        Print("Sending connection information message \n");
         # Since we do not have CAS_IP (IO_getpid was promised soon),
         # we numerate sessions for easier browsing the output 
         session_id := session_id + 1;
-        Print("SCSCP_VERSION 0 CAS_PID ", session_id, "\n");
-        WriteLine( stream, Concatenation("SCSCP_VERSION 0 CAS_PID ", String(session_id) ) );
+        welcome_string:= Concatenation( 
+          "<?scscp system_name=\"GAP\" system_version=\"4.4.10\" system_id=\"localhost_",
+          String(session_id), "\" ?>");
+        Print( welcome_string, "\n");  
+        WriteLine( stream, welcome_string );
+        client_message := ReadLine( stream );
+        Print( "Client's version is ", client_message );
+        WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
         repeat
+            repeat
+              client_message := ReadLine( stream );
+            until client_message="<?scscp start ?>\n";
             Print("Waiting for an OpenMath object ... \n");
             IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
             # IO_select( [ IO_GetFD(stream![1]) ], [ ], [ ], 60*60, 0 );
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
+            Print( "callresult = ", callresult, "\n" );
             if callresult[1] then
               objrec := callresult[2];
             else
@@ -85,9 +95,11 @@ else
                 OMPutProcedureTerminated( localstream, rec( object:=errormessage ), "error_system_specific" );
                 Print(omtext);
               fi;          
-
+            
+              WriteLine( stream, "<?scscp start ?>\n" );
               OMPutProcedureTerminated( stream, rec( object := errormessage ), "error_system_specific" );
-                
+              WriteLine( stream, "<?scscp end ?>" );
+              
               Print("Closing connection...\n");
               disconnect:=true;
               break;            
@@ -146,6 +158,7 @@ else
               Print(omtext);
             fi;          
 
+            WriteLine( stream, "<?scscp start ?>\n" );
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
@@ -154,6 +167,7 @@ else
                 terminate:=true;
                 break;  
             fi;  
+            WriteLine( stream, "<?scscp end ?>" );
         until false;
         Print("Closing stream ... \c");
         # socket descriptor will be closed here

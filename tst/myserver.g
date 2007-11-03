@@ -20,7 +20,7 @@ LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
 ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
-SetInfoLevel(InfoSCSCP,0);
+SetInfoLevel(InfoSCSCP,3);
 Read("karatsuba.g");
 
 #############################################################################
