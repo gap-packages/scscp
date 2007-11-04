@@ -18,7 +18,7 @@
 InstallGlobalFunction( RunSCSCPserver,
 function( server, port )
 
-local sock, lookup, res, terminate, disconnect, socket_descriptor, 
+local socket, lookup, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_ID_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, 
      errormessage, str, session_id, welcome_string, client_message;
@@ -27,44 +27,42 @@ SCSCPserverMode := true;
 SCSCPserverAddress := server;
 SCSCPserverPort := port;
 session_id:=0;
-sock := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
-IO_setsockopt( sock,IO.SOL_SOCKET,IO.SO_REUSEADDR,"xxxx" );
+socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
+IO_setsockopt( socket,IO.SOL_SOCKET,IO.SO_REUSEADDR,"xxxx" );
 
 lookup := IO_gethostbyname( server );
 if lookup = fail then
-    return rec( sock := fail,
+    return rec( socket := fail,
             errormsg := "RunSCSCPserver: cannot find hostname" );
 fi;
 
-res := IO_bind( sock, IO_make_sockaddr_in( lookup.addr[1], port ) );
+res := IO_bind( socket, IO_make_sockaddr_in( lookup.addr[1], port ) );
 if res = fail then 
     Print( "Error: ", LastSystemError(), "\n" );
-    IO_close( sock );
+    IO_close( socket );
     # Trick to select next available port automatically
     Print("Trying next port ", port+1, "\n" );
     RunSCSCPserver( server, port+1 );
     return;
 else
     Print("Ready to accept TCP/IP connections at ", server, ":", port, " ...\n");
-    IO_listen( sock, 5 ); # Allow a backlog of 5 connections
-    terminate := false;
-    repeat # until terminate
+    IO_listen( socket, 5 ); # Allow a backlog of 5 connections
+    repeat # until false
     disconnect := false;  
     repeat # until disconnect
         # We accept connections from everywhere
-        Print("Waiting for new client connection at ", server, ":", port, " ...\n");
-        socket_descriptor := IO_accept( sock, IO_MakeIPAddressPort("0.0.0.0",0) );
-        Print("Got connection ... ");
+        Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ...");
+        socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort("0.0.0.0",0) );
+        Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
-        Print("Stream created ... \n");
-        Print("Sending connection information message \n");
+        Info(InfoSCSCP, 1, "Stream created ...");
         # Since we do not have CAS_IP (IO_getpid was promised soon),
         # we numerate sessions for easier browsing the output 
         session_id := session_id + 1;
         welcome_string:= Concatenation( 
-          "<?scscp system_name=\"GAP\" system_version=\"4.4.10\" system_id=\"localhost_",
-          String(session_id), "\" ?>");
-        Print( welcome_string, "\n");  
+          "<?scscp system_name=\"GAP\" system_version=\"", VERSION, 
+          "\" system_id=\"", server, ":", String(port), ":", String(session_id), "\" ?>");
+        Info(InfoSCSCP, 1, "Sending ", welcome_string );  
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );
         Print( "Client's version is ", client_message );
@@ -75,7 +73,6 @@ else
             until client_message="<?scscp start ?>\n";
             Print("Waiting for an OpenMath object ... \n");
             IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
-            # IO_select( [ IO_GetFD(stream![1]) ], [ ], [ ], 60*60, 0 );
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Print( "callresult = ", callresult, "\n" );
             if callresult[1] then
@@ -98,7 +95,7 @@ else
             
               WriteLine( stream, "<?scscp start ?>\n" );
               OMPutProcedureTerminated( stream, rec( object := errormessage ), "error_system_specific" );
-              WriteLine( stream, "<?scscp end ?>" );
+              WriteLine( stream, "<?scscp end ?>\n" );
               
               Print("Closing connection...\n");
               disconnect:=true;
@@ -162,21 +159,17 @@ else
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
-            if objrec.object="Terminated" then
-                disconnect:=true;
-                terminate:=true;
-                break;  
-            fi;  
-            WriteLine( stream, "<?scscp end ?>" );
+            WriteLine( stream, "<?scscp end ?>\n" );
+
         until false;
         Print("Closing stream ... \c");
         # socket descriptor will be closed here
         CloseStream( stream );
         Print("done \n");
     until disconnect;
-    until terminate;
+    until false;
     Print("Server terminated, closing socket ... \c");   
-    IO_close(sock);
+    IO_close(socket);
     Print("done \n");
 fi;
 end);
