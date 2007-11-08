@@ -20,7 +20,7 @@ LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
 ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
-SetInfoLevel(InfoSCSCP,3);
+SetInfoLevel(InfoSCSCP,0);
 Read("karatsuba.g");
 
 #############################################################################
@@ -78,7 +78,11 @@ InstallSCSCPprocedure("WS_FactorsECM", FactorsECM );
 InstallSCSCPprocedure("WS_FactorsCFRAC", FactorsCFRAC );
 InstallSCSCPprocedure("WS_FactorsMPQS", FactorsMPQS );
 
-InstallSCSCPprocedure("WSKaratsuba", KaratsubaPolynomialMultiplicationExtRep);
+KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
+return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
+end;
+
+InstallSCSCPprocedure("WSKaratsuba", KaratsubaPolynomialMultiplicationExtRepByString);
 
 #############################################################################
 #
