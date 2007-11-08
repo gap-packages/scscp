@@ -68,13 +68,9 @@ else
         Print( "Client's version is ", client_message );
         WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
         repeat
-            repeat
-              client_message := ReadLine( stream );
-            until client_message="<?scscp start ?>\n";
             Print("Waiting for an OpenMath object ... \n");
             IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
-            Print( "callresult = ", callresult, "\n" );
             if callresult[1] then
               objrec := callresult[2];
             else

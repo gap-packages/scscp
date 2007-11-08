@@ -82,7 +82,7 @@ InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, result, omtext, localstream,
-      return_cookie, attribs, ns;
+      return_cookie, attribs, ns, server_scscp_version;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
@@ -99,8 +99,14 @@ fi;
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
 Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
-session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1 ] };
+session_id := initmessage{ [ PositionSublist(initmessage,"system_id=")+11 .. Length(initmessage)-5 ] };
 attribs := [ [ "call_ID", session_id ] ];
+
+WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+server_scscp_version := ReadLine( stream );
+if server_scscp_version <> "<?scscp version=\"1.0\" ?>\n" then
+  Error("Incompatible protocol versions, the server requires ", server_scscp_version );
+fi;
 
 if return_cookie then
   Add( attribs, [ "option_return_cookie", "" ] );
@@ -117,10 +123,13 @@ if InfoLevel( InfoSCSCP ) > 2 then
   Print(omtext);
 fi;
 
+WriteLine( stream, "<?scscp start ?>\n" );
 OMPutProcedureCall( stream, 
                     command, 
                       rec(     object := listargs, 
                            attributes := attribs ) );
+WriteLine( stream, "<?scscp end ?>\n" );
+                            
 Info( InfoSCSCP, 1, "Request sent, waiting for reply ...");
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
 
@@ -201,7 +210,7 @@ InstallGlobalFunction( NewThread,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_cookie, attribs, ns;
+      return_cookie, attribs, ns, server_scscp_version;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
@@ -214,13 +223,19 @@ if ValueOption("namespace") <> fail then
 else
   ns := fail;  
 fi;
-  
+
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
 Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
-session_id := initmessage{ [ PositionSublist(initmessage,"CAS_PID")+8 .. Length(initmessage)-1 ] };
+session_id := initmessage{ [ PositionSublist(initmessage,"system_id=")+11 .. Length(initmessage)-5 ] };
 attribs := [ [ "call_ID", session_id ] ];
 
+WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+server_scscp_version := ReadLine( stream );
+if server_scscp_version <> "<?scscp version=\"1.0\" ?>\n" then
+  Error("Incompatible protocol versions, the server requires ", server_scscp_version );
+fi;
+  
 if return_cookie then
   Add( attribs, [ "option_return_cookie", "" ] );
 fi;
@@ -236,10 +251,12 @@ if InfoLevel( InfoSCSCP ) > 2 then
   Print(omtext);
 fi;
 
+WriteLine( stream, "<?scscp start ?>\n" );
 OMPutProcedureCall( stream, 
                     command, 
                       rec(     object := listargs, 
                            attributes := attribs ) );
+WriteLine( stream, "<?scscp end ?>\n" );
               
 Info( InfoSCSCP, 1, "Request sent, returning stream ...");                           
 return stream;

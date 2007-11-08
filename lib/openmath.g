@@ -79,7 +79,8 @@ function( stream )
     local
         fromgap, # string
         success, # whether PipeOpenMathObject worked
-        ns;
+        ns,
+        readline;
         
     if IsClosedStream( stream )  then
         Error( "closed stream" );
@@ -98,12 +99,20 @@ function( stream )
     # Get one OpenMath object from 'stream' and put into 'fromgap',
     # using PipeOpenMathObject
     
+    repeat
+      readline:=ReadLine(stream);
+      if readline=fail then
+        return fail;
+      fi;  
+      Print(readline);
+    until readline= "<?scscp start ?>\n";
+    
     if ns <> fail then
       success := PipeOpenMathObject( stream, fromgap : namespace:=ns );
     else
       success := PipeOpenMathObject( stream, fromgap );
     fi;
-    
+
     if success <> true  then
       Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
       return fail;
@@ -116,6 +125,14 @@ function( stream )
       Print( fromgap );
       Print( "\n" );
     fi;
+
+    repeat
+      readline:=ReadLine(stream);
+      if readline=fail then
+        return fail;
+      fi;  
+      Print(readline);
+    until readline= "<?scscp end ?>\n";
 
     # convert the OpenMath string into a Gap object using an appropriate
     # function
