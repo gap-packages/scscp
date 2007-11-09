@@ -25,6 +25,8 @@ DeclareGlobalFunction( "EvaluateBySCSCP" );
 
 DeclareGlobalFunction( "ParEvaluateBySCSCP" );
 
-DeclareGlobalFunction( "NewThread" );
+DeclareGlobalFunction( "NewProcess" );
 
-DeclareGlobalFunction( "CloseThread" );
+DeclareGlobalFunction( "CompleteProcess" );
+
+DeclareGlobalFunction( "TerminateProcess" );

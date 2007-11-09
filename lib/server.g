@@ -102,7 +102,7 @@ else
               disconnect:=true;
               break;
             fi;
-            Print("done.\n");
+            Print("OpenMath object obtained\n");
             
             # TO-DO: Rewrite analising attributes (i.e. options)
             
@@ -149,7 +149,10 @@ else
                 rec( object := output, 
                   attributes:= callinfo ) );
               Print(omtext);
-            fi;          
+            fi;       
+            
+            # This may be already broken pipe if the client 
+            # terminated the process   
 
             WriteLine( stream, "<?scscp start ?>\n" );
             OMPutProcedureCompleted( stream, 
