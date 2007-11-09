@@ -501,13 +501,13 @@ else
   # u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
   # v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
 
-  u := NewThread( "WSKaratsuba",[ String(f1), String(g1) ],"localhost", 26133);   
-  v := NewThread( "WSKaratsuba",[ String(f0), String(g0) ],"localhost", 26134);   
+  u := NewProcess( "WSKaratsuba",[ String(f1), String(g1) ],"localhost", 26133);   
+  v := NewProcess( "WSKaratsuba",[ String(f0), String(g0) ],"localhost", 26134);   
   w := KaratsubaPolynomialMultiplicationExtRep(
          PlusLaurentPolynomialsExtRep(f1,f0),
          PlusLaurentPolynomialsExtRep(g1,g0) );
          
-  wsresult:=Synchronize2( u,v );
+  wsresult:=SynchronizeProcesses2( u,v );
   u := EvalString( wsresult[1].object );
   v := EvalString( wsresult[2].object );
      
