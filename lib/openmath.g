@@ -278,6 +278,7 @@ if not IsString( proc_name ) then
   Error( "" );
 fi;
 OMIndent := 0;
+WriteLine( stream, "<?scscp start ?>\n" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -321,6 +322,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
+WriteLine( stream, "<?scscp end ?>\n" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
@@ -350,6 +352,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
+WriteLine( stream, "<?scscp start ?>\n" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -382,6 +385,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
+WriteLine( stream, "<?scscp end ?>\n" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
@@ -433,6 +437,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
+WriteLine( stream, "<?scscp start ?>\n" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -470,6 +475,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
+WriteLine( stream, "<?scscp end ?>\n" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;

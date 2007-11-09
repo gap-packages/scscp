@@ -89,9 +89,7 @@ else
                 Print(omtext);
               fi;          
             
-              WriteLine( stream, "<?scscp start ?>\n" );
               OMPutProcedureTerminated( stream, rec( object := errormessage ), "error_system_specific" );
-              WriteLine( stream, "<?scscp end ?>\n" );
               
               Print("Closing connection...\n");
               disconnect:=true;
@@ -154,11 +152,9 @@ else
             # This may be already broken pipe if the client 
             # terminated the process   
 
-            WriteLine( stream, "<?scscp start ?>\n" );
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
-            WriteLine( stream, "<?scscp end ?>\n" );
 
         until false;
         Print("Closing stream ... \c");

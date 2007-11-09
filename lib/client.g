@@ -120,12 +120,10 @@ if InfoLevel( InfoSCSCP ) > 2 then
   Print(omtext);
 fi;
 
-WriteLine( stream, "<?scscp start ?>\n" );
 OMPutProcedureCall( stream, 
                     command, 
                       rec(     object := listargs, 
                            attributes := attribs ) );
-WriteLine( stream, "<?scscp end ?>\n" );
               
 Info( InfoSCSCP, 1, "Request sent ...");                           
 return stream;
