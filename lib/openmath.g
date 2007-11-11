@@ -230,8 +230,8 @@ port:=Int(ref{[pos2+1..Length(ref)]});
 if SCSCPserverMode then
     if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
         if IsBound( node.attributes.xref ) then
-            if IsBoundGlobal( node.attributes.xref ) then
-                return EvalString( node.attributes.xref );
+            if IsBoundGlobal( name ) then
+                return EvalString( name );
             else
                 Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
             fi;    
@@ -278,7 +278,7 @@ if not IsString( proc_name ) then
   Error( "" );
 fi;
 OMIndent := 0;
-WriteLine( stream, "<?scscp start ?>\n" );
+WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -322,7 +322,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
-WriteLine( stream, "<?scscp end ?>\n" );
+WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
@@ -352,7 +352,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
-WriteLine( stream, "<?scscp start ?>\n" );
+WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -385,7 +385,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
-WriteLine( stream, "<?scscp end ?>\n" );
+WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
@@ -437,7 +437,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
-WriteLine( stream, "<?scscp start ?>\n" );
+WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
@@ -475,7 +475,7 @@ if has_attributes then
   OMIndent := OMIndent - 1;
 fi;
 OMWriteLine( stream, [ "</OMOBJ>" ] );
-WriteLine( stream, "<?scscp end ?>\n" );
+WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
