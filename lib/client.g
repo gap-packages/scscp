@@ -95,8 +95,8 @@ fi;
 
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
-Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
-session_id := initmessage{ [ PositionSublist(initmessage,"system_id=")+11 .. Length(initmessage)-5 ] };
+Info( InfoSCSCP, 1, "Got connection initiation message \n#I  ", initmessage );
+session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+11 .. Length(initmessage)-5 ] };
 attribs := [ [ "call_ID", session_id ] ];
 
 WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
@@ -172,7 +172,10 @@ end);
 #
 InstallGlobalFunction( TerminateProcess,
 function( stream )
-CloseStream(stream); 
+CloseStream( stream );
+# closing stream too early (for example, when server writes to it)
+# causes server crash because of the broken pipe :( 
+return;
 end);
 
 
@@ -327,5 +330,5 @@ processes := [];
 for nr in [ 1 .. nserv ] do
   processes[nr] := NewProcess( commands[nr], listargs, servers[nr], ports[nr] );
 od;  
-return FirstProcess2( processes[1], processes[2] );
+return FirstProcess( processes );
 end);

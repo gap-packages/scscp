@@ -60,8 +60,9 @@ else
         # we numerate sessions for easier browsing the output 
         session_id := session_id + 1;
         welcome_string:= Concatenation( 
-          "<?scscp system_name=\"GAP\" system_version=\"", VERSION, 
-          "\" system_id=\"", server, ":", String(port), ":", String(session_id), "\" ?>");
+          "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
+          "\" service_id=\"", server, ":", String(port), ":", String(session_id), 
+          "\" scscp_versions=\"1.0\" ?>");
         Info(InfoSCSCP, 1, "Sending ", welcome_string );  
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );
@@ -150,12 +151,15 @@ else
             fi;       
             
             # This may be already broken pipe if the client 
-            # terminated the process   
+            # terminated the process, and this causes server crash 
 
+            # Error( "CHECKPOINT" );
+            
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
 
+        Print("Closing stream ... \c");
         until false;
         Print("Closing stream ... \c");
         # socket descriptor will be closed here
