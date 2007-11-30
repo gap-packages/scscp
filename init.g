@@ -13,8 +13,8 @@ ReadPackage("scscp/lib/xstream.gd");
 ReadPackage("scscp/lib/remote.gd");
 ReadPackage("scscp/lib/scscp.gd");
 
-# setting the default InfoLevel
-SetInfoLevel( InfoSCSCP, 1 );
+# setting the default version of SCSCP
+SCSCP_VERSION := "1.0";
 
 SCSCPprocTable:=[ ];
 MakeReadOnlyGlobal( "SCSCPprocTable" );
@@ -23,12 +23,11 @@ MakeReadOnlyGlobal( "SCSCPprocTable" );
 # of different handling of OMR at server and client sides. 
 # It might be useful in other cases as well.
 SCSCPserverMode := false;
-SCSCPserverAddress := name;
-SCSCPserverPort := 26133;
 
 MakeReadWriteGlobal( "SCSCPprocTable" );
 
-# read the other part of code         
+# read the other part of code  
+ReadPackage("scscp/config.g");
 ReadPackage("scscp/lib/client.g");
 ReadPackage("scscp/lib/openmath.g");
 ReadPackage("scscp/lib/server.g");

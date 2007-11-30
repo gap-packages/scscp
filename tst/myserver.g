@@ -20,7 +20,6 @@ LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
 ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
-SetInfoLevel(InfoSCSCP,0);
 Read("karatsuba.g");
 
 #############################################################################
@@ -86,36 +85,9 @@ InstallSCSCPprocedure("WSKaratsuba", KaratsubaPolynomialMultiplicationExtRepBySt
 
 #############################################################################
 #
-# A trick to determine hostname automatically 
+# Finally, we start the SCSCP server. Note that RunSCSCPserver will use the 
+# next available port if the default port from scscp/config.g is unavailable
 #
 #############################################################################
 
-name := ""; 
-ots := OutputTextString( name, true );
-hostname := Filename( DirectoriesSystemPrograms(), "hostname" );    
-Process( DirectoryCurrent(), hostname, InputTextNone(), ots, [] );
-CloseStream( ots );
-name:=name{[1..Length(name)-1]};
-
-#############################################################################
-#
-# I use for tests either localhost or chrystal, so I added the following 
-# trick to determine localhost if this is not chrystal
-#
-#############################################################################
-
-if name <> "chrystal.mcs.st-and.ac.uk" then
-  name := "localhost";
-fi;
-
-#############################################################################
-#
-# Finally, we start the SCSCP server.
-# Note that for debugging purposes RunSCSCPserver will try
-# to use the next available port if 26133 wil not be available
-#
-#############################################################################
-
-SCSCPserverAddress := name;
-SCSCPserverPort := 26133;
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );

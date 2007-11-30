@@ -62,7 +62,7 @@ else
         welcome_string:= Concatenation( 
           "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
           "\" service_id=\"", server, ":", String(port), ":", String(session_id), 
-          "\" scscp_versions=\"1.0\" ?>");
+          "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
         Info(InfoSCSCP, 1, "Sending ", welcome_string );  
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );

@@ -96,7 +96,8 @@ fi;
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
 Info( InfoSCSCP, 1, "Got connection initiation message \n#I  ", initmessage );
-session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+11 .. Length(initmessage)-5 ] };
+session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+12 .. 
+                             PositionSublist(initmessage,"\" scscp_versions")-1 ] };
 attribs := [ [ "call_ID", session_id ] ];
 
 WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
