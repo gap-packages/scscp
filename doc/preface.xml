@@ -8,7 +8,7 @@ prototype implementation of
 the Symbolic Computation Software Composability protocol 
 for the computational algebra system &GAP; in accordance 
 with the SCSCP specification <Cite Key="SCSCP"/> and the 
-&OpenMath; dictionary &cascall1; <Cite Key="cascall"/>.
+&OpenMath; dictionary &scscp1; <Cite Key="cascall"/>.
 <P/>
 
 The package has two main components:<P/>

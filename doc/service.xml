@@ -154,7 +154,7 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 #I  Composing procedure_call message: 
 <OMOBJ>
         <OMA>
-                <OMS cd="cascall1" name="procedure_call"/>
+                <OMS cd="scscp1" name="procedure_call"/>
                 <OMSTR>GroupIdentificationService</OMSTR>
                 <OMA>
                         <OMS cd="list1" name="list"/>

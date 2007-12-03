@@ -44,7 +44,7 @@ end);
 ##
 ##  Extending global variable OMsymTable defined in OpenMath package
 ##
-Add( OMsymTable, [ "cascall1", [ 
+Add( OMsymTable, [ "scscp1", [ 
     ["procedure_call", OMgapRPC ],
     ["procedure_completed", x -> x[1] ],
     ["procedure_terminated", x -> x[1] ],
@@ -288,7 +288,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "cascall1", attr[1] );
+    OMPutSymbol( stream, "scscp1", attr[1] );
     if attr[1]="call_ID" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "option_min_memory", "option_max_memory",
@@ -312,9 +312,9 @@ OMIndent := OMIndent + 1;
 if IsBound( objrec.object ) then
   nameandargs:= [ proc_name ];
   Append( nameandargs, objrec.object );
-  OMPutApplication( stream, "cascall1", "procedure_call", nameandargs );
+  OMPutApplication( stream, "scscp1", "procedure_call", nameandargs );
 else
-  OMPutApplication( stream, "cascall1", "procedure_call", [ proc_name ] );
+  OMPutApplication( stream, "scscp1", "procedure_call", [ proc_name ] );
 fi;  
 OMIndent := OMIndent - 1;
 if has_attributes then
@@ -362,7 +362,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "cascall1", attr[1] );
+    OMPutSymbol( stream, "scscp1", attr[1] );
     if attr[1]="call_ID" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
@@ -378,7 +378,7 @@ else
   has_attributes:=false;
 fi;
 OMIndent := OMIndent + 1;
-OMPutApplication( stream, "cascall1", "procedure_completed", [ objrec.object ] );
+OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );
@@ -425,7 +425,7 @@ end);
 ##                    [ "call_ID", "user007" ] ] )
 ##  The third argument is a string with error type, for example
 ##  "error_memory", "error_runtime", "error_system_specific" as defined
-##  in the 'cascall1' OM CD.
+##  in the 'scscp1' OM CD.
 ##
 InstallGlobalFunction( OMPutProcedureTerminated,
 function( stream, objrec, error_type )
@@ -447,7 +447,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "cascall1", attr[1] );
+    OMPutSymbol( stream, "scscp1", attr[1] );
     if attr[1]="call_ID" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
@@ -465,8 +465,8 @@ fi;
 OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "cascall1", "procedure_terminated" );
-OMPutError( stream, "cascall1", error_type, [ objrec.object ] );
+OMPutSymbol( stream, "scscp1", "procedure_terminated" );
+OMPutError( stream, "scscp1", error_type, [ objrec.object ] );
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
 OMIndent := OMIndent - 1;

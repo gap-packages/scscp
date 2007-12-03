@@ -6,7 +6,7 @@
 [<!ENTITY IO "<Package>IO</Package>">]
 [<!ENTITY openmath "<Package>openmath</Package>">]
 [<!ENTITY OpenMath "<Package>OpenMath</Package>">]
-[<!ENTITY cascall1 "<Package>cascall1</Package>">]
+[<!ENTITY scscp1 "<Package>scscp1</Package>">]
 [<!ENTITY ANUPQ "<Package>ANUPQ</Package>">]
 [<!ENTITY SCSCP "<Package>SCSCP</Package>">] >
 

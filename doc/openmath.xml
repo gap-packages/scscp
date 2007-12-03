@@ -4,7 +4,7 @@
 <Heading>&OpenMath; functionality of the &SCSCP; package</Heading>    
 
 The &SCSCP; package extends the &openmath; package to support
-&OpenMath; symbols from the &cascall1; content dictionary <Cite Key="cascall"/>.
+&OpenMath; symbols from the &scscp1; content dictionary <Cite Key="cascall"/>.
 The &SCSCP; package installs some new functions, and also overwrites
 some functions and global variables from the &openmath; package 
 (this is not documented yet, but all changes are backwards compatible).
@@ -101,21 +101,21 @@ gap> Print(t);
 <OMOBJ>
         <OMATTR>
                 <OMATP>
-                        <OMS cd="cascall1" name="call_ID"/>
+                        <OMS cd="scscp1" name="call_ID"/>
                         <OMSTR>user007</OMSTR>
-                        <OMS cd="cascall1" name="option_runtime"/>
+                        <OMS cd="scscp1" name="option_runtime"/>
                         <OMI>1000</OMI>
-                        <OMS cd="cascall1" name="option_min_memory"/>
+                        <OMS cd="scscp1" name="option_min_memory"/>
                         <OMI>1024</OMI>
-                        <OMS cd="cascall1" name="option_max_memory"/>
+                        <OMS cd="scscp1" name="option_max_memory"/>
                         <OMI>2048</OMI>
-                        <OMS cd="cascall1" name="option_debuglevel"/>
+                        <OMS cd="scscp1" name="option_debuglevel"/>
                         <OMI>1</OMI>
-                        <OMS cd="cascall1" name="option_return_object"/>
+                        <OMS cd="scscp1" name="option_return_object"/>
                         <OMSTR></OMSTR>
                 </OMATP>
                 <OMA>
-                        <OMS cd="cascall1" name="procedure_call"/>
+                        <OMS cd="scscp1" name="procedure_call"/>
                         <OMSTR>WS_factorial</OMSTR>
                         <OMI> 5</OMI>
                 </OMA>
@@ -149,11 +149,11 @@ gap> Print(t);
 <OMOBJ>
         <OMATTR>
                 <OMATP>
-                        <OMS cd="cascall1" name="call_ID"/>
+                        <OMS cd="scscp1" name="call_ID"/>
                         <OMSTR>user007</OMSTR>
                 </OMATP>
                 <OMA>
-                        <OMS cd="cascall1" name="procedure_completed"/>
+                        <OMS cd="scscp1" name="procedure_completed"/>
                         <OMI> 120</OMI>
                 </OMA>
         </OMATTR>
