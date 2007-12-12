@@ -11,7 +11,7 @@
 #
 # -------------------------------------------------
 #
-# This tests reads OM objects from scscp/tst/test.om file
+# This tests reads OM objects from scscp/tst/omdemo.om file
 # It does not use network connection and only test OMGetObjectWithAttributes
 #
 LoadPackage("scscp");
