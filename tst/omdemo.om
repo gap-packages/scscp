@@ -3,11 +3,10 @@
 <!-- Simple argument without options -->
 
 <?scscp start ?>
-
 <OMOBJ><OMI>1</OMI></OMOBJ>
-
 <?scscp end ?>
 
+<!--
 <OMOBJ>
      <OMATTR>
          <OMATP>
@@ -17,7 +16,9 @@
          <OMR xref="Primes" />
      </OMATTR>
 </OMOBJ>
+-->
 
+<?scscp start ?>
 <OMOBJ>
     <OMA>
         <OMS cd="scscp1" name="procedure_call" />
@@ -25,9 +26,49 @@
         <OMI>5</OMI>
     </OMA>
 </OMOBJ>
+<?scscp end ?>
+
+<?scscp start ?>
+<OMOBJ>
+	<OMA>
+		<OMS cd="polyu" name="poly_u_rep"/>
+		<OMV name="x"/>
+		<OMA>
+			<OMS cd="polyu" name="term"/>
+			<OMI> 1</OMI>
+			<OMI> 1</OMI>
+		</OMA>
+	</OMA>
+</OMOBJ>
+<?scscp end ?>
+
+<?scscp start ?>
+<OMOBJ>
+	<OMA>
+		<OMS cd="polyu" name="poly_u_rep"/>
+		<OMV name="x"/>
+		<OMA>
+			<OMS cd="polyu" name="term"/>
+			<OMI> 3</OMI>
+			<OMI> 5</OMI>
+		</OMA>
+		<OMA>
+			<OMS cd="polyu" name="term"/>
+			<OMI> 2</OMI>
+			<OMI> 1</OMI>
+		</OMA>
+		<OMA>
+			<OMS cd="polyu" name="term"/>
+			<OMI> 0</OMI>
+			<OMI> 1</OMI>
+		</OMA>
+	</OMA>
+</OMOBJ>
+<?scscp end ?>
 
 <!-- Example from the Appendix B.1 of the Specification -->
 
+<?scscp start ?>
 <OMOBJ>
     <OMATTR>
         <OMATP>
@@ -53,13 +94,13 @@
                 <!-- we must use 'group' and 'permutation' in lowercase, but 
                      OpenMath package requires first capital letter -->
                 <OMA>
-                    <OMS cd="permut1" name="Permutation"/>
+                    <OMS cd="permut1" name="permutation"/>
                     <OMI> 2</OMI>
                     <OMI> 3</OMI>
                     <OMI> 1</OMI>
                 </OMA>
                 <OMA>
-                    <OMS cd="permut1" name="Permutation"/>
+                    <OMS cd="permut1" name="permutation"/>
                     <OMI> 1</OMI>
                     <OMI> 2</OMI>
                     <OMI> 4</OMI>
@@ -70,9 +111,11 @@
         </OMA>
     </OMATTR>
 </OMOBJ>
+<?scscp end ?>
 
 <!-- Example from the Appendix B.2 of the Specification -->
 
+<?scscp start ?>
 <OMOBJ>
     <OMATTR>
         <OMATP>
@@ -95,9 +138,11 @@
         </OMA>
     </OMATTR>
 </OMOBJ>
+<?scscp end ?>
 
 <!-- Example from the Appendix B.3 of the Specification -->
 
+<?scscp start ?>
 <OMOBJ>
     <OMATTR>
         <OMATP>
@@ -113,11 +158,13 @@
         </OMA>
     </OMATTR>
 </OMOBJ>
+<?scscp end ?>
 
-
+<?scscp start ?>
 <OMOBJ>
     <OMA>
         <OMS cd="scscp1" name="procedure_call"/>
         <OMSTR>Terminate</OMSTR>
     </OMA>
 </OMOBJ>
+<?scscp end ?>
