@@ -40,6 +40,34 @@ return CallFuncList( procname, listargs );
 end);
 
 
+######################################################################
+##
+##  Semantic mappings for symbols from polyu.cd
+##
+BindGlobal("OMgap_poly_u_rep",
+	function( x )
+	local indetname, rep, coeffs, r, i, indet, fam, nr;
+	indetname := x[1];
+	rep := x{[2..Length(x)]};
+	coeffs:=[];
+	for r in rep do
+      coeffs[r[1]+1]:=r[2];
+    od;  
+    for i in [1..Length(coeffs)] do
+      if not IsBound(coeffs[i]) then
+        coeffs[i]:=0;
+      fi;  
+    od;
+    indet := Indeterminate( Rationals, indetname : old );
+	fam := FamilyObj( 1 );
+    nr := IndeterminateNumberOfLaurentPolynomial( indet ); 
+	return LaurentPolynomialByCoefficients( fam, coeffs, 0, nr );
+	end );
+	
+BindGlobal("OMgap_term",
+	x->x );
+	
+
 #############################################################################
 ##
 ##  Extending global variable OMsymTable defined in OpenMath package
@@ -60,6 +88,10 @@ Add( OMsymTable, [ "scscp1", [
     ["error_CAS", "error_CAS" ],
     ] ] );
 
+Add( OMsymTable, [ "polyu", [
+     ["poly_u_rep", OMgap_poly_u_rep], 
+	 ["term", OMgap_term]
+     ] ] );
 
 #############################################################################
 ##

@@ -3,7 +3,7 @@
 #W openmath.gi              The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id:$
+#H $Id$
 ##
 #############################################################################
 
@@ -16,7 +16,7 @@ function( stream, f )
 local coeffs, deg, nr;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "poly_u_rep", "polyu" );
+OMPutSymbol( stream, "polyu", "poly_u_rep" );
 OMPutVar( stream, IndeterminateOfUnivariateRationalFunction(f) );
 coeffs := CoefficientsOfUnivariatePolynomial(f);
 deg := DegreeOfLaurentPolynomial(f);
