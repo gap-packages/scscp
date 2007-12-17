@@ -129,8 +129,11 @@ function( stream )
       if readline=fail then
         return fail;
       fi;  
-      Print(readline);
-    until readline= "<?scscp start ?>\n";
+      NormalizeWhitespace( readline );
+      if Length( readline ) > 0 then 
+        Info( InfoSCSCP, 2, readline );
+      fi;  
+    until readline= "<?scscp start ?>";
     
     success := PipeOpenMathObject( stream, fromgap );
 
@@ -152,8 +155,11 @@ function( stream )
       if readline=fail then
         return fail;
       fi;  
-      Print(readline);
-    until readline= "<?scscp end ?>\n";
+      NormalizeWhitespace( readline );
+      if Length( readline ) > 0 then 
+        Info( InfoSCSCP, 2, readline );
+      fi; 
+    until readline= "<?scscp end ?>";
 
     # convert the OpenMath string into a Gap object using an appropriate
     # function

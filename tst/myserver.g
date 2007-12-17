@@ -81,7 +81,7 @@ KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
 return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
 end;
 
-InstallSCSCPprocedure("WSKaratsuba", KaratsubaPolynomialMultiplicationExtRepByString);
+InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString);
 
 #############################################################################
 #

@@ -14,18 +14,12 @@
 
 <TitlePage>
   <Title>&SCSCP;</Title>
-  <Subtitle>Symbolic computations software composability protocol</Subtitle>
-  <Version>Version 0.1</Version>
+  <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
+  <Version>Version 0.2</Version>
 
   <Author>Alexander Konovalov
           <Email>konovalov@member.ams.org</Email>
 	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
-          <Address>
-            School of Computer Science<Br/>
-            University of St Andrews<Br/>
-            Jack Cole Building, North Haugh,<Br/>
-            St Andrews, Fife, KY16 9SX, Scotland
-          </Address> 
   </Author>
 
   <Author>Steve Linton
@@ -39,15 +33,15 @@
           </Address> 
   </Author>
   
-  <Date>22 July 2007</Date>
+  <Date>17 December 2007</Date>
 
 <Abstract>
 
 <Index Key="SCSCP package">&SCSCP; package</Index> 
 
-The &GAP; with the provisional name &SCSCP; is the prototype
-implementation if the Symbolic Computation Software Composability 
-protocol (SCSCP) for the computational algebra system &GAP;.
+The &GAP; package &SCSCP; is the prototype
+implementation of the Symbolic Computation Software Composability 
+protocol (&SCSCP;) for the computational algebra system &GAP;.
 
 </Abstract>
 
@@ -67,14 +61,19 @@ protocol (SCSCP) for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:<P/>
 
   A. Konovalov and S. Linton. 
-  <E>SCSCP --- Symbolic computations software composability protocol, Version 0.1;</E> 2007 
-     (<URL>http://www.symbolic-computation.org/</URL>).
+  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.2;</E> 
+  2007 (<URL>http://www.symbolic-computation.org/</URL>).
 </Copyright>
   
 <Acknowledgements>
-The project 026133 "SCIEnce - Symbolic Computation in Europe" is supported
-by the EU FP6 Programme.
+The project 026133 "SCIEnce - Symbolic Computation Infrastructure for Europe" 
+is supported by the EU FP6 Programme.
 </Acknowledgements>
+
+<Colophon>
+The version 0.1 of the package appeared in the first half of 2007.
+The version 0.2 was completed in December 2007.
+</Colophon>
 
 </TitlePage>
 

@@ -3,7 +3,7 @@
 <Chapter Label="Preface">
 <Heading>Preface</Heading>    
 
-The GAP package with the provisional name &SCSCP; package is the
+The &GAP; package &SCSCP; package is the
 prototype implementation of  
 the Symbolic Computation Software Composability protocol 
 for the computational algebra system &GAP; in accordance 

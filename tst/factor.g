@@ -13,6 +13,9 @@ for n in [ 1 .. nrsessions ] do
   # this is the beginning of a single session with a sequence of requests
   stream:=InputOutputTCPStream( server, port );
   initmessage := ReadLine( stream );
+  WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+  ReadLine( stream );
+  
   for k in [ 1 .. sessionlength ] do
     call_nr:=call_nr+1;
     Print( call_nr, " \c");

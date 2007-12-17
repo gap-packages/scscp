@@ -7,6 +7,58 @@
 <Heading>Sending request and getting result</Heading>
 
 <ManSection>
+   <Func Name="NewProcess" 
+          Arg="command listargs server port"
+         Comm="" />
+   <Returns>
+     stream
+   </Returns>	 
+   <Description>
+     <A>command</A> and <C>server</C> are strings, <A>listargs</A>
+     is a list of &GAP; objects and <C>port</C> is an integer.
+     Calls the SCSCP procedure with the name <A>command</A> 
+     and the list of arguments <A>listargs</A> at the server and port
+     given by <C>server</C> and <C>port</C>. Returns the stream in
+     the category <C>IsInputOutputTCPStream</C> for the subsequent
+     waiting the result from that stream.
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="CompleteProcess" 
+          Arg="stream"
+         Comm="" />
+   <Returns>
+     record with components <C>object</C> and <C>attributes</C> 
+   </Returns>	 
+   <Description>
+     The function waits, if necessary, until the stream will contain
+     some data, then reads appropriate &OpenMath; object from the stream
+     and closes the stream;
+   </Description>
+</ManSection>
+
+In the following example we demonstrate combination of the two previous
+functions to send request and get result, calling the procedure, installed 
+in the previous chapter: 
+
+<Example>
+<![CDATA[
+gap> s := NewProcess( "WS_factorial", [10], "localhost", 26133 );                  
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> x := CompleteProcess(s);
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:1" ] ] )
+]]>
+</Example>
+
+The next function combines the two previous functions, performing both
+sending request and getting result in one call.
+
+<ManSection>
    <Func Name="EvaluateBySCSCP" 
           Arg="command listargs server port"
          Comm="" />
@@ -22,16 +74,15 @@
    </Description>
 </ManSection>
 
-In the next example we call the procedure, installed
-in the previous chapter:
-
 <Example>
 <![CDATA[
-gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);      
+gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Request sent, waiting for reply ...
-rec( object := "3628800", attributes := [  ] )
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:2" ] ] )
 ]]>
 </Example>
 
@@ -47,8 +98,10 @@ gap> gens:=GeneratorsOfGroup(G);
 gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Request sent, waiting for reply ...
-rec( object := [ 24, 12 ], attributes := [  ] )
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:45" ] ] )
 ]]>
 </Example>
 
@@ -77,15 +130,115 @@ and then use it in the following way:
 <![CDATA[
 gap> G:=DihedralGroup(64);
 <pc group of size 64 with 6 generators>
-gap> G:=DihedralGroup(64);
-<pc group of size 64 with 6 generators>
 gap> IdGroupWS(G);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Request sent, waiting for reply ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
 [ 64, 52 ]
 ]]>
 </Example>
+
+<ManSection>
+   <Func Name="TerminateProcess" 
+          Arg="stream"
+         Comm="" />
+   <Description>
+        The function is supposed to send the interrupt signal to the server.
+        Now it just closes the stream on the client side, while the server will
+        recognize this only when the computation will be completed. In fact,
+        closing stream too early (for example, when server writes to it) even
+        causes server crash because of the broken pipe. We introduce this 
+        function as a nameplace for further implementing a proper interrupt
+        mechanism.
+   </Description>
+</ManSection>
+
+</Section>
+
+<Section Label="Workflows">
+<Heading>Managing multiple requests</Heading>
+
+Using procedure calls explained in the previous section, the user can
+create several requests to execute them in parallel, or to wait until
+the fastest result will be available.
+
+<ManSection>
+   <Func Name="SynchronizeProcesses" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+     list of records with components <C>object</C> and <C>attributes</C> 
+   </Returns>         
+   <Description>
+        The function collects results of from each stream given in the argument,
+        and returns the list, <M>i</M>-th entry of which is the result obtained
+        from the <M>i</M>-th stream. The function accepts both one argument that is a list of 
+        streams, and arbitrary number of arguments, each of them being a stream.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> SynchronizeProcesses(a,b); 
+#I  Process number 1 is ready
+#I  Closed 1st process, waiting for 2nd ...
+[ rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6" ] ] ), 
+  rec( object := "2432902008176640000", 
+       attributes := [ [ "call_ID", "localhost:26134:7" ] ] ) ]
+]]>
+</Example>
+
+
+<ManSection>
+   <Func Name="FirstProcess" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+     records with components <C>object</C> and <C>attributes</C> 
+   </Returns>         
+   <Description>
+        The function waits for the result from each stream given in the argument,
+        and returns the result coming first, closing all remaining streams at 
+        the same time. The function accepts both one argument that is a list of 
+        streams, and arbitrary number of arguments, each of them being a stream.
+   </Description>
+</ManSection>
+
+
+<Example>
+<![CDATA[
+gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> FirstProcess(a,b);             
+#I  Process number 1 is ready
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:7" ] ] )
+]]>
+</Example>
+
 
 <ManSection>
     <Func Name="ParEvaluateBySCSCP" 
@@ -94,12 +247,13 @@ gap> IdGroupWS(G);
         record with components <C>object</C> and <C>attributes</C> 
     </Returns>	 
     <Description>
-        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>.
+        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>,
+        constructed using the <Ref Func="FirstProcess"/>.
         It can be used when the user can not predict which partcular method will
         be more efficent and wants to apply to the same arguments all available 
         methods in parallel, being interested only in the first returned result.
         <P/>  
-        All arguments are lists. The list of argumemnts <A>listargs</A> has
+        All arguments are lists. The list of arguments <A>listargs</A> has
         the same meaning as in <Ref Func="EvaluateBySCSCP"/>. The length of
         the other three lists should coincide. Then the function will call
         <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
@@ -114,25 +268,181 @@ from both methods in some random order from repeated calls.
 
 <Example>
 <![CDATA[
-gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], 
->    [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
+>      [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-Got connection initiation message SCSCP_VERSION 0 CAS_PID 114
-#I  Request to service 1 sent, waiting for reply ...
-Got connection initiation message SCSCP_VERSION 0 CAS_PID 1
-#I  Request to service 2 sent, waiting for reply ...
-#I  Service number 2 reported
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Process number 2 is ready
 rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-      13334701, 1182468601 ], attributes := [ [ "call_ID", "1_2" ] ] )
+  13334701, 1182468601 ], attributes := [ [ "call_ID", "localhost:26134:1" ] ] )
 ]]>
 </Example>
 
 Note that in the current implementation there will be no interrupt sygnal 
 sent to the other SCSCP servers, so they will continue computation until the
 end, and will be able to accept new requests after its finishing.
+
+</Section>
+
+<Section Label="Remote">
+<Heading>Remote objects</Heading>
+
+The &SCSCP; package introduces new kind of objects - <E>remote objects</E>.
+They provide an opportunity to manipulate with objects on remote services
+without their actual transmitting over the network.
+
+<ManSection>
+    <Func Name="StoreAsRemoteObject" 
+           Arg="obj server port"
+          Comm="" />
+    <Returns>
+      remote object
+    </Returns>	 
+    <Description>
+      Returns the remote object corresponding to the object created at
+      <A>server</A><C>:</C><A>port</A> from the &OpenMath; representation
+      of the first argument <A>obj</A>.
+    </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+< remote object TEMPVarSCSCP@localhost:26133 >
+]]>
+</Example>
+
+The remote object carries the information that is necessary to access 
+the original object: its identifier, server and port:
+
+<Example>
+<![CDATA[
+gap> s![1]; 
+"TEMPVarSCSCP"
+gap> s![2];
+"localhost"
+gap> s![3];
+26133
+]]>
+</Example>
+
+When the remote object is printed in the &OpenMath; format, we
+use symbols <C>@</C> and <C>:</C> to combine these parameters
+in the &OpenMath; reference:
+
+<Example>
+<![CDATA[
+gap> OMPrint(s);
+<OMOBJ>
+	<OMR xref="TEMPVarSCSCP@localhost:26133" />
+</OMOBJ>
+]]>
+</Example>
+
+This allows substritution of remote object as arguments into procedure calls 
+in the same manner like we do this with usual objects:
+
+<Example>
+<![CDATA[
+gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "localhost:26133:9" ] ] )
+]]>
+</Example>
+
+<ManSection>
+    <Func Name="RetrieveRemoteObject" 
+           Arg="remoteobject"
+          Comm="" />
+    <Returns>
+      remote object
+    </Returns>	 
+    <Description>
+      This function retrieves the remote object from the remote service
+      in the &OpenMath; format and constructs it locally. Note, however,
+      that default &OpenMath; representation may not contain all information
+      about the object which was accumulated at the time in the remote service.
+    </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> RetrieveRemoteObject(s);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+Group([ (1,2,3), (1,2) ])
+]]>
+</Example>
+
+<ManSection>
+    <Func Name="UnbindRemoteObject" 
+           Arg="remoteobject"
+          Comm="" />
+    <Returns>
+      <K>true</K> or <K>false</K>
+    </Returns>	 
+    <Description>
+       Removes any value currently bound to the global variable 
+       determined by <A>remoteobject</A>, and returns <K>true</K> or
+       <K>false</K> dependently on whether this action was successful
+       or not. 
+    </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> UnbindRemoteObject(s);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+true
+]]>
+</Example>
+
+Finally, we show an example when first we create a group on the service running on 
+port 26133, and then identify it on the service running on port 26134. Instead
+of transmitting the group to the client and then sending it as an argument to
+the second service, the latter service directly retrieves the group from the
+first service.
+
+<Example>
+<![CDATA[
+gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );< remote object TEMPVarSCSCP@localhost:26133 >gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "2" ] ] )gap>
+]]>
+</Example>
+
+<Example>
+<![CDATA[
+gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : return_cookie);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Waiting for reply ...
+rec( object := < remote object TEMPVarSCSCP1@localhost:26133 >, 
+  attributes := [ [ "call_ID", "localhost:26133:14" ] ] )
+]]>
+</Example>
 
 </Section>
 

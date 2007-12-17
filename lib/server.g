@@ -63,7 +63,8 @@ else
           "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
           "\" service_id=\"", server, ":", String(port), ":", String(session_id), 
           "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
-        Info(InfoSCSCP, 1, "Sending ", welcome_string );  
+        Info(InfoSCSCP, 1, "Sending connection initiation message" );  
+        Info(InfoSCSCP, 2, welcome_string );  
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );
         Print( "Client's version is ", client_message );

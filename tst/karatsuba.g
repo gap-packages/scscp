@@ -501,8 +501,8 @@ else
   # u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
   # v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
 
-  u := NewProcess( "WSKaratsuba",[ String(f1), String(g1) ],"localhost", 26133);   
-  v := NewProcess( "WSKaratsuba",[ String(f0), String(g0) ],"localhost", 26134);   
+  u := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   
+  v := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   
   w := KaratsubaPolynomialMultiplicationExtRep(
          PlusLaurentPolynomialsExtRep(f1,f0),
          PlusLaurentPolynomialsExtRep(g1,g0) );

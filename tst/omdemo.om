@@ -1,31 +1,9 @@
 <!-- $Id$ -->
 
-<!-- Simple argument without options -->
+<!-- OpenMath objects -->
 
 <?scscp start ?>
 <OMOBJ><OMI>1</OMI></OMOBJ>
-<?scscp end ?>
-
-<!--
-<OMOBJ>
-     <OMATTR>
-         <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
-            <OMSTR>call_identifier</OMSTR>
-         </OMATP>
-         <OMR xref="Primes" />
-     </OMATTR>
-</OMOBJ>
--->
-
-<?scscp start ?>
-<OMOBJ>
-    <OMA>
-        <OMS cd="scscp1" name="procedure_call" />
-        <OMSTR>WS_factorial</OMSTR>
-        <OMI>5</OMI>
-    </OMA>
-</OMOBJ>
 <?scscp end ?>
 
 <?scscp start ?>
@@ -63,6 +41,32 @@
 			<OMI> 1</OMI>
 		</OMA>
 	</OMA>
+</OMOBJ>
+<?scscp end ?>
+
+<!-- OpenMath reference -->
+
+<?scscp start ?>
+<OMOBJ>
+     <OMATTR>
+         <OMATP>
+            <OMS cd="scscp1" name="call_ID" />
+            <OMSTR>call_identifier</OMSTR>
+         </OMATP>
+         <OMR xref="Primes@localhost:26133" />
+     </OMATTR>
+</OMOBJ>
+<?scscp end ?>
+
+<!-- procedure call -->
+
+<?scscp start ?>
+<OMOBJ>
+    <OMA>
+        <OMS cd="scscp1" name="procedure_call" />
+        <OMSTR>WS_factorial</OMSTR>
+        <OMI>5</OMI>
+    </OMA>
 </OMOBJ>
 <?scscp end ?>
 
@@ -157,14 +161,5 @@
             </OME>
         </OMA>
     </OMATTR>
-</OMOBJ>
-<?scscp end ?>
-
-<?scscp start ?>
-<OMOBJ>
-    <OMA>
-        <OMS cd="scscp1" name="procedure_call"/>
-        <OMSTR>Terminate</OMSTR>
-    </OMA>
 </OMOBJ>
 <?scscp end ?>

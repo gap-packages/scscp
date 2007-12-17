@@ -17,12 +17,13 @@
 LoadPackage("scscp");
 InstallSCSCPprocedure("WS_factorial", Factorial );
 InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
-Terminate:=function() return "Terminated"; end;
-InstallSCSCPprocedure( "Terminate", Terminate );
-test:=Filename( Directory("~/scscp/tst"), "omdemo.om");
+test:=Filename( Directory( Concatenation(
+        GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), 
+        "omdemo.om" );;
 stream:=InputTextFile(test);
-s:="";PipeOpenMathObject(stream,s);s;
 OMGetObjectWithAttributes(stream); # 1
+OMGetObjectWithAttributes(stream); # x
+OMGetObjectWithAttributes(stream); # 5*x^3+x^2+1
 OMGetObjectWithAttributes(stream); # Primes
 OMGetObjectWithAttributes(stream); # 120
 OMGetObjectWithAttributes(stream); # [24,12] (procedure_call)

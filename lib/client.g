@@ -18,7 +18,7 @@ local stream, initmessage, rt;
 stream := InputOutputTCPStream( server, port );
 if stream <> fail then
   initmessage := ReadLine( stream );
-  Info( InfoSCSCP, 1, "Got connection initiation message ", initmessage );
+  Info( InfoSCSCP, 1, "Got connection initiation message" );
   CloseStream(stream); 
   return true;
 else
@@ -45,7 +45,7 @@ for i in [ 1 .. nr ] do
   stream := InputOutputTCPStream( server, port );
   if stream <> fail then
     initmessage := ReadLine( stream );
-    Info( InfoSCSCP, 1, "Got connection initiation message nr ", i, " : ", initmessage );
+    Info( InfoSCSCP, 1, "Got connection initiation message nr ", i );
     rt2:=Runtime();
     t:=rt2-rt1;
     CloseStream(stream); 
@@ -95,7 +95,9 @@ fi;
 
 stream := InputOutputTCPStream( server, port );
 initmessage := ReadLine( stream );
-Info( InfoSCSCP, 1, "Got connection initiation message \n#I  ", initmessage );
+NormalizeWhitespace( initmessage );
+Info( InfoSCSCP, 1, "Got connection initiation message" );
+Info( InfoSCSCP, 2, initmessage );
 session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+12 .. 
                              PositionSublist(initmessage,"\" scscp_versions")-1 ] };
 attribs := [ [ "call_ID", session_id ] ];
@@ -165,8 +167,8 @@ end);
 #
 # TerminateProcess( <stream> )
 #
-# The function is supposed to send the interrupt sygnal to the server.
-# Now it just close the stream on the client side, but the server will
+# The function is supposed to send the interrupt signal to the server.
+# Now it just closes the stream on the client side, but the server will
 # recognize this only when the computation will be completed. We introduce
 # this function as a nameplace for further implementing a proper interrupt
 # mechanism.
@@ -208,9 +210,9 @@ end);
 
 #############################################################################
 #
-# SynchronizeProcesses( <list of processes> )
+# SynchronizeProcessesN( <list of processes> )
 #
-SynchronizeProcesses := function( processes )
+SynchronizeProcessesN := function( processes )
 local result, waitinglist, descriptors, s, nrdesc, i, nrprocess;
 result := [];
 waitinglist:=[ 1 .. Length(processes) ];
@@ -258,9 +260,22 @@ end;
 
 #############################################################################
 #
-# FirstProcess( <list of processes> )
+# SynchronizeProcesses( <list of processes> )
+# SynchronizeProcesses( <process1>, ..., <processN> )
+SynchronizeProcesses := function( arg )
+if Length(arg)=2 then
+  return SynchronizeProcesses2( arg[1], arg[2] );
+else
+  return SynchronizeProcessesN( arg[1] );
+fi;
+end;
+
+
+#############################################################################
 #
-FirstProcess := function( processes )
+# FirstProcessN( <list of processes> )
+#
+FirstProcessN := function( processes )
 local descriptors, nrdesc, i, result, nr;
 descriptors := List( processes, s -> IO_GetFD( s![1] ) );  
 IO_select( descriptors, [ ], [ ], 60*60, 0 );
@@ -299,6 +314,19 @@ elif descriptors[2]<>fail then # 2nd process is ready
   return result;
 else
   Error("Error in FirstProcess2, both descriptors failed!!! \n");
+fi;
+end;
+
+
+#############################################################################
+#
+# FirstProcess( <list of processes> )
+# FirstProcess( <process1>, ..., <processN> )
+FirstProcess := function( arg )
+if Length(arg)=2 then
+  return FirstProcess2( arg[1], arg[2] );
+else
+  return FirstProcessN( arg[1] );
 fi;
 end;
 

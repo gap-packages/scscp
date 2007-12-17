@@ -50,7 +50,7 @@ InstallSCSCPprocedure : procedure WS_factorial reinstalled.
 In the following example we install the procedure that will accept a list
 of permutations and return the number in the &GAP; Small Groups library
 of the group they generate (for the sake of simplicity we omit tests of
-validity of arguments, working of <C>IdGroup</C> for groups of given order
+validity of arguments, availablity of <C>IdGroup</C> for groups of given order
 etc.)
 
 <Example>
@@ -66,10 +66,6 @@ InstallSCSCPprocedure : procedure GroupIdentificationService installed.
 
 Some more examples of installation of SCSCP procedures 
 are given in the file <File>scscp/tst/myserver.g</File>. 
-In particular, the procedure <C>Terminate</C> allows the user
-to stop the SCSCP server without quitting from the &GAP; 
-session. It is not intended to be available for the user in 
-the future versions.
 
 </Section>
 
@@ -99,7 +95,6 @@ the future versions.
 gap> RunSCSCPserver( "localhost", 26133 );
 Ready to accept TCP/IP connections at localhost:26133 ...
 Waiting for new client connection at localhost:26133 ...
-
 ]]>
 </Example>
 

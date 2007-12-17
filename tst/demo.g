@@ -14,12 +14,27 @@
 port:=26133;
 stream:=InputOutputTCPStream( "localhost", port );
 ReadLine( stream );
+WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+ReadLine( stream );
+
+WriteLine( stream, "<?scscp start ?>");
 WriteLine( stream, "<OMOBJ><OMI>1</OMI></OMOBJ>");
+WriteLine( stream, "<?scscp end ?>");
+
 s:=OMGetObjectWithAttributes( stream );
+
+WriteLine( stream, "<?scscp start ?>");
 WriteLine( stream, "<OMOBJ><OMA><OMS cd=\"scscp1\" name=\"procedure_call\"/><OMSTR>WS_factorial</OMSTR><OMI>5</OMI></OMA></OMOBJ>" );
+WriteLine( stream, "<?scscp end ?>");
+
 s:=OMGetObjectWithAttributes( stream );
+
+WriteLine( stream, "<?scscp start ?>");
 WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_ID\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
+WriteLine( stream, "<?scscp end ?>");
+
 s:=OMGetObjectWithAttributes( stream );
+
 OMPutProcedureCall ( stream, "WS_factorial", rec( object:= [5] ) );
 s:=OMGetObjectWithAttributes( stream );
 OMPutProcedureCall ( stream, "WS_factorial", rec( object:=[ 120 ] ) );
@@ -54,18 +69,9 @@ IdGroupWS(SymmetricGroup(4));
 IdGroupWS(SymmetricGroup(5));
 IdGroupWS(SymmetricGroup(6));
 
-EvaluateBySCSCP( "Store", [SymmetricGroup(3)], "localhost", 26133 );
-stream:=InputOutputTCPStream("localhost",26133);
-ReadLine(stream);
-WriteLine(stream, "<OMOBJ><OMA><OMS cd=\"scscp1\" name=\"procedure_call\"/><OMSTR>WS_IdGroup</OMSTR><OMR xref=\"TEMPVarSCSCP\" /></OMA></OMOBJ>\n");
-OMGetObjectWithAttributes(stream);
-CloseStream(stream);
-stream:=InputOutputTCPStream("localhost",26133);
-ReadLine(stream);
-WriteLine(stream, "<OMOBJ><OMA><OMS cd=\"scscp1\" name=\"procedure_call\"/><OMSTR>Retrieve</OMSTR><OMR xref=\"TEMPVarSCSCP\" /></OMA></OMOBJ>\n");
-OMGetObjectWithAttributes(stream);
-CloseStream(stream);
-ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
+EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
+RetrieveRemoteObject(s);
+UnbindRemoteObject(s);
+
 ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );

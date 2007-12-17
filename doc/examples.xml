@@ -17,21 +17,21 @@ final part of the statrtup screen will look as follows:
 
 <Example>
 <![CDATA[
+InstallSCSCPprocedure : procedure SCSCP_STORE installed. 
+InstallSCSCPprocedure : procedure SCSCP_RETRIEVE installed. 
+InstallSCSCPprocedure : procedure SCSCP_UNBIND installed. 
 InstallSCSCPprocedure : procedure WS_factorial installed. 
 InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
 InstallSCSCPprocedure : procedure IdGroup512ByCode installed. 
-InstallSCSCPprocedure : procedure Disconnect installed. 
-InstallSCSCPprocedure : procedure Terminate installed. 
+InstallSCSCPprocedure : procedure WS_IdGroup installed. 
+InstallSCSCPprocedure : procedure WS_Karatsuba installed. 
 Ready to accept TCP/IP connections at localhost:26133 ...
-Waiting for new client connection at localhost:26133 ...
+#I  Waiting for new client connection at localhost:26133 ...
 ]]>
 </Example>
 
-Note that the procedure <C>IdGroup512ByCode</C> requires the &GAP;
-package &ANUPQ;. Further comments are given in the file 
-<File>scscp/tst/myserver.g</File> and they are self-explanatory.
-<P/>
-
+See further self-explanatory comments in the file 
+<File>scscp/tst/myserver.g</File>.
 There also some test files in the directory <File>scscp/tst/</File>
 supplied with detailed comments. First, you may use demonstration
 files, preliminary loading the code for the demonstration mode as it is
@@ -40,6 +40,229 @@ from <File>scscp/tst/demo.g</File> and <File>scscp/tst/omdemo.g</File>.
 Then you can try to use client's tools to access SCSCP services from 
 files <File>scscp/tst/id512.g</File>, <File>scscp/tst/idperm.g</File> 
 and <File>scscp/tst/factor.g</File>.
+</Section>
+
+<Section Label="Id512">
+<Heading>Identifying groups of order 512</Heading>
+
+We will give an example guiding you through all steps
+of creation of your own &SCSCP; service.
+<P/>
+
+The &GAP; Small Group Library does not provide identification for
+groups of order 512 using the function <C>IdGroup</C>:
+
+<Example>
+<![CDATA[
+gap> IdGroup( DihedralGroup( 256 ) );
+[ 256, 539 ]
+gap> IdGroup(DihedralGroup(512)); 
+Error, the group identification for groups of size 
+512 is not available called from
+<function>( <arguments> ) called from read-eval-loop
+Entering break read-eval-print loop ...
+you can 'quit;' to quit to outer loop, or
+you can 'return;' to continue
+brk> 
+]]>
+</Example>
+
+However, the &GAP; package &ANUPQ; <Cite Key="ANUPQ"/> has a function
+<C>IdStandardPresented512Group</C> that does this work as demonstrated
+below:
+ 
+<Example>
+<![CDATA[
+gap> LoadPackage("anupq");
+-------------------------------------------------------------
+Loading ANUPQ 3.0 (ANU p-Quotient package)
+C code by  Eamonn O'Brien <obrien@math.auckland.ac.nz>
+           (ANU pq binary version: 1.8)
+GAP code by Werner Nickel <nickel@mathematik.tu-darmstadt.de>
+        and   Greg Gamble  <gregg@math.rwth-aachen.de>
+
+            For help, type: ?ANUPQ
+-------------------------------------------------------------
+true
+gap> G := DihedralGroup( 512 );            
+<pc group of size 512 with 9 generators>
+gap> F := PqStandardPresentation( G );
+<fp group on the generators [ f1, f2, f3, f4, f5, f6, f7, f8, f9 ]>
+gap> H := PcGroupFpGroup( F );
+<pc group of size 512 with 9 generators>
+gap> IdStandardPresented512Group( H );
+[ 512, 2042 ]
+]]>
+</Example>
+
+The package &ANUPQ; requires <Package>UNIX</Package> environment 
+and it is natural to provide an identification service for groups of
+order 512 to make it available for other platforms.
+
+Now we need to decide how the client will transmit a group to the server.
+How the group should be encoded in the &OpenMath;? Should we convert it
+to a permutation representation to be able to use existing content dictionaries?
+However, the &SCSCP; protocol provides enough freedom for the user
+to select its own data representation, and since we are linking together 
+two copies of the same system, we may use the <E>pcgs code</E> to pass the
+data to the server. 
+
+First we create a function accepting the integer number that is the code for 
+pcgs of a group of order 512 and returning the number of this group in the
+GAP Small Groups library:
+
+<Example>
+<![CDATA[
+IdGroup512ByCode := function( code )
+local G, F, H;
+G := PcGroupCode( code, 512 );
+F := PqStandardPresentation( G );H := PcGroupFpGroup( F );return IdStandardPresented512Group( H );
+end;
+]]>
+</Example>
+
+After such function was created on the server, we need to make it
+"visible" as an &SCSCP; procedure:
+
+<Example>
+<![CDATA[
+gap> InstallSCSCPprocedure("IdGroup512", IdGroup512ByCode );
+InstallSCSCPprocedure : procedure IdGroup512 installed. 
+]]>
+</Example>
+
+Note that this function assumes that the argument is a valid code
+for some group of order 512, and we wish the client to make it
+sure that this is the case. To do this, and also for the client's
+convenience, we provide the client's counterpart for this 
+service. Here the group must be a pc-group of order 512, otherwise
+an error message will appear.
+
+<Example>
+<![CDATA[
+IdGroup512:=function( G )
+local code, result;
+if Size( G ) <> 512 then
+  Error( "G must be a group of order 512 \n" );
+fi;
+code := CodePcGroup( G );
+result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ], 
+                           "localhost", 26133 );
+return result.object;
+end;
+]]>
+</Example>
+
+Now the client can call the function <C>IdGroup512</C>, and the procedure
+of getting result is as simple as the usage of <C>IdGroup</C> for those
+groups for which it works:
+
+<Example>
+<![CDATA[
+gap> IdGroup512(DihedralGroup(512));
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message
+#I  Request sent ...
+#I  Waiting for reply ...
+[ 512, 2042 ]
+]]>
+</Example>
+
+</Section>
+
+<Section Label="Karatsuba">
+<Heading>Parallelising Karatsuba multiplication for polynomials</Heading>
+
+The file <File>scscp/tst/karatsuba.g</File> contains an implementation of
+the Karatsuba multiplication algorithm for polynomials. This algorithm can
+be easily parallelised since each recursive step creates three recursive 
+calls of the same function for other polynomials. <E>We will not parallelise
+each</E> recursive call, since this will create enormous data flow. Instead
+of this we parallelise only the top-level function.
+
+For our experiments with parallelising Karatsuba multiplication for
+polynomials with integer coefficients we used the multi-core machine, 
+on which we started one &SCSCP; client and two &SCSCP; servers. 
+After reading the file <File>scscp/tst/karatsuba.g</File>, the following
+function was created on the server
+
+<Example>
+<![CDATA[
+KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
+return String( KaratsubaPolynomialMultiplicationExtRep( 
+                 EvalString(s1), EvalString(s2) ) );
+end;
+]]>
+</Example>
+
+and then was made available as an &SCSCP; procedure under the 
+name <C>WS_Karatsuba</C> by the command
+
+<Example>
+<![CDATA[
+InstallSCSCPprocedure( "WS_Karatsuba", 
+                       KaratsubaPolynomialMultiplicationExtRepByString);
+]]>
+</Example>
+
+This function provides a "brigde" between the client's function 
+<C>KaratsubaPolynomialMultiplicationWS</C> and the server's function 
+<C>KaratsubaPolynomialMultiplicationExtRep</C>, which performs the 
+actual work on the server. <C>WS_Karatsuba</C> converts its string arguments
+into internal representation of univariate polynomials (basically, lists of 
+integers) and then converts the result back into string (since such data
+exchange format was chosen).
+
+We are going to parallelise the following part of the client's code:
+
+<Example>
+<![CDATA[
+...
+u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
+v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
+w := KaratsubaPolynomialMultiplicationExtRep(
+       PlusLaurentPolynomialsExtRep(f1,f0),
+       PlusLaurentPolynomialsExtRep(g1,g0) );
+...
+]]>
+</Example>
+
+and this can be done straightforwardly - we replace two first calls by
+calls of the appropriate &SCSCP; services, then perform the 3rd call locally
+and then collect the results from the two remote calls:
+         
+<Example>
+<![CDATA[
+...
+u := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   
+v := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   
+w := KaratsubaPolynomialMultiplicationExtRep(
+       PlusLaurentPolynomialsExtRep(f1,f0),
+       PlusLaurentPolynomialsExtRep(g1,g0) );
+wsresult:=SynchronizeProcesses2( u,v );
+u := EvalString( wsresult[1].object );
+v := EvalString( wsresult[2].object );
+...
+]]>
+</Example>
+
+We obtain almost double speedup on three cores on randomly generated polynomials
+of degree 32000:
+
+<Example>
+<![CDATA[
+gap> fam:=FamilyObj(1);;
+gap> f:=LaurentPolynomialByCoefficients( fam, 
+>         List([1..32000],i->Random(Integers)), 0, 1 );;
+gap> g:=LaurentPolynomialByCoefficients( fam, 
+>         List([1..32000],i->Random(Integers)), 0, 1 );;
+gap> t2:=KaratsubaPolynomialMultiplication(f,g);;time;
+5892
+gap> t3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;
+2974
+]]>
+</Example>
 
 </Section>
 
