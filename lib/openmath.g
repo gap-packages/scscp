@@ -519,3 +519,18 @@ if IsInputOutputTCPStream( stream ) then
 fi;
 return;
 end);
+
+
+#############################################################################
+## 
+## OMString
+##
+OMString := function ( x )
+local str, outstream;
+str := "";
+outstream := OutputTextString( str, true );
+OMPutObject( outstream, x );
+CloseStream( outstream );
+NormalizeWhitespace( str );
+return str;
+end;
