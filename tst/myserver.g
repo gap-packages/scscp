@@ -50,6 +50,10 @@ G := PcGroupCode( code, 512 );
 F := PqStandardPresentation( G );H := PcGroupFpGroup( F );return IdStandardPresented512Group( H );
 end;
 
+ApplyFunction:=function( func, arg )
+return EvalString( func )( arg );
+end;
+
 #############################################################################
 #
 # Installation of procedures to make them available for WS 
@@ -82,6 +86,8 @@ return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalStri
 end;
 
 InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString);
+
+InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
 
 #############################################################################
 #
