@@ -65,7 +65,7 @@ if k = nrsteps then
   Error();
 fi;
 port := 26133 + ( k mod nrservers );
-Print("--> ", k," : ", port, "\n");
+Print(" --> ", k," : ", port, "\n");
 proc:=NewProcess( "LoopTest", [ nrservers, nrsteps, k ], "localhost", port  );
 end;
 
