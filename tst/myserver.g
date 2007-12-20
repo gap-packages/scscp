@@ -54,6 +54,22 @@ ApplyFunction:=function( func, arg )
 return EvalString( func )( arg );
 end;
 
+LoopTest:=function( nrservers, nrsteps, k )
+local port, proc;
+# in the beginning the external client sends k=0 to the port 26133, e.g.
+# NewProcess( "LoopTest", [ 2, 10, 0 ], "localhost", 26133);
+Print(k, " \c");
+k:=k+1;
+if k = nrsteps then
+  Print( " : the limit achieved, test stopped! \n" );
+  Error();
+fi;
+port := 26133 + ( k mod nrservers );
+Print("--> ", k," : ", port, "\n");
+proc:=NewProcess( "LoopTest", [ nrservers, nrsteps, k ], "localhost", port  );
+end;
+
+
 #############################################################################
 #
 # Installation of procedures to make them available for WS 
@@ -88,6 +104,8 @@ end;
 InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString);
 
 InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
+
+InstallSCSCPprocedure( "LoopTest", LoopTest );
 
 #############################################################################
 #

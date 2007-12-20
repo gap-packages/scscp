@@ -79,7 +79,7 @@ else
               errormessage := callresult[2]{[6..Length(callresult[2])]};
               Print("\Sending error message : \n");
               for str in errormessage do
-                Print( str, " ");
+                Print( str, " " );
               od;
               Print("\n");
 
@@ -154,8 +154,6 @@ else
             # This may be already broken pipe if the client 
             # terminated the process, and this causes server crash 
 
-            # Error( "CHECKPOINT" );
-            
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
