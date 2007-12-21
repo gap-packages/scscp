@@ -91,7 +91,7 @@ function(stream)
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("input/output TCP stream to ",stream![2]," >");
+    Print("input/output TCP stream to ",stream![2],":", stream![3][1], ">");
 end);
 
 
@@ -107,11 +107,7 @@ function(stream)
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("input/output TCP stream to ",stream![2]);
-    for i in [1..Length(stream![3])] do
-        Print(" ",stream![3][i]);
-    od;
-    Print(" >");
+    Print("input/output TCP stream to ",stream![2],":", stream![3][1], ">");
 end);
 
 

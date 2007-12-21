@@ -24,9 +24,3 @@ DeclareGlobalFunction( "PingStatistic" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
 
 DeclareGlobalFunction( "ParEvaluateBySCSCP" );
-
-DeclareGlobalFunction( "NewProcess" );
-
-DeclareGlobalFunction( "CompleteProcess" );
-
-DeclareGlobalFunction( "TerminateProcess" );

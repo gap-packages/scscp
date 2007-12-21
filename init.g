@@ -10,6 +10,7 @@
 # read the function declarations
 ReadPackage("scscp/lib/openmath.gd");
 ReadPackage("scscp/lib/xstream.gd");
+ReadPackage("scscp/lib/process.gd");
 ReadPackage("scscp/lib/remote.gd");
 ReadPackage("scscp/lib/scscp.gd");
 

@@ -61,7 +61,7 @@ else
         session_id := session_id + 1;
         welcome_string:= Concatenation( 
           "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
-          "\" service_id=\"", server, ":", String(port), ":", String(session_id), 
+          "\" service_id=\"", server, ":", String(port), ":", String(IO_getpid()), 
           "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
         Info(InfoSCSCP, 1, "Sending connection initiation message" );  
         Info(InfoSCSCP, 2, welcome_string );  
@@ -70,19 +70,23 @@ else
         Print( "Client's version is ", client_message );
         WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
         repeat
-            Print("Waiting for an OpenMath object ... \n");
+            Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
+            Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
+            Info(InfoSCSCP, 1, "Evaluation completed");
             if callresult[1] then
               objrec := callresult[2];
             else
               errormessage := callresult[2]{[6..Length(callresult[2])]};
-              Print("\Sending error message : \n");
-              for str in errormessage do
-                Print( str, " " );
-              od;
-              Print("\n");
-
+              if InfoLevel( InfoSCSCP ) > 0 then
+                Print( "Sending error message : ");
+                for str in errormessage do
+                  Print( str, " " );
+                od;
+                Print("\n");
+              fi;
+              
               if InfoLevel( InfoSCSCP ) > 2 then
                 Print("#I  Composing procedure_terminated message: \n");
                 omtext:="";
@@ -93,16 +97,15 @@ else
             
               OMPutProcedureTerminated( stream, rec( object := errormessage ), "error_system_specific" );
               
-              Print("Closing connection...\n");
+              Info(InfoSCSCP, 1, "Closing connection ...");
               disconnect:=true;
               break;            
             fi;  
             if objrec = fail then
-              Print("Connection was closed by the client\n");
+              Info(InfoSCSCP, 1, "Connection was closed by the client");
               disconnect:=true;
               break;
             fi;
-            Print("OpenMath object obtained\n");
             
             # TO-DO: Rewrite analising attributes (i.e. options)
             
@@ -157,8 +160,6 @@ else
             OMPutProcedureCompleted( stream, 
               rec( object := output, 
                 attributes:= callinfo ) );
-
-        Print("Closing stream ... \c");
         until false;
         Print("Closing stream ... \c");
         # socket descriptor will be closed here
