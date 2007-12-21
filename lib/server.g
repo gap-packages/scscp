@@ -71,7 +71,12 @@ else
         WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
-            IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
+            callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
+            if not callresult[1] then
+              disconnect:=true;
+              break;         
+            fi;
+            # IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
             Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
