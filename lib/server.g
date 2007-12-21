@@ -51,7 +51,7 @@ else
     disconnect := false;  
     repeat # until disconnect
         # We accept connections from everywhere
-        Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ...");
+        Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
         socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort("0.0.0.0",0) );
         Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
@@ -67,7 +67,7 @@ else
         Info(InfoSCSCP, 2, welcome_string );  
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );
-        Print( "Client's version is ", client_message );
+        Info(InfoSCSCP, 1, "Client's version is ", client_message );
         WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
@@ -172,10 +172,9 @@ else
               rec( object := output, 
                 attributes:= callinfo ) );
         until false;
-        Print("Closing stream ... \c");
+        Info(InfoSCSCP, 1, "Closing stream ...");
         # socket descriptor will be closed here
         CloseStream( stream );
-        Print("done \n");
     until disconnect;
     until false;
     Print("Server terminated, closing socket ... \c");   
