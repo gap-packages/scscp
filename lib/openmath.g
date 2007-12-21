@@ -84,6 +84,7 @@ Add( OMsymTable, [ "scscp1", [
     ["option_min_memory", "option_min_memory" ],
     ["option_return_cookie", "option_return_cookie" ],
     ["option_return_object", "option_return_object" ],
+    ["option_return_nothing", "option_return_nothing" ],
     ["option_runtime", "option_runtime" ],
     ["error_CAS", "error_CAS" ],
     ] ] );
@@ -332,7 +333,9 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
     elif attr[1] in [ "option_min_memory", "option_max_memory",
                       "option_runtime", "option_debuglevel" ] then
       OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
-    elif attr[1] in [ "option_return_object", "option_return_cookie" ] then
+    elif attr[1] in [ "option_return_object", 
+                      "option_return_cookie",
+                      "option_return_nothing" ] then
       OMWriteLine( stream, [ "<OMSTR></OMSTR>" ] );
     else
       Error("Unsupported option : ", attr[1], "\n" );

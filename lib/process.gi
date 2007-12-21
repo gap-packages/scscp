@@ -65,12 +65,18 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_cookie, attribs, ns, server_scscp_version, pid;
+      return_cookie, return_nothing, attribs, ns, server_scscp_version, pid;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
 else
   return_cookie := false;  
+fi;
+
+if ValueOption("return_nothing") <> fail then
+  return_nothing := ValueOption( "return_nothing" );
+else
+  return_nothing := false;  
 fi;
 
 stream := InputOutputTCPStream( server, port );
@@ -92,6 +98,10 @@ fi;
   
 if return_cookie then
   Add( attribs, [ "option_return_cookie", "" ] );
+fi; 
+
+if return_nothing then
+  Add( attribs, [ "option_return_nothing", "" ] );
 fi; 
 
 if InfoLevel( InfoSCSCP ) > 2 then

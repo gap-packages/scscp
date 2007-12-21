@@ -82,6 +82,12 @@ else
             Info(InfoSCSCP, 1, "Evaluation completed");
             if callresult[1] then
               objrec := callresult[2];
+              pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
+              if pos<>fail then 
+                Info(InfoSCSCP, 1, "option_return_nothing, closing connection ...");
+                disconnect:=true;
+                break;               
+              fi;
             else
               errormessage := callresult[2]{[6..Length(callresult[2])]};
               if InfoLevel( InfoSCSCP ) > 0 then

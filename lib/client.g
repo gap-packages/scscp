@@ -81,7 +81,7 @@ end);
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
-local return_cookie, result;
+local return_cookie, return_nothing, result;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
@@ -89,10 +89,16 @@ else
   return_cookie := false;  
 fi;
 
+if ValueOption("return_nothing") <> fail then
+  return_nothing := ValueOption( "return_nothing" );
+else
+  return_nothing := false;  
+fi;
+
 if return_cookie then
   result := NewProcess(  command, listargs, server, port : return_cookie );
-else
-  result := NewProcess(  command, listargs, server, port );
+elif return_nothing then
+  result := NewProcess(  command, listargs, server, port : return_nothing );
 fi;
 Info( InfoSCSCP, 1, "Waiting for reply ...");
 result := CompleteProcess( result );
