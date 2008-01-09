@@ -99,7 +99,10 @@ if return_cookie then
   result := NewProcess(  command, listargs, server, port : return_cookie );
 elif return_nothing then
   result := NewProcess(  command, listargs, server, port : return_nothing );
+else
+  result := NewProcess(  command, listargs, server, port);
 fi;
+
 Info( InfoSCSCP, 1, "Waiting for reply ...");
 result := CompleteProcess( result );
 return result;
