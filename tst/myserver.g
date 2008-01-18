@@ -19,7 +19,6 @@ LoadPackage("openmath");
 LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 Read("karatsuba.g");
 
 #############################################################################
@@ -116,4 +115,5 @@ InstallSCSCPprocedure( "LoopTest", LoopTest );
 #
 #############################################################################
 
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
