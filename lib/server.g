@@ -81,7 +81,8 @@ else
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
 
-            objrec := callresult[2];
+            objrec := callresult[2]; # can be record, fail or list of stings
+
             if objrec = fail then
               Info(InfoSCSCP, 1, "Connection was closed by the client");
               disconnect:=true;
@@ -96,9 +97,9 @@ else
                 break;               
               fi;
             else
-              errormessage := callresult[2]{[6..Length(callresult[2])]};
+              errormessage := objrec;
               if InfoLevel( InfoSCSCP ) > 0 then
-                Print( "Sending error message : ");
+                Print( "#I  Sending error message: ");
                 for str in errormessage do
                   Print( str, " " );
                 od;
