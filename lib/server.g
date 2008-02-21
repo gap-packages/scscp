@@ -80,8 +80,15 @@ else
             Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
+
+            objrec := callresult[2];
+            if objrec = fail then
+              Info(InfoSCSCP, 1, "Connection was closed by the client");
+              disconnect:=true;
+              break;
+            fi;
+            
             if callresult[1] then
-              objrec := callresult[2];
               pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
               if pos<>fail then 
                 Info(InfoSCSCP, 1, "option_return_nothing, closing connection ...");
@@ -112,13 +119,8 @@ else
               disconnect:=true;
               break;            
             fi;  
-            if objrec = fail then
-              Info(InfoSCSCP, 1, "Connection was closed by the client");
-              disconnect:=true;
-              break;
-            fi;
             
-            # TO-DO: Rewrite analising attributes (i.e. options)
+            # TO-DO: Rewrite analysing attributes (i.e. options)
             
             pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
             if pos<>fail then 
