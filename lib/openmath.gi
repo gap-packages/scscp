@@ -110,22 +110,76 @@ fi;
 end);
 
 
-InstallMethod( OMPut, 
-"for a univariate polynomial (polyu cd)", 
+InstallMethod( OMPut,
+"for algebraic extensions",
 true,
-[ IsOutputStream, IsField ],
+[ IsOutputStream, IsAlgebraicExtension ],
 0,
 function( stream, f )
-if IsRationals(f) then
-OMPut( stream, f );
-elif HasDefiningPolynomial( f ) then
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "field3", "field_by_poly" );
-OMPut( stream, DefiningPolynomial( f ) );
+OMPut( stream, DefiningPolynomial(f));
 OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
+OMWriteLine( stream, [ "</OMA>" ] );  
+end);    
+
+
+InstallMethod( OMPut, 
+"for an algebraic element of an algebraic extension", 
+true,
+[ IsOutputStream, IsAlgebraicElement ],
+0,
+function( stream, a )
+local  fam, anam, ext, c, i, is_plus, is_times, is_power;
+fam := FamilyObj( a );
+anam := fam!.indeterminateName;
+ext := ExtRepOfObj(a);
+if Length( Filtered( ext, c -> not IsZero(c) ) ) > 1 then 
+    is_plus := true;
+    OMWriteLine( stream, [ "<OMA>" ] );
+    OMIndent := OMIndent + 1;
+    OMPutSymbol( stream, "arith1", "plus" );
 else
-  TryNextMethod();
+  is_plus := false;    
 fi;
+for i  in [ 1 .. Length(ext) ]  do
+    if ext[i] <> fam!.baseZero  then
+        if i=1 then
+            OMPut( stream, ext[i] );
+        else
+            if ext[i] <> fam!.baseOne then
+                is_times := true;
+                OMWriteLine( stream, [ "<OMA>" ] );
+                OMIndent := OMIndent + 1;
+                OMPutSymbol( stream, "arith1", "times" );   
+                OMPut( stream, ext[i] );
+            else
+                is_times := false;
+            fi;    
+            if i>2 then
+                is_power:=true;
+                OMWriteLine( stream, [ "<OMA>" ] );
+                OMIndent := OMIndent + 1;
+                OMPutSymbol( stream, "arith1", "power" );  
+            else
+                is_power := false;    
+            fi;     
+            OMPutVar( stream, anam );
+            if is_power then
+                OMPut( stream, i-1 );
+                OMIndent := OMIndent - 1;
+                OMWriteLine( stream, [ "</OMA>" ] );
+            fi;
+            if is_times then
+                OMIndent := OMIndent - 1;
+                OMWriteLine( stream, [ "</OMA>" ] );              
+            fi;
+        fi;
+    fi;
+od;       
+if is_plus then
+    OMIndent := OMIndent - 1;
+    OMWriteLine( stream, [ "</OMA>" ] );  
+fi;                  
 end);
