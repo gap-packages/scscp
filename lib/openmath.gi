@@ -119,11 +119,71 @@ function( stream, f )
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "field3", "field_by_poly" );
+OMPut( stream, LeftActingDomain(f));
 OMPut( stream, DefiningPolynomial(f));
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );  
 end);    
 
+
+#InstallMethod( OMPut, 
+#"for an algebraic element of an algebraic extension", 
+#true,
+#[ IsOutputStream, IsAlgebraicElement ],
+#0,
+#function( stream, a )
+#local  fam, anam, ext, c, i, is_plus, is_times, is_power;
+#fam := FamilyObj( a );
+#anam := fam!.indeterminateName;
+#ext := ExtRepOfObj(a);
+#if Length( Filtered( ext, c -> not IsZero(c) ) ) > 1 then 
+#    is_plus := true;
+#    OMWriteLine( stream, [ "<OMA>" ] );
+#    OMIndent := OMIndent + 1;
+#    OMPutSymbol( stream, "arith1", "plus" );
+#else
+#  is_plus := false;    
+#fi;
+#for i  in [ 1 .. Length(ext) ]  do
+#    if ext[i] <> fam!.baseZero  then
+#        if i=1 then
+#            OMPut( stream, ext[i] );
+#        else
+#            if ext[i] <> fam!.baseOne then
+#                is_times := true;
+#                OMWriteLine( stream, [ "<OMA>" ] );
+#                OMIndent := OMIndent + 1;
+#                OMPutSymbol( stream, "arith1", "times" );   
+#                OMPut( stream, ext[i] );
+#            else
+#                is_times := false;
+#            fi;    
+#            if i>2 then
+#                is_power:=true;
+#                OMWriteLine( stream, [ "<OMA>" ] );
+#                OMIndent := OMIndent + 1;
+#                OMPutSymbol( stream, "arith1", "power" );  
+#            else
+#                is_power := false;    
+#            fi;     
+#            OMPutVar( stream, anam );
+#            if is_power then
+#                OMPut( stream, i-1 );
+#                OMIndent := OMIndent - 1;
+#                OMWriteLine( stream, [ "</OMA>" ] );
+#            fi;
+#            if is_times then
+#                OMIndent := OMIndent - 1;
+#                OMWriteLine( stream, [ "</OMA>" ] );              
+#            fi;
+#        fi;
+#    fi;
+#od;       
+#if is_plus then
+#    OMIndent := OMIndent - 1;
+#    OMWriteLine( stream, [ "</OMA>" ] );  
+#fi;                  
+#end);
 
 InstallMethod( OMPut, 
 "for an algebraic element of an algebraic extension", 
@@ -131,55 +191,17 @@ true,
 [ IsOutputStream, IsAlgebraicElement ],
 0,
 function( stream, a )
-local  fam, anam, ext, c, i, is_plus, is_times, is_power;
-fam := FamilyObj( a );
-anam := fam!.indeterminateName;
-ext := ExtRepOfObj(a);
-if Length( Filtered( ext, c -> not IsZero(c) ) ) > 1 then 
-    is_plus := true;
-    OMWriteLine( stream, [ "<OMA>" ] );
-    OMIndent := OMIndent + 1;
-    OMPutSymbol( stream, "arith1", "plus" );
-else
-  is_plus := false;    
-fi;
-for i  in [ 1 .. Length(ext) ]  do
-    if ext[i] <> fam!.baseZero  then
-        if i=1 then
-            OMPut( stream, ext[i] );
-        else
-            if ext[i] <> fam!.baseOne then
-                is_times := true;
-                OMWriteLine( stream, [ "<OMA>" ] );
-                OMIndent := OMIndent + 1;
-                OMPutSymbol( stream, "arith1", "times" );   
-                OMPut( stream, ext[i] );
-            else
-                is_times := false;
-            fi;    
-            if i>2 then
-                is_power:=true;
-                OMWriteLine( stream, [ "<OMA>" ] );
-                OMIndent := OMIndent + 1;
-                OMPutSymbol( stream, "arith1", "power" );  
-            else
-                is_power := false;    
-            fi;     
-            OMPutVar( stream, anam );
-            if is_power then
-                OMPut( stream, i-1 );
-                OMIndent := OMIndent - 1;
-                OMWriteLine( stream, [ "</OMA>" ] );
-            fi;
-            if is_times then
-                OMIndent := OMIndent - 1;
-                OMWriteLine( stream, [ "</OMA>" ] );              
-            fi;
-        fi;
-    fi;
-od;       
-if is_plus then
-    OMIndent := OMIndent - 1;
-    OMWriteLine( stream, [ "</OMA>" ] );  
-fi;                  
-end);
+OMWriteLine( stream, [ "<OMA>" ] );
+OMIndent := OMIndent + 1;
+OMPutSymbol( stream, "field4", "field_by_poly_vector" );
+OMWriteLine( stream, [ "<OMA>" ] );
+OMIndent := OMIndent + 1;
+OMPutSymbol( stream, "field3", "field_by_poly" );
+OMPut( stream, FamilyObj(a)!.baseField );
+OMPut( stream, FamilyObj(a)!.poly );
+OMIndent := OMIndent - 1;
+OMWriteLine( stream, [ "</OMA>" ] );  
+OMPut( stream, ExtRepOfObj(a) );
+OMIndent := OMIndent - 1;
+OMWriteLine( stream, [ "</OMA>" ] );  
+end); 
