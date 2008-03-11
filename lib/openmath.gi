@@ -94,7 +94,7 @@ if IsUnivariatePolynomial( f ) then
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "DMP" );
-OMPut( stream, r );
+OMPutReference( stream, r );
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "SDMP" );
@@ -118,7 +118,7 @@ nrindet := Length(IndeterminatesOfPolynomialRing( r ) );
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "DMP" );
-OMPut( stream, r );
+OMPutReference( stream, r );
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "SDMP" );
