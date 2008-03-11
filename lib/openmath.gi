@@ -30,27 +30,54 @@
 #OMWriteLine( stream, [ "</OMA>" ] );
 #end);
 
-
-InstallMethod( OMPut, 
-"for a (multivariate) polynomial (polyd1 cd)", 
+InstallMethod( OMPut,
+"for a polynomial ring",
 true,
-[ IsOutputStream, IsPolynomial ],
+[ IsOutputStream, IsPolynomialRing ],
 0,
-function( stream, f )
-local coeffs, deg, nr, defring, coeffring, nrindet, extrep, term, nvars, pows, i, pos;
+function( stream, r )
+if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
+
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "poly_ring_d_named" );
+  OMPut( stream, CoefficientsRing( r ) );
+  OMPutVar( stream, IndeterminatesOfPolynomialRing( r )[1] );
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
+
+else
+
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "poly_ring_d" );
+  OMPut( stream, CoefficientsRing( r ) );
+  OMPut( stream, Length( IndeterminatesOfPolynomialRing( r ) ) );
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
+
+fi;
+end);
+ 
+
+InstallOtherMethod( OMPut, 
+"for a polynomial ring and a (uni- or multivariate) polynomial (polyd1 cd)", 
+true,
+[ IsOutputStream, IsPolynomialRing, IsPolynomial ],
+0,
+function( stream, r, f )
+local coeffs, deg, nr, coeffring, nrindet, extrep, term, nvars, pows, i, pos;
+
+if not f in r then
+  Error( "OMPut : the polynomial ", f, " is not in the polynomial ring ", r, "\n" );
+fi;
 
 if IsUnivariatePolynomial( f ) then
 
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "DMP" );
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "poly_ring_d_named" );
-OMPut( stream, Rationals );
-OMPutVar( stream, IndeterminateOfUnivariateRationalFunction(f) );
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
+OMPut( stream, r );
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "SDMP" );
@@ -68,20 +95,13 @@ OMWriteLine( stream, [ "</OMA>" ] );
 
 else
 
-defring := DefaultRing(f);
-coeffring := CoefficientsRing( defring );
-nrindet := Length(IndeterminatesOfPolynomialRing(defring) );
+coeffring := CoefficientsRing( r );
+nrindet := Length(IndeterminatesOfPolynomialRing( r ) );
 
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "DMP" );
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "poly_ring_d" );
-OMPut( stream, coeffring );
-OMPut( stream, nrindet );
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
+OMPut( stream, r );
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "polyd1", "SDMP" );
@@ -107,6 +127,16 @@ OMWriteLine( stream, [ "</OMA>" ] );
 
 fi;
 
+end);
+
+
+InstallOtherMethod( OMPut, 
+"for a (uni- or multivariate) polynomial in the default ring (polyd1 cd)", 
+true,
+[ IsOutputStream, IsPolynomial ],
+0,
+function( stream, f )
+OMPut( stream, DefaultRing(f), f );
 end);
 
 

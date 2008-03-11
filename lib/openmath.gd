@@ -35,3 +35,5 @@ DeclareGlobalFunction( "OMPutProcedureCompleted" );
 DeclareGlobalFunction( "OMPutError" );
 
 DeclareGlobalFunction( "OMPutProcedureTerminated" );
+
+DeclareAttribute( "OMReference", IsObject );

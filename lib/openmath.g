@@ -372,31 +372,39 @@ end;
 ##  return OMTempVars.OMREF.(node.attributes.href);
 OMObjects.OMR := function ( node )
 local ref, pos1, pos2, name, address, port;
-ref := node.attributes.xref;
-pos1:=Position( ref, '@' );
-pos2:=Position( ref, ':' );
-name := ref{[1..pos1-1]};
-address:=ref{[pos1+1..pos2-1]};
-port:=Int(ref{[pos2+1..Length(ref)]});
-if SCSCPserverMode then
+if IsBound( node.attributes.xref ) then
+  ref := node.attributes.xref;
+  pos1:=Position( ref, '@' );
+  pos2:=Position( ref, ':' );
+  name := ref{[1..pos1-1]};
+  address:=ref{[pos1+1..pos2-1]};
+  port:=Int(ref{[pos2+1..Length(ref)]});
+  if SCSCPserverMode then
     if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
-        if IsBound( node.attributes.xref ) then
-            if IsBoundGlobal( name ) then
-                return EvalString( name );
-            else
-                Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
-            fi;    
-        elif IsBound( node.attributes.href ) then
-            return OMTempVars.OMREF.(node.attributes.href);
+      if IsBound( node.attributes.xref ) then
+        if IsBoundGlobal( name ) then
+          return EvalString( name );
         else
-            Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
-        fi;
+          Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
+        fi;    
+      elif IsBound( node.attributes.href ) then
+        return OMTempVars.OMREF.(node.attributes.href);
+      else
+        Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
+      fi;
     else
-        return EvaluateBySCSCP( "SCSCP_RETRIEVE", [ name ], address, port ).object;
+      return EvaluateBySCSCP( "SCSCP_RETRIEVE", [ name ], address, port ).object;
     fi;        
+  else
+    return node.attributes.xref;
+  fi;
+elif IsBound( node.attributes.href ) then
+  ref := node.attributes.href;
+  # we assume that the first symbol is hash '#'
+  return OMTempVars.OMREF.(ref{[2..Length(ref)]});
 else
-  return node.attributes.xref;
-fi;
+  Error( "OpenMath reference: only href and xref are supported !\n");
+fi;  
 end; 
    
 
