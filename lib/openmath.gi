@@ -38,7 +38,7 @@ true,
 0,
 function( stream, x )
 if HasOMReference( x ) then
-   OMWriteLine( stream, [ "<OMR href=\"", OMReference( x ), "\" />" ] );
+   OMWriteLine( stream, [ "<OMR href=\"\043", OMReference( x ), "\" />" ] );
 else   
    OMPut( stream, x );
 fi;
