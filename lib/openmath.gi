@@ -8,8 +8,16 @@
 #############################################################################
 
 
+#############################################################################
+#
+# OMPut for a univariate polynomial (polyu.poly_u_rep)
+#
+# This was written during the visit of Mickael Gastineau for quick
+# compatibility with the TRIP system and later was commented out 
+# because of switching to the 'polyd1' CD.
+#
 #InstallMethod( OMPut, 
-#"for a univariate polynomial (polyu cd)", 
+#"for a univariate polynomial (polyu.poly_u_rep)", 
 #true,
 #[ IsOutputStream, IsUnivariatePolynomial ],
 #0,
@@ -31,6 +39,29 @@
 #end);
 
 
+#############################################################################
+#
+# OMPutReference( stream, x );
+#
+# This method prints OpenMath references and can be used for printing complex 
+# objects, for example, ideals of polynomial rings (the ideal will carry the
+# ring R, and each polynomial generating the ideal will also refer to the 
+# ring R). The method uses OMR, if the object x already has the attribute 
+# OMReference, and prints the object x otherwise. 
+#
+# The concept of references implies that the author of the code is able to
+# decide which objects needs references, and assign references to them, e.g.
+# using
+# SetOMReference( r, Concatenation("polyring", String(Random([1..10000]))));
+#
+# Once an object obtained a reference, it can not be changed, therefore, the
+# same reference will be used in communication with all other CASs. 
+#
+# However, the reference will be not printed automatically for an object
+# having it - otherwise, you will not be able to send the same object to
+# multiple CASs. Instead of this, the reference will be printed only when
+# this will be enforced by the usage of OMPutReference.
+#
 InstallMethod( OMPutReference, 
 "for a stream and an object with reference",
 true,
@@ -45,8 +76,12 @@ fi;
 end);
 
 
+#############################################################################
+#
+# OMPut for a polynomial ring (polyd1.poly_ring_d_named / polyd1.poly_ring_d)
+#
 InstallMethod( OMPut,
-"for a polynomial ring",
+"for a polynomial ring (polyd1.poly_ring_d_named or polyd1.poly_ring_d)",
 true,
 [ IsOutputStream, IsPolynomialRing ],
 0,
@@ -78,8 +113,12 @@ fi;
 end);
  
 
+#############################################################################
+#
+# OMPut for a polynomial ring and a (uni/multivariate) polynomial (polyd1.DMP) 
+#
 InstallOtherMethod( OMPut, 
-"for a polynomial ring and a (uni- or multivariate) polynomial (polyd1 cd)", 
+"for a polynomial ring and a (uni- or multivariate) polynomial (polyd1.DMP)", 
 true,
 [ IsOutputStream, IsPolynomialRing, IsPolynomial ],
 0,
@@ -90,76 +129,86 @@ if not f in r then
   Error( "OMPut : the polynomial ", f, " is not in the polynomial ring ", r, "\n" );
 fi;
 
-if IsUnivariatePolynomial( f ) then
+if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
 
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "DMP" );
-OMPutReference( stream, r );
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "SDMP" );
-coeffs := CoefficientsOfUnivariatePolynomial(f);
-deg := DegreeOfLaurentPolynomial(f);
-for nr in [ deg+1, deg .. 1 ] do
-  if coeffs[nr] <> 0 then
-    OMPutApplication( stream, "polyd1", "term", [ coeffs[nr], nr-1 ] );
-  fi;
-od; 
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "DMP" );
+  OMPutReference( stream, r );
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "SDMP" );
+  coeffs := CoefficientsOfUnivariatePolynomial( f );
+  deg := DegreeOfLaurentPolynomial( f );
+  for nr in [ deg+1, deg .. 1 ] do
+    if coeffs[nr] <> 0 then
+      OMPutApplication( stream, "polyd1", "term", [ coeffs[nr], nr-1 ] );
+    fi;
+  od; 
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
 
 else
 
-coeffring := CoefficientsRing( r );
-nrindet := Length(IndeterminatesOfPolynomialRing( r ) );
+  coeffring := CoefficientsRing( r );
+  nrindet := Length(IndeterminatesOfPolynomialRing( r ) );
 
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "DMP" );
-OMPutReference( stream, r );
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "polyd1", "SDMP" );
-extrep := ExtRepPolynomialRatFun( f );
-for nr in [ 1, 3 .. Length(extrep)-1 ] do
-  term := [ extrep[nr+1] ];
-  nvars := extrep[nr]{[1,3..Length(extrep[nr])-1]};
-  pows := extrep[nr]{[2,4..Length(extrep[nr])]};
-  for i in [1..nrindet] do
-    pos := Position( nvars, i );
-    if pos=fail then
-      Add( term, 0);
-    else
-      Add( term, pows[pos] ); 
-    fi;  
-  od;
-  OMPutApplication( stream, "polyd1", "term", term );
-od; 
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "DMP" );
+  OMPutReference( stream, r );
+  OMWriteLine( stream, [ "<OMA>" ] );
+  OMIndent := OMIndent + 1;
+  OMPutSymbol( stream, "polyd1", "SDMP" );
+  extrep := ExtRepPolynomialRatFun( f );
+  for nr in [ 1, 3 .. Length(extrep)-1 ] do
+    term := [ extrep[nr+1] ];
+    nvars := extrep[nr]{[1,3..Length(extrep[nr])-1]};
+    pows := extrep[nr]{[2,4..Length(extrep[nr])]};
+    for i in [1..nrindet] do
+      pos := Position( nvars, i );
+      if pos=fail then
+        Add( term, 0 );
+      else
+        Add( term, pows[pos] ); 
+      fi;  
+    od;
+    OMPutApplication( stream, "polyd1", "term", term );
+  od; 
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
+  OMIndent := OMIndent - 1;
+  OMWriteLine( stream, [ "</OMA>" ] );
 
 fi;
 
 end);
 
 
+#############################################################################
+#
+# OMPut for a (uni/multivariate) polynomial in the default ring (polyd1.DMP) 
+#
 InstallMethod( OMPut, 
-"for a (uni- or multivariate) polynomial in the default ring (polyd1 cd)", 
+"for a (uni- or multivariate) polynomial in the default ring (polyd1.DMP)", 
 true,
 [ IsOutputStream, IsPolynomial ],
 0,
 function( stream, f )
-OMPut( stream, DefaultRing(f), f );
+OMPut( stream, DefaultRing( f ), f );
 end);
 
 
+#############################################################################
+#
+# OMput for a two-sided ideal with known generators (ring3.ideal)
+#
+# This currently works only with polynomial rings!!!
+#
 InstallMethod( OMPut, 
-"for a two-sided ideal with known generators",
+"for a two-sided ideal with known generators (ring3.ideal)",
 true,
 [ IsOutputStream, 
   IsRing and HasLeftActingRingOfIdeal and 
@@ -172,7 +221,7 @@ OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 
 OMPutSymbol( stream, "ring3", "ideal" );
-OMPut( stream, LeftActingRingOfIdeal(r) );
+OMPut( stream, LeftActingRingOfIdeal( r ) );
 
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
@@ -189,8 +238,12 @@ OMWriteLine( stream, [ "</OMA>" ] );
 end);
 
 
+#############################################################################
+#
+# OMPut for algebraic extensions (field3.field_by_poly)
+#
 InstallMethod( OMPut,
-"for algebraic extensions",
+"for algebraic extensions (field3.field_by_poly)",
 true,
 [ IsOutputStream, IsAlgebraicExtension ],
 0,
@@ -198,13 +251,18 @@ function( stream, f )
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "field3", "field_by_poly" );
-OMPut( stream, LeftActingDomain(f));
-OMPut( stream, DefiningPolynomial(f));
+OMPut( stream, LeftActingDomain( f ) );
+OMPut( stream, DefiningPolynomial( f ) );
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );  
 end);    
 
 
+#############################################################################
+#
+# OMPut for an algebraic element of an algebraic extension
+# (commented out because of switching to field4.field_by_poly_vector)
+#
 #InstallMethod( OMPut, 
 #"for an algebraic element of an algebraic extension", 
 #true,
@@ -264,8 +322,14 @@ end);
 #fi;                  
 #end);
 
+
+#############################################################################
+#
+# OMPut for an algebraic element of an algebraic extension 
+# (field4.field_by_poly_vector)
+#
 InstallMethod( OMPut, 
-"for an algebraic element of an algebraic extension", 
+"for an algebraic element of an algebraic extension (field4.field_by_poly_vector)", 
 true,
 [ IsOutputStream, IsAlgebraicElement ],
 0,
