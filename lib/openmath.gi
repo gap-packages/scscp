@@ -30,15 +30,31 @@
 #OMWriteLine( stream, [ "</OMA>" ] );
 #end);
 
+InstallMethod( OMPutReference, 
+"for a stream and an object with reference",
+true,
+[ IsOutputStream, IsObject ],
+0,
+function( stream, x )
+if HasOMReference( x ) then
+   OMWriteLine( stream, [ "<OMR href=\"", OMReference( x ), "\" />" ] );
+else   
+   OMPut( stream, x );
+fi;
+end);
+
+
 InstallMethod( OMPut,
 "for a polynomial ring",
 true,
 [ IsOutputStream, IsPolynomialRing ],
 0,
 function( stream, r )
+
 if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
 
-  OMWriteLine( stream, [ "<OMA>" ] );
+  SetOMReference( r, Concatenation("polyring", String(Random([1..10000]) ) ) );
+  OMWriteLine( stream, [ "<OMA id=\"", OMReference( r ), "\" >" ] );
   OMIndent := OMIndent + 1;
   OMPutSymbol( stream, "polyd1", "poly_ring_d_named" );
   OMPut( stream, CoefficientsRing( r ) );
@@ -48,7 +64,8 @@ if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
 
 else
 
-  OMWriteLine( stream, [ "<OMA>" ] );
+  SetOMReference( r, Concatenation("polyring", String(Random([1..10000]) ) ) );
+  OMWriteLine( stream, [ "<OMA id=\"", OMReference( r ), "\" >" ] );
   OMIndent := OMIndent + 1;
   OMPutSymbol( stream, "polyd1", "poly_ring_d" );
   OMPut( stream, CoefficientsRing( r ) );
@@ -130,7 +147,7 @@ fi;
 end);
 
 
-InstallOtherMethod( OMPut, 
+InstallMethod( OMPut, 
 "for a (uni- or multivariate) polynomial in the default ring (polyd1 cd)", 
 true,
 [ IsOutputStream, IsPolynomial ],

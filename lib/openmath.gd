@@ -37,3 +37,5 @@ DeclareGlobalFunction( "OMPutError" );
 DeclareGlobalFunction( "OMPutProcedureTerminated" );
 
 DeclareAttribute( "OMReference", IsObject );
+
+DeclareOperation( "OMPutReference", [ IsOutputStream, IsObject ] );
