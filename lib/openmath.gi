@@ -30,6 +30,7 @@
 #OMWriteLine( stream, [ "</OMA>" ] );
 #end);
 
+
 InstallMethod( OMPutReference, 
 "for a stream and an object with reference",
 true,
@@ -154,6 +155,37 @@ true,
 0,
 function( stream, f )
 OMPut( stream, DefaultRing(f), f );
+end);
+
+
+InstallMethod( OMPut, 
+"for a two-sided ideal with known generators",
+true,
+[ IsOutputStream, 
+  IsRing and HasLeftActingRingOfIdeal and 
+             HasRightActingRingOfIdeal and HasGeneratorsOfTwoSidedIdeal ],
+0,
+function( stream, r )
+local f;
+
+OMWriteLine( stream, [ "<OMA>" ] );
+OMIndent := OMIndent + 1;
+
+OMPutSymbol( stream, "ring3", "ideal" );
+OMPut( stream, LeftActingRingOfIdeal(r) );
+
+OMWriteLine( stream, [ "<OMA>" ] );
+OMIndent := OMIndent + 1;
+OMPutSymbol( stream, "list1", "list" );
+for f in GeneratorsOfTwoSidedIdeal( r ) do
+  OMPut( stream, LeftActingRingOfIdeal( r ), f );
+od;
+OMIndent := OMIndent - 1;
+OMWriteLine( stream, [ "</OMA>" ] );
+
+OMIndent := OMIndent - 1;
+OMWriteLine( stream, [ "</OMA>" ] );  
+
 end);
 
 
