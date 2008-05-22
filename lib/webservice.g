@@ -13,17 +13,19 @@
 #
 # procname           : a string with the name of the procedure
 # procfunc           : the function that will be called by the procedure
-# SCSCPprocTable     : global variable, defined in init.g, with the list 
-#                      of pairs [ procname, procfunc ]
 #
 InstallGlobalFunction( InstallSCSCPprocedure,
 function( procname, procfunc )
-local pos, userinput, answer;
-pos:=PositionProperty( SCSCPprocTable, x -> x[1]= procname );
+local pos, SCSCPprocTable, x, userinput, answer;
+pos := PositionProperty( OMsymTable, x -> x[1]="SCSCP_transient_1" );
+if pos = fail then
+  pos := Length(OMsymTable) + 1;
+  OMsymTable[pos] := [ "SCSCP_transient_1", [ ] ];
+fi;
+SCSCPprocTable := OMsymTable[ pos ][2];
+pos:=PositionProperty( SCSCPprocTable, x -> x[1]=procname );
 if pos=fail then
-  MakeReadWriteGlobal("SCSCPprocTable");
-  Add( SCSCPprocTable, [ procname, procfunc ] );
-  MakeReadOnlyGlobal("SCSCPprocTable");
+  Add( SCSCPprocTable, [ procname, function(arg) return CallFuncList( procfunc, arg[1] ); end ] );
   Print("InstallSCSCPprocedure : procedure ", procname, " installed. \n" ); 
 else
   userinput := InputTextUser();
@@ -31,9 +33,7 @@ else
     Print( procname ," is already installed. Do you want to reinstall it [y/n]? \c");
     answer := ReadLine( userinput );
     if answer="y\n" then
-      MakeReadWriteGlobal("SCSCPprocTable");
       SCSCPprocTable[pos][2] := procfunc;
-      MakeReadOnlyGlobal("SCSCPprocTable");     
       Print("InstallSCSCPprocedure : procedure ", procname, " reinstalled. \n" ); 
       break;
     elif answer="n\n" then
