@@ -16,6 +16,7 @@
 #
 LoadPackage("scscp");
 InstallSCSCPprocedure("WS_factorial", Factorial );
+InstallSCSCPprocedure("WS_Gcd", Gcd );
 InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 test:=Filename( Directory( Concatenation(
         GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), 
