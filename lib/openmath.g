@@ -10,33 +10,12 @@
 
 #############################################################################
 ##
-#F  SCSCPprocLookup( <procname> )
-##
-InstallGlobalFunction( SCSCPprocLookup,
-function( procname )
-local pos;
-pos := PositionProperty( SCSCPprocTable, x -> x[1] = procname );
-if pos<>fail then
-  return SCSCPprocTable[pos][2];
-else
-  Error("SCSCPprocLookup : the procedure ",  procname , " is not available \n" );
-fi;
-end);
-
-
-#############################################################################
-##
 #F  OMgapRPC( <x> )
 ##
-InstallGlobalFunction( OMgapRPC,
+BindGlobal( "OMgapRPC",
 function( x )
-local procname, listargs;
-procname := SCSCPprocLookup( x[1] );
-# here we may control correct procedure name
-listargs:=x{[2..Length(x)]};
-# SCSCPprocLookup can also tell us the number of arguments
-# and we may control correct number of arguments here
-return CallFuncList( procname, listargs );
+# x is already the result of evaluation of the OM object
+return x[1];
 end);
 
 
