@@ -17,15 +17,10 @@ ReadPackage("scscp/lib/scscp.gd");
 # setting the default version of SCSCP
 SCSCP_VERSION := "1.0";
 
-SCSCPprocTable:=[ ];
-MakeReadOnlyGlobal( "SCSCPprocTable" );
-
 # we introduce the global variable SCSCPserverMode because 
 # of different handling of OMR at server and client sides. 
 # It might be useful in other cases as well.
 SCSCPserverMode := false;
-
-MakeReadWriteGlobal( "SCSCPprocTable" );
 
 # read the other part of code  
 ReadPackage("scscp/config.g");
