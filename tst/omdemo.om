@@ -37,6 +37,146 @@
 </OMOBJ>
 <?scscp end ?>
 
+<!-- procedure call -->
+
+<?scscp start ?>
+<OMOBJ>
+    <OMA>
+        <OMS cd="scscp1" name="procedure_call" />
+        <OMA> 
+            <OMS cd="SCSCP_transient_1" name="WS_factorial" />
+            <OMI>5</OMI>
+        </OMA>
+    </OMA>
+</OMOBJ>
+<?scscp end ?>
+
+<?scscp start ?>
+<OMOBJ>
+    <OMA>
+        <OMS cd="scscp1" name="procedure_call" />
+        <OMA> 
+            <OMS cd="SCSCP_transient_1" name="WS_Gcd" />
+            <OMI>6</OMI>
+            <OMI>10</OMI>
+        </OMA>
+    </OMA>
+</OMOBJ>
+<?scscp end ?>
+
+<!-- Examples from the Appendix B.1 of the Specification -->
+
+<?scscp start ?>
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="scscp1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+            <OMS cd="scscp1" name="option_runtime" />
+            <OMI>300000</OMI>
+            <OMS cd="scscp1" name="option_min_memory" />
+            <OMI>40964</OMI>
+            <OMS cd="scscp1" name="option_max_memory" />
+            <OMI>134217728</OMI>
+            <OMS cd="scscp1" name="option_debuglevel" />
+            <OMI>2</OMI>
+            <OMS cd="scscp1" name="option_return_object" />
+            <OMSTR></OMSTR>
+        </OMATP>
+        <OMA>
+            <OMS cd="scscp1" name="procedure_call" />
+            <OMA>
+                <OMS cd="SCSCP_transient_1" name="GroupIdentificationService" />
+                <OMA>
+                    <OMS cd="group1" name="Group"/>
+                    <OMA>
+                        <OMS cd="permut1" name="permutation"/>
+                        <OMI> 2</OMI> <OMI> 3</OMI>
+                        <OMI> 1</OMI>
+                    </OMA>
+                    <OMA>
+                        <OMS cd="permut1" name="permutation"/>
+                        <OMI> 1</OMI> <OMI> 2</OMI>
+                        <OMI> 4</OMI> <OMI> 3</OMI>
+                    </OMA>
+                </OMA>        
+            </OMA>
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+<?scscp end ?>
+
+<?scscp start ?>
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="scscp1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+            <OMS cd="scscp1" name="option_return_cookie" />
+            <OMSTR></OMSTR>
+        </OMATP>
+        <OMA>
+            <OMS cd="scscp1" name="procedure_call" />
+            <OMA>
+                <OMS cd="SCSCP_transient_1" name="GroupByIdNumber" />
+                <OMI>24</OMI>
+                <OMI>12</OMI>
+            </OMA>    
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+<?scscp end ?>
+
+
+<!-- Example from the Appendix B.2 of the Specification -->
+
+<?scscp start ?>
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="scscp1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+            <OMS cd="scscp1" name="info_runtime" />
+            <!-- The runtime in milliseconds as OM integer -->
+            <OMI>1234</OMI>
+            <OMS cd="scscp1" name="info_memory" />
+            <!-- Memory occupied by CAS in bytes as OM integer -->
+            <OMI>134217728</OMI>
+        </OMATP>        
+        <OMA>
+            <OMS cd="scscp1" name="procedure_completed" />
+            <OMA>
+                <OMS cd="linalg2" name="vector"/>
+                <OMI> 24</OMI>
+                <OMI> 12</OMI>
+            </OMA>
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+<?scscp end ?>
+
+<!-- Example from the Appendix B.3 of the Specification -->
+
+<?scscp start ?>
+<OMOBJ>
+    <OMATTR>
+        <OMATP>
+            <OMS cd="scscp1" name="call_ID" />
+            <OMSTR>alexk_9053</OMSTR>
+        </OMATP>
+        <OMA>
+            <OMS cd="scscp1" name="procedure_terminated" />
+            <OME>
+                 <OMS cd="scscp1" name="error_CAS"/>
+                 <OMSTR>Error, the group identification for groups of size 3628800 is not available</OMSTR>
+            </OME>
+        </OMA>
+    </OMATTR>
+</OMOBJ>
+<?scscp end ?>
+
+<!-- Newly added symbols -->
+
 <?scscp start ?>
 <OMOBJ>
         <OMA>
@@ -623,110 +763,3 @@
 	</OMA>
 </OMOBJ>
 <?scscp end ?>
-
-
-<!-- procedure call -->
-
-<?scscp start ?>
-<OMOBJ>
-    <OMA>
-        <OMS cd="scscp1" name="procedure_call" />
-        <OMSTR>WS_factorial</OMSTR>
-        <OMI>5</OMI>
-    </OMA>
-</OMOBJ>
-<?scscp end ?>
-
-<!-- Example from the Appendix B.1 of the Specification -->
-
-<?scscp start ?>
-<OMOBJ>
-    <OMATTR>
-        <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
-            <OMSTR>alexk_9053</OMSTR>
-            <OMS cd="scscp1" name="option_runtime" />
-            <OMI>300000</OMI>
-            <OMS cd="scscp1" name="option_max_memory" />
-            <OMSTR>134217728</OMSTR>
-            <OMS cd="scscp1" name="option_debuglevel" />
-            <OMI>2</OMI>
-            <OMS cd="scscp1" name="option_return_object" />
-            <!-- another possibility is "option_return_cookie"-->
-            <!-- GAP did not undestand usage of <OMSTR/> yet -->
-            <OMSTR></OMSTR>
-        </OMATP>
-        <OMA>
-            <OMS cd="scscp1" name="procedure_call" />
-            <OMSTR>GroupIdentificationService</OMSTR>
-            <!-- Argument 1 -->
-            <OMA>
-                <OMS cd="group1" name="Group"/>
-                <!-- we must use 'group' and 'permutation' in lowercase, but 
-                     OpenMath package requires first capital letter -->
-                <OMA>
-                    <OMS cd="permut1" name="permutation"/>
-                    <OMI> 2</OMI>
-                    <OMI> 3</OMI>
-                    <OMI> 1</OMI>
-                </OMA>
-                <OMA>
-                    <OMS cd="permut1" name="permutation"/>
-                    <OMI> 1</OMI>
-                    <OMI> 2</OMI>
-                    <OMI> 4</OMI>
-                    <OMI> 3</OMI>
-                </OMA>
-            </OMA>
-           <!-- End of argument 1 -->
-        </OMA>
-    </OMATTR>
-</OMOBJ>
-<?scscp end ?>
-
-<!-- Example from the Appendix B.2 of the Specification -->
-
-<?scscp start ?>
-<OMOBJ>
-    <OMATTR>
-        <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
-            <OMSTR>alexk_9053</OMSTR>
-            <OMS cd="scscp1" name="info_runtime" />
-            <!-- The runtime in milliseconds as OM integer -->
-            <OMI>1234</OMI>
-            <OMS cd="scscp1" name="info_memory" />
-            <!-- Memory occupied by CAS in bytes as OM integer -->
-            <OMI>134217728</OMI>
-        </OMATP>        
-        <OMA>
-            <OMS cd="scscp1" name="procedure_completed" />
-            <OMA>
-                <OMS cd="linalg2" name="vector"/>
-                <OMI> 24</OMI>
-                <OMI> 12</OMI>
-            </OMA>
-        </OMA>
-    </OMATTR>
-</OMOBJ>
-<?scscp end ?>
-
-<!-- Example from the Appendix B.3 of the Specification -->
-
-<?scscp start ?>
-<OMOBJ>
-    <OMATTR>
-        <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
-            <OMSTR>alexk_9053</OMSTR>
-        </OMATP>
-        <OMA>
-            <OMS cd="scscp1" name="procedure_terminated" />
-            <OME>
-                 <OMS cd="scscp1" name="error_CAS"/>
-                 <OMSTR>Error, the group identification for groups of size 3628800 is not available</OMSTR>
-            </OME>
-        </OMA>
-    </OMATTR>
-</OMOBJ>
-<?scscp end ?> 
