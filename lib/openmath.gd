@@ -20,7 +20,7 @@ DeclareInfoClass("InfoSCSCP");
 
 DeclareGlobalFunction( "SCSCPprocLookup" );
 
-DeclareGlobalFunction( "OMgapRPC" );
+# DeclareGlobalFunction( "OMgapRPC" );
 
 DeclareGlobalFunction( "CleanNameSpaces" );
 
