@@ -447,15 +447,12 @@ else
   has_attributes:=false;
 fi;
 OMIndent := OMIndent + 1;
-# we need the following check for procedures 
-# without arguments, e.g. "Disconnect"
-if IsBound( objrec.object ) then
-  nameandargs:= [ proc_name ];
-  Append( nameandargs, objrec.object );
-  OMPutApplication( stream, "scscp1", "procedure_call", nameandargs );
-else
-  OMPutApplication( stream, "scscp1", "procedure_call", [ proc_name ] );
-fi;  
+OMWriteLine( stream, [ "<OMA>" ] );
+OMIndent := OMIndent + 1;
+OMPutSymbol( stream, "scscp1", "procedure_call" );
+OMPutApplication( stream, "SCSCP_transient_1", proc_name, objrec.object );
+OMIndent := OMIndent - 1;
+OMWriteLine( stream, [ "</OMA>" ] );
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );
