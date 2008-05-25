@@ -11,9 +11,9 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol for GAP",
-Version := "0.2",
-Date := "17/12/2007",
-ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk",
+Version := "0.3",
+Date := "25/05/2008",
+ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/scscp-0.3",
 ArchiveFormats := ".tar.gz .tar.bz2 -win.zip",
 
 #TextFiles := ["init.g", ......],
@@ -84,5 +84,5 @@ AvailabilityTest := ReturnTrue,
 Autoload := false,
 #TestFile := "tst/testall.g",
 
-Keywords := [ "symbolic computation" , "OpenMath" ]
+Keywords := [ "interface", "parallel computing", "OpenMath" ]
 ));
