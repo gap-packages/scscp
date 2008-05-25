@@ -22,7 +22,7 @@ SetInfoLevel(InfoSCSCP,1);
 # Parameters for the server mode
 #
 
-# setting the hostname (will be user in served mode)
+# setting the hostname to be used in the server mode
 SCSCPserverAddress := "localhost";
 
 # setting the port
