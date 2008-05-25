@@ -6,14 +6,25 @@
 <Section Label="Install">
 <Heading>Installation and system requirements</Heading>
 
-The &SCSCP; package is designed for &GAP;4.5 and no compatibility with 
-previous releases of &GAP;4 is guaranteed. 
+The &SCSCP; package is designed for the coming soon &GAP;4.5 and
+will be not compatible with previous releases of &GAP;4.
+<P/> 
+
+Until the release of &GAP;4.5, the &SCSCP; package works only with
+the &GAP; development version.
 <P/>
 
-To use The &SCSCP; package it is necessary to install &GAP;4 packages
+To use the &SCSCP; package it is necessary to install &GAP;4 packages
 &IO; <Cite Key="IO"/>, &GAPDoc; <Cite Key="GAPDoc"/> 
 and (currently only development version of) &openmath; <Cite Key="openmath"/>.
 <P/> 
+
+To install the &SCSCP; package, the <File>scscp</File> directory
+(the one containing subdirectories <File>doc</File> and <File>lib</File>)
+must be placed into <File>pkg</File> directory of your &GAP; installation.
+<P/>
+
+<!--
 
 The &SCSCP; package is distributed in standard formats
 (<File>tar.gz</File>, <File>tar.bz2</File>, <File>-win.zip</File>) 
@@ -30,14 +41,17 @@ the <File>pkg</File> directory after the following command:
 <P/>
 <C>unzoo -x scscp-0.3.zoo</C>
 <P/>
+Installation using other archive formats is performed in a similar way.
+<P/>
+-->
+
 When you don't have access to the directory of your main &GAP; 
 installation, you can also install the package 
 <E>outside the &GAP; main directory</E>
 by unpacking it inside a directory <File>MYGAPDIR/pkg</File>. 
 Then to be able to load &SCSCP; you need to call &GAP; with the 
 <C>-l ";MYGAPDIR"</C> option.
-<P/>
-Installation using other archive formats is performed in a similar way.
+
 </Section>
 
 </Chapter>
