@@ -4,7 +4,7 @@
 <Heading>&OpenMath; functionality of the &SCSCP; package</Heading>    
 
 The &SCSCP; package extends the &openmath; package to support
-&OpenMath; symbols from the &scscp1; content dictionary <Cite Key="cascall"/>.
+&OpenMath; symbols from the &scscp1; content dictionary <Cite Key="scscp1cd"/>.
 The &SCSCP; package installs some new functions, and also overwrites
 some functions and global variables from the &openmath; package 
 (this is not documented yet, but all changes are backwards compatible).
@@ -126,8 +126,10 @@ gap> Print(t);
 		</OMATP>
 		<OMA>
 			<OMS cd="scscp1" name="procedure_call"/>
-			<OMSTR>WS_factorial</OMSTR>
-			<OMI> 5</OMI>
+			<OMA>
+				<OMS cd="SCSCP_transient_1" name="WS_factorial"/>
+				<OMI> 5</OMI>
+			</OMA>
 		</OMA>
 	</OMATTR>
 </OMOBJ>

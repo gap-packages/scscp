@@ -7,6 +7,7 @@
 [<!ENTITY openmath "<Package>openmath</Package>">]
 [<!ENTITY OpenMath "<Package>OpenMath</Package>">]
 [<!ENTITY scscp1 "<Package>scscp1</Package>">]
+[<!ENTITY scscp2 "<Package>scscp2</Package>">]
 [<!ENTITY ANUPQ "<Package>ANUPQ</Package>">]
 [<!ENTITY SCSCP "<Package>SCSCP</Package>">] >
 
@@ -15,7 +16,7 @@
 <TitlePage>
   <Title>&SCSCP;</Title>
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
-  <Version>Version 0.2</Version>
+  <Version>Version 0.3</Version>
 
   <Author>Alexander Konovalov
           <Email>konovalov@member.ams.org</Email>
@@ -33,7 +34,7 @@
           </Address> 
   </Author>
   
-  <Date>17 December 2007</Date>
+  <Date>25 May 2008</Date>
 
 <Abstract>
 
@@ -46,7 +47,7 @@ protocol (&SCSCP;) for the computational algebra system &GAP;.
 </Abstract>
 
 <Copyright>
-  &copyright; 2007 by Alexander Konovalov and Steve Linton<P/>
+  &copyright; 2007-2008 by Alexander Konovalov and Steve Linton<P/>
 
   &SCSCP; is free software; you can redistribute it and/or modify it 
   under the terms of the GNU General Public License as published by 
@@ -61,8 +62,8 @@ protocol (&SCSCP;) for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:<P/>
 
   A. Konovalov and S. Linton. 
-  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.2;</E> 
-  2007 (<URL>http://www.symbolic-computation.org/</URL>).
+  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.3;</E> 
+  2008 (<URL>http://www.symbolic-computation.org/</URL>).
 </Copyright>
   
 <Acknowledgements>
@@ -72,7 +73,8 @@ is supported by the EU FP6 Programme.
 
 <Colophon>
 The version 0.1 of the package appeared in the first half of 2007.
-The version 0.2 was completed in December 2007.
+The version 0.2 was completed in December 2007, and was upgraded to
+the version 0.3 in May 2008.
 </Colophon>
 
 </TitlePage>

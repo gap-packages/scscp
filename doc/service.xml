@@ -153,31 +153,33 @@ gap> gens:=GeneratorsOfGroup(G);
 gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
 #I Composing procedure_call message: 
 <?scscp start ?>
 <OMOBJ>
-	<OMATTR>
+    <OMATTR>
 		<OMATP>
 			<OMS cd="scscp1" name="call_ID"/>
-			<OMSTR>localhost:26133:42</OMSTR>
+			<OMSTR>localhost:26133:1212</OMSTR>
 		</OMATP>
 		<OMA>
 			<OMS cd="scscp1" name="procedure_call"/>
-			<OMSTR>GroupIdentificationService</OMSTR>
 			<OMA>
-				<OMS cd="linalg2" name="vector"/>
+				<OMS cd="SCSCP_transient_1" name="GroupIdentificationService"/>
 				<OMA>
-					<OMS cd="permut1" name="permutation"/>
-					<OMI> 2</OMI>
-					<OMI> 3</OMI>
-					<OMI> 4</OMI>
-					<OMI> 1</OMI>
-				</OMA>
-				<OMA>
-					<OMS cd="permut1" name="permutation"/>
-					<OMI> 2</OMI>
-					<OMI> 1</OMI>
+					<OMS cd="list1" name="list"/>
+					<OMA>
+						<OMS cd="permut1" name="permutation"/>
+						<OMI> 2</OMI>
+						<OMI> 3</OMI>
+						<OMI> 4</OMI>
+						<OMI> 1</OMI>
+					</OMA>
+					<OMA>
+						<OMS cd="permut1" name="permutation"/>
+						<OMI> 2</OMI>
+						<OMI> 1</OMI>
+					</OMA>
 				</OMA>
 			</OMA>
 		</OMA>
@@ -192,12 +194,12 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 	<OMATTR>
 		<OMATP>
 			<OMS cd="scscp1" name="call_ID"/>
-			<OMSTR>localhost:26133:42</OMSTR>
+			<OMSTR>localhost:26133:1212</OMSTR>
 		</OMATP>
 		<OMA>
 			<OMS cd="scscp1" name="procedure_completed"/>
 			<OMA>
-				<OMS cd="linalg2" name="vector"/>
+				<OMS cd="list1" name="list"/>
 				<OMI> 24</OMI>
 				<OMI> 12</OMI>
 			</OMA>
@@ -205,8 +207,8 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 	</OMATTR>
 </OMOBJ>
 #I  <?scscp end ?>
-#I  Got back: object [ 24, 12 ] with attributes [ [ "call_ID", "localhost:26133:42" ] ]
-rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:42" ] ] )
+#I  Got back: object [ 24, 12 ] with attributes [ [ "call_ID", "localhost:26133:1212" ] ]
+rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:1212" ] ] )
 ]]>
 </Example>
 

@@ -16,22 +16,28 @@ and (currently only development version of) &openmath; <Cite Key="openmath"/>.
 <P/> 
 
 The &SCSCP; package is distributed in standard formats
-(<File>zoo</File>, <File>tar.gz</File>, <File>tar.bz2</File>, 
-<File>-win.zip</File>) and can be obtained from  
-<URL>http://www.symbolic-computation.org/</URL>.
-To unpack the archive <File>scscp-0.2.zoo</File> you need the program 
+(<File>tar.gz</File>, <File>tar.bz2</File>, <File>-win.zip</File>) 
+and can be obtained from <URL>http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm</URL>,
+or <URL>http://www.symbolic-computation.org/</URL>, or
+the page <URL>http://www.gap-system.org/Packages/packages.html</URL>
+at the &GAP; web site. The latter also offers <File>zoo</File>-archive.
+To unpack the archive <File>scscp-0.3.zoo</File> you need the program 
 <File>unzoo</File>, which can be obtained from the &GAP; homepage 
 <URL>http://www.gap-system.org/</URL> (see section `Distribution').
-To install The &SCSCP; package, copy this archive into the <File>pkg</File> 
-subdirectory of your &GAP;4.4 installation. Then the subdirectory 
-<File>scscp</File> containing the package will be created in 
-the <File>pkg</File> directory after the command<P/>
-
-<C>unzoo -x scscp-0.2.zoo</C>
+To install &SCSCP;, copy this archive into the <File>pkg</File> subdirectory of your 
+&GAP;4.4 installation. The subdirectory <File>scscp</File> will be created in 
+the <File>pkg</File> directory after the following command: 
 <P/>
-
+<C>unzoo -x scscp-0.3.zoo</C>
+<P/>
+When you don't have access to the directory of your main &GAP; 
+installation, you can also install the package 
+<E>outside the &GAP; main directory</E>
+by unpacking it inside a directory <File>MYGAPDIR/pkg</File>. 
+Then to be able to load &SCSCP; you need to call &GAP; with the 
+<C>-l ";MYGAPDIR"</C> option.
+<P/>
 Installation using other archive formats is performed in a similar way.
-
 </Section>
 
 </Chapter>
