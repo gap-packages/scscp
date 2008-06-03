@@ -65,7 +65,7 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_cookie, return_nothing, attribs, ns, server_scscp_version, pid;
+      return_cookie, return_nothing, attribs, ns, server_scscp_version, pos, pid;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := ValueOption( "return_cookie" );
@@ -87,9 +87,13 @@ Info( InfoSCSCP, 2, initmessage );
 session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+12 .. 
                              PositionSublist(initmessage,"\" scscp_versions")-1 ] };
 attribs := [ [ "call_ID", session_id ] ];
-pid := EvalString(session_id{[PositionNthOccurrence(session_id,':',2)+1 .. Length(session_id)]});
+pos := PositionNthOccurrence(session_id,':',2);
+if pos <> fail then
+  pid := EvalString( session_id{[ pos+1 .. Length(session_id) ]} );
+else
+  pid:=0;
+fi;
  
-
 WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
 server_scscp_version := ReadLine( stream );
 if server_scscp_version <> "<?scscp version=\"1.0\" ?>\n" then
