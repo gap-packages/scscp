@@ -52,7 +52,7 @@
 # The concept of references implies that the author of the code is able to
 # decide which objects needs references, and assign references to them, e.g.
 # using
-# SetOMReference( r, Concatenation("polyring", String(Random([1..10000]))));
+# SetOMReference( r, Concatenation("polyring", RandomString(16)));
 #
 # Once an object obtained a reference, it can not be changed, therefore, the
 # same reference will be used in communication with all other CASs. 
@@ -89,7 +89,7 @@ function( stream, r )
 
 if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
 
-  SetOMReference( r, Concatenation("polyring", String(Random([1..10000]) ) ) );
+  SetOMReference( r, Concatenation("polyring", RandomString(16) ) );
   OMWriteLine( stream, [ "<OMA id=\"", OMReference( r ), "\" >" ] );
   OMIndent := OMIndent + 1;
   OMPutSymbol( stream, "polyd1", "poly_ring_d_named" );
@@ -100,7 +100,7 @@ if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
 
 else
 
-  SetOMReference( r, Concatenation("polyring", String(Random([1..10000]) ) ) );
+  SetOMReference( r, Concatenation("polyring", RandomString(16) ) );
   OMWriteLine( stream, [ "<OMA id=\"", OMReference( r ), "\" >" ] );
   OMIndent := OMIndent + 1;
   OMPutSymbol( stream, "polyd1", "poly_ring_d" );
