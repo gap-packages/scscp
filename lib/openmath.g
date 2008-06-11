@@ -216,6 +216,7 @@ function( stream )
     # Get one OpenMath object from 'stream' and put into 'fromgap',
     # using PipeOpenMathObject
     
+    # read new line until <?scscp start ?>
     repeat
       readline:=ReadLine(stream);
       if readline=fail then
@@ -242,6 +243,7 @@ function( stream )
       Print( "\n" );
     fi;
 
+    # read new line until <?scscp end ?>
     repeat
       readline:=ReadLine(stream);
       if readline=fail then

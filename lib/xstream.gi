@@ -144,8 +144,6 @@ function( stream )
         return fail;
     fi;
     while sofar[ Length(sofar) ] <> '\n' do
-        # do we need NOWAIT version like in 
-        # chunk := READ_IOSTREAM_NOWAIT( stream![1], 1); ?    
         chunk := IO_Read( stream![1], 1);
         if chunk = fail or Length(chunk) = 0 then
             stream![4] := true;
