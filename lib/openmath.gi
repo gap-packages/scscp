@@ -62,13 +62,17 @@
 # multiple CASs. Instead of this, the reference will be printed only when
 # this will be enforced by the usage of OMPutReference.
 #
+# If the SCSCPsuppressReferences is set to true, then 
+# OMPutReference (lib/openmath.gi) will put the actual 
+# OpenMath code for an object whenever it has id or not.
+#
 InstallMethod( OMPutReference, 
 "for a stream and an object with reference",
 true,
 [ IsOutputStream, IsObject ],
 0,
 function( stream, x )
-if HasOMReference( x ) then
+if HasOMReference( x ) and not SCSCPsuppressReferences then
    OMWriteLine( stream, [ "<OMR href=\"\043", OMReference( x ), "\" />" ] );
 else   
    OMPut( stream, x );

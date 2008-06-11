@@ -17,10 +17,15 @@ ReadPackage("scscp/lib/scscp.gd");
 # setting the default version of SCSCP
 SCSCP_VERSION := "1.0";
 
-# we introduce the global variable SCSCPserverMode because 
+# We introduce the global variable SCSCPserverMode because 
 # of different handling of OMR at server and client sides. 
 # It might be useful in other cases as well.
 SCSCPserverMode := false;
+
+# If the SCSCPsuppressReferences is set to true, then 
+# OMPutReference (lib/openmath.gi) will put the actual 
+# OpenMath code for an object whenever it has id or not.
+SCSCPsuppressReferences := false;
 
 # read the other part of code  
 ReadPackage("scscp/config.g");
