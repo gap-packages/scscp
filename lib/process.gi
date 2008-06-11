@@ -116,6 +116,7 @@ if return_nothing then
 fi; 
 
 if InfoLevel( InfoSCSCP ) > 2 then
+
   Print("#I Composing procedure_call message: \n");
   omtext:="";
   localstream := OutputTextString( omtext, true );
@@ -124,12 +125,19 @@ if InfoLevel( InfoSCSCP ) > 2 then
                       rec(     object := listargs, 
                            attributes := attribs ) );
   Print(omtext);
-fi;
+  WriteAll( stream, omtext );
+  if IsInputOutputTCPStream( stream ) then
+    IO_Flush( stream![1] );
+  fi;
+  
+else
+  
+  OMPutProcedureCall( stream, 
+                      command, 
+                        rec(     object := listargs, 
+                             attributes := attribs ) );
 
-OMPutProcedureCall( stream, 
-                    command, 
-                      rec(     object := listargs, 
-                           attributes := attribs ) );
+fi;
               
 Info( InfoSCSCP, 1, "Request sent ...");                           
 return Objectify( ProcessDefaultType, [ stream, pid ] );
