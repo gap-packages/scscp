@@ -1,3 +1,4 @@
+
 #############################################################################
 ##
 #W openmath.gi              The SCSCP package             Alexander Konovalov
