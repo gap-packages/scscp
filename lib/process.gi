@@ -94,7 +94,7 @@ else
   pid:=0;
 fi;
  
-WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+WriteLine( stream, "<?scscp version=\"1.1\" ?>" );
 server_scscp_version := ReadLine( stream );
 pos1 := PositionNthOccurrence(server_scscp_version,'\"',1);
 pos2 := PositionNthOccurrence(server_scscp_version,'\"',2);
