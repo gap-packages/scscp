@@ -68,13 +68,13 @@ local stream, initmessage, session_id, omtext, localstream,
       return_cookie, return_nothing, attribs, ns, server_scscp_version, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
-  return_cookie := ValueOption( "return_cookie" );
+  return_cookie := true;
 else
   return_cookie := false;  
 fi;
 
 if ValueOption("return_nothing") <> fail then
-  return_nothing := ValueOption( "return_nothing" );
+  return_nothing := true;
 else
   return_nothing := false;  
 fi;
@@ -94,7 +94,7 @@ else
   pid:=0;
 fi;
  
-WriteLine( stream, "<?scscp version=\"1.1\" ?>" );
+WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
 server_scscp_version := ReadLine( stream );
 pos1 := PositionNthOccurrence(server_scscp_version,'\"',1);
 pos2 := PositionNthOccurrence(server_scscp_version,'\"',2);
@@ -155,8 +155,8 @@ InstallGlobalFunction( CompleteProcess,
 function( process )
 local stream, result, return_cookie;
 
-if ValueOption("return_cookie") <> fail then
-  return_cookie := ValueOption( "return_cookie" );
+if ValueOption( "return_cookie") <> fail then
+  return_cookie := true;
 else
   return_cookie := false;  
 fi;

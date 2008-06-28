@@ -84,23 +84,23 @@ function( command, listargs, server, port )
 local return_cookie, return_nothing, result;
 
 if ValueOption("return_cookie") <> fail then
-  return_cookie := ValueOption( "return_cookie" );
+  return_cookie := true;
 else
   return_cookie := false;  
 fi;
 
 if ValueOption("return_nothing") <> fail then
-  return_nothing := ValueOption( "return_nothing" );
+  return_nothing := true;
 else
   return_nothing := false;  
 fi;
 
 if return_cookie then
-  result := NewProcess(  command, listargs, server, port : return_cookie );
+  result := NewProcess( command, listargs, server, port : return_cookie );
 elif return_nothing then
-  result := NewProcess(  command, listargs, server, port : return_nothing );
+  result := NewProcess( command, listargs, server, port : return_nothing );
 else
-  result := NewProcess(  command, listargs, server, port);
+  result := NewProcess( command, listargs, server, port );
 fi;
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");

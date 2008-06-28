@@ -70,6 +70,11 @@ CloseStream(proc![1]);
 return true;
 end;
 
+PointImages:=function( G, n )
+local g;
+return List( GeneratorsOfGroup(G), g -> n^g );
+end;
+
 
 #############################################################################
 #
@@ -107,6 +112,8 @@ InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByS
 InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
 
 InstallSCSCPprocedure( "LoopTest", LoopTest );
+
+InstallSCSCPprocedure( "PointImages", PointImages );
 
 #############################################################################
 #

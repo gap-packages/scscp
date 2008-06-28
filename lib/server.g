@@ -68,7 +68,7 @@ else
         WriteLine( stream, welcome_string );
         client_message := ReadLine( stream );
         Info(InfoSCSCP, 1, "Client's version is ", client_message );
-        WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+        WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
