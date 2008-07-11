@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W topc.g                   The SCSCP package             Alexander Konovalov
+#W orbit.g                  The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
 #H $Id$

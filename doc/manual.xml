@@ -16,7 +16,7 @@
 <TitlePage>
   <Title>&SCSCP;</Title>
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
-  <Version>Version 0.3</Version>
+  <Version>Version 0.4</Version>
 
   <Author>Alexander Konovalov
           <Email>konovalov@member.ams.org</Email>
@@ -34,7 +34,7 @@
           </Address> 
   </Author>
   
-  <Date>25 May 2008</Date>
+  <Date>11 July 2008</Date>
 
 <Abstract>
 
@@ -62,7 +62,7 @@ protocol (&SCSCP;) for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:<P/>
 
   A. Konovalov and S. Linton. 
-  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.3;</E> 
+  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.4;</E> 
   2008 (<URL>http://www.symbolic-computation.org/</URL>).
 </Copyright>
   
@@ -74,7 +74,7 @@ is supported by the EU FP6 Programme.
 <Colophon>
 The version 0.1 of the package appeared in the first half of 2007.
 The version 0.2 was completed in December 2007, and was upgraded to
-the version 0.3 in May 2008.
+the version 0.4 in May 2008.
 </Colophon>
 
 </TitlePage>

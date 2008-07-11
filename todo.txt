@@ -7,7 +7,7 @@
 ##
 #############################################################################
 
-The GAP package with the provisional name "SCSCP" has two main components:
+The GAP package "SCSCP" has two main components:
 
 1) GAP Server
 2) GAP Client
@@ -16,12 +16,11 @@ Description:
 
 1) GAP Server is started from the GAP session or during GAP startup.
 During GAP Server startup it:
-* loads all functions which has to be acessible via WS
+* loads all functions which has to be acessible as SCSCP services
 * loads lookup mechanisms for them
-* creates WS description as a WSDL message
-* starts to listen specified port (e.g. 26133)
+* starts to listen specified port (e.g. 26133, as registered by IANA)
 
-For example, service provider can write a file "myservice.g" looking like:
+For example, the service provider can write a file "myservice.g" looking like:
 
 LoadPackage("scscp");
 InstallSCSCPprocedure("factorial", Factorial, ["integer"],  
@@ -37,9 +36,8 @@ gap myservice.g
 
 RunSCSCPserver:
 * accepts connection from client via port 26133
-* sends to client a connection information message in the format
-  "SCSCP_VERSION 1 CAS_PID xxxx + zero byte"
-* sends a List of Supported Procedures message in WSDL  
+* performs an exchange of connection initionation messages with the client
+* sends, if requested, the meta-information about provided services
 * starts read-evaluate-write loop:
   - obtains OM message "procedure_call"
   - performs lookup of the appropriate GAP function and checks all input,
@@ -65,25 +63,20 @@ RunSCSCPserver:
     "procedure_completed" message and returns to the beginning of
     read-evaluate-print loop
 
-In a multi-user mode it never stops until it will be terminated by the WS 
+In a multi-user mode it never stops until it will be terminated by the service
 provider. Multi-user mode is intended to perform single quickly computed requests.
-Thus, on each iteration WS accepts next request from the queue. 
+Thus, on each iteration SCSCP server accepts next request from the queue. 
 
 In a single user mode for each client there is one copy of GAP. This can be 
-reduced to multi-user mode, if the client will be able to launch GAP WS Wrapper
-which will create its personal WS (Can we do this???). The WS will be stopped
-when the client will enter appropriate command e.g. QUIT_WS (that must be 
-provided by WS and included in WSDL message), or under some other specified 
-conditions to prevent forgotten jobs from infinite running.
+reduced to multi-user mode, if the client will be able to launch GAP SCSCP 
+wrapper which will create its personal SCSCP service (Can we do this???). 
+That SCSCP service will be stopped by the client's initiative or under some 
+other specified conditions to prevent forgotten jobs from infinite running.
     
-3) GAP Client (to connect to GAP WS and other WS):
-- establish connection with WS with the specified port (we can easily use GAP
-  WS in development, but we should keep in mind that it must be compatible 
-  with other WS from systems participating in the SCIEnce project)
-- receives a connection information message in the format
-  "SCSCP_VERSION 1 CAS_PID xxxx + zero byte"
-* receives a List of Supported Procedures message in WSDL 
-  and performs certain analysis of it
+3) GAP Client (to connect to SCSCP server):
+* establish connection with the SCSCP server via the specified port 
+* performs an exchange of connection initionation messages with the server
+* requests, if necessary, the meta-information about provided services
 * starts exchange loop:
   - sends OM message "procedure_call"
   - waits for the result of computation, and while waiting it must be able

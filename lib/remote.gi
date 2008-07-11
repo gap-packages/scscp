@@ -99,7 +99,7 @@ end);
 InstallMethod( StoreAsRemoteObject, "for an object",
 [ IsObject, IsString, IsPosInt ],
 function( obj, server, port )
-return EvaluateBySCSCP( "SCSCP_STORE", [ obj ], server, port : return_cookie).object;
+return EvaluateBySCSCP( "store", [ obj ], server, port : return_cookie).object;
 end);
 
 
@@ -110,7 +110,7 @@ end);
 InstallMethod( RetrieveRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "SCSCP_RETRIEVE", [ obj![1] ], obj![2], obj![3]).object;
+return EvaluateBySCSCP( "retrieve", [ obj![1] ], obj![2], obj![3]).object;
 end);
 
 
@@ -121,5 +121,5 @@ end);
 InstallMethod( UnbindRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "SCSCP_UNBIND", [ obj![1] ], obj![2], obj![3]).object;
+return EvaluateBySCSCP( "unbind", [ obj![1] ], obj![2], obj![3]).object;
 end);

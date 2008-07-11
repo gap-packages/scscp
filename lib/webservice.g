@@ -46,35 +46,3 @@ else
   CloseStream( userinput );
 fi;
 end);
-
-
-##############################################################################
-#
-# SCSCP_RETRIEVE( <varnameasstring> )
-#
-InstallGlobalFunction( SCSCP_RETRIEVE,
-function( varnameasstring )
-if IsBoundGlobal( varnameasstring ) then
-  return EvalString( varnameasstring );
-else
-  Error( "Unbound global variable ", varnameasstring, "\n" );
-fi;
-end);
-
-
-##############################################################################
-#
-# SCSCP_STORE( <obj> )
-#
-InstallGlobalFunction( SCSCP_STORE, x -> x );
-
-
-##############################################################################
-#
-# SCSCP_UNBIND( <varnameasstring> )
-#
-InstallGlobalFunction( SCSCP_UNBIND,
-function( varnameasstring )
-UnbindGlobal( varnameasstring );
-return not IsBoundGlobal( varnameasstring );
-end);

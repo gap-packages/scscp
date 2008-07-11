@@ -20,6 +20,8 @@ LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
 Read("karatsuba.g");
+LoadPackage("automata");
+Read("automata.g");
 
 #############################################################################
 #
@@ -115,6 +117,16 @@ InstallSCSCPprocedure( "LoopTest", LoopTest );
 
 InstallSCSCPprocedure( "PointImages", PointImages );
 
+
+#############################################################################
+#
+# procedures for automata
+#
+InstallSCSCPprocedure( "EpsilonToNFA", EpsilonToNFA ); # from the 'automata' package
+InstallSCSCPprocedure( "TwoStackSerAut", TwoStackSerAut );
+InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
+
+
 #############################################################################
 #
 # Finally, we start the SCSCP server. Note that RunSCSCPserver will use the 
@@ -122,5 +134,5 @@ InstallSCSCPprocedure( "PointImages", PointImages );
 #
 #############################################################################
 
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );

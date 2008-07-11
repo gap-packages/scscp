@@ -19,6 +19,38 @@ return x[1];
 end);
 
 
+##############################################################################
+#
+# SCSCP_RETRIEVE( <varnameasstring> )
+#
+InstallGlobalFunction( SCSCP_RETRIEVE,
+function( varnameasstring )
+if IsBoundGlobal( varnameasstring[1] ) then
+  return EvalString( varnameasstring[1] );
+else
+  Error( "Unbound global variable ", varnameasstring[1], "\n" );
+fi;
+end);
+
+
+##############################################################################
+#
+# SCSCP_STORE( <obj> )
+#
+InstallGlobalFunction( SCSCP_STORE, x -> x[1] );
+
+
+##############################################################################
+#
+# SCSCP_UNBIND( <varnameasstring> )
+#
+InstallGlobalFunction( SCSCP_UNBIND,
+function( varnameasstring )
+UnbindGlobal( varnameasstring[1] );
+return not IsBoundGlobal( varnameasstring[1] );
+end);
+
+
 ######################################################################
 ##
 ##  Semantic mappings for symbols from polyu.cd
@@ -161,9 +193,29 @@ Add( OMsymTable, [ "scscp1", [
     ["option_return_object", "option_return_object" ],
     ["option_return_nothing", "option_return_nothing" ],
     ["option_runtime", "option_runtime" ],
-    ["error_CAS", "error_CAS" ],
+    ["error_CAS", "error_CAS" ]
     ] ] );
 
+Add( OMsymTable, [ "scscp2", [ 
+    ["store", SCSCP_STORE ],
+    ["retrieve", SCSCP_RETRIEVE ],
+    ["unbind", SCSCP_UNBIND ]
+    ] ] );
+    
+# TODO: add to scscp2 :
+# * Determining supported procedures:
+# get_allowed_heads
+# get_transient_cd
+# get_signature
+# signature
+# get_service_description
+# service_description
+#
+# * Special symbols:
+# symbol_set
+# symbol_set_all
+# no_such_transient_cd
+    
 Add( OMsymTable, [ "polyu", [
      ["poly_u_rep", OMgap_poly_u_rep], 
 	 ["term", OMgap_term]
@@ -452,7 +504,11 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_call" );
-OMPutApplication( stream, "SCSCP_transient_1", proc_name, objrec.object );
+if proc_name in [ "store", "retrieve", "unbind" ] then
+  OMPutApplication( stream, "scscp2", proc_name, objrec.object );
+else
+  OMPutApplication( stream, "SCSCP_transient_1", proc_name, objrec.object );
+fi;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
 OMIndent := OMIndent - 1;

@@ -15,15 +15,21 @@
 #
 
 # setting the default InfoLevel
-SetInfoLevel(InfoSCSCP,1);
+SetInfoLevel(InfoSCSCP,4);
+
+# If the SCSCPsuppressReferences is set to true, then 
+# OMPutReference (lib/openmath.gi) will put the actual 
+# OpenMath code for an object whenever it has id or not.
+# This might be needed for compatibility with some systems.
+SCSCPsuppressReferences := false;
 
 #############################################################################
 #
-# Parameters for the server mode
+# Default parameters for the server mode
 #
 
-# setting the hostname to be used in the server mode
+# setting the default hostname to be used in the server mode
 SCSCPserverAddress := "localhost";
 
-# setting the port
+# setting the default port
 SCSCPserverPort := 26133;
