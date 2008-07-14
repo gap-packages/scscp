@@ -86,12 +86,8 @@ end;
 #
 #############################################################################
 
-# Store and retrieve functionality (if not permitted, remove these lines)
-InstallSCSCPprocedure( "SCSCP_STORE", SCSCP_STORE );
-InstallSCSCPprocedure( "SCSCP_RETRIEVE", SCSCP_RETRIEVE );
-InstallSCSCPprocedure( "SCSCP_UNBIND", SCSCP_UNBIND );
-
 # Other procedures
+InstallSCSCPprocedure( "Factorial", Factorial );
 InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
 InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode );
@@ -134,5 +130,5 @@ InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 #
 #############################################################################
 
-# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
