@@ -67,9 +67,9 @@ for i in [ 1 .. nr ] do
 od;
 Print( nr, " packets transmitted, ", 
        nr_good, " received, ", 
-       Float( 100*(nr_lost/nr) ), "% packet loss, time ", rt , "ms\n" );
+       100*(nr_lost/nr), "% packet loss, time ", rt , "ms\n" );
 if nr_good > 0 then       
-       Print( "min/avg/max = ", [ min_time, Float(rt/nr_good), max_time], "\n" );
+       Print( "min/avg/max = ", [ min_time, rt/nr_good, max_time], "\n" );
 fi;      
 end);
 
