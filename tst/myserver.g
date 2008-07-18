@@ -74,7 +74,7 @@ end;
 
 PointImages:=function( G, n )
 local g;
-return List( GeneratorsOfGroup(G), g -> n^g );
+return Set( List( GeneratorsOfGroup(G), g -> n^g ) );
 end;
 
 
