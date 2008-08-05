@@ -7,6 +7,8 @@
 ##
 #############################################################################
 
+if VERSION = "4.dev" then
+
 MakeReadWriteGlobal( "ErrorInner" );
 UnbindGlobal( "ErrorInner" );
 
@@ -197,3 +199,5 @@ BIND_GLOBAL( "ErrorInner",
 #        return;
 #    fi;
 #end);
+
+fi;
