@@ -20,7 +20,7 @@ DeclareInfoClass("InfoSCSCP");
 
 DeclareGlobalFunction( "SCSCPprocLookup" );
 
-# DeclareGlobalFunction( "OMgapRPC" );
+DeclareGlobalFunction( "OMgapRPC" );
 
 DeclareGlobalFunction( "CleanNameSpaces" );
 
@@ -35,7 +35,3 @@ DeclareGlobalFunction( "OMPutProcedureCompleted" );
 DeclareGlobalFunction( "OMPutError" );
 
 DeclareGlobalFunction( "OMPutProcedureTerminated" );
-
-DeclareAttribute( "OMReference", IsObject );
-
-DeclareOperation( "OMPutReference", [ IsOutputStream, IsObject ] );
