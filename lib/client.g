@@ -80,7 +80,7 @@ end);
 #                                                    omcd:="omcdname" );
 #
 # The last option "omcd" is used to specify the name of the OpenMath content
-# dictionbary when it is different from default
+# dictionary when it is different from default
 #
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )

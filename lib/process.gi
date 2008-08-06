@@ -356,6 +356,7 @@ end;
 #
 # FirstProcess( <list of processes> )
 # FirstProcess( <process1>, ..., <processN> )
+#
 InstallGlobalFunction( FirstProcess,
 function( arg )
 if Length(arg)=2 then
