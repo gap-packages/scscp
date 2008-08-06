@@ -51,6 +51,19 @@ return not IsBoundGlobal( varnameasstring[1] );
 end);
 
 
+##############################################################################
+#
+# SCSCP_GET_ALLOWED_HEADS( [ ] )
+#
+InstallGlobalFunction( SCSCP_GET_ALLOWED_HEADS,
+function( x )
+# the function should have an argument, which in this case will be an 
+# empty list, since 'get_allowed_heads' has no arguments
+local s,t;
+return List(OMsymTable, s -> [ s[1], List(s[2], t -> t[1]) ] );
+end);
+
+
 ######################################################################
 ##
 ##  Semantic mappings for symbols from polyu.cd
@@ -197,9 +210,10 @@ Add( OMsymTable, [ "scscp1", [
     ] ] );
 
 Add( OMsymTable, [ "scscp2", [ 
-    ["store", SCSCP_STORE ],
-    ["retrieve", SCSCP_RETRIEVE ],
-    ["unbind", SCSCP_UNBIND ]
+    [ "store", SCSCP_STORE ],
+    [ "retrieve", SCSCP_RETRIEVE ],
+    [ "unbind", SCSCP_UNBIND ],
+    [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ]
     ] ] );
     
 # TODO: add to scscp2 :
@@ -443,7 +457,7 @@ end;
 
 #############################################################################
 ##
-##  OMPutProcedureCall ( stream, proc_name, objrec )
+##  OMPutProcedureCall ( stream, proc_name, objrec : omcd:=omcdname )
 ## 
 ##  The first argument is a stream
 ##  The second argument is procedure name as a string.
@@ -456,19 +470,26 @@ end;
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
-local has_attributes, attr, nameandargs;
+local omcdname, has_attributes, attr, nameandargs;
+
 if IsClosedStream( stream )  then
   Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
 fi;
+
 if IsBound( objrec.object ) and not IsList( objrec.object ) then
   Error( "OMPutProcedureCall: in the 3nd argument <objrec.object> must be a list \n" );
 fi;
+
 if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
-if not IsString( proc_name ) then
-  Error( "" );
+
+if ValueOption("omcd") <> fail then
+  omcdname := ValueOption("omcd");
+else
+  omcdname := "SCSCP_transient_1";
 fi;
+
 OMIndent := 0;
 WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
@@ -504,10 +525,10 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_call" );
-if proc_name in [ "store", "retrieve", "unbind" ] then
+if proc_name in [ "store", "retrieve", "unbind", "get_allowed_heads" ] then
   OMPutApplication( stream, "scscp2", proc_name, objrec.object );
 else
-  OMPutApplication( stream, "SCSCP_transient_1", proc_name, objrec.object );
+  OMPutApplication( stream, omcdname, proc_name, objrec.object );
 fi;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );

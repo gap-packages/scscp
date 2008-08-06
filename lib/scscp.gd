@@ -15,6 +15,8 @@ DeclareGlobalFunction( "SCSCP_STORE" );
 
 DeclareGlobalFunction( "SCSCP_UNBIND" );
 
+DeclareGlobalFunction( "SCSCP_GET_ALLOWED_HEADS" );
+
 DeclareGlobalFunction( "RunSCSCPserver" );
 
 DeclareGlobalFunction( "PingWebService" );

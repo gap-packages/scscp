@@ -56,7 +56,8 @@ end);
 
 #############################################################################
 #
-# NewProcess( command, listargs, server, port )
+# NewProcess( command, listargs, server, port : return_coookie/return_nothing, 
+#                                               omcd:="omcdname" );
 #
 # The function sends the request to the SCSCP server, and
 # returns the InputOutputTCPStream for waiting the result
@@ -65,7 +66,7 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_cookie, return_nothing, attribs, ns, server_scscp_version, pos1, pos2, pid;
+      return_cookie, return_nothing, omcdname, attribs, ns, server_scscp_version, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := true;
@@ -77,6 +78,18 @@ if ValueOption("return_nothing") <> fail then
   return_nothing := true;
 else
   return_nothing := false;  
+fi;
+
+if return_cookie and return_nothing then
+  Print( "WARNING: options conflict in EvaluateBySCSCP:\n",
+         "you can not specify return_cookie and return_nothing in the same time!\n",
+         "Only return_cookie option will be used therefore.\n" );
+fi;
+
+if ValueOption("omcd") <> fail then
+  omcdname := ValueOption("omcd");
+else
+  omcdname := "";
 fi;
 
 stream := InputOutputTCPStream( server, port );
@@ -123,7 +136,7 @@ if InfoLevel( InfoSCSCP ) > 2 then
   OMPutProcedureCall( localstream, 
                       command, 
                       rec(     object := listargs, 
-                           attributes := attribs ) );
+                           attributes := attribs ) : omcd:=omcdname );
   Print(omtext);
   WriteAll( stream, omtext );
   if IsInputOutputTCPStream( stream ) then
@@ -135,7 +148,7 @@ else
   OMPutProcedureCall( stream, 
                       command, 
                         rec(     object := listargs, 
-                             attributes := attribs ) );
+                             attributes := attribs ) : omcd:=omcdname );
 
 fi;
               

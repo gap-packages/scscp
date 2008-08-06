@@ -145,11 +145,14 @@ if Length( IndeterminatesOfPolynomialRing( r ) ) = 1 then
   OMPutSymbol( stream, "polyd1", "SDMP" );
   coeffs := CoefficientsOfUnivariatePolynomial( f );
   deg := DegreeOfLaurentPolynomial( f );
-  for nr in [ deg+1, deg .. 1 ] do
-    if coeffs[nr] <> 0 then
-      OMPutApplication( stream, "polyd1", "term", [ coeffs[nr], nr-1 ] );
-    fi;
-  od; 
+  # The zero polynomial is represented by an SDMP with no terms.
+  if deg<>infinity then
+    for nr in [ deg+1, deg .. 1 ] do
+      if coeffs[nr] <> 0 then
+        OMPutApplication( stream, "polyd1", "term", [ coeffs[nr], nr-1 ] );
+      fi;
+    od; 
+  fi;
   OMIndent := OMIndent - 1;
   OMWriteLine( stream, [ "</OMA>" ] );
   OMIndent := OMIndent - 1;

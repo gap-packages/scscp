@@ -76,12 +76,16 @@ end);
 
 #############################################################################
 #
-# EvaluateBySCSCP( command, listargs, server, port )
+# EvaluateBySCSCP( command, listargs, server, port : return_coookie/return_nothing, 
+#                                                    omcd:="omcdname" );
+#
+# The last option "omcd" is used to specify the name of the OpenMath content
+# dictionbary when it is different from default
 #
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
-local return_cookie, return_nothing, result;
+local return_cookie, return_nothing, omcdname, result;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := true;
@@ -95,12 +99,24 @@ else
   return_nothing := false;  
 fi;
 
-if return_cookie then
-  result := NewProcess( command, listargs, server, port : return_cookie );
-elif return_nothing then
-  result := NewProcess( command, listargs, server, port : return_nothing );
+if return_cookie and return_nothing then
+  Print( "WARNING: options conflict in EvaluateBySCSCP:\n",
+         "you can not specify return_cookie and return_nothing in the same time!\n",
+         "Only return_cookie option will be used therefore.\n" );
+fi;
+
+if ValueOption("omcd") <> fail then
+  omcdname := ValueOption("omcd");
 else
-  result := NewProcess( command, listargs, server, port );
+  omcdname := "";
+fi;
+
+if return_cookie then
+  result := NewProcess( command, listargs, server, port : return_cookie, omcd:=omcdname );
+elif return_nothing then
+  result := NewProcess( command, listargs, server, port : return_nothing, omcd:=omcdname );
+else
+  result := NewProcess( command, listargs, server, port : omcd:=omcdname );
 fi;
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");
