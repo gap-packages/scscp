@@ -60,7 +60,7 @@ function( x )
 # the function should have an argument, which in this case will be an 
 # empty list, since 'get_allowed_heads' has no arguments
 local s,t;
-return List(OMsymTable, s -> [ s[1], List(s[2], t -> t[1]) ] );
+return List( OMsymTable, s -> [ s[1], List( s[2], t -> t[1] ) ] );
 end);
 
 
