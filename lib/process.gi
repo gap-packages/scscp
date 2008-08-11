@@ -81,7 +81,7 @@ else
 fi;
 
 if return_cookie and return_nothing then
-  Print( "WARNING: options conflict in EvaluateBySCSCP:\n",
+  Print( "WARNING: options conflict in NewProcess:\n",
          "you can not specify return_cookie and return_nothing in the same time!\n",
          "Only return_cookie option will be used therefore.\n" );
 fi;
@@ -166,7 +166,7 @@ end);
 #
 InstallGlobalFunction( CompleteProcess,
 function( process )
-local stream, result, return_cookie;
+local stream, result, return_cookie, return_tree;
 
 if ValueOption( "return_cookie") <> fail then
   return_cookie := true;
@@ -174,9 +174,25 @@ else
   return_cookie := false;  
 fi;
 
+if ValueOption("return_tree") <> fail then
+  return_tree := true;
+else
+  return_tree := false;  
+fi;
+
+if return_cookie and return_tree then
+  Print( "WARNING: options conflict in CompleteProcess:\n",
+         "you can not specify return_cookie and return_tree in the same time!\n",
+         "Only return_cookie option will be used therefore.\n" );
+fi;
+
 stream := process![1];
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
-result := OMGetObjectWithAttributes( stream );
+if return_tree then
+    result := OMGetObjectWithAttributes( stream : return_tree );
+else
+    result := OMGetObjectWithAttributes( stream );
+fi;    
 # This needs to be fixed. Reference must be converted automatically to the
 # remote object. Then there is no need in a option for cookie in this function.
 if return_cookie then

@@ -59,8 +59,29 @@ InstallGlobalFunction( SCSCP_GET_ALLOWED_HEADS,
 function( x )
 # the function should have an argument, which in this case will be an 
 # empty list, since 'get_allowed_heads' has no arguments
-local s,t;
-return List( OMsymTable, s -> [ s[1], List( s[2], t -> t[1] ) ] );
+local s,t, omstr;
+if x <> [] then 
+  Print( "WARNING: get_allowed_heads called with argument ", x, 
+         " while it has no arguments, this will be ignored!\n");
+fi;
+omstr:="<OMOBJ><OMA><OMS cd=\"scscp2\" name=\"symbol_set\"/>";
+for s in OMsymTable do
+  for t in s[2] do
+    Append( omstr, Concatenation( "<OMS cd=\"", s[1], "\" name=\"", t[1], "\"/>" ) );
+  od;
+od;
+Append( omstr, "</OMA></OMOBJ>" );
+return omstr;
+end);
+
+
+##############################################################################
+#
+# SCSCP_SYMBOL_SET( <x> )
+#
+InstallGlobalFunction( SCSCP_SYMBOL_SET,
+function( x )
+return x;
 end);
 
 	
@@ -89,7 +110,8 @@ Add( OMsymTable, [ "scscp2", [
     [ "store", SCSCP_STORE ],
     [ "retrieve", SCSCP_RETRIEVE ],
     [ "unbind", SCSCP_UNBIND ],
-    [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ]
+    [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ],
+    [ "symbol_set", SCSCP_SYMBOL_SET ]
     ] ] );
     
 # TODO: add to scscp2 :
@@ -122,15 +144,21 @@ Add( OMsymTable, [ "scscp2", [
 ##
 InstallGlobalFunction( OMGetObjectWithAttributes,
 function( stream )
-    local
-        fromgap, # string
-        success, # whether PipeOpenMathObject worked
-        readline;
+    local return_tree,
+          fromgap, # string
+          success, # whether PipeOpenMathObject worked
+          readline;
         
     if IsClosedStream( stream )  then
         Error( "closed stream" );
     elif IsEndOfStream( stream )  then
         Error( "end of stream" );
+    fi;
+    
+    if ValueOption("return_tree") <> fail then
+        return_tree := true;
+    else
+        return_tree := false;  
     fi;
     
     fromgap := "";
@@ -183,7 +211,11 @@ function( stream )
     # this means XML encoding
     if fromgap[1] = '<' and OMgetObjectXMLTree <> ReturnFail  then
         # This is the only difference from OMGetObject
-        return OMgetObjectXMLTreeWithAttributes( fromgap );
+        if return_tree then
+            return OMgetObjectXMLTreeWithAttributes( fromgap : return_tree );
+        else
+            return OMgetObjectXMLTreeWithAttributes( fromgap );
+        fi;    
     else
         return OMpipeObject( fromgap );
     fi;
@@ -198,7 +230,13 @@ end );
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     function ( string )
-    local  node, obj;
+    local return_tree, node, attrs, t, obj;
+    
+    if ValueOption("return_tree") <> fail then
+        return_tree := true;
+    else
+        return_tree := false;  
+    fi;
 
     OMTempVars.OMBIND := rec(  );
     OMTempVars.OMREF := rec(  );
@@ -211,22 +249,34 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     node.content := Filtered( node.content, OMIsNotDummyLeaf );
 
     # Print( "ParseTreeXMLString( string ) = ", node.content, "\n" );
-    # Error( "Error inserted by me to catch node.content \n" );
-   
-    obj := OMParseXmlObj( node.content[1] );
     
-    # OMTempVars.OMATTR will be non-empty abter this, but this will also
-    # enforce computation of 'obj'
-    #TO-DO: We need to get attributes BEFORE the real computation is started
-    #This will allow to understand earlier whether the result is a reference
-    #or not. Of course, THIS can be known later, but what about such options
-    #as the runtime and memory limits ???
+    attrs := List( Filtered( node.content[1].content, t -> t.name = "OMATP" ), OMParseXmlObj );
+    
+    if Length(attrs)=1 then
+      attrs:=attrs[1];
+    fi;
+       
+    # Now we already know attributes BEFORE the the real computation is started.
+    # This allows us to know in advance which kind of return (object/cookie/tree)
+    # is expected, and which runtime and memory limits were specified, if any.
+        
+    if return_tree then
+        obj := node.content[1];
+    else
+        obj := OMParseXmlObj( node.content[1] );
+    fi;
+ 
+    # the next check is a temporary checking that attributes were identified properly
     
     if OMTempVars.OMATTR <> rec() then
-      return rec ( object:=obj, attributes:=OMParseXmlObj( OMTempVars.OMATTR ) );
-    else
-      return rec ( object:=obj, attributes:=[] );
-    fi;         
+      if OMParseXmlObj( OMTempVars.OMATTR ) <> attrs then
+        Error("Attributes were not properly identified:\n",
+        "OMParseXmlObj( OMTempVars.OMATTR ) = ", OMParseXmlObj( OMTempVars.OMATTR ), "\n",
+        "attrs = ", attrs );
+      fi;
+    fi;
+
+    return rec( object:=obj, attributes:=attrs );
 
 end );
 
@@ -342,6 +392,9 @@ fi;
 
 if ValueOption("omcd") <> fail then
   omcdname := ValueOption("omcd");
+  if omcdname="" then
+    omcdname := "SCSCP_transient_1";
+  fi;  
 else
   omcdname := "SCSCP_transient_1";
 fi;
@@ -450,7 +503,15 @@ else
   has_attributes:=false;
 fi;
 OMIndent := OMIndent + 1;
-OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
+# the trick to detect if the result is an OpenMath string that should be
+# inserted in the output (as will come from GET_ALLOWED_HEADS, for example
+if IsString(objrec.object) and 
+    objrec.object{ [ 1 .. 7 ] } = "<OMOBJ>" and 
+    objrec.object{ [ Length(objrec.object)-7 .. Length(objrec.object)] } = "</OMOBJ>" then
+  OMWriteLine(stream, [ objrec.object{[8 .. Length(objrec.object)-8]}] );
+else
+  OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
+fi;
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );

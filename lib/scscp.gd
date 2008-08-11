@@ -15,6 +15,8 @@ DeclareGlobalFunction( "SCSCP_RETRIEVE" );
 DeclareGlobalFunction( "SCSCP_STORE" );
 DeclareGlobalFunction( "SCSCP_UNBIND" );
 DeclareGlobalFunction( "SCSCP_GET_ALLOWED_HEADS" );
+DeclareGlobalFunction( "SCSCP_SYMBOL_SET" );
+
 
 #############################################################################
 #

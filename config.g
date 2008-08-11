@@ -23,7 +23,7 @@ SetInfoLevel(InfoSCSCP,4);
 # This might be needed for compatibility with some systems.
 # This parameter was set to false in the OpenMath package.
 # Uncomment the next line, if you need to change it.
-# SuppressOpenMathReferences := true;
+SuppressOpenMathReferences := true;
 
 #############################################################################
 #

@@ -76,16 +76,24 @@ end);
 
 #############################################################################
 #
-# EvaluateBySCSCP( command, listargs, server, port : return_coookie/return_nothing, 
-#                                                    omcd:="omcdname" );
+# EvaluateBySCSCP( command, listargs, server, port : 
+#                  return_coookie/return_nothing/return_tree, omcd:="omcdname" );
+#
+# Options return_coookie/return_nothing/return_tree are incompatible.
+#
+# For return_coookie/return_nothing see definions in the SCSCP specification.
+#
+# Option return_tree is used when it is necessary to suppress evaluation
+# of the XML tree representing the OpenMath object (for example, to be used
+# with "get_allowed_heads").
 #
 # The last option "omcd" is used to specify the name of the OpenMath content
-# dictionary when it is different from default
+# dictionary when it is different from the transient CD used by default.
 #
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
-local return_cookie, return_nothing, omcdname, result;
+local return_cookie, return_nothing, return_tree, opt, omcdname, result;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := true;
@@ -99,10 +107,16 @@ else
   return_nothing := false;  
 fi;
 
-if return_cookie and return_nothing then
+if ValueOption("return_tree") <> fail then
+  return_tree := true;
+else
+  return_tree := false;  
+fi;
+
+if Number( [ return_cookie, return_nothing, return_tree ], opt -> opt=true ) > 1 then
   Print( "WARNING: options conflict in EvaluateBySCSCP:\n",
-         "you can not specify return_cookie and return_nothing in the same time!\n",
-         "Only return_cookie option will be used therefore.\n" );
+         "you specify only one of return_cookie / return_nothing /return_tree options!\n",
+         "Only the first specified option will be used therefore.\n" );
 fi;
 
 if ValueOption("omcd") <> fail then
@@ -120,7 +134,11 @@ else
 fi;
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");
-result := CompleteProcess( result );
+if return_tree then
+  result := CompleteProcess( result : return_tree );
+else
+  result := CompleteProcess( result );
+fi;
 return result;
 end);
 
