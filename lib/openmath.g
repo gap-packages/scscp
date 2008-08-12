@@ -64,14 +64,14 @@ if x <> [] then
   Print( "WARNING: get_allowed_heads called with argument ", x, 
          " while it has no arguments, this will be ignored!\n");
 fi;
-omstr:="<OMOBJ><OMA><OMS cd=\"scscp2\" name=\"symbol_set\"/>";
+omstr:="<OMA><OMS cd=\"scscp2\" name=\"symbol_set\"/>\n";
 for s in OMsymTable do
   for t in s[2] do
-    Append( omstr, Concatenation( "<OMS cd=\"", s[1], "\" name=\"", t[1], "\"/>" ) );
+    Append( omstr, Concatenation( "<OMS cd=\"", s[1], "\" name=\"", t[1], "\"/>\n" ) );
   od;
 od;
-Append( omstr, "</OMA></OMOBJ>" );
-return omstr;
+Append( omstr, "</OMA>" );
+return OMPlainString( omstr );
 end);
 
 
@@ -503,15 +503,7 @@ else
   has_attributes:=false;
 fi;
 OMIndent := OMIndent + 1;
-# the trick to detect if the result is an OpenMath string that should be
-# inserted in the output (as will come from GET_ALLOWED_HEADS, for example
-if IsString(objrec.object) and 
-    objrec.object{ [ 1 .. 7 ] } = "<OMOBJ>" and 
-    objrec.object{ [ Length(objrec.object)-7 .. Length(objrec.object)] } = "</OMOBJ>" then
-  OMWriteLine(stream, [ objrec.object{[8 .. Length(objrec.object)-8]}] );
-else
-  OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
-fi;
+OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );
@@ -620,12 +612,12 @@ end);
 ## 
 ## OMString
 ##
-OMString := function ( x )
-local str, outstream;
-str := "";
-outstream := OutputTextString( str, true );
-OMPutObject( outstream, x );
-CloseStream( outstream );
-NormalizeWhitespace( str );
-return str;
-end;
+#OMString := function ( x )
+#local str, outstream;
+#str := "";
+#outstream := OutputTextString( str, true );
+#OMPutObject( outstream, x );
+#CloseStream( outstream );
+#NormalizeWhitespace( str );
+#return str;
+#end;
