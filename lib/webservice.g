@@ -9,14 +9,113 @@
 
 ##############################################################################
 #
-# InstallSCSCPprocedure( procname, procfunc )
-#
-# procname           : a string with the name of the procedure
-# procfunc           : the function that will be called by the procedure
+# InstallSCSCPprocedure( procname, procfunc [, description ] [, narg1 [, narg2 ] [, signature ] ])
+# The function accepts the following arguments:
+# * Required arguments:
+# procname    : a string with the name of the procedure
+# procfunc    : the function that will be called by the procedure
+# * Optional arguments:
+# description : a string with the description of the procedure
+# narg1       : a non-negative integer, specifying the minimal number of 
+#               arguments. 
+# narg2       : a non-negative integer or infinity, specifying the maximal
+#               number of arguments. If narg2 is omitted then the maximal
+#               number of arguments will be set to narg1
+# signature   : the signature of the procedure (TO-DO: determine format of it!!!).
+#               Requires at least the minimal number of arguments to be specified.
 #
 InstallGlobalFunction( InstallSCSCPprocedure,
-function( procname, procfunc )
-local pos, SCSCPprocTable, x, userinput, answer;
+function( arg )
+local procname, procfunc, procdesc, minarg, maxarg, signature, 
+      nodesc, nonarg, nosig, pos, SCSCPprocTable, x, userinput, answer;
+
+# 
+# Analysing arguments
+#
+
+nodesc := false;
+nonarg := false;
+nosig := false;
+if Length( arg ) < 2 then
+    Error( "InstallSCSCPprocedure must have at least two arguments: procedure name and the corresponding function\n");
+fi;
+if not IsString(arg[1]) then
+    Error("InstallSCSCPprocedure: the 1st argument must be a string with the name of the procedure\n");
+else  
+    procname:=arg[1];
+fi;
+if not IsFunction(arg[2]) then
+    Error("InstallSCSCPprocedure: the 2nd argument must be the function that will be called by the procedure\n");
+else  
+    procfunc:=arg[2];
+fi;
+if IsBound( arg[3] ) then
+    if IsString( arg[3] ) then
+        procdesc:=arg[3];
+        pos:=4;
+    elif IsInt( arg[3] ) then
+        procdesc := Concatenation( procname, " is currently undocumented." );
+        pos:=3;
+    else 
+        Error("InstallSCSCPprocedure: the ", Ordinal(pos), " argument must be either\n",
+              "a string with the description of the procedure or\n",
+              "a non-negative integer specifying the (minimal) number of its arguments!\n");
+    fi;
+    if IsBound( arg[pos] ) then
+        if IsInt( arg[pos] ) then 
+            if arg[pos]>=0 then
+                minarg := arg[pos];  
+            else
+                Error("InstallSCSCPprocedure: the ", Ordinal(pos), " argument must be a non-negative integer!\n");
+            fi;
+        else
+            Error("InstallSCSCPprocedure: the ", Ordinal(pos), " argument must be a non-negative integer,\n",
+                  "it is not possible to specify the signature without at least the minimal number of arguments!\n" );
+        fi;        
+        if IsBound( arg[pos+1] ) then
+            if IsInt( arg[pos+1] ) or IsInfinity( arg[pos+1] ) then       
+                maxarg := arg[pos+1];   
+                if maxarg < minarg then
+                    Error("InstallSCSCPprocedure: the maximal number of arguments can not be smaller than their minumum number!\n");
+                fi;
+            else
+                maxarg := minarg;
+                signature := arg[pos+1];
+            fi;
+            if IsBound ( arg[pos+2] ) then  
+                signature := arg[pos+2];  
+            else # no arg[pos+2]
+                nosig := true;
+            fi; # is there arg[pos+2] ?
+        else # no arg[pos+1]
+            maxarg := minarg;
+            nosig := true;
+        fi; # is there arg[pos+1] ?
+    else # no arg[pos];
+        nonarg:=true;
+        nosig := true; 
+    fi; # is there arg[pos] ?
+else # no arg[3]
+    nodesc := true;
+    nonarg := true;
+    nosig := true;      
+fi; # is there arg[3] ?
+
+if nodesc then
+    procdesc := Concatenation( procname, " is currently undocumented." );
+fi;
+if nonarg then
+    minarg:=0;
+    maxarg:=infinity; 
+fi; 
+if nosig then
+    signature := [];
+fi;     
+            
+#
+# Actual work
+#
+
 pos := PositionProperty( OMsymTable, x -> x[1]="SCSCP_transient_1" );
 if pos = fail then
   pos := Length(OMsymTable) + 1;
@@ -25,8 +124,14 @@ fi;
 SCSCPprocTable := OMsymTable[ pos ][2];
 pos:=PositionProperty( SCSCPprocTable, x -> x[1]=procname );
 if pos=fail then
-  Add( SCSCPprocTable, [ procname, function(arg) return CallFuncList( procfunc, arg[1] ); end ] );
-  Print("InstallSCSCPprocedure : procedure ", procname, " installed. \n" ); 
+  Add( SCSCPprocTable, [ procname, 
+                         function(arg) return CallFuncList( procfunc, arg[1] ); end, 
+                         procdesc, 
+                         minarg, 
+                         maxarg, 
+                         signature, ] );
+  Info( InfoSCSCP, 1, "InstallSCSCPprocedure : procedure ", procname, " installed" ); 
+  Info( InfoSCSCP, 2, "Installed ", [ procdesc, minarg, maxarg, signature ] );
 else
   userinput := InputTextUser();
   repeat

@@ -35,3 +35,6 @@ SCSCPserverAddress := "localhost";
 
 # setting the default port
 SCSCPserverPort := 26133;
+
+# setting the default description
+SCSCPserverDescription:="The development version of GAP SCSCP service";

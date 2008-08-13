@@ -61,8 +61,8 @@ function( x )
 # empty list, since 'get_allowed_heads' has no arguments
 local s,t, omstr;
 if x <> [] then 
-  Print( "WARNING: get_allowed_heads called with argument ", x, 
-         " while it has no arguments, this will be ignored!\n");
+  Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x, 
+         " which will be ignored!\n");
 fi;
 omstr:="<OMA><OMS cd=\"scscp2\" name=\"symbol_set\"/>\n";
 for s in OMsymTable do
@@ -77,14 +77,62 @@ end);
 
 ##############################################################################
 #
-# SCSCP_SYMBOL_SET( <x> )
+# SCSCP_GET_SERVICE_DESCRIPTION( [ ] )
 #
-InstallGlobalFunction( SCSCP_SYMBOL_SET,
+InstallGlobalFunction( SCSCP_GET_SERVICE_DESCRIPTION,
 function( x )
-return x;
+local omstr;
+# the function should have an argument, which in this case will be an 
+# empty list, since 'get_allowed_heads' has no arguments
+if x <> [] then 
+  Print( "WARNING: get_service_description has no arguments, but called with argument ", x, 
+         " which will be ignored!\n");
+fi;
+omstr:="<OMA><OMS cd=\"scscp2\" name=\"service_description\"/>";
+Append( omstr, "<OMSTR>GAP</OMSTR>" );
+Append( omstr, Concatenation("<OMSTR>", VERSION, "</OMSTR>" ) );
+Append( omstr, Concatenation("<OMSTR>", SCSCPserverDescription, "</OMSTR>" ) );
+Append( omstr, "</OMA>" );
+return OMPlainString( omstr );
 end);
 
-	
+
+##############################################################################
+#
+# SCSCP_GET_TRANSIENT_CD( <x> )
+#
+InstallGlobalFunction( SCSCP_GET_TRANSIENT_CD,
+function( x )
+local tran, s, omstr, t;
+tran := First( OMsymTable, s -> s[1]=x[1] );
+if tran = fail then
+    Error("no_such_transient_cd");
+else
+    omstr:="<CD>\n<CDName>SCSCP_transient_1</CDName>\n";
+    for t in tran[2] do
+        Append( omstr, Concatenation( "<CDDefinition>\n<Name>",t[1], 
+        "</Name>\n<Role>application</Role>\n<Description>",t[3],"</Description>\n</CDDefinition>\n" ) );
+    od;
+fi;
+Append( omstr, "</CD>" );
+return OMPlainString( omstr );
+end);
+
+
+##############################################################################
+#
+# SCSCP_GET_SIGNATURE( <x> )
+#
+InstallGlobalFunction( SCSCP_GET_SIGNATURE,
+function( x )
+local omstr;
+Print( "Argument of SCSCP_GET_SIGNATURE is ", x, "\n" );
+omstr:="<OMA><OMS cd=\"scscp2\" name=\"signature\"/>";
+Append( omstr, "</OMA>" );
+return OMPlainString( omstr );
+end);
+
+
 #############################################################################
 ##
 ##  Extending global variable OMsymTable defined in OpenMath package
@@ -111,22 +159,30 @@ Add( OMsymTable, [ "scscp2", [
     [ "retrieve", SCSCP_RETRIEVE ],
     [ "unbind", SCSCP_UNBIND ],
     [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ],
-    [ "symbol_set", SCSCP_SYMBOL_SET ]
+    [ "get_service_description", SCSCP_GET_SERVICE_DESCRIPTION ],
+    [ "get_transient_cd", SCSCP_GET_TRANSIENT_CD ],
+    [ "get_signature", SCSCP_GET_SIGNATURE ]
     ] ] );
     
-# TODO: add to scscp2 :
-# * Determining supported procedures:
-# get_allowed_heads
-# get_transient_cd
-# get_signature
-# signature
-# get_service_description
-# service_description
-#
-# * Special symbols:
+# TODO: add to scscp2 Special symbols:
 # symbol_set
 # symbol_set_all
+# signature
+# service_description
 # no_such_transient_cd
+    
+
+BindGlobal("OMgapCDName",
+	function( x )
+	return x[1];
+	end);
+
+    
+Add( OMsymTable, [ "meta", [ 
+    [ "CDName", OMgapCDName ]
+    ] ] );    
+    
+
         
 
 #############################################################################
@@ -434,7 +490,9 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_call" );
-if proc_name in [ "store", "retrieve", "unbind", "get_allowed_heads" ] then
+if proc_name in [ "store", "retrieve", "unbind", 
+                  "get_allowed_heads", "get_service_description", 
+                  "get_transient_cd", "get_signature" ] then
   OMPutApplication( stream, "scscp2", proc_name, objrec.object );
 else
   OMPutApplication( stream, omcdname, proc_name, objrec.object );

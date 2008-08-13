@@ -87,11 +87,11 @@ end;
 #############################################################################
 
 # Other procedures
-InstallSCSCPprocedure( "Factorial", Factorial );
-InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
-InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
-InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode );
-InstallSCSCPprocedure( "WS_IdGroup", IdGroup );
+InstallSCSCPprocedure( "Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
+InstallSCSCPprocedure( "WS_factorial", FactorialAsString, "Returns result as a string to transmit large integers", 1 );
+InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity );
+InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
+InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 
 # Series of factorisation methods from the GAP package FactInt
 InstallSCSCPprocedure("WS_FactorsTD", FactorsTD );
@@ -131,4 +131,5 @@ InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 #############################################################################
 
 ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
