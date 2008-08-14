@@ -77,6 +77,9 @@ local g;
 return Set( List( GeneratorsOfGroup(G), g -> n^g ) );
 end;
 
+EvaluateOpenMathCode:=function( omc );
+return omc;
+end;
 
 #############################################################################
 #
@@ -113,6 +116,12 @@ InstallSCSCPprocedure( "LoopTest", LoopTest );
 
 InstallSCSCPprocedure( "PointImages", PointImages );
 
+InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
+    "Evaluates OpenMath code given as an input (without OMOBJ tags)", 1, 1 );
+# Example:
+# EvaluateBySCSCP( "EvaluateOpenMathObject", 
+#   [ OMPlainString("<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMI>1</OMI><OMI>2</OMI></OMA>")],
+#   "localhost",26133 ); 
 
 #############################################################################
 #
@@ -130,6 +139,6 @@ InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 #
 #############################################################################
 
-# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
