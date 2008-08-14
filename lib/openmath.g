@@ -64,7 +64,8 @@ if x <> [] then
   Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x, 
          " which will be ignored!\n");
 fi;
-omstr:="<OMA><OMS cd=\"scscp2\" name=\"symbol_set\"/>\n";
+omstr:="<OMA>\n";
+Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
 for s in OMsymTable do
   for t in s[2] do
     Append( omstr, Concatenation( "<OMS cd=\"", s[1], "\" name=\"", t[1], "\"/>\n" ) );
@@ -88,10 +89,10 @@ if x <> [] then
   Print( "WARNING: get_service_description has no arguments, but called with argument ", x, 
          " which will be ignored!\n");
 fi;
-omstr:="<OMA><OMS cd=\"scscp2\" name=\"service_description\"/>";
-Append( omstr, "<OMSTR>GAP</OMSTR>" );
-Append( omstr, Concatenation("<OMSTR>", VERSION, "</OMSTR>" ) );
-Append( omstr, Concatenation("<OMSTR>", SCSCPserverDescription, "</OMSTR>" ) );
+omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"service_description\"/>\n";
+Append( omstr, "<OMSTR>GAP</OMSTR>\n" );
+Append( omstr, Concatenation("<OMSTR>", VERSION, "</OMSTR>\n" ) );
+Append( omstr, Concatenation("<OMSTR>", SCSCPserverDescription, "</OMSTR>\n" ) );
 Append( omstr, "</OMA>" );
 return OMPlainString( omstr );
 end);
@@ -125,11 +126,24 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_SIGNATURE,
 function( x )
-local omstr;
-Print( "Argument of SCSCP_GET_SIGNATURE is ", x, "\n" );
-omstr:="<OMA><OMS cd=\"scscp2\" name=\"signature\"/>";
-Append( omstr, "</OMA>" );
-return OMPlainString( omstr );
+local omstr, tran, s, symb, t;
+tran := First( OMsymTable, s -> s[1]=x[1] );
+if tran = fail then
+    Error("no_such_transient_cd");
+else
+    symb := First( tran[2], t -> t[1]=x[2] );
+    if symb=fail then
+        Error("no_such_symbol");
+    else
+        omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"signature\"/>\n";
+        Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
+        Append( omstr, Concatenation( OMString( symb[4] : noomobj ), "\n" ) );
+        Append( omstr, Concatenation( OMString( symb[5] : noomobj ), "\n" ) );
+        Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
+        Append( omstr, "</OMA>" );
+        return OMPlainString( omstr );
+    fi;
+fi;        
 end);
 
 
@@ -664,18 +678,3 @@ if IsInputOutputTCPStream( stream ) then
 fi;
 return;
 end);
-
-
-#############################################################################
-## 
-## OMString
-##
-#OMString := function ( x )
-#local str, outstream;
-#str := "";
-#outstream := OutputTextString( str, true );
-#OMPutObject( outstream, x );
-#CloseStream( outstream );
-#NormalizeWhitespace( str );
-#return str;
-#end;
