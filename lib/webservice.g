@@ -130,8 +130,11 @@ if pos=fail then
                          minarg, 
                          maxarg, 
                          signature, ] );
-  Info( InfoSCSCP, 1, "InstallSCSCPprocedure : procedure ", procname, " installed" ); 
-  Info( InfoSCSCP, 2, "Installed ", [ procdesc, minarg, maxarg, signature ] );
+  Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
+  Info( InfoSCSCP, 2, "  * ", procdesc );
+  Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
+  Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
+  Info( InfoSCSCP, 4, "  * Signature : ", signature );
 else
   userinput := InputTextUser();
   repeat
