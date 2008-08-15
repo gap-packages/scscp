@@ -110,9 +110,15 @@ if tran = fail then
     Error("no_such_transient_cd");
 else
     omstr:="<CD>\n<CDName>SCSCP_transient_1</CDName>\n";
+    Append( omstr, Concatenation( "<CDReviewDate>", DateISO8601(), "</CDReviewDate>\n" ) );
+    Append( omstr, Concatenation( "<CDDate>", DateISO8601(), "</CDDate>\n" ) );
+    Append( omstr, Concatenation( "<CDVersion>", "0", "</CDVersion>\n" ) );
+    Append( omstr, Concatenation( "<CDRevision>", "0", "</CDRevision>\n" ) );
+    Append( omstr, "<CDStatus>private</CDStatus>\n" );
+    Append( omstr, "<Description>This is a transient content dictionary containing information about procedures offered by the GAP SCSCP service</Description>\n" );
     for t in tran[2] do
-        Append( omstr, Concatenation( "<CDDefinition>\n<Name>",t[1], 
-        "</Name>\n<Role>application</Role>\n<Description>",t[3],"</Description>\n</CDDefinition>\n" ) );
+        Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>",t[1], "</Name>\n" ) );
+        Append( omstr, Concatenation( "<Role>application</Role>\n<Description>",t[3],"</Description>\n</CDDefinition>\n" ) );
     od;
 fi;
 Append( omstr, "</CD>" );
