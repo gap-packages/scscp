@@ -25,7 +25,7 @@ SCSCPserverMode := false;
 
 # read the other part of code  
 ReadPackage("scscp/config.g");
-# ReadPackage("scscp/lib/utils.g");
+ReadPackage("scscp/lib/utils.g");
 ReadPackage("scscp/lib/client.g");
 ReadPackage("scscp/lib/openmath.g");
 ReadPackage("scscp/lib/server.g");

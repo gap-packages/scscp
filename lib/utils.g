@@ -9,12 +9,18 @@
 
 #############################################################################
 #
-# This function generates a random string of the length n
+# This function returns current date in ISO-8601 format (YYYY-MM-DD)
 #
-#BIND_GLOBAL( "RandomString",
-#    function( n )
-#    local symbols, rs, i;
-#    symbols := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
-#    rs := RandomSource( IsRealRandomSource, "random" );
-#    return List( [1..n], i -> Random( rs, symbols) );
-#    end);
+DateISO8601 := function()
+local date, out, str;
+date:="";
+out:="20";
+str := InputOutputLocalProcess( 
+         DirectoryTemporary(),
+         Filename(DirectoriesSystemPrograms(), "date"), 
+         [ "+%y-%m-%d" ]);
+date := ReadLine( str );
+CloseStream( str );
+Append( out, date{[ 1 .. Length(date)-1 ]} );
+return out;
+end;
