@@ -92,7 +92,7 @@ end;
 # Other procedures
 InstallSCSCPprocedure( "Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
 InstallSCSCPprocedure( "WS_factorial", FactorialAsString, "Returns result as a string to transmit large integers", 1 );
-InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity );
+InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity, rec() );
 InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 

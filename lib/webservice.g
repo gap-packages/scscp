@@ -10,19 +10,6 @@
 ##############################################################################
 #
 # InstallSCSCPprocedure( procname, procfunc [, description ] [, narg1 [, narg2 ] [, signature ] ])
-# The function accepts the following arguments:
-# * Required arguments:
-# procname    : a string with the name of the procedure
-# procfunc    : the function that will be called by the procedure
-# * Optional arguments:
-# description : a string with the description of the procedure
-# narg1       : a non-negative integer, specifying the minimal number of 
-#               arguments. 
-# narg2       : a non-negative integer or infinity, specifying the maximal
-#               number of arguments. If narg2 is omitted then the maximal
-#               number of arguments will be set to narg1
-# signature   : the signature of the procedure (TO-DO: determine format of it!!!).
-#               Requires at least the minimal number of arguments to be specified.
 #
 InstallGlobalFunction( InstallSCSCPprocedure,
 function( arg )
@@ -109,7 +96,7 @@ if nonarg then
     maxarg:=infinity; 
 fi; 
 if nosig then
-    signature := [];
+    signature := rec();
 fi;     
             
 #

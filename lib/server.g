@@ -48,7 +48,7 @@ if res = fail then
     RunSCSCPserver( server, port+1 );
     return;
 else
-    Print("Ready to accept TCP/IP connections at ", server, ":", port, " ...\n");
+    Info(InfoSCSCP, 1, "Ready to accept TCP/IP connections at ", server, ":", port, " ..." );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections
     repeat # until false
     disconnect := false;  
@@ -221,7 +221,7 @@ if res = fail then
     RunSCSCPserver( server, port+1 );
     return;
 else
-    Print("Ready to accept TCP/IP connections at ", server, ":", port, " ...\n");
+    Info(InfoSCSCP, 1, "Ready to accept TCP/IP connections at ", server, ":", port, " ..." );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections
     repeat # until false
     disconnect := false;  

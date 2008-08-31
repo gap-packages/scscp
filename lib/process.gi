@@ -266,7 +266,7 @@ local result, waitinglist, descriptors, s, nrdesc, i, nrprocess;
 result := [];
 waitinglist:=[ 1 .. Length(processes) ];
 while Length(waitinglist) > 0 do
-  descriptors := List( processes{waitinglist}, s -> IO_GetFD( s![1] ) );  
+  descriptors := List( processes{waitinglist}, s -> IO_GetFD( s![1]![1] ) );  
   IO_select( descriptors, [ ], [ ], 60*60, 0 );
   nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i]<>fail );
   nrprocess := waitinglist[ nrdesc ];
@@ -287,7 +287,7 @@ end;
 SynchronizeProcesses2 := function( a, b )
 local result, descriptors;
 result:=[];
-descriptors := [ IO_GetFD( a![1] ), IO_GetFD( b![1] ) ];
+descriptors := [ IO_GetFD( a![1]![1] ), IO_GetFD( b![1]![1] ) ];
 IO_select( descriptors, [ ], [ ], 60*60, 0 );
 if descriptors[1]<>fail then # 1st process is ready
   Info( InfoSCSCP, 1, "Process number 1 is ready");
@@ -327,7 +327,7 @@ end);
 #
 FirstProcessN := function( processes )
 local descriptors, nrdesc, i, result, nr;
-descriptors := List( processes, s -> IO_GetFD( s![1] ) );  
+descriptors := List( processes, s -> IO_GetFD( s![1]![1] ) );  
 IO_select( descriptors, [ ], [ ], 60*60, 0 );
 nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i]<>fail );
 Info( InfoSCSCP, 1, "Process number ", nrdesc, " is ready");
@@ -350,7 +350,7 @@ end;
 FirstProcess2 := function( a, b )
 local result, descriptors;
 result:=[];
-descriptors := [ IO_GetFD( a![1] ), IO_GetFD( b![1] ) ];
+descriptors := [ IO_GetFD( a![1]![1] ), IO_GetFD( b![1]![1] ) ];
 IO_select( descriptors, [ ], [ ], 60*60, 0 );
 if descriptors[1]<>fail then # 1st process is ready
   Info( InfoSCSCP, 1, "Process number 1 is ready");

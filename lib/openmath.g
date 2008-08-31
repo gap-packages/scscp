@@ -342,15 +342,16 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
         obj := OMParseXmlObj( node.content[1] );
     fi;
  
-    # the next check is a temporary checking that attributes were identified properly
+    # the next check was is a temporary measure to verify that
+    # attributes were identified properly
     
-    if OMTempVars.OMATTR <> rec() then
-      if OMParseXmlObj( OMTempVars.OMATTR ) <> attrs then
-        Error("Attributes were not properly identified:\n",
-        "OMParseXmlObj( OMTempVars.OMATTR ) = ", OMParseXmlObj( OMTempVars.OMATTR ), "\n",
-        "attrs = ", attrs );
-      fi;
-    fi;
+    #if OMTempVars.OMATTR <> rec() then
+    #  if OMParseXmlObj( OMTempVars.OMATTR ) <> attrs then
+    #    Error("Attributes were not properly identified:\n",
+    #    "OMParseXmlObj( OMTempVars.OMATTR ) = ", OMParseXmlObj( OMTempVars.OMATTR ), "\n",
+    #    "attrs = ", attrs );
+    #  fi;
+    #fi;
 
     return rec( object:=obj, attributes:=attrs );
 
@@ -422,7 +423,7 @@ if IsBound( node.attributes.xref ) then
         Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
       fi;
     else
-      return EvaluateBySCSCP( "SCSCP_RETRIEVE", [ name ], address, port ).object;
+      return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
     fi;        
   else
     return node.attributes.xref;
