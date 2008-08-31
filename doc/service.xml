@@ -97,8 +97,8 @@ gap> PingStatistic("localhost",26133,5);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message nr 5
-5 packets transmitted, 5 received, 0% packet loss, time 1ms
-min/avg/max = [ 0, 0.2, 1 ]
+100 packets transmitted, 100 received, 0% packet loss, time 26ms
+min/avg/max = [ 0, 13/50, 2 ]
 ]]>
 </Example>
 

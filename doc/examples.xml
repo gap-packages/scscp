@@ -17,15 +17,14 @@ final part of the statrtup screen will look as follows:
 
 <Example>
 <![CDATA[
-InstallSCSCPprocedure : procedure SCSCP_STORE installed. 
-InstallSCSCPprocedure : procedure SCSCP_RETRIEVE installed. 
-InstallSCSCPprocedure : procedure SCSCP_UNBIND installed. 
-InstallSCSCPprocedure : procedure WS_factorial installed. 
-InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
-InstallSCSCPprocedure : procedure IdGroup512ByCode installed. 
-InstallSCSCPprocedure : procedure WS_IdGroup installed. 
-InstallSCSCPprocedure : procedure WS_Karatsuba installed. 
-Ready to accept TCP/IP connections at localhost:26133 ...
+#I  Installed SCSCP procedure Factorial
+#I  Installed SCSCP procedure WS_factorial
+#I  Installed SCSCP procedure GroupIdentificationService
+#I  Installed SCSCP procedure IdGroup512ByCode
+#I  Installed SCSCP procedure WS_IdGroup
+#I  Installed SCSCP procedure WS_Karatsuba
+#I  Installed SCSCP procedure EvaluateOpenMathCode
+#I  Ready to accept TCP/IP connections at localhost:26133 ...
 #I  Waiting for new client connection at localhost:26133 ...
 ]]>
 </Example>
@@ -122,7 +121,7 @@ end;
 </Example>
 
 After such function was created on the server, we need to make it
-"visible" as an &SCSCP; procedure:
+<Q>visible</Q> as an &SCSCP; procedure:
 
 <Example>
 <![CDATA[

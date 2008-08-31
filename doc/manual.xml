@@ -34,7 +34,7 @@
           </Address> 
   </Author>
   
-  <Date>11 July 2008</Date>
+  <Date>31 August 2008</Date>
 
 <Abstract>
 
@@ -72,9 +72,11 @@ is supported by the EU FP6 Programme.
 </Acknowledgements>
 
 <Colophon>
-The version 0.1 of the package appeared in the first half of 2007.
-The version 0.2 was completed in December 2007, and was upgraded to
-the version 0.4 in May 2008.
+Versions history: 
+Version 0.1 - first half of 2007; 
+Version 0.2 - December 2007;
+Version 0.3 - May 2008;
+Version 0.4 - August 2008.
 </Colophon>
 
 </TitlePage>

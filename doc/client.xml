@@ -49,9 +49,9 @@ gap> s := NewProcess( "WS_factorial", [10], "localhost", 26133 );
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message 
 #I  Request sent ...
-< input/output TCP stream to localhost >
+< process at localhost:26133 pid=6543 >
 gap> x := CompleteProcess(s);
-rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:1" ] ] )
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6543" ] ] )
 ]]>
 </Example>
 
@@ -82,7 +82,7 @@ gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
 #I  Got connection initiation message 
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:2" ] ] )
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6543" ] ] )
 ]]>
 </Example>
 
@@ -101,7 +101,7 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 #I  Got connection initiation message 
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:45" ] ] )
+rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:6543" ] ] )
 ]]>
 </Example>
 
@@ -196,9 +196,8 @@ gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
 gap> SynchronizeProcesses(a,b); 
 #I  Process number 1 is ready
 #I  Closed 1st process, waiting for 2nd ...
-[ rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6" ] ] ), 
-  rec( object := "2432902008176640000", 
-       attributes := [ [ "call_ID", "localhost:26134:7" ] ] ) ]
+[ rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6726" ] ] ), 
+  rec( object := "2432902008176640000", attributes := [ [ "call_ID", "localhost:26134:6731" ] ] ) ]
 ]]>
 </Example>
 
@@ -235,7 +234,8 @@ gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
 < input/output TCP stream to localhost >
 gap> FirstProcess(a,b);             
 #I  Process number 1 is ready
-rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:7" ] ] )
+rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:6726" ] ] )
+
 ]]>
 </Example>
 
@@ -280,7 +280,8 @@ gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],
 #I  Request sent ...
 #I  Process number 2 is ready
 rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-  13334701, 1182468601 ], attributes := [ [ "call_ID", "localhost:26134:1" ] ] )
+      13334701, 1182468601 ], attributes := [ [ "call_ID", "localhost:26134:6731" ] ] )
+
 ]]>
 </Example>
 
@@ -361,7 +362,7 @@ gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);
 #I  Got connection initiation message 
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "localhost:26133:9" ] ] )
+rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "localhost:26133:6726" ] ] )
 ]]>
 </Example>
 
@@ -427,7 +428,7 @@ first service.
 
 <Example>
 <![CDATA[
-gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );< remote object TEMPVarSCSCP@localhost:26133 >gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "2" ] ] )gap>
+gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );< remote object TEMPVarSCSCP@localhost:26133 >gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );rec( object := [ 6, 1 ], attributes := [ [ "call_ID", "localhost:26134:7414" ] ] )
 ]]>
 </Example>
 
@@ -439,8 +440,8 @@ gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : return_cookie);
 #I  Got connection initiation message 
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := < remote object TEMPVarSCSCP1@localhost:26133 >, 
-  attributes := [ [ "call_ID", "localhost:26133:14" ] ] )
+rec( object := < remote object TEMPVarSCSCP2@localhost:26133 >, 
+  attributes := [ [ "call_ID", "localhost:26133:7328" ] ] )
 ]]>
 </Example>
 

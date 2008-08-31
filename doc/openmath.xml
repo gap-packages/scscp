@@ -49,33 +49,27 @@ using the function <Ref Func="InstallSCSCPprocedure"/>:
 <Example>
 <![CDATA[
 gap> InstallSCSCPprocedure("WS_factorial", Factorial );
-#I  MakeReadWriteGlobal: SCSCPprocTable already read-write
 InstallSCSCPprocedure : procedure WS_factorial installed. 
 gap> InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
+gap> InstallSCSCPprocedure("GroupByIdNumber", SmallGroup );
+
 gap> test:=Filename( Directory( Concatenation(
 >         GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), 
 >         "omdemo.om" );;
 gap> stream:=InputTextFile(test);;
-gap> OMGetObjectWithAttributes(stream);
+gap> OMGetObjectWithAttributes(stream);     
 rec( object := 1, attributes := [  ] )
 gap> OMGetObjectWithAttributes(stream);
-rec( object := x, attributes := [  ] )
-gap> OMGetObjectWithAttributes(stream);
-rec( object := 5*x^3+x^2+1, attributes := [  ] )
-gap> OMGetObjectWithAttributes(stream);
-rec( object := "Primes@localhost:26133", attributes := 
-      [ [ "call_ID", "call_identifier" ] ] )
+rec( object := "Primes@localhost:26133", 
+  attributes := [ [ "call_ID", "call_identifier" ] ] )
 gap> OMGetObjectWithAttributes(stream);
 rec( object := 120, attributes := [  ] )
 gap> OMGetObjectWithAttributes(stream);
 rec( object := [ 24, 12 ], 
   attributes := [ [ "call_ID", "alexk_9053" ], [ "option_runtime", 300000 ], 
-      [ "option_max_memory", "134217728" ], [ "option_debuglevel", 2 ], 
-      [ "option_return_object", "" ] ] )
-gap> OMGetObjectWithAttributes(stream);
-rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "alexk_9053" ], 
-      [ "info_runtime", 1234 ], [ "info_memory", 134217728 ] ] )
+      [ "option_min_memory", 40964 ], [ "option_max_memory", 134217728 ], 
+      [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ] )
 gap> CloseStream( str );
 ]]>
 </Example>

@@ -8,18 +8,30 @@
 
 <ManSection>
    <Func Name="InstallSCSCPprocedure" 
-          Arg="procname procfunc"
+          Arg="procname procfunc [, description ] [, narg1 [, narg2 ] [, signature ] ]"
          Comm="" />
    <Returns>
      Nothing
    </Returns>	 
    <Description>
-     For a string <A>procname</A> is a string and a function <A>procfunc</A>, 
-     makes the <A>procfunc</A> available as SCSCP procedure under the 
-     name <A>procname</A>.
+     For a string <A>procname</A> and a function <A>procfunc</A>, 
+     <Ref Func="InstallSCSCPprocedure" /> makes the <A>procfunc</A> 
+     available as SCSCP procedure under the name <A>procname</A>.
      <P/>
      The second argument <A>procfunc</A> maybe either standard or 
      user-defined function or procedure.
+     <P/>
+     The rest of arguments are optional and may be used in a number of combinations.
+     <P/>
+     <A>description</A> is a string with the description of the procedure, that may be used in the help system.<P/>
+     <A>narg1</A> is a non-negative integer, specifying the minimal number of arguments.<P/>
+     <A>narg2</A> is a non-negative integer or infinity, specifying the maximal number of arguments.
+     If <A>narg2</A> is omitted then the maximal number of arguments will be set to <A>narg1</A>.<P/>
+     <A>signature</A> is the signature record of the procedure. 
+     It requires at least the minimal number of arguments to be specified.<P/>
+     If optional arguments are not specified, they will be set to their default
+     values - undocumented function, accepting any number of arguments of any kind. 
+     This 
    </Description>
 </ManSection>
 
@@ -34,6 +46,19 @@ gap> FactorialAsString := x -> String(Factorial( x ) );
 function( x ) ... end
 gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
 InstallSCSCPprocedure : procedure WS_factorial installed. 
+]]>
+</Example>
+
+Some examples with various combinations of some optional arguments are shown below:
+<Example>
+<![CDATA[
+InstallSCSCPprocedure( "Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
+InstallSCSCPprocedure( "WS_factorial", FactorialAsString, 
+                       "Returns result as a string to transmit large integers", 1 );
+InstallSCSCPprocedure( "GroupIdentificationService", 
+                        IdGroupByGenerators, 1, infinity, rec() );
+InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
+InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 ]]>
 </Example>
 
