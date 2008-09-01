@@ -3,12 +3,12 @@
 <Chapter Label="Preface">
 <Heading>Preface</Heading>    
 
-The &GAP; package &SCSCP; package is the
+The &GAP; package &SCSCP; is the
 prototype implementation of  
 the Symbolic Computation Software Composability protocol 
 for the computational algebra system &GAP; in accordance 
 with the SCSCP specification <Cite Key="SCSCP"/> and the 
-&OpenMath; dictionaries &scscp1; <Cite Key="scscp1cd"/> 
+&OpenMath; content dictionaries &scscp1; <Cite Key="scscp1cd"/> 
 and &scscp2; <Cite Key="scscp2cd"/>.
 <P/>
 

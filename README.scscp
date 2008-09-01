@@ -1,0 +1,41 @@
+#############################################################################
+##
+#W README.scscp             The SCSCP package             Alexander Konovalov
+#W                                                               Steve Linton
+##
+#H $Id: $
+##
+#############################################################################
+
+                           The SCSCP Package
+                           -----------------
+
+The GAP package SCSCP  is the prototype implementation of the Symbolic 
+Computation Software Composability protocol for the computational algebra 
+system GAP in accordance with:
+* SCSCP specification: 
+    http://www.symbolic-computation.org/scscp
+* OpenMath content dictionary scscp1: 
+    http://www.win.tue.nl/SCIEnce/cds/scscp1.html
+* OpenMath content dictionary scscp2:   
+    http://www.win.tue.nl/SCIEnce/cds/scscp2.html 
+unzoo -x wedderga-4.3.2.zoo
+
+Package's documentation: in the 'scscp/doc' directory or online at
+    http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm 
+    
+To run the demo, open two terminal windows. Then in the 1st window do
+
+    cd <path>/scscp/tst
+    gap myserver.g
+    
+to start the server, and after start the demo in the 2nd window with
+
+    cd <path>/scscp/tst
+    gap rundemo.g
+
+In the GAP session that will be started, press any key to run the next
+command, except pressing 'q' to stop the demo.
+
+
+Alexander Konovalov, Steve Linton                                 August 2008
