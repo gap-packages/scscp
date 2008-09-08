@@ -13,7 +13,7 @@ You can try to run the SCSCP server with the configuration file
 <File>scscp/tst/myserver.g</File>. To do this, go to that directory
 and enter <C>gap myserver.g</C>. After this you will see some diagnostic
 messages and finally the server will be waiting for the connection. The
-final part of the statrtup screen will look as follows:
+final part of the startup screen will look as follows:
 
 <Example>
 <![CDATA[
