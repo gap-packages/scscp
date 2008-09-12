@@ -12,7 +12,7 @@ SetPackageInfo( rec(
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol for GAP",
 Version := "0.4",
-Date := "11/07/2008",
+Date := "31/08/2008",
 ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/scscp-0.4",
 ArchiveFormats := ".tar.gz .tar.bz2 -win.zip",
 
@@ -75,7 +75,7 @@ Dependencies := rec(
   GAP := ">=4.4",
   NeededOtherPackages := [ ["GAPDoc", ">= 1.1"], 
                            ["IO", ">=2.3"],
-                           ["openmath", ">=06.03.02"] ],
+                           ["openmath", ">=08.09.12"] ],
   SuggestedOtherPackages := [],
   ExternalConditions := []
 ),
