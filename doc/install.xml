@@ -20,7 +20,7 @@ and (currently only development version of) &openmath; <Cite Key="openmath"/>.
 <P/> 
 
 To install the &SCSCP; package, the <File>scscp</File> directory
-(the one containing subdirectories <File>doc</File> and <File>lib</File>)
+(that is, the one containing subdirectories <File>doc</File> and <File>lib</File>)
 must be placed into <File>pkg</File> directory of your &GAP; installation.
 <P/>
 

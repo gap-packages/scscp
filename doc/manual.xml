@@ -19,12 +19,12 @@
   <Version>Version 0.4</Version>
 
   <Author>Alexander Konovalov
-          <Email>konovalov@member.ams.org</Email>
+          <Email>alexk at mcs dot st-andrews dot ac dot uk</Email>
 	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
   </Author>
 
   <Author>Steve Linton
-          <Email>sal@cs.st-and.ac.uk</Email>
+          <Email>sal at cs dot st-andrews dot ac dot uk</Email>
 	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;sal/</Homepage>
           <Address>
             School of Computer Science<Br/>
@@ -34,7 +34,7 @@
           </Address> 
   </Author>
   
-  <Date>31 August 2008</Date>
+  <Date>17 September 2008</Date>
 
 <Abstract>
 
@@ -42,7 +42,8 @@
 
 The &GAP; package &SCSCP; is the prototype
 implementation of the Symbolic Computation Software Composability 
-protocol (&SCSCP;) for the computational algebra system &GAP;.
+protocol (<URL>http://www.symbolic-computation.org/scscp</URL>) 
+for the computational algebra system &GAP;.
 
 </Abstract>
 

@@ -47,6 +47,7 @@ The SCSCP client:<P/>
 
 The package also implements new kind of &GAP; input-output streams, namely
 input-output TCP streams, based on the functionality for TCP/IP protocol 
-usage provided by the &GAP; package &IO;.
+usage provided by the &GAP; package &IO;, which may constitute an independent
+interest for adapting streams-using GAP code to use streams across the network.
 
 </Chapter>
