@@ -12,7 +12,7 @@ SetPackageInfo( rec(
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol for GAP",
 Version := "0.4",
-Date := "31/08/2008",
+Date := "17/09/2008",
 ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/scscp-0.4",
 ArchiveFormats := ".tar.gz .tar.bz2 -win.zip",
 
