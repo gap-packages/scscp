@@ -104,6 +104,8 @@ InstallSCSCPprocedure("WS_FactorsECM", FactorsECM );
 InstallSCSCPprocedure("WS_FactorsCFRAC", FactorsCFRAC );
 InstallSCSCPprocedure("WS_FactorsMPQS", FactorsMPQS );
 
+InstallSCSCPprocedure("WS_ConwayPolynomial", ConwayPolynomial );
+
 KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
 return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
 end;
