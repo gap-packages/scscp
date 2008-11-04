@@ -84,5 +84,5 @@ AvailabilityTest := ReturnTrue,
 Autoload := false,
 #TestFile := "tst/testall.g",
 
-Keywords := [ "SCSCP", "sowtware composability", "interface", "parallel computing", "OpenMath" ]
+Keywords := [ "SCSCP", "software composability", "interface", "parallel computing", "OpenMath" ]
 ));
