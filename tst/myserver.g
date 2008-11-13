@@ -119,7 +119,7 @@ InstallSCSCPprocedure( "LoopTest", LoopTest );
 InstallSCSCPprocedure( "PointImages", PointImages );
 
 InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
-    "Evaluates OpenMath code given as an input (without OMOBJ tags)", 1, 1 );
+    "Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
 # Example:
 # EvaluateBySCSCP( "EvaluateOpenMathObject", 
 #   [ OMPlainString("<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMI>1</OMI><OMI>2</OMI></OMA>")],
