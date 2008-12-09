@@ -84,7 +84,7 @@ else
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
 
-            objrec := callresult[2]; # can be record, fail or list of stings
+            objrec := callresult[2]; # can be record, fail or list of strings
 
             if objrec = fail then
               Info(InfoSCSCP, 1, "Connection was closed by the client");
