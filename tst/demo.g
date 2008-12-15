@@ -24,25 +24,25 @@ WriteLine( stream, "<?scscp end ?>");
 s:=OMGetObjectWithAttributes( stream );
 
 WriteLine( stream, "<?scscp start ?>");
-WriteLine( stream, "<OMOBJ><OMA><OMS cd=\"scscp1\" name=\"procedure_call\"/><OMSTR>WS_factorial</OMSTR><OMI>5</OMI></OMA></OMOBJ>" );
+WriteLine( stream, "<OMOBJ><OMA><OMS cd=\"scscp1\" name=\"procedure_call\"/><OMSTR>WS_Factorial</OMSTR><OMI>5</OMI></OMA></OMOBJ>" );
 WriteLine( stream, "<?scscp end ?>");
 
 s:=OMGetObjectWithAttributes( stream );
 
 WriteLine( stream, "<?scscp start ?>");
-WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_ID\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
+WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_ID\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_Factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
 WriteLine( stream, "<?scscp end ?>");
 
 s:=OMGetObjectWithAttributes( stream );
 
-OMPutProcedureCall ( stream, "WS_factorial", rec( object:= [5] ) );
+OMPutProcedureCall ( stream, "WS_Factorial", rec( object:= [5] ) );
 s:=OMGetObjectWithAttributes( stream );
-OMPutProcedureCall ( stream, "WS_factorial", rec( object:=[ 120 ] ) );
+OMPutProcedureCall ( stream, "WS_Factorial", rec( object:=[ 120 ] ) );
 s:=OMGetObjectWithAttributes( stream );
 OMPutProcedureCall ( stream, "GroupIdentificationService", rec( object:=[ [(1,2),(1,2,3)] ] ) );
 s:=OMGetObjectWithAttributes( stream );
 OMPutProcedureCall( stream, 
-    "WS_factorial", 
+    "WS_Factorial", 
     rec( object:= [ 5 ], 
          attributes:=[ [ "call_ID", "user007" ],
                        ["option_runtime",1000],

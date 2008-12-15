@@ -15,7 +15,7 @@
 # It does not use network connection and only test OMGetObjectWithAttributes
 #
 LoadPackage("scscp");
-InstallSCSCPprocedure("WS_factorial", Factorial );
+InstallSCSCPprocedure("WS_Factorial", Factorial );
 InstallSCSCPprocedure("WS_Gcd", Gcd );
 InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 InstallSCSCPprocedure("GroupByIdNumber", SmallGroup );

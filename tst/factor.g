@@ -9,7 +9,7 @@ call_nr:=0;
 for n in [ 1 .. nrsessions ] do
   # This is single request
   Print( "EvaluateBySCSCP returns ", 
-         EvaluateBySCSCP( "WS_factorial", [ n ], server, port ), "\n");
+         EvaluateBySCSCP( "WS_Factorial", [ n ], server, port ), "\n");
   # this is the beginning of a single session with a sequence of requests
   stream:=InputOutputTCPStream( server, port );
   initmessage := ReadLine( stream );
@@ -19,7 +19,7 @@ for n in [ 1 .. nrsessions ] do
   for k in [ 1 .. sessionlength ] do
     call_nr:=call_nr+1;
     Print( call_nr, " \c");
-    OMPutProcedureCall( stream, "WS_factorial", rec( object:= [k], 
+    OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [k], 
                          attributes:=[ ["call_ID", Concatenation(username, String(call_nr)) ] ] ) );
     IO_select( [ IO_GetFD(stream![1]) ], [ ], [ ], 60*60, 0 );
     obj:=OMGetObjectWithAttributes( stream );
