@@ -14,7 +14,7 @@
 port:=26133;
 stream:=InputOutputTCPStream( "localhost", port );
 ReadLine( stream );
-WriteLine( stream, "<?scscp version=\"1.0\" ?>" );
+WriteLine( stream, "<?scscp version=\"1.1\" ?>" );
 ReadLine( stream );
 
 WriteLine( stream, "<?scscp start ?>");
@@ -63,7 +63,7 @@ OMPutProcedureCall( stream,
 s:=OMGetObjectWithAttributes( stream );
 CloseStream( stream );
 
-Read("idperm.g");
+ReadPackage("scscp/example/idperm.g");
 IdGroupWS(SymmetricGroup(3));
 IdGroupWS(SymmetricGroup(4));
 IdGroupWS(SymmetricGroup(5));

@@ -15,13 +15,11 @@
 #############################################################################
 
 LogTo(); # to close log file if it was opened from .gaprc
-LoadPackage("openmath");
-LoadPackage("io");
 LoadPackage("scscp");
 LoadPackage("anupq");
-Read("karatsuba.g");
+ReadPackage("scscp/example/karatsuba.g");
 LoadPackage("automata");
-Read("automata.g");
+ReadPackage("scscp/par/automata.g");
 
 #############################################################################
 #
