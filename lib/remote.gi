@@ -99,6 +99,8 @@ end);
 InstallMethod( StoreAsRemoteObject, "for an object",
 [ IsObject, IsString, IsPosInt ],
 function( obj, server, port )
+# TODO: store must return automatically remote object even if called without return_cookie
+# In general, conflicts between procedures and options should be checked and eliminated
 return EvaluateBySCSCP( "store", [ obj ], server, port : return_cookie).object;
 end);
 

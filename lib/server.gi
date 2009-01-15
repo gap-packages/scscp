@@ -13,9 +13,14 @@
 # RunSCSCPserver( <server>, <port> )
 #
 # the 1st argument is the name of the server, e.g. "localhost" or 
-# "http://someserver.somewhere", the 2nd is the port number as an integer
+# "servername.somewhere.domain", the 2nd is the port number as an integer
 #
-
+# TODO: the server name may be determined automatically running 'hostname'
+# then the boolean argument may specify whether to use localhost or hostname
+# TODO: portname may be required strictly or not: "run at this port or fail"
+# or "probe this port, if fails, find next suitable". 
+# TODO: get easier portnumber at which server is running (for Jost)
+#
 if VERSION = "4.dev" then
 
 InstallGlobalFunction( RunSCSCPserver,
@@ -96,6 +101,8 @@ else
 			# to convert it to the standard objrec format. This happens
 			# when error message is returned.
             if not IsRecord(objrec) then
+            	# TODO: glue together error messages - specification says 
+            	# there must be a string, so the list of strings is incorrect
             	objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
 			fi;
 			
