@@ -14,7 +14,7 @@
 port:=26133;
 stream:=InputOutputTCPStream( "localhost", port );
 ReadLine( stream );
-WriteLine( stream, "<?scscp version=\"1.1\" ?>" );
+WriteLine( stream, "<?scscp version=\"1.2\" ?>" );
 ReadLine( stream );
 
 WriteLine( stream, "<?scscp start ?>");
