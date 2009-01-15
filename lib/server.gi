@@ -137,11 +137,7 @@ else
             else
               errormessage := objrec.object;
               if InfoLevel( InfoSCSCP ) > 0 then
-                Print( "#I  Sending error message: ");
-                for str in errormessage do
-                  Print( str, " " );
-                od;
-                Print("\n");
+                Print( "#I  Sending error message: ", errormessage, "\n" );
               fi;
               
               if InfoLevel( InfoSCSCP ) > 2 then
