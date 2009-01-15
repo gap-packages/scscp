@@ -99,7 +99,7 @@ else
             	objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
 			fi;
 			
-            # TO-DO: Rewrite analysing attributes (i.e. options)
+            # TODO: Rewrite analysing attributes (i.e. options)
             
             pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
             if pos<>fail then 
