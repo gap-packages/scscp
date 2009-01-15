@@ -91,39 +91,14 @@ else
               disconnect:=true;
               break;
             fi;
-            
-            if callresult[1] then
-              pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
-              if pos<>fail then 
-                Info(InfoSCSCP, 1, "option_return_nothing, closing connection ...");
-                disconnect:=true;
-                break;               
-              fi;
-            else
-              errormessage := objrec;
-              if InfoLevel( InfoSCSCP ) > 0 then
-                Print( "#I  Sending error message: ");
-                for str in errormessage do
-                  Print( str, " " );
-                od;
-                Print("\n");
-              fi;
-              
-              if InfoLevel( InfoSCSCP ) > 2 then
-                Print("#I  Composing procedure_terminated message: \n");
-                omtext:="";
-                localstream := OutputTextString( omtext, true );
-                OMPutProcedureTerminated( localstream, rec( object:=errormessage ), "error_system_specific" );
-                Print(omtext);
-              fi;          
-            
-              OMPutProcedureTerminated( stream, rec( object := errormessage ), "error_system_specific" );
-              
-              Info(InfoSCSCP, 1, "Closing connection ...");
-              disconnect:=true;
-              break;            
-            fi;  
-            
+
+			# We detect the case when objrec is not fail and not record 
+			# to convert it to the standard objrec format. This happens
+			# when error message is returned.
+            if not IsRecord(objrec) then
+            	objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
+			fi;
+			
             # TO-DO: Rewrite analysing attributes (i.e. options)
             
             pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
@@ -144,7 +119,39 @@ else
             # procedure call: now it is only call_ID, in the future we
             # will add used memory, runtime, etc.
             callinfo:= [ [ "call_ID", call_ID_value ] ];
+                        
+            if callresult[1] then
+              pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
+              if pos<>fail then 
+                Info(InfoSCSCP, 1, "option_return_nothing, closing connection ...");
+                disconnect:=true;
+                break;               
+              fi;
+            else
+              errormessage := objrec.object;
+              if InfoLevel( InfoSCSCP ) > 0 then
+                Print( "#I  Sending error message: ");
+                for str in errormessage do
+                  Print( str, " " );
+                od;
+                Print("\n");
+              fi;
+              
+              if InfoLevel( InfoSCSCP ) > 2 then
+                Print("#I  Composing procedure_terminated message: \n");
+                omtext:="";
+                localstream := OutputTextString( omtext, true );
+                OMPutProcedureTerminated( localstream, rec( object:=errormessage, attributes:=callinfo ), "error_system_specific" );
+                Print(omtext);
+              fi;          
             
+              OMPutProcedureTerminated( stream, rec( object:=errormessage, attributes:=callinfo ), "error_system_specific" );
+              
+              Info(InfoSCSCP, 1, "Closing connection ...");
+              disconnect:=true;
+              break;            
+            fi;  
+                       
             Info( InfoSCSCP, 2, "call_ID ", call_ID_value, 
                   " : sending to client ", objrec.object ); 
             
@@ -166,8 +173,7 @@ else
               omtext:="";
               localstream := OutputTextString( omtext, true );
               OMPutProcedureCompleted( localstream, 
-                rec( object := output, 
-                  attributes:= callinfo ) );
+                rec( object := output, attributes:= callinfo ) );
               Print(omtext);
             fi;       
             
@@ -175,8 +181,7 @@ else
             # terminated the process, and this causes server crash 
 
             OMPutProcedureCompleted( stream, 
-              rec( object := output, 
-                attributes:= callinfo ) );
+              rec( object := output, attributes:= callinfo ) );
         until false;
         Info(InfoSCSCP, 1, "Closing stream ...");
         # socket descriptor will be closed here
