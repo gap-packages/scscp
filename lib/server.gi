@@ -103,7 +103,7 @@ else
             if not IsRecord(objrec) then
             	# TODO: glue together error messages - specification says 
             	# there must be a string, so the list of strings is incorrect
-            	objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
+            	objrec := rec( object := Concatenation(objrec), attributes := OMParseXmlObj(OMTempVars.OMATTR) );
 			fi;
 			
             # TODO: Rewrite analysing attributes (i.e. options)
