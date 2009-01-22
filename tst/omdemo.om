@@ -31,7 +31,7 @@
     <OMA>
         <OMS cd="scscp1" name="procedure_call" />
         <OMA> 
-            <OMS cd="SCSCP_transient_1" name="WS_factorial" />
+            <OMS cd="scscp_transient_1" name="WS_factorial" />
             <OMI>5</OMI>
         </OMA>
     </OMA>
@@ -60,7 +60,7 @@
         <OMA>
             <OMS cd="scscp1" name="procedure_call" />
             <OMA>
-                <OMS cd="SCSCP_transient_1" name="GroupIdentificationService" />
+                <OMS cd="scscp_transient_1" name="GroupIdentificationService" />
                 <OMA>
                     <OMS cd="group1" name="Group"/>
                     <OMA>
@@ -92,7 +92,7 @@
         <OMA>
             <OMS cd="scscp1" name="procedure_call" />
             <OMA>
-                <OMS cd="SCSCP_transient_1" name="GroupByIdNumber" />
+                <OMS cd="scscp_transient_1" name="GroupByIdNumber" />
                 <OMI>24</OMI>
                 <OMI>12</OMI>
             </OMA>    

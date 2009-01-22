@@ -49,4 +49,4 @@ BindGlobal( "Demonstration", function( file )
     InputLogTo();
 end );
 
-Demonstration("demo.g");
+Demonstration("demoparis.g");

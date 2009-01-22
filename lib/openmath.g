@@ -109,7 +109,7 @@ tran := First( OMsymTable, s -> s[1]=x[1] );
 if tran = fail then
     Error("no_such_transient_cd");
 else
-    omstr:="<CD>\n<CDName>SCSCP_transient_1</CDName>\n";
+    omstr:="<CD>\n<CDName>scscp_transient_1</CDName>\n";
     Append( omstr, Concatenation( "<CDReviewDate>", DateISO8601(), "</CDReviewDate>\n" ) );
     Append( omstr, Concatenation( "<CDDate>", DateISO8601(), "</CDDate>\n" ) );
     Append( omstr, Concatenation( "<CDVersion>", "0", "</CDVersion>\n" ) );
@@ -470,10 +470,10 @@ fi;
 if ValueOption("omcd") <> fail then
   omcdname := ValueOption("omcd");
   if omcdname="" then
-    omcdname := "SCSCP_transient_1";
+    omcdname := "scscp_transient_1";
   fi;  
 else
-  omcdname := "SCSCP_transient_1";
+  omcdname := "scscp_transient_1";
 fi;
 
 OMIndent := 0;

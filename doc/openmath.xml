@@ -121,7 +121,7 @@ gap> Print(t);
 		<OMA>
 			<OMS cd="scscp1" name="procedure_call"/>
 			<OMA>
-				<OMS cd="SCSCP_transient_1" name="WS_factorial"/>
+				<OMS cd="scscp_transient_1" name="WS_factorial"/>
 				<OMI> 5</OMI>
 			</OMA>
 		</OMA>

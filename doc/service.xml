@@ -165,7 +165,7 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 		<OMA>
 			<OMS cd="scscp1" name="procedure_call"/>
 			<OMA>
-				<OMS cd="SCSCP_transient_1" name="GroupIdentificationService"/>
+				<OMS cd="scscp_transient_1" name="GroupIdentificationService"/>
 				<OMA>
 					<OMS cd="list1" name="list"/>
 					<OMA>
