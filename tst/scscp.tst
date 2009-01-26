@@ -2,12 +2,13 @@ gap> START_TEST("$Id$");
 gap> SetInfoLevel(InfoSCSCP,0);
 gap> PingWebService( "localhost", 26133 );
 true
+gap> server := "localhost";;
 gap> stream:=InputOutputTCPStream( server, 26133 );
 < input/output TCP stream to localhost:26133>
 gap> WriteLine( stream, "<?scscp version=\"1.2\" ?>" );
 true
 gap> CloseStream(stream);
-gap> EvaluateBySCSCP( "WS_Factorial", [10], "localhost", 26133).object;
+gap> EvaluateBySCSCP( "WS_Factorial", [10], server, 26133).object;
 "3628800"
 gap> EvaluateBySCSCP( "WS_IdGroup", [ SymmetricGroup(3) ], server, 26133 ).object;
 [ 6, 1 ]
