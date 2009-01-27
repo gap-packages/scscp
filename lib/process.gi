@@ -152,7 +152,10 @@ else
 
 fi;
               
-Info( InfoSCSCP, 1, "Request sent ...");                           
+Info( InfoSCSCP, 1, "Request sent ..."); 
+if return_nothing then
+  CloseStream( stream );
+fi;               
 return Objectify( ProcessDefaultType, [ stream, pid ] );
 end); 
 
