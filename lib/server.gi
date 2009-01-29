@@ -101,9 +101,7 @@ else
 			# to convert it to the standard objrec format. This happens
 			# when error message is returned.
             if not IsRecord(objrec) then
-            	# TODO: glue together error messages - specification says 
-            	# there must be a string, so the list of strings is incorrect
-            	objrec := rec( object := Concatenation(objrec), attributes := OMParseXmlObj(OMTempVars.OMATTR) );
+            	objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
 			fi;
 			
             # TODO: Rewrite analysing attributes (i.e. options)
@@ -135,20 +133,28 @@ else
                 break;               
               fi;
             else
-              errormessage := objrec.object;
               if InfoLevel( InfoSCSCP ) > 0 then
-                Print( "#I  Sending error message: ", errormessage, "\n" );
-              fi;
-              
+                Print( "#I  Sending error message: ", objrec.object, "\n" );
+              fi; 
+              if objrec.object[1] = "OpenMathError: " then
+                errormessage := [ 
+                  OMPlainString( Concatenation( "<OMS cd=\"", objrec.object[4], "\" name=\"", objrec.object[6], "\"/>" ) ), 
+                  "error", objrec.object[2] ];
+              else
+                # glue together error messages - specification says 
+            	# there must be a string, so the list of strings is incorrect
+              	errormessage := [ Concatenation( objrec.object ), "scscp1", "error_system_specific" ];
+ 			  fi;
+ 			  
               if InfoLevel( InfoSCSCP ) > 2 then
                 Print("#I  Composing procedure_terminated message: \n");
                 omtext:="";
                 localstream := OutputTextString( omtext, true );
-                OMPutProcedureTerminated( localstream, rec( object:=errormessage, attributes:=callinfo ), "error_system_specific" );
+                OMPutProcedureTerminated( localstream, rec( object:=errormessage[1], attributes:=callinfo ), errormessage[2], errormessage[3] );
                 Print(omtext);
               fi;          
             
-              OMPutProcedureTerminated( stream, rec( object:=errormessage, attributes:=callinfo ), "error_system_specific" );
+              OMPutProcedureTerminated( stream, rec( object:=errormessage[1], attributes:=callinfo ), errormessage[2], errormessage[3] );
               
               Info(InfoSCSCP, 1, "Closing connection ...");
               disconnect:=true;

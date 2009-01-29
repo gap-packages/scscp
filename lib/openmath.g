@@ -618,7 +618,7 @@ end);
 
 #############################################################################
 ##
-##  OMPutProcedureTerminated( stream, objrec, error_type )
+##  OMPutProcedureTerminated( stream, objrec, error_cd, error_type )
 ## 
 ##  The first argument is a stream
 ##  The second argument is a record like the one returned by
@@ -627,12 +627,13 @@ end);
 ##    attributes := [ [ "info_runtime", 1000 ], 
 ##                    [ "info_memory", 2048 ],
 ##                    [ "call_ID", "user007" ] ] )
-##  The third argument is a string with error type, for example
+##  The third argument is a string with CD name for the fourth argument.
+##  The fourth argument is a string with error type, for example
 ##  "error_memory", "error_runtime", "error_system_specific" as defined
 ##  in the 'scscp1' OM CD.
 ##
 InstallGlobalFunction( OMPutProcedureTerminated,
-function( stream, objrec, error_type )
+function( stream, objrec, error_cd, error_type )
 local has_attributes, attr;
 if IsClosedStream( stream )  then
   Error( "closed stream" );
@@ -670,7 +671,7 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_terminated" );
-OMPutError( stream, "scscp1", error_type, [ objrec.object ] );
+OMPutError( stream, error_cd, error_type, [ objrec.object ] );
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
 OMIndent := OMIndent - 1;
