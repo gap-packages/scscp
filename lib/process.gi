@@ -93,9 +93,7 @@ else
 fi;
 
 stream := InputOutputTCPStream( server, port );
-Print("stream", stream, ", waiting for initmessage \n");
 initmessage := ReadLine( stream );
-Print("done \n");
 NormalizeWhitespace( initmessage );
 Info( InfoSCSCP, 1, "Got connection initiation message" );
 Info( InfoSCSCP, 2, initmessage );
