@@ -71,7 +71,7 @@ elif Length( arg ) = 1 then # server case
   fi;
   fio := IO_WrapFD( socket_descriptor, IO.DefaultBufSize, IO.DefaultBufSize );
   return Objectify( InputOutputTCPStreamDefaultType,
-                    [ fio, "socket", [ ], false ] );  
+                    [ fio, "socket descriptor", [ socket_descriptor ], false ] );  
 else
   Error( "InputOutputTCPStream: usage \n",
          "InputOutputTCPStream(<hostname>, <port>) for client, \n", 
@@ -91,7 +91,7 @@ function(stream)
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("input/output TCP stream to ",stream![2],":", stream![3][1], ">");
+    Print("input/output TCP stream to ",stream![2],":", stream![3][1], " >");
 end);
 
 
@@ -107,7 +107,7 @@ function(stream)
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("input/output TCP stream to ",stream![2],":", stream![3][1], ">");
+    Print("input/output TCP stream to ",stream![2],":", stream![3][1], " >");
 end);
 
 
