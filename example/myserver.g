@@ -39,6 +39,43 @@ IdGroupByGenerators:=function( permlist )
 return IdGroup( Group( permlist ) );
 end;
 
+#############################################################################
+##
+##  QuillenSeriesByIdGroup( [ ord, nr] )
+##  
+##  Let G:=SmallGroup( ord, nr ) be a p-group of order p^n. It was proved in 
+##  [D.Quillen, The spectrum of an equivariant cohomology ring II, Ann. of 
+##  Math., (2) 94 (1984), 573-602] that the number of conjugacy classes of 
+##  maximal elementary abelian subgroups of given rank is determined by the 
+##  group algebra KG. 
+##  The function calculates this numbers for each possible rank and returns 
+##  a list of the length n, where i-th element corresponds to the number of
+##  conjugacy classes of maximal elementary abelian subgroups of the rank i.
+##
+QuillenSeriesByIdGroup := function( id )
+local G, qs, latt, msl, ccs, ccs_repr, i, x, n;
+G := SmallGroup( id );
+latt := LatticeSubgroups(G);
+msl := MinimalSupergroupsLattice(latt);
+ccs := ConjugacyClassesSubgroups(latt);
+ccs_repr := List(ccs, Representative);
+qs := [];
+for i in [ 1 .. LogInt( Size(G), PrimePGroup(G) ) ] do
+  qs[i]:=0;
+od;
+for i in [ 1 .. Length(ccs_repr) ] do 
+  if IsElementaryAbelian( ccs_repr[i] ) then
+    if ForAll( msl[i], 
+               x -> IsElementaryAbelian( ccs[x[1]][x[2]] ) = false ) then
+      n := LogInt( Size(ccs_repr[i]), PrimePGroup(G) );
+      qs[n] := qs[n] + 1;
+    fi;
+  fi;
+od;
+return qs;
+end;
+
+
 IdGroup512ByCode:=function( code )
 # The function accepts the integer number that is the code for pcgs of 
 # a group of order 512 and returns the number of this group in the
@@ -53,10 +90,10 @@ ApplyFunction:=function( func, arg )
 return EvalString( func )( arg );
 end;
 
-LoopTest:=function( nrservers, nrsteps, k )
-local port, proc, res;
+RingTest:=function( nrservers, nrsteps, k )
+local port, proc;
 # in the beginning the external client sends k=0 to the port 26133, e.g.
-# NewProcess( "LoopTest", [ 2, 10, 0 ], "localhost", 26133 : return_nothing );
+# NewProcess( "RingTest", [ 2, 10, 0 ], "localhost", 26133 : return_nothing );
 Print(k, " \c");
 k:=k+1;
 if k = nrsteps then
@@ -65,7 +102,7 @@ if k = nrsteps then
 fi;
 port := 26133 + ( k mod nrservers );
 Print("--> ", k," : ", port, "\n");
-proc:=NewProcess( "LoopTest", [ nrservers, nrsteps, k ], "localhost", port : return_nothing );
+proc:=NewProcess( "RingTest", [ nrservers, nrsteps, k ], "localhost", port : return_nothing );
 return true;
 end;
 
@@ -146,6 +183,7 @@ InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function", 1, 1 );
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity, rec() );
 InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
+InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup, "Quillen series of a finite p-group", 2, 2 );
 
 # Series of factorisation methods from the GAP package FactInt
 InstallSCSCPprocedure("WS_FactorsTD", FactorsTD );
@@ -165,7 +203,7 @@ InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByS
 
 InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
 
-InstallSCSCPprocedure( "LoopTest", LoopTest );
+InstallSCSCPprocedure( "RingTest", RingTest );
 InstallSCSCPprocedure( "LeaderElection", LeaderElection );
 InstallSCSCPprocedure( "ResetLeaderElection", ResetLeaderElection );
 
