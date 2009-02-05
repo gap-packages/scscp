@@ -1,0 +1,8 @@
+# specifies hosts and ports to search for SCSCP services
+SCSCPservers:= [ 
+[ "localhost", 26133 ],
+[ "localhost", 26134 ],
+[ "localhost", 26135 ],
+[ "localhost", 26136 ],
+# [ "chrystal.mcs.st-andrews.ac.uk", 26133 ],
+];
