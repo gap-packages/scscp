@@ -30,7 +30,7 @@ function( server, port )
 
 local socket, lookup, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_ID_value, atp, callinfo, output, 
-     return_cookie, cookie, omtext, localstream, callresult, 
+     return_cookie, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
 
 SCSCPserverMode := true;
@@ -81,12 +81,12 @@ else
         WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
+            # currently the timeout is 3600 seconds = 1 hour
             callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
             if not callresult[1] then
               disconnect:=true;
               break;         
             fi;
-            # IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ); 
             Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
@@ -156,9 +156,17 @@ else
                 Print(omtext);
               fi;          
             
-              OMPutProcedureTerminated( stream, rec( object:=errormessage[1], attributes:=callinfo ), errormessage[2], errormessage[3] );
-              
-              Info(InfoSCSCP, 1, "Closing connection ...");
+              responseresult := CALL_WITH_CATCH( OMPutProcedureTerminated, 
+              							[ stream, 
+              							  rec( object:=errormessage[1], 
+              							   attributes:=callinfo ), 
+              							  errormessage[2], 
+              							  errormessage[3] ] );
+              if responseresult[1] then
+              	Info(InfoSCSCP, 1, "procedure_terminated message sent, closing connection ...");
+              else
+              	Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");				
+              fi;	
               disconnect:=true;
               break;            
             fi;  
@@ -187,12 +195,19 @@ else
                 rec( object := output, attributes:= callinfo ) );
               Print(omtext);
             fi;       
-            
-            # This may be already broken pipe if the client 
-            # terminated the process, and this causes server crash 
-
-            OMPutProcedureCompleted( stream, 
-              rec( object := output, attributes:= callinfo ) );
+ 
+            # TODO: if the client already disconnected at this moment,
+            # the server will crash :(
+ 
+            responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted,
+            						[ stream, 
+            						  rec( object := output, 
+            						    attributes:= callinfo ) ] );
+            if not responseresult[1] then
+              Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");				
+              disconnect:=true;
+              break;   
+            fi;						    
         until false;
         Info(InfoSCSCP, 1, "Closing stream ...");
         # socket descriptor will be closed here

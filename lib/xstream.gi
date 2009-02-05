@@ -235,13 +235,14 @@ end);
 InstallMethod( WriteLine, "for ioTCPstream",
 [ IsInputOutputTCPStreamRep and IsInputOutputStream, IsString ],
 function( stream, string )
-    local res;
-    res := WriteAll( stream, string );
-    if res <> true  then 
-      return res;  
-    fi;
-    WriteByte( stream, INT_CHAR('\n') );
-    return IO_Flush( stream![1] );
+#    local res;
+#    res := WriteAll( stream, string );
+#    if res <> true  then 
+#      return res;  
+#    fi;
+#    WriteByte( stream, INT_CHAR('\n') );
+#    return IO_Flush( stream![1] );
+return IO_WriteLine( stream![1], string );
 end );
 
 
@@ -253,7 +254,7 @@ InstallMethod( WriteAll, "for ioTCPstream",
 [ IsInputOutputTCPStreamRep and IsInputOutputStream, IsString ],
 function( stream, string )
     local   byte;
-    for byte  in string  do
+    for byte in string  do
         if WriteByte( stream, INT_CHAR(byte) ) <> true  then
             return fail;
         fi;
@@ -269,7 +270,6 @@ end );
 InstallMethod( IsEndOfStream, "iostream",
     [ IsInputOutputTCPStreamRep and IsInputOutputStream ],
     stream -> not IO_HasData( stream![1] ) );
-    # stream![4] );
     # or IS_BLOCKED_IOSTREAM(stream![1]) );
         
 

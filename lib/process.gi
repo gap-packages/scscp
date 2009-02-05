@@ -201,7 +201,11 @@ fi;
 if return_cookie then
   result.object := RemoteObject( result.object, stream![2], stream![3][1] );
 fi;
-Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
+if result = fail then
+	Info( InfoSCSCP, 2, "CompleteProcess failed to get result, returning fail" );
+else
+	Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
+fi;	
 CloseStream(stream); 
 return result;
 end);
