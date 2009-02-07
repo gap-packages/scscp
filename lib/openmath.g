@@ -530,7 +530,7 @@ WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
-return;
+return true;
 end);
 
 
@@ -593,7 +593,7 @@ WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
-return;
+return true;
 end);
 
 
@@ -684,5 +684,5 @@ WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
 fi;
-return;
+return true;
 end);
