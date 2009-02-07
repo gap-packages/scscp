@@ -72,7 +72,7 @@ for i in [ 1 .. Length(ccs_repr) ] do
     fi;
   fi;
 od;
-return qs;
+return [ id, qs ];
 end;
 
 
