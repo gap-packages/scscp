@@ -7,6 +7,14 @@
 ##
 #############################################################################
 
+# TODO: automatic adjustments of the timeout (see Runtimes() record)
+
+# TODO (suggested by SL): A useful trick which Google uses is that they 
+# automatically restart the last 5% or so of the computations to finish, 
+# without actually knowing whether the servers have died or not. That way 
+# they also compensate for servers that are just running very slowly, 
+# and they lose nothing, since there are always idle servers by that point.
+
 ReadPackage("scscp/par/configpar");
 SCSCPprocesses:=[];
 
@@ -21,7 +29,8 @@ end;
 
 ParListWithSCSCP := function( inputlist, remoteprocname )
 local nrservices, status, i, itercount, recallfreq, output, callargspositions, 
-      currentposition, timeout, nr, waitinglist, descriptors, s, nrdesc, result;
+      currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
+      s, nrdesc, retrystack, result;
       
 ReadPackage("scscp/par/configpar"); # reread - it may be modified between function calls
 nrservices := Length( SCSCPservers );
@@ -37,11 +46,16 @@ for i in [ 1 .. nrservices ] do
   fi;   
 od;
 
+if not 1 in status then
+	Error( "Can not start computation - no SCSCP service available!\n" );
+fi;
+
 output := [ ];
 callargspositions := [ ];
+retrystack:= [ ];
 currentposition := 0;
-SCSCPprocesses:=[];
-timeout:=60; # set timeout in seconds here
+SCSCPprocesses := [ ];
+timeout:=60*60; # set timeout in seconds here
 itercount:=0;
 recallfreq:=10;
 
@@ -61,9 +75,9 @@ while true do
     itercount:=0;
   fi;
   #
-  # is next task available?
+  # is next task available (from the initial list or retry stack)?
   #
-  while currentposition < Length( inputlist ) do
+  while currentposition < Length( inputlist ) or Length( retrystack ) > 0 do
     #
     # search for next available service
     #
@@ -72,12 +86,18 @@ while true do
       #
       # there is a service number 'nr' that is ready to accept procedure call
       #
-      currentposition := currentposition + 1;
+      if Length( retrystack ) > 0 then
+        inputposition := retrystack[ Length( retrystack ) ];
+        Unbind( retrystack[ Length( retrystack ) ] );
+      else
+      	currentposition := currentposition + 1;
+      	inputposition := currentposition;
+      fi;	
       # remember which argument was sent to this service
-      callargspositions[nr] := currentposition;
-      SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[currentposition] ], 
+      callargspositions[nr] := inputposition;
+      SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[inputposition] ], 
                                    SCSCPservers[nr][1], SCSCPservers[nr][2] );
-      Print("master -> ", SCSCPservers[nr], " : ", inputlist[currentposition], "\n" );
+      Print("master -> ", SCSCPservers[nr], " : ", inputlist[inputposition], "\n" );
       status[nr] := 2; # status 2 means that we are waiting to hear from this service
     else
       break; # if we are here all services are busy
@@ -87,11 +107,19 @@ while true do
   # see are there any waiting tasks
   #
   waitinglist:= Filtered( [ 1 .. nrservices ], i -> status[i]=2 );
-  if Length(waitinglist)=0 then
-    #
-    # no next tasks and no waiting tasks - computation completed!
-    #
-    return output;
+  if Length( waitinglist ) = 0 then
+  	if Length( callargspositions ) = 0 then
+  	  # no next tasks, no waiting tasks and no arguments sent off - computation completed!
+  	  if Length(output) <> Length(inputlist) or not IsDenseList(output) then
+  	    Error( "The output list does not match the input list!\n" );
+  	  else
+        return output;
+      fi;
+    else
+      Error( "Tasks for arguments ", 
+      			inputlist{ Filtered( [ 1 .. Length(callargspositions) ], 
+      				i -> IsBound( callargspositions[i] ) ) }, " are lost!\n");
+    fi;  
   fi;
   #
   # waiting until any of the running tasks will be completed
@@ -113,10 +141,15 @@ while true do
  	if PingWebService( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
  		Print( SCSCPservers[nr], " is no longer available \n" );
  	 	status[nr]:=0;
+		if not ForAny( status, i -> i=2 or i=1 ) then
+			Error( "Can not continue computation - no SCSCP service left available!\n" );
+		fi;
  	else
  		Error("ParSCSCP: failed to get result from ", SCSCPservers[nr] );
  	fi;
     # we need to retry the call with argument inputlist[callargspositions[nr] ]
+    Add( retrystack, callargspositions[nr] );
+    Unbind( callargspositions[nr] );
   else
   #
   # processing the result
