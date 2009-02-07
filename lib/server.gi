@@ -83,13 +83,20 @@ else
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             # currently the timeout is 3600 seconds = 1 hour
             callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
-            if not callresult[1] then
-              disconnect:=true;
-              break;         
+
+            if VERSION = "4.dev" then
+              if not callresult[1] then
+                disconnect:=true;
+                break;         
+              fi;
             fi;
+
             Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             Info(InfoSCSCP, 1, "Evaluation completed");
+            
+            # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
+            if VERSION <> "4.dev" then callresult := [ true, callresult ]; fi;
 
             objrec := callresult[2]; # can be record, fail or list of strings
 
@@ -162,6 +169,10 @@ else
               							   attributes:=callinfo ), 
               							  errormessage[2], 
               							  errormessage[3] ] );
+              							  
+              # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
+              if VERSION <> "4.dev" then responseresult := [ true, responseresult ]; fi;
+              							  
               if responseresult[1] then
               	Info(InfoSCSCP, 1, "procedure_terminated message sent, closing connection ...");
               else
@@ -203,6 +214,10 @@ else
             						[ stream, 
             						  rec( object := output, 
             						    attributes:= callinfo ) ] );
+
+            # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
+            if VERSION <> "4.dev" then responseresult := [ true, responseresult ]; fi;
+            						    
             if not responseresult[1] then
               Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");				
               disconnect:=true;
