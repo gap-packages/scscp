@@ -24,3 +24,16 @@ CloseStream( str );
 Append( out, date{[ 1 .. Length(date)-1 ]} );
 return out;
 end;
+
+
+Hostname := function()
+local hostname, str;
+hostname:="";
+str := InputOutputLocalProcess( 
+         DirectoryTemporary(),
+         Filename(DirectoriesSystemPrograms(), "hostname"), 
+         [ ]);
+hostname := ReadLine( str );
+CloseStream( str );
+return hostname{[ 1 .. Length(hostname)-1 ]};
+end;
