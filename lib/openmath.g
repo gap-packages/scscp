@@ -78,6 +78,27 @@ end);
 
 ##############################################################################
 #
+# SCSCP_IS_ALLOWED_HEAD( <openmathsymbol> )
+#
+InstallGlobalFunction( SCSCP_IS_ALLOWED_HEAD,
+function( x )
+local tran, s, symb, t;
+tran := First( OMsymTable, s -> s[1]=x[1] );
+if tran = fail then
+    return false;
+else
+    symb := First( tran[2], t -> t[1]=x[2] );
+    if symb=fail then
+        return false;
+    else
+        return true;
+    fi;
+fi;        
+end);
+
+
+##############################################################################
+#
 # SCSCP_GET_SERVICE_DESCRIPTION( [ ] )
 #
 InstallGlobalFunction( SCSCP_GET_SERVICE_DESCRIPTION,
@@ -128,7 +149,7 @@ end);
 
 ##############################################################################
 #
-# SCSCP_GET_SIGNATURE( <x> )
+# SCSCP_GET_SIGNATURE( <openmathsymbol> )
 #
 InstallGlobalFunction( SCSCP_GET_SIGNATURE,
 function( x )
@@ -179,6 +200,7 @@ Add( OMsymTable, [ "scscp2", [
     [ "retrieve", SCSCP_RETRIEVE ],
     [ "unbind", SCSCP_UNBIND ],
     [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ],
+    [ "is_allowed_head", SCSCP_IS_ALLOWED_HEAD ],
     [ "get_service_description", SCSCP_GET_SERVICE_DESCRIPTION ],
     [ "get_transient_cd", SCSCP_GET_TRANSIENT_CD ],
     [ "get_signature", SCSCP_GET_SIGNATURE ]
@@ -511,9 +533,9 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_call" );
-if proc_name in [ "store", "retrieve", "unbind", 
-                  "get_allowed_heads", "get_service_description", 
-                  "get_transient_cd", "get_signature" ] then
+if proc_name in [ "get_allowed_heads", "get_service_description", 
+                  "get_signature", "get_transient_cd", "is_allowed_head", 
+                  "retrieve", "store", "unbind" ] then
   OMPutApplication( stream, "scscp2", proc_name, objrec.object );
 else
   OMPutApplication( stream, omcdname, proc_name, objrec.object );
