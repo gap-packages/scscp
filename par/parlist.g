@@ -15,9 +15,6 @@
 # they also compensate for servers that are just running very slowly, 
 # and they lose nothing, since there are always idle servers by that point.
 
-# TODO: We do not need to recall all services if their number is bigger 
-# than the length of the list
-
 ReadPackage("scscp/par/configpar");
 SCSCPprocesses:=[];
 
@@ -31,25 +28,30 @@ od;
 end;
 
 ParListWithSCSCP := function( inputlist, remoteprocname )
-local nrservices, status, i, itercount, recallfreq, output, callargspositions, 
+local status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
-      s, nrdesc, retrystack, result;
+      s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
       
 ReadPackage("scscp/par/configpar"); # reread - it may be modified between function calls
-nrservices := Length( SCSCPservers );
 status := [ ];
+nrservices_alive:=0;
+nrservices_needed:=Length( inputlist );
 
-for i in [ 1 .. nrservices ] do
+for i in [ 1 .. Length(SCSCPservers) ] do
   if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
     status[i]:=0; # not alive  
     Print( SCSCPservers[i], " is not responding and will not be used!\n" );
   else  
     status[i]:=1; # alive and ready to accept
     Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+    nrservices_alive := nrservices_alive + 1;
+    if nrservices_alive >= nrservices_needed then
+      break;
+    fi;
   fi;   
 od;
 
-if not 1 in status then
+if nrservices_alive = 0 then
 	Error( "Can not start computation - no SCSCP service available!\n" );
 fi;
 
@@ -65,13 +67,18 @@ recallfreq:=10;
 while true do
   itercount:=itercount+1;
   if IsInt(itercount/recallfreq) then
-    for i in [ 1 .. nrservices ] do
+    nrservices_needed := Length( inputlist ) - currentposition + Length(retrystack);
+    for i in [ 1 .. Length(SCSCPservers) ] do
       if status[i]=0 then
   	    if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
           Print( SCSCPservers[i], "is still not responding and can not be used!\n" );
         else  
           status[i]:=1; # alive and ready to accept
           Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+          nrservices_alive := nrservices_alive + 1;
+    	  if nrservices_alive >= nrservices_needed then
+      		break;
+    	  fi;
         fi;
       fi;
     od;    
@@ -109,7 +116,7 @@ while true do
   #
   # see are there any waiting tasks
   #
-  waitinglist:= Filtered( [ 1 .. nrservices ], i -> status[i]=2 );
+  waitinglist:= Filtered( [ 1 .. Length(status) ], i -> status[i]=2 );
   if Length( waitinglist ) = 0 then
   	if Length( callargspositions ) = 0 then
   	  # no next tasks, no waiting tasks and no arguments sent off - computation completed!
@@ -144,7 +151,8 @@ while true do
  	if PingWebService( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
  		Print( SCSCPservers[nr], " is no longer available \n" );
  	 	status[nr]:=0;
-		if not ForAny( status, i -> i=2 or i=1 ) then
+ 	 	nrservices_alive := nrservices_alive - 1;
+		if nrservices_alive = 0 then
 			Error( "Can not continue computation - no SCSCP service left available!\n" );
 		fi;
  	else
