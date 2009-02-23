@@ -182,7 +182,7 @@ Add( OMsymTable, [ "scscp1", [
     ["procedure_call", OMgapRPC ],
     ["procedure_completed", x -> x[1] ],
     ["procedure_terminated", x -> x[1] ],
-    ["call_ID", "call_ID" ],
+    ["call_id", "call_id" ],
     ["info_memory", "info_memory" ],
     ["info_runtime", "info_runtime" ],
     ["option_debuglevel", "option_debuglevel" ],
@@ -237,7 +237,7 @@ Add( OMsymTable, [ "meta", [
 ##  From there the OpenMath object is turned into a record r with fields
 ##  r.object, containing the corresponding GAP object, and r.attributes, 
 ##  which is a list of pairs [ name, value ], for example 
-##  [ ["call_ID", "user007" ], ["option_runtime", 300000] ]
+##  [ ["call_id", "user007" ], ["option_runtime", 300000] ]
 ##  This is a counterpart of the function OpenMath function OMGetObject.
 ##
 InstallGlobalFunction( OMGetObjectWithAttributes,
@@ -471,7 +471,7 @@ end;
 ##  of arguments, for example:
 ##  rec ( object := [ SmallGroup(24,12) ],
 ##    attributes := [ [ "option_runtime", 1000 ],
-##                    [ "call_ID", "user007" ] ] )
+##                    [ "call_id", "user007" ] ] )
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
@@ -510,7 +510,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
     OMPutSymbol( stream, "scscp1", attr[1] );
-    if attr[1]="call_ID" then
+    if attr[1]="call_id" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "option_min_memory", "option_max_memory",
                       "option_runtime", "option_debuglevel" ] then
@@ -566,7 +566,7 @@ end);
 ##  rec ( object := 120,
 ##    attributes := [ [ "info_runtime", 1000 ], 
 ##                    [ "info_memory", 2048 ],
-##                    [ "call_ID", "user007" ] ] )
+##                    [ "call_id", "user007" ] ] )
 ##
 InstallGlobalFunction( OMPutProcedureCompleted,
 function( stream, objrec )
@@ -589,7 +589,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
     OMPutSymbol( stream, "scscp1", attr[1] );
-    if attr[1]="call_ID" then
+    if attr[1]="call_id" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
       OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
@@ -648,7 +648,7 @@ end);
 ##  rec ( object := 120,
 ##    attributes := [ [ "info_runtime", 1000 ], 
 ##                    [ "info_memory", 2048 ],
-##                    [ "call_ID", "user007" ] ] )
+##                    [ "call_id", "user007" ] ] )
 ##  The third argument is a string with CD name for the fourth argument.
 ##  The fourth argument is a string with error type, for example
 ##  "error_memory", "error_runtime", "error_system_specific" as defined
@@ -675,7 +675,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
     OMPutSymbol( stream, "scscp1", attr[1] );
-    if attr[1]="call_ID" then
+    if attr[1]="call_id" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
       OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      

@@ -29,7 +29,7 @@ InstallGlobalFunction( RunSCSCPserver,
 function( server, port )
 
 local socket, lookup, res, disconnect, socket_descriptor, 
-     stream, objrec, pos, call_ID_value, atp, callinfo, output, 
+     stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
 
@@ -115,11 +115,11 @@ else
 			
             # TODO: Rewrite analysing attributes (i.e. options)
             
-            pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_ID" );
+            pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_id" );
             if pos<>fail then 
-                call_ID_value := objrec.attributes[pos][2];
+                call_id_value := objrec.attributes[pos][2];
             else
-                call_ID_value := "N/A";
+                call_id_value := "N/A";
             fi;
             
             pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_cookie" );
@@ -130,9 +130,9 @@ else
             fi;           
             
             # we gather in callinfo additional information about the
-            # procedure call: now it is only call_ID, in the future we
+            # procedure call: now it is only call_id, in the future we
             # will add used memory, runtime, etc.
-            callinfo:= [ [ "call_ID", call_ID_value ] ];
+            callinfo:= [ [ "call_id", call_id_value ] ];
                         
             if callresult[1] then
               pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
@@ -182,7 +182,7 @@ else
               break;            
             fi;  
                        
-            Info( InfoSCSCP, 2, "call_ID ", call_ID_value, 
+            Info( InfoSCSCP, 2, "call_id ", call_id_value, 
                   " : sending to client ", objrec.object ); 
             
             if return_cookie then

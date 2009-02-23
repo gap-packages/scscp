@@ -20,7 +20,7 @@ for n in [ 1 .. nrsessions ] do
     call_nr:=call_nr+1;
     Print( call_nr, " \c");
     OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [k], 
-                         attributes:=[ ["call_ID", Concatenation(username, String(call_nr)) ] ] ) );
+                         attributes:=[ ["call_id", Concatenation(username, String(call_nr)) ] ] ) );
     IO_select( [ IO_GetFD(stream![1]) ], [ ], [ ], 60*60, 0 );
     obj:=OMGetObjectWithAttributes( stream );
     Add( res, obj );

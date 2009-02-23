@@ -99,7 +99,7 @@ Info( InfoSCSCP, 1, "Got connection initiation message" );
 Info( InfoSCSCP, 2, initmessage );
 session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+12 .. 
                              PositionSublist(initmessage,"\" scscp_versions")-1 ] };
-attribs := [ [ "call_ID", Concatenation( session_id, ":", RandomString(8) ) ] ];
+attribs := [ [ "call_id", Concatenation( session_id, ":", RandomString(8) ) ] ];
 pos1 := PositionNthOccurrence(session_id,':',2);
 if pos1 <> fail then
   pid := EvalString( session_id{[ pos1+1 .. Length(session_id) ]} );

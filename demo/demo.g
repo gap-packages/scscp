@@ -30,7 +30,7 @@ WriteLine( stream, "<?scscp end ?>");
 s:=OMGetObjectWithAttributes( stream );
 
 WriteLine( stream, "<?scscp start ?>");
-WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_ID\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_Factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
+WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_id\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_Factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
 WriteLine( stream, "<?scscp end ?>");
 
 s:=OMGetObjectWithAttributes( stream );
@@ -44,7 +44,7 @@ s:=OMGetObjectWithAttributes( stream );
 OMPutProcedureCall( stream, 
     "WS_Factorial", 
     rec( object:= [ 5 ], 
-         attributes:=[ [ "call_ID", "user007" ],
+         attributes:=[ [ "call_id", "user007" ],
                        ["option_runtime",1000],
                        ["option_min_memory",1024],
                        ["option_max_memory",2048],
@@ -54,7 +54,7 @@ s:=OMGetObjectWithAttributes( stream );
 OMPutProcedureCall( stream, 
     "GroupIdentificationService",
     rec( object:= [ [(2,3,1),(1,2,4,3)] ],
-         attributes:=[ [ "call_ID", "user007" ],
+         attributes:=[ [ "call_id", "user007" ],
                        ["option_runtime",5000],
                        ["option_min_memory",2048],
                        ["option_max_memory",4096],

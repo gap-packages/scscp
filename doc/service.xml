@@ -132,7 +132,7 @@ gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
 #I  Got connection initiation message 
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:38" ] ] )
+rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:38" ] ] )
 ]]>
 </Example>
 
@@ -140,7 +140,7 @@ rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:38" ] ] 
 <![CDATA[
 gap> SetInfoLevel(InfoSCSCP,0);                              
 gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
-rec( object := "3628800", attributes := [ [ "call_ID", "localhost:26133:41" ] ] )
+rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:41" ] ] )
 ]]>
 </Example>
 
@@ -159,7 +159,7 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 <OMOBJ>
     <OMATTR>
 		<OMATP>
-			<OMS cd="scscp1" name="call_ID"/>
+			<OMS cd="scscp1" name="call_id"/>
 			<OMSTR>localhost:26133:1212</OMSTR>
 		</OMATP>
 		<OMA>
@@ -193,7 +193,7 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 <OMOBJ>
 	<OMATTR>
 		<OMATP>
-			<OMS cd="scscp1" name="call_ID"/>
+			<OMS cd="scscp1" name="call_id"/>
 			<OMSTR>localhost:26133:1212</OMSTR>
 		</OMATP>
 		<OMA>
@@ -207,8 +207,8 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 	</OMATTR>
 </OMOBJ>
 #I  <?scscp end ?>
-#I  Got back: object [ 24, 12 ] with attributes [ [ "call_ID", "localhost:26133:1212" ] ]
-rec( object := [ 24, 12 ], attributes := [ [ "call_ID", "localhost:26133:1212" ] ] )
+#I  Got back: object [ 24, 12 ] with attributes [ [ "call_id", "localhost:26133:1212" ] ]
+rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ] ] )
 ]]>
 </Example>
 

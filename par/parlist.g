@@ -15,6 +15,9 @@
 # they also compensate for servers that are just running very slowly, 
 # and they lose nothing, since there are always idle servers by that point.
 
+# TODO: We do not need to recall all services if their number is bigger 
+# than the length of the list
+
 ReadPackage("scscp/par/configpar");
 SCSCPprocesses:=[];
 

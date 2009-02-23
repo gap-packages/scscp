@@ -3,7 +3,7 @@
 <!-- OpenMath objects -->
 
 <?scscp start ?>
-<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_ID"></OMS><OMSTR>georgiana</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="SCSCP_transient_1" name="WS_factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
+<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_id"></OMS><OMSTR>georgiana</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="SCSCP_transient_1" name="WS_factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
 <?scscp end ?>
 
 <?scscp start ?>
@@ -16,7 +16,7 @@
 <OMOBJ>
      <OMATTR>
          <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
+            <OMS cd="scscp1" name="call_id" />
             <OMSTR>call_identifier</OMSTR>
          </OMATP>
          <OMR xref="Primes@localhost:26133" />
@@ -44,7 +44,7 @@
 <OMOBJ>
     <OMATTR>
         <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
+            <OMS cd="scscp1" name="call_id" />
             <OMSTR>alexk_9053</OMSTR>
             <OMS cd="scscp1" name="option_runtime" />
             <OMI>300000</OMI>
@@ -84,7 +84,7 @@
 <OMOBJ>
     <OMATTR>
         <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
+            <OMS cd="scscp1" name="call_id" />
             <OMSTR>alexk_9053</OMSTR>
             <OMS cd="scscp1" name="option_return_cookie" />
             <OMSTR></OMSTR>
@@ -108,7 +108,7 @@
 <OMOBJ>
     <OMATTR>
         <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
+            <OMS cd="scscp1" name="call_id" />
             <OMSTR>alexk_9053</OMSTR>
             <OMS cd="scscp1" name="info_runtime" />
             <!-- The runtime in milliseconds as OM integer -->
@@ -135,7 +135,7 @@
 <OMOBJ>
     <OMATTR>
         <OMATP>
-            <OMS cd="scscp1" name="call_ID" />
+            <OMS cd="scscp1" name="call_id" />
             <OMSTR>alexk_9053</OMSTR>
         </OMATP>
         <OMA>
