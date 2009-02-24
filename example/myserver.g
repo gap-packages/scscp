@@ -226,6 +226,13 @@ InstallSCSCPprocedure( "EpsilonToNFA", EpsilonToNFA ); # from the 'automata' pac
 InstallSCSCPprocedure( "TwoStackSerAut", TwoStackSerAut );
 InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 
+#############################################################################
+#
+# procedures for MIP checks from the autiso package
+#
+if LoadPackage("autiso") = true then
+	InstallSCSCPprocedure( "CheckBin512", bin -> CheckBin(2,9, bin) );
+fi;
 
 #############################################################################
 #
