@@ -27,29 +27,48 @@ for proc in SCSCPprocesses do
 od;
 end;
 
+#############################################################################
+##
+## ParListWithSCSCP( inputlist, remoteprocname : timeout=int; recallfrequency=int )
+##
 ParListWithSCSCP := function( inputlist, remoteprocname )
 local status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
       
 ReadPackage("scscp/par/configpar"); # reread - it may be modified between function calls
+
+if ValueOption("timeout")=fail then
+  timeout:=60*60; # default timeout - one hour, given in seconds;
+else
+  timeout:=ValueOption("timeout");
+fi;
+
+if ValueOption("recallfrequency")=fail then
+  recallfreq:=0; # no need in initial and perodic pinging services
+else
+  recallfreq:=ValueOption("recallfreq");
+fi;
+
 status := [ ];
 nrservices_alive:=0;
 nrservices_needed:=Length( inputlist );
 
-for i in [ 1 .. Length(SCSCPservers) ] do
-  if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
-    status[i]:=0; # not alive  
-    Print( SCSCPservers[i], " is not responding and will not be used!\n" );
-  else  
-    status[i]:=1; # alive and ready to accept
-    Print( SCSCPservers[i], " responded and attached to the computation!\n" );
-    nrservices_alive := nrservices_alive + 1;
-    if nrservices_alive >= nrservices_needed then
-      break;
-    fi;
-  fi;   
-od;
+if recallfreq <> 0 then
+  for i in [ 1 .. Length(SCSCPservers) ] do
+    if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
+      status[i]:=0; # not alive  
+      Print( SCSCPservers[i], " is not responding and will not be used!\n" );
+    else  
+      status[i]:=1; # alive and ready to accept
+      Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+      nrservices_alive := nrservices_alive + 1;
+      if nrservices_alive >= nrservices_needed then
+        break;
+      fi;
+    fi;   
+  od;
+fi;
 
 if nrservices_alive = 0 then
 	Error( "Can not start computation - no SCSCP service available!\n" );
@@ -60,29 +79,29 @@ callargspositions := [ ];
 retrystack:= [ ];
 currentposition := 0;
 SCSCPprocesses := [ ];
-timeout:=60*60; # set timeout in seconds here
 itercount:=0;
-recallfreq:=10;
 
 while true do
   itercount:=itercount+1;
-  if IsInt(itercount/recallfreq) then
-    nrservices_needed := Length( inputlist ) - currentposition + Length(retrystack);
-    for i in [ 1 .. Length(SCSCPservers) ] do
-      if status[i]=0 then
-  	    if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
-          Print( SCSCPservers[i], "is still not responding and can not be used!\n" );
-        else  
-          status[i]:=1; # alive and ready to accept
-          Print( SCSCPservers[i], " responded and attached to the computation!\n" );
-          nrservices_alive := nrservices_alive + 1;
-    	  if nrservices_alive >= nrservices_needed then
-      		break;
-    	  fi;
+  if recallfreq <> 0 then
+    if IsInt(itercount/recallfreq) then
+      nrservices_needed := Length( inputlist ) - currentposition + Length(retrystack);
+      for i in [ 1 .. Length(SCSCPservers) ] do
+        if status[i]=0 then
+  	      if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
+            Print( SCSCPservers[i], "is still not responding and can not be used!\n" );
+          else  
+            status[i]:=1; # alive and ready to accept
+            Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+            nrservices_alive := nrservices_alive + 1;
+    	    if nrservices_alive >= nrservices_needed then
+      		  break;
+    	    fi;
+          fi;
         fi;
-      fi;
-    od;    
-    itercount:=0;
+      od;    
+      itercount:=0;
+    fi;
   fi;
   #
   # is next task available (from the initial list or retry stack)?
