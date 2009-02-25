@@ -37,3 +37,15 @@ hostname := ReadLine( str );
 CloseStream( str );
 return hostname{[ 1 .. Length(hostname)-1 ]};
 end;
+
+Seconds := function()
+local sec, str;
+sec:="";
+str := InputOutputLocalProcess( 
+         DirectoryCurrent(),
+         Filename( DirectoriesSystemPrograms(), "timer" ), 
+         [ ] );
+sec := ReadLine( str );
+CloseStream( str );
+return sec{[ 1 .. Length(sec)-1 ]};
+end;

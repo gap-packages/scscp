@@ -16,6 +16,7 @@
 # and they lose nothing, since there are always idle servers by that point.
 
 ReadPackage("scscp/par/configpar");
+ReadPackage("scscp/par/tracing.g");
 SCSCPprocesses:=[];
 
 SCSCPreset:=function()
@@ -36,6 +37,8 @@ local status, i, itercount, recallfreq, output, callargspositions,
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
       
+if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi;
+       
 ReadPackage("scscp/par/configpar"); # reread - it may be modified between function calls
 
 if ValueOption("timeout")=fail then
@@ -54,8 +57,8 @@ status := [ ];
 nrservices_alive:=0;
 nrservices_needed:=Length( inputlist );
 
-if recallfreq <> 0 then
-  for i in [ 1 .. Length(SCSCPservers) ] do
+for i in [ 1 .. Length(SCSCPservers) ] do
+    if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
     if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
       status[i]:=0; # not alive  
       Print( SCSCPservers[i], " is not responding and will not be used!\n" );
@@ -68,7 +71,6 @@ if recallfreq <> 0 then
       fi;
     fi;   
   od;
-fi;
 
 if nrservices_alive = 0 then
 	Error( "Can not start computation - no SCSCP service available!\n" );
@@ -88,6 +90,7 @@ while true do
       nrservices_needed := Length( inputlist ) - currentposition + Length(retrystack);
       for i in [ 1 .. Length(SCSCPservers) ] do
         if status[i]=0 then
+          if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
   	      if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
             Print( SCSCPservers[i], "is still not responding and can not be used!\n" );
           else  
@@ -124,6 +127,7 @@ while true do
       fi;	
       # remember which argument was sent to this service
       callargspositions[nr] := inputposition;
+      if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[nr][2]); fi;
       SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[inputposition] ], 
                                    SCSCPservers[nr][1], SCSCPservers[nr][2] );
       Print("master -> ", SCSCPservers[nr], " : ", inputlist[inputposition], "\n" );
@@ -142,6 +146,7 @@ while true do
   	  if Length(output) <> Length(inputlist) or not IsDenseList(output) then
   	    Error( "The output list does not match the input list!\n" );
   	  else
+  	    if IN_SCSCP_TRACING_MODE then SCSCPTraceEndThread(); SCSCPTraceEndProcess(); fi;
         return output;
       fi;
     else
@@ -154,7 +159,9 @@ while true do
   # waiting until any of the running tasks will be completed
   #
   descriptors := List( SCSCPprocesses{waitinglist}, s -> IO_GetFD( s![1]![1] ) );  
+  if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
   IO_select( descriptors, [ ], [ ], timeout, 0 );
+  if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
   nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i] <> fail );
   # if nothing came and timeout has passed then nrdesc=fail
   # This may happen when server was terminated by ^C and is in a break loop,
@@ -163,10 +170,12 @@ while true do
    	Error( "ParSCSCP: waited for ", timeout, " seconds with no response from ", SCSCPservers{waitinglist}, "\n" );  
   else	
   	nr := waitinglist[ nrdesc ];
+  	if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage(SCSCPservers[nr][2]); fi;
   	result := CompleteProcess( SCSCPprocesses[nr] );
   fi;
   if result = fail then
  	# the service SCSCPservers[nr] seems to crash, mark it as unavailable
+ 	if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[nr][2]); fi;
  	if PingWebService( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
  		Print( SCSCPservers[nr], " is no longer available \n" );
  	 	status[nr]:=0;

@@ -32,13 +32,15 @@ local socket, lookup, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
+     
+if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi;     
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
 SCSCPserverPort := port;
 session_id:=0;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
-IO_setsockopt( socket,IO.SOL_SOCKET,IO.SO_REUSEADDR,"xxxx" );
+IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
 
 lookup := IO_gethostbyname( server );
 if lookup = fail then
@@ -62,7 +64,9 @@ else
     repeat # until disconnect
         # We accept connections from everywhere
         Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
+        if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
         socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort("0.0.0.0",0) );
+        if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
         Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
         Info(InfoSCSCP, 1, "Stream created ...");
@@ -82,8 +86,9 @@ else
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             # currently the timeout is 3600 seconds = 1 hour
+            if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
             callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
-
+            if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
             if VERSION = "4.dev" then
               if not callresult[1] then
                 disconnect:=true;
@@ -162,7 +167,8 @@ else
                 OMPutProcedureTerminated( localstream, rec( object:=errormessage[1], attributes:=callinfo ), errormessage[2], errormessage[3] );
                 Print(omtext);
               fi;          
-            
+              
+              if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
               responseresult := CALL_WITH_CATCH( OMPutProcedureTerminated, 
               							[ stream, 
               							  rec( object:=errormessage[1], 
@@ -209,7 +215,7 @@ else
  
             # TODO: if the client already disconnected at this moment,
             # the server will crash :(
- 
+  	        if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
             responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted,
             						[ stream, 
             						  rec( object := output, 
