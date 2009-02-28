@@ -1,0 +1,346 @@
+SDDFA
+
+#137:
+// "description" "Trace Record when a machine starts"
+"Start Machine" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+};;
+
+#145:
+// "description" "Trace Record when a machine ends"
+"End Machine" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+};;
+
+#153:
+// "description" "Trace Record for a new process"
+"New Process" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+};;
+
+#241:
+// "description" "Trace Record when a process is labelled"
+"Label Process" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Label" "Name of Process"
+	char	"Label"[];
+};;
+
+#161:
+// "description" "Trace Record when a process is killed"
+"Kill Process" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+};;
+
+#169:
+// "description" "Trace Record for a new thread"
+"New Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+	// "Outport" "Outport ID"
+	int	"Outport ID";
+};;
+
+#177:
+// "description" "Trace Record when a thread is killed"
+"Kill Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+};;
+
+#185:
+// "description" "Trace Record when a thread is set to run"
+"Run Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+};;
+
+#193:
+// "description" "Trace Record when a thread is suspended"
+"Suspend Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+};;
+
+#201:
+// "description" "Trace Record when a thread is blocked"
+"Block Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+	// "Receiving Channel" "Inport ID"
+	int	"Inport ID";
+	// "Block Reason tag" "Block Reason"
+	int	"Block Reason";
+};;
+
+#209:
+// "description" "Trace Record when a thread is deblocked"
+"Deblock Thread" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Process" "Process ID"
+	int	"Process ID";
+	// "Thread" "Thread ID"
+	int	"Thread ID";
+};;
+
+#217:
+// "description" "Trace Record when a Message is sent"
+"Send Message" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Sending Process" "Sending Process ID"
+	int	"Sender Process ID";
+	// "Sending Channel" "Outport ID"
+	int	"Outport ID";
+	// "Receiving Processor" "Receiving Processor Number"
+	int	"Receiving Processor ID";
+	// "Receiving Process" "Receiving Process ID"
+	int	"Receiving Process ID";
+	// "Receiving Channel" "Inport ID"
+	int	"Inport ID";
+	// "Tag" "Tag ID"
+	int	"Tag of the message";
+};;
+
+#225:
+// "description" "Trace Record when a Message is received"
+"Receive Message" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "Receiving Process" "Receiving Process ID"
+	int	"Receiving Process ID";
+	// "Receiving Channel" "Inport ID"
+	int	"Inport ID";
+	// "Sending Processor" "Sending Processor Number"
+	int	"Sending Processor ID";
+	// "Sending Process" "Sending Process ID"
+	int	"Sending Process ID";
+	// "Sending Channel" "Outport ID"
+	int	"Outport ID";
+	// "Tag" "Tag ID"
+	int	"Tag of the message";
+	// "Size of message" "Size of message in words"
+	int	"Size in words";
+};;
+
+#233:
+// "description" "Trace Record containing Garbage Collection statistics"
+"GC done" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+	// "GC generation" "GC up to this generation"
+	int	"generation";
+	// "allocated" "heap allocated before GC"
+	long	"allocSize";
+	// "collected" "heap data collected in GC"
+	long	"collectSize";
+	// "live" "live heap data (heap consumption)"
+	long	"liveData";
+};;
+
+#257:
+// "description" "Trace Record to start receiving messages"
+"Start Communication" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+};;
+
+#265:
+// "description" "Trace Record after receiving messages"
+"End Communication" {
+	// "Time" "timeStamp"
+	int	"timeStamp"[];
+	// "Seconds" "Floating Point timeStamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Machine number"
+	int	"Machine Number";
+};;
+
+#19:
+// "description" "Dump cost event"
+"Dump Cost" {
+	// "Time" "Timestamp"
+	int	"Timestamp"[];
+	// "Seconds" "Floating Point Timestamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Processor number"
+	int	"Processor Number";
+	// "Interval Seconds" "Floating point interval duration"
+	double	"Interval Seconds";
+	// "Interval" "Time interval"
+	int	"Time Interval"[];
+};;
+
+#65:
+// "description" "Generic trace event"
+"Generic Trace" {
+	// "Time" "Timestamp"
+	int	"Timestamp"[];
+	// "Seconds" "Floating Point Timestamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Processor number"
+	int	"Processor Number";
+	// "Data" "User data"
+	char	"User Defined Data"[];
+};;
+
+#66:
+// "description" "Generic count event"
+"Generic Count" {
+	// "Time" "Timestamp"
+	int	"Timestamp"[];
+	// "Seconds" "Floating Point Timestamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Processor number"
+	int	"Processor Number";
+	// "Count" "Event count"
+	int	"Event Count";
+};;
+
+#67:
+// "description" "Generic interval event"
+"Generic Interval" {
+	// "Time" "Timestamp"
+	int	"Timestamp"[];
+	// "Seconds" "Floating Point Timestamp"
+	double	"Seconds";
+	// "ID" "Event ID"
+	int	"Event Identifier";
+	// "Node" "Processor number"
+	int	"Processor Number";
+	// "Interval Seconds" "Floating point interval duration"
+	double	"Interval Seconds";
+	// "Interval" "Time interval"
+	int	"Time Interval"[];
+};;
+
