@@ -64,9 +64,9 @@ else
     repeat # until disconnect
         # We accept connections from everywhere
         Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
-        if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
+        if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
         socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort("0.0.0.0",0) );
-        if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
+        if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
         Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
         Info(InfoSCSCP, 1, "Stream created ...");
@@ -86,9 +86,9 @@ else
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             # currently the timeout is 3600 seconds = 1 hour
-            if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
+            if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
             callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
-            if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
+            if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
             if VERSION = "4.dev" then
               if not callresult[1] then
                 disconnect:=true;

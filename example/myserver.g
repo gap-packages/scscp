@@ -231,7 +231,7 @@ InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 # procedures for MIP checks from the autiso package
 #
 if LoadPackage("autiso") = true then
-	InstallSCSCPprocedure( "CheckBin512", bin -> CheckBin(2,9, bin) );
+	InstallSCSCPprocedure( "CheckBin512", bin -> [ bin,CheckBin(2,9, bin) ] );
 fi;
 
 #############################################################################
@@ -273,6 +273,6 @@ until false;
 Print("Start logging traces to ", Concatenation( "tracing/tr", String(porttoprobe), ".txt"), "\n" );
 Print("####################################################################################\n");
 
-SCSCPLogTracesTo( Concatenation( "tracing/tr", String(porttoprobe), ".txt") );
+SCSCPLogTracesTo( Concatenation( "tr", String(porttoprobe), ".txt") );
 
 RunSCSCPserver( SCSCPserverAddress, porttoprobe );

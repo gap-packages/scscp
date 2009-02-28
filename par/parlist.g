@@ -159,9 +159,9 @@ while true do
   # waiting until any of the running tasks will be completed
   #
   descriptors := List( SCSCPprocesses{waitinglist}, s -> IO_GetFD( s![1]![1] ) );  
-  if IN_SCSCP_TRACING_MODE then SCSCPTraceBlockThread(); fi;
+  if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
   IO_select( descriptors, [ ], [ ], timeout, 0 );
-  if IN_SCSCP_TRACING_MODE then SCSCPTraceDeblockThread(); SCSCPTraceRunThread(); fi;
+  if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
   nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i] <> fail );
   # if nothing came and timeout has passed then nrdesc=fail
   # This may happen when server was terminated by ^C and is in a break loop,
