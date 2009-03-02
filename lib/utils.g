@@ -38,14 +38,24 @@ CloseStream( str );
 return hostname{[ 1 .. Length(hostname)-1 ]};
 end;
 
-Seconds := function()
-local sec, str;
-sec:="";
-str := InputOutputLocalProcess( 
-         DirectoryCurrent(),
-         Filename( DirectoriesSystemPrograms(), "timer" ), 
-         [ ] );
-sec := ReadLine( str );
-CloseStream( str );
-return sec{[ 1 .. Length(sec)-1 ]};
+
+IO_PickleToString:=function( obj )
+local rb, wb, s;
+rb:="";
+wb:="";
+s:=IO_WrapFD(-1,rb,wb);
+IO_Pickle( s, obj );
+IO_Close( s );
+return wb;
+end;
+
+
+IO_UnpickleFromString:=function( str )
+local rb, wb, s, r;
+rb:=str;
+wb:="";
+s:=IO_WrapFD(-1,rb,wb);
+r:=IO_Unpickle( s );
+IO_Close( s );
+return r;
 end;
