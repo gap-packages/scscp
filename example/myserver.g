@@ -228,11 +228,48 @@ InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 
 #############################################################################
 #
+# procedures to extend LAGUNA package
+#
+ReadPackage("laguna/lib/parunits.g");
+InstallSCSCPprocedure( "WS_NormalizedUnitCFpower", WS_NormalizedUnitCFpower );
+InstallSCSCPprocedure( "WS_NormalizedUnitCFcommutator", WS_NormalizedUnitCFcommutator );
+
+#############################################################################
+#
 # procedures for MIP checks from the autiso package
 #
 if LoadPackage("autiso") = true then
 	InstallSCSCPprocedure( "CheckBin512", bin -> [ bin,CheckBin(2,9, bin) ] );
 fi;
+
+#############################################################################
+#
+# procedure to test IO pickling
+#
+IO_UnpickleStringAndPickleItBack:=function( picklestr )
+return( IO_PickleToString( IO_UnpickleFromString( picklestr ) ) );
+end;
+
+InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndPickleItBack  );
+
+#############################################################################
+#
+# procedures to start/stop tracing
+#
+SCSCPStartTracing:=function( testname )
+SCSCPLogTracesTo( Concatenation( testname, ".", SCSCPserverAddress, ".", String( SCSCPserverPort ) ) );
+if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi; 
+return true;
+end;
+
+SCSCPStopTracing:=function()
+if IN_SCSCP_TRACING_MODE then SCSCPTraceEndThread(); SCSCPTraceEndProcess(); fi;
+SCSCPLogTracesTo();
+return true;
+end;
+
+InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing );
+InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing );
 
 #############################################################################
 #
@@ -272,7 +309,6 @@ repeat
 until false;
 Print("Start logging traces to ", Concatenation( "tracing/tr", String(porttoprobe), ".txt"), "\n" );
 Print("####################################################################################\n");
-
-SCSCPLogTracesTo( Concatenation( "tr", String(porttoprobe), ".txt") );
+# SCSCPLogTracesTo( Concatenation( "tr", String(porttoprobe), ".txt") );
 
 RunSCSCPserver( SCSCPserverAddress, porttoprobe );
