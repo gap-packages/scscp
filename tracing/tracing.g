@@ -2,6 +2,7 @@ SCSCP_TRACE_FILE       := "NULL";
 SCSCP_TRACE_MACHINE_ID := "0";
 SCSCP_TRACE_PROCESS_COUNT:=0;
 SCSCP_TRACE_THREAD_COUNT:=0;
+SCSCP_RESTORE_INFO_LEVEL:=0;
 
 SCSCPTraceStartTracing := function()
 PrintTo( SCSCP_TRACE_FILE, 
@@ -99,9 +100,15 @@ SCSCPLogTracesTo := function( arg )
 if Length(arg)=0 then
 	SCSCPTraceEndTracing();
 	IN_SCSCP_TRACING_MODE:=false;
+	SetInfoLevel( InfoSCSCP, SCSCP_RESTORE_INFO_LEVEL );
 elif Length(arg)=1 and IsString(arg[1]) then
+    SCSCP_RESTORE_INFO_LEVEL := InfoLevel( InfoSCSCP );
 	IN_SCSCP_TRACING_MODE := true;
-	SCSCP_TRACE_FILE := arg[1];
+	if SCSCPserverMode then
+		SCSCP_TRACE_FILE := Concatenation( arg[1], ".tr" );
+	else
+		SCSCP_TRACE_FILE := Concatenation( arg[1], ".client.tr" );
+	fi;	
 	SCSCP_TRACE_PROCESS_COUNT:=0;
 	SCSCP_TRACE_THREAD_COUNT:=0;
 	if SCSCPserverMode then
