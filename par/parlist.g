@@ -16,7 +16,6 @@
 # and they lose nothing, since there are always idle servers by that point.
 
 ReadPackage("scscp/par/configpar");
-ReadPackage("scscp/par/tracing.g");
 SCSCPprocesses:=[];
 
 SCSCPreset:=function()
@@ -61,10 +60,10 @@ for i in [ 1 .. Length(SCSCPservers) ] do
     if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
     if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
       status[i]:=0; # not alive  
-      Print( SCSCPservers[i], " is not responding and will not be used!\n" );
+      Info( InfoSCSCP, 1, SCSCPservers[i], " is not responding and will not be used!" );
     else  
       status[i]:=1; # alive and ready to accept
-      Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+      Info( InfoSCSCP, 1, SCSCPservers[i], " responded and attached to the computation!" );
       nrservices_alive := nrservices_alive + 1;
       if nrservices_alive >= nrservices_needed then
         break;
@@ -92,10 +91,10 @@ while true do
         if status[i]=0 then
           if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
   	      if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
-            Print( SCSCPservers[i], "is still not responding and can not be used!\n" );
+            Info( InfoSCSCP, 1, SCSCPservers[i], "is still not responding and can not be used!" );
           else  
             status[i]:=1; # alive and ready to accept
-            Print( SCSCPservers[i], " responded and attached to the computation!\n" );
+            Info( InfoSCSCP, 1, SCSCPservers[i], " responded and attached to the computation!" );
             nrservices_alive := nrservices_alive + 1;
     	    if nrservices_alive >= nrservices_needed then
       		  break;
@@ -130,7 +129,7 @@ while true do
       if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[nr][2]); fi;
       SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[inputposition] ], 
                                    SCSCPservers[nr][1], SCSCPservers[nr][2] );
-      Print("master -> ", SCSCPservers[nr], " : ", inputlist[inputposition], "\n" );
+      Info( InfoSCSCP, 2, "master -> ", SCSCPservers[nr], " : ", inputlist[inputposition] );
       status[nr] := 2; # status 2 means that we are waiting to hear from this service
     else
       break; # if we are here all services are busy
@@ -193,7 +192,7 @@ while true do
   #
   # processing the result
   #
-  Print( SCSCPservers[nr], " --> master : ", result.object, "\n" );
+  Info( InfoSCSCP, 2, SCSCPservers[nr], " --> master : ", result.object );
   status[nr]:=1;
   output[ callargspositions[nr] ] := result.object;
   Unbind(callargspositions[nr]);
