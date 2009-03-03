@@ -12,30 +12,30 @@
 # This function returns current date in ISO-8601 format (YYYY-MM-DD)
 #
 DateISO8601 := function()
-local date, out, str;
-date:="";
-out:="20";
-str := InputOutputLocalProcess( 
-         DirectoryTemporary(),
-         Filename(DirectoriesSystemPrograms(), "date"), 
-         [ "+%y-%m-%d" ]);
-date := ReadLine( str );
-CloseStream( str );
-Append( out, date{[ 1 .. Length(date)-1 ]} );
+local s, date;
+s := IO_Popen("date", [ "+%y-%m-%d" ],"r");
+date := IO_ReadLine(s);
+IO_Close(s);
+retutn Concatenation( "20", date{[ 1 .. Length(date)-1 ]} );
 return out;
 end;
 
 
 Hostname := function()
-local hostname, str;
-hostname:="";
-str := InputOutputLocalProcess( 
-         DirectoryTemporary(),
-         Filename(DirectoriesSystemPrograms(), "hostname"), 
-         [ ]);
-hostname := ReadLine( str );
-CloseStream( str );
-return hostname{[ 1 .. Length(hostname)-1 ]};
+local s, hostname;
+s := IO_Popen("hostname",[],"r");
+hostname := IO_ReadLine(s);
+IO_Close(s);
+return hostname{[ 1 .. Length(hostname)-1 ]};;
+end;
+
+
+REALTIME := function()
+local s, realtime;
+s := IO_Popen("date", [ "+%s" ],"r");
+realtime := IO_ReadLine(s);
+IO_Close(s);
+return Concatenation( realtime{[ 1 .. Length(realtime)-1 ]}, ".0" );
 end;
 
 
