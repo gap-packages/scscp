@@ -1,7 +1,16 @@
 ReadPackage("scscp/par/parlist.g");
 SetInfoLevel(InfoSCSCP,0);
 
-testname:="quillen";
+testname:="quillen10";
+EvaluateBySCSCP("SCSCPStartTracing",[ testname ],"localhost",26133);
+EvaluateBySCSCP("SCSCPStartTracing",[ testname ],"localhost",26134);
+SCSCPLogTracesTo( testname );
+ParListWithSCSCP(List([1..10], i->[512,i]),"QuillenSeriesByIdGroup");
+SCSCPLogTracesTo();
+EvaluateBySCSCP("SCSCPStopTracing",[],"localhost",26133);
+EvaluateBySCSCP("SCSCPStopTracing",[],"localhost",26134);
+
+testname:="quillen100";
 EvaluateBySCSCP("SCSCPStartTracing",[ testname ],"localhost",26133);
 EvaluateBySCSCP("SCSCPStartTracing",[ testname ],"localhost",26134);
 SCSCPLogTracesTo( testname );

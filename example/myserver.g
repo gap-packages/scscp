@@ -278,37 +278,6 @@ InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing );
 #
 #############################################################################
 
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
-#############################################################################
-#
-# This block is needeed if we want to do tracing
-#
-Print("####################################################################################\n");
-Print("Setting up tracing ... \n");
-IN_SCSCP_TRACING_MODE := true; # if we want to do tracing
-SCSCPserverMode := true;
-# some trick to guess the port number in advance
-lookup := IO_gethostbyname( SCSCPserverAddress );
-if lookup = fail then
-  Error( "Cannot find hostname ", SCSCPserverAddress );
-fi;
-porttoprobe:=SCSCPserverPort-1;
-repeat
-	socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
-	IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
-    porttoprobe:=porttoprobe+1;
-	res := IO_bind( socket, IO_make_sockaddr_in( lookup.addr[1], porttoprobe ) );
-	if res<>fail then
-		SCSCPserverPort:=porttoprobe;
-		IO_close( socket );
-		break;
-	else
-		IO_close( socket );
-	fi;
-until false;
-Print("Start logging traces to ", Concatenation( "tracing/tr", String(porttoprobe), ".txt"), "\n" );
-Print("####################################################################################\n");
-# SCSCPLogTracesTo( Concatenation( "tr", String(porttoprobe), ".txt") );
-
-RunSCSCPserver( SCSCPserverAddress, porttoprobe );
+RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );

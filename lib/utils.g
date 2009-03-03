@@ -33,6 +33,8 @@ end;
 # This function returns the time in seconds from Epoch 
 # as a string with a trailing ".0"
 #
+if VERSION <> "4.dev" then
+
 REALTIME := function()
 local s, realtime;
 s := IO_Popen("date", [ "+%s" ],"r");
@@ -41,6 +43,7 @@ IO_Close(s);
 return Concatenation( realtime{[ 1 .. Length(realtime)-1 ]}, ".0" );
 end;
 
+fi;
 
 IO_PickleToString:=function( obj )
 local rb, wb, s;
