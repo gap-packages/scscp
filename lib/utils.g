@@ -16,8 +16,7 @@ local s, date;
 s := IO_Popen("date", [ "+%y-%m-%d" ],"r");
 date := IO_ReadLine(s);
 IO_Close(s);
-retutn Concatenation( "20", date{[ 1 .. Length(date)-1 ]} );
-return out;
+return Concatenation( "20", date{[ 1 .. Length(date)-1 ]} );
 end;
 
 
@@ -29,7 +28,11 @@ IO_Close(s);
 return hostname{[ 1 .. Length(hostname)-1 ]};;
 end;
 
-
+#############################################################################
+#
+# This function returns the time in seconds from Epoch 
+# as a string with a trailing ".0"
+#
 REALTIME := function()
 local s, realtime;
 s := IO_Popen("date", [ "+%s" ],"r");
