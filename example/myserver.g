@@ -278,6 +278,6 @@ InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing );
 #
 #############################################################################
 
-# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
