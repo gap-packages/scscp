@@ -15,7 +15,7 @@
 # they also compensate for servers that are just running very slowly, 
 # and they lose nothing, since there are always idle servers by that point.
 
-ReadPackage("scscp/par/configpar");
+ReadPackage("scscp/configpar");
 SCSCPprocesses:=[];
 
 SCSCPreset:=function()
@@ -38,8 +38,6 @@ local status, i, itercount, recallfreq, output, callargspositions,
       
 if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi;
        
-ReadPackage("scscp/par/configpar"); # reread - it may be modified between function calls
-
 if ValueOption("timeout")=fail then
   timeout:=60*60; # default timeout - one hour, given in seconds;
 else
