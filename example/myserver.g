@@ -258,12 +258,10 @@ InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndP
 #
 SCSCPStartTracing:=function( testname )
 SCSCPLogTracesTo( Concatenation( testname, ".", SCSCPserverAddress, ".", String( SCSCPserverPort ) ) );
-if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi; 
 return true;
 end;
 
 SCSCPStopTracing:=function()
-if IN_SCSCP_TRACING_MODE then SCSCPTraceEndThread(); SCSCPTraceEndProcess(); fi;
 SCSCPLogTracesTo();
 return true;
 end;

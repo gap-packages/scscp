@@ -32,13 +32,10 @@ local socket, lookup, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
-     
-if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi;     
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
 SCSCPserverPort := port;
-session_id:=0;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
 
@@ -57,7 +54,11 @@ if res = fail then
     RunSCSCPserver( server, port+1 );
     return;
 else
-    Info(InfoSCSCP, 1, "Ready to accept TCP/IP connections at ", server, ":", port, " ..." );
+	welcome_string:= Concatenation( 
+          "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
+          "\" service_id=\"", server, ":", String(port), ":", String(IO_getpid()), 
+          "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
+    Print( "#I  Ready to accept TCP/IP connections at ", server, ":", port, " ... \n" );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections
     repeat # until false
     disconnect := false;  
@@ -70,13 +71,6 @@ else
         Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
         Info(InfoSCSCP, 1, "Stream created ...");
-        # Since we do not have CAS_IP (IO_getpid was promised soon),
-        # we numerate sessions for easier browsing the output 
-        session_id := session_id + 1;
-        welcome_string:= Concatenation( 
-          "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
-          "\" service_id=\"", server, ":", String(port), ":", String(IO_getpid()), 
-          "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
         Info(InfoSCSCP, 1, "Sending connection initiation message" );  
         Info(InfoSCSCP, 2, welcome_string );  
         WriteLine( stream, welcome_string );

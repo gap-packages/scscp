@@ -1,5 +1,4 @@
 ReadPackage("scscp/par/parlist.g");
-SetInfoLevel(InfoSCSCP,0);
 
 testname:="quillen16";
 for server in SCSCPservers do

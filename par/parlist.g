@@ -35,8 +35,6 @@ ParListWithSCSCP := function( inputlist, remoteprocname )
 local status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
-      
-if IN_SCSCP_TRACING_MODE then SCSCPTraceNewProcess(); SCSCPTraceNewThread(); SCSCPTraceRunThread(); fi;
        
 if ValueOption("timeout")=fail then
   timeout:=60*60; # default timeout - one hour, given in seconds;
@@ -143,7 +141,6 @@ while true do
   	  if Length(output) <> Length(inputlist) or not IsDenseList(output) then
   	    Error( "The output list does not match the input list!\n" );
   	  else
-  	    if IN_SCSCP_TRACING_MODE then SCSCPTraceEndThread(); SCSCPTraceEndProcess(); fi;
         return output;
       fi;
     else
