@@ -50,8 +50,15 @@ if res = fail then
     Print( "Error: ", LastSystemError(), "\n" );
     IO_close( socket );
     # Trick to select next available port automatically
-    Print("Trying next port ", port+1, "\n" );
-    RunSCSCPserver( server, port+1 );
+    # Print("Trying next port ", port+1, "\n" );
+    # RunSCSCPserver( server, port+1 );
+    # Printing to *errout* we are able to see this even if the output was redirected
+    PrintTo( "*errout*", 
+      "\n******************************************\n",
+      "failed to start SCSCP server at port ", port, 
+      "\n******************************************\n\n" );
+    # Hack to be able to quit GAP from gapscscp.sh script
+    BindGlobal( "SCSCPserverStatus" , fail );
     return;
 else
 	welcome_string:= Concatenation( 

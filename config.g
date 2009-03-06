@@ -15,7 +15,7 @@
 #
 
 # setting the default InfoLevel
-SetInfoLevel(InfoSCSCP,2);
+SetInfoLevel(InfoSCSCP,0);
 
 # If the SuppressOpenMathReferences is set to true, then 
 # OMPutReference (lib/openmath.gi) will put the actual 
@@ -27,7 +27,8 @@ SuppressOpenMathReferences := true;
 
 #############################################################################
 #
-# Default parameters for the server mode
+# Default parameters for the server mode (note that they will be overwritten 
+# if the server is started using scscp/gapscscp.sh script
 #
 
 # setting the default hostname to be used in the server mode
