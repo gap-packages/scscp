@@ -84,7 +84,9 @@ fi;
 
 echo "Starting SCSCP server with output to $OUTFILE" 
 
-echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_ROOT'/example/myserver.g"); if SCSCPserverStatus=fail then quit; fi;' | exec $GAP > $OUTFILE &
+# The next line starts GAP SCSCP server. 
+# To redirect stderr to /dev/null as well,
+# replace $OUTFILE 2>&1 & with $OUTFILE &
 
-# or use the version below if you do not want to see even errors sent to stderr
-# echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_ROOT'/example/myserver.g"); if SCSCPserverStatus=fail then quit; fi;' | exec $GAP > $OUTFILE 2>&1 &
+echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_ROOT'/example/myserver.g"); if SCSCPserverStatus=fail then QUIT_GAP(); fi;' | exec $GAP > $OUTFILE &
+
