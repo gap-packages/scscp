@@ -158,7 +158,9 @@ else
               else
                 # glue together error messages - specification says 
             	# there must be a string, so the list of strings is incorrect
-              	errormessage := [ Concatenation( objrec.object ), "scscp1", "error_system_specific" ];
+              	errormessage := [ Concatenation( server, ":", String(port), 
+              	                  " reports : ", Concatenation( objrec.object ) ), 
+              	                  "scscp1", "error_system_specific" ];
  			  fi;
  			  
               if InfoLevel( InfoSCSCP ) > 2 then

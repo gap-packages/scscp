@@ -28,6 +28,9 @@ IO_Close(s);
 return hostname{[ 1 .. Length(hostname)-1 ]};;
 end;
 
+LastCallID:=function()
+return OMTempVars.OMATTR.content[2].content[1].content; 
+end;
 
 IO_PickleToString:=function( obj )
 local rb, wb, s;
