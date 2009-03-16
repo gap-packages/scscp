@@ -31,3 +31,13 @@ DeclareGlobalFunction( "PingWebService" );
 DeclareGlobalFunction( "PingStatistic" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
 DeclareGlobalFunction( "ParEvaluateBySCSCP" );
+
+#############################################################################
+#
+# Special procedures
+#
+DeclareGlobalFunction( "GetAllowedHeads" );
+DeclareGlobalFunction( "GetServiceDescription" );
+DeclareGlobalFunction( "GetSignature" );
+DeclareGlobalFunction( "GetTransientCD" );
+DeclareGlobalFunction( "IsAllowedHead" );

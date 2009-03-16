@@ -15,7 +15,7 @@
 #
 
 # setting the default InfoLevel
-SetInfoLevel(InfoSCSCP,0);
+SetInfoLevel(InfoSCSCP,4);
 
 # If the SuppressOpenMathReferences is set to true, then 
 # OMPutReference (lib/openmath.gi) will put the actual 
