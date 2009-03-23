@@ -66,24 +66,18 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_cookie, return_nothing, omcdname, attribs, ns, server_scscp_version, pos1, pos2, pid;
+      return_option, omcdname, attribs, ns, server_scscp_version, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
-  return_cookie := true;
+  if ValueOption("return_cookie") = true then
+    return_option := "option_return_cookie";
+  fi;
+elif ValueOption("return_nothing") <> fail then
+  if ValueOption("return_nothing") = true then
+    return_option := "option_return_nothing";
+  fi;  
 else
-  return_cookie := false;  
-fi;
-
-if ValueOption("return_nothing") <> fail then
-  return_nothing := true;
-else
-  return_nothing := false;  
-fi;
-
-if return_cookie and return_nothing then
-  Print( "WARNING: options conflict in NewProcess:\n",
-         "you can not specify return_cookie and return_nothing in the same time!\n",
-         "Only return_cookie option will be used therefore.\n" );
+  return_option := "option_return_object";
 fi;
 
 if ValueOption("omcd") <> fail then
@@ -120,13 +114,7 @@ else
   fi;  
 fi;
   
-if return_cookie then
-  Add( attribs, [ "option_return_cookie", "" ] );
-fi; 
-
-if return_nothing then
-  Add( attribs, [ "option_return_nothing", "" ] );
-fi; 
+Add( attribs, [ return_option, "" ] );
 
 if InfoLevel( InfoSCSCP ) > 2 then
 
@@ -153,9 +141,7 @@ else
 fi;
               
 Info( InfoSCSCP, 1, "Request sent ..."); 
-if return_nothing then
-  CloseStream( stream );
-fi;               
+             
 return Objectify( ProcessDefaultType, [ stream, pid ] );
 end); 
 
