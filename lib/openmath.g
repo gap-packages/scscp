@@ -214,20 +214,11 @@ Add( OMsymTable, [ "scscp2", [
     [ "get_signature", SCSCP_GET_SIGNATURE ]
     ] ] );
     
-# TODO: add to scscp2 Special symbols:
-# symbol_set
-# symbol_set_all
-# signature
-# service_description
-# no_such_transient_cd
-    
-
 BindGlobal("OMgapCDName",
 	function( x )
 	return x[1];
 	end);
-
-    
+   
 Add( OMsymTable, [ "meta", [ 
     [ "CDName", OMgapCDName ]
     ] ] );    
