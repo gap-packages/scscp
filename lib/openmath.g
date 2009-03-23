@@ -184,6 +184,7 @@ Add( OMsymTable, [ "scscp1", [
     ["procedure_terminated", x -> x[1] ],
     ["call_id", "call_id" ],
     ["info_memory", "info_memory" ],
+    ["info_runtime", "info_message" ],
     ["info_runtime", "info_runtime" ],
     ["option_debuglevel", "option_debuglevel" ],
     ["option_max_memory", "option_max_memory" ],
