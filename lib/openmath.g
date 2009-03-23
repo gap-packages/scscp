@@ -180,7 +180,14 @@ end);
 ##
 Add( OMsymTable, [ "scscp1", [ 
     ["procedure_call", OMgapRPC ],
-    ["procedure_completed", x -> x[1] ],
+    ["procedure_completed", 
+      function(x); 
+      if IsBound(x[1]) then 
+        return x[1];
+      else
+        return "procedure completed";
+      fi;
+      end ],
     ["procedure_terminated", x -> x[1] ],
     ["call_id", "call_id" ],
     ["info_memory", "info_memory" ],
@@ -605,7 +612,11 @@ else
   has_attributes:=false;
 fi;
 OMIndent := OMIndent + 1;
-OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
+if IsBound(objrec.object) then
+  OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
+else
+  OMPutApplication( stream, "scscp1", "procedure_completed", [ ] );
+fi;  
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );

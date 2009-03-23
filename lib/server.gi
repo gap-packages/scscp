@@ -30,7 +30,7 @@ function( server, port )
 
 local socket, lookup, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
-     return_cookie, cookie, omtext, localstream, callresult, responseresult,
+     return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
 
 SCSCPserverMode := true;
@@ -128,26 +128,23 @@ else
                 call_id_value := "N/A";
             fi;
             
-            pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_cookie" );
-            if pos<>fail then 
+            if ForAny( objrec.attributes, atp -> atp[1]="option_return_cookie" ) then 
                 return_cookie := true;
             else
                 return_cookie := false;
-            fi;           
+                if ForAny( objrec.attributes, atp -> atp[1]="option_return_nothing" ) then 
+                  return_nothing := true;
+                else
+                  return_nothing := false;
+                fi;
+            fi;   
             
             # we gather in callinfo additional information about the
             # procedure call: now it is only call_id, in the future we
             # will add used memory, runtime, etc.
             callinfo:= [ [ "call_id", call_id_value ] ];
                         
-            if callresult[1] then
-              pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_return_nothing" );
-              if pos<>fail then 
-                Info(InfoSCSCP, 1, "option_return_nothing, closing connection ...");
-                disconnect:=true;
-                break;               
-              fi;
-            else
+            if not callresult[1] then
               if InfoLevel( InfoSCSCP ) > 0 then
                 Print( "#I  Sending error message: ", objrec.object, "\n" );
               fi; 
@@ -156,8 +153,7 @@ else
                   OMPlainString( Concatenation( "<OMS cd=\"", objrec.object[4], "\" name=\"", objrec.object[6], "\"/>" ) ), 
                   "error", objrec.object[2] ];
               else
-                # glue together error messages - specification says 
-            	# there must be a string, so the list of strings is incorrect
+                # glue together error messages into a single string
               	errormessage := [ Concatenation( server, ":", String(port), 
               	                  " reports : ", Concatenation( objrec.object ) ), 
               	                  "scscp1", "error_system_specific" ];
@@ -202,27 +198,25 @@ else
                 else
                     Error( "Failed to store result in the global variable ", cookie, "\n" );                                                  
                 fi;
-                output := RemoteObject( cookie, server, port );
+                output := rec( object     := RemoteObject( cookie, server, port ),
+                               attributes := callinfo );
+            elif return_nothing then
+			  output := rec( attributes:= callinfo );
             else
-              output := objrec.object;
+              output := rec( object := objrec.object, attributes:= callinfo );
             fi;       
                   
             if InfoLevel( InfoSCSCP ) > 2 then
               Print("#I  Composing procedure_completed message: \n");
               omtext:="";
               localstream := OutputTextString( omtext, true );
-              OMPutProcedureCompleted( localstream, 
-                rec( object := output, attributes:= callinfo ) );
+              OMPutProcedureCompleted( localstream, output );
               Print(omtext);
             fi;       
  
-            # TODO: if the client already disconnected at this moment,
-            # the server will crash :(
+            # TODO: if the client already disconnected at this moment, the server will crash :(
   	        if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
-            responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted,
-            						[ stream, 
-            						  rec( object := output, 
-            						    attributes:= callinfo ) ] );
+            responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );
 
             # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
             if VERSION <> "4.dev" then responseresult := [ true, responseresult ]; fi;
