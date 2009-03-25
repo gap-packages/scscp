@@ -140,10 +140,6 @@ InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByS
 
 InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
 
-InstallSCSCPprocedure( "RingTest", RingTest );
-InstallSCSCPprocedure( "LeaderElection", LeaderElection );
-InstallSCSCPprocedure( "ResetLeaderElection", ResetLeaderElection );
-
 InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel );
 
 InstallSCSCPprocedure( "PointImages", PointImages );
