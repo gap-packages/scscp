@@ -28,7 +28,7 @@ fi;
 InstallGlobalFunction( RunSCSCPserver,
 function( server, port )
 
-local socket, lookup, res, disconnect, socket_descriptor, 
+local socket, lookup, bindaddr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, client_message;
@@ -39,13 +39,19 @@ SCSCPserverPort := port;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
 
-lookup := IO_gethostbyname( server );
-if lookup = fail then
-    return rec( socket := fail,
-            errormsg := "RunSCSCPserver: cannot find hostname" );
+if server = true then
+	bindaddr := "\000\000\000\000";
+	server := "0.0.0.0";
+else
+	lookup := IO_gethostbyname( server );
+	if lookup = fail then
+	    return rec( socket := fail,
+	            errormsg := "RunSCSCPserver: cannot find hostname" );
+	fi;
+	bindaddr := lookup.addr[1];
 fi;
 
-res := IO_bind( socket, IO_make_sockaddr_in( lookup.addr[1], port ) );
+res := IO_bind( socket, IO_make_sockaddr_in( bindaddr, port ) );
 if res = fail then 
     Print( "Error: ", LastSystemError(), "\n" );
     IO_close( socket );
