@@ -13,6 +13,7 @@
 The GAP package SCSCP implements the Symbolic Computation Software 
 Composability protocol for the computational algebra system GAP in 
 accordance with:
+
 * SCSCP specification: 
     http://www.symbolic-computation.org/scscp
 * OpenMath content dictionary scscp1: 
@@ -40,4 +41,4 @@ In the GAP session that will be started, press any key to run the next
 command, except pressing 'q' to stop the demo.
 
 
-Alexander Konovalov, Steve Linton                           January 2009
+Alexander Konovalov, Steve Linton                           March 2009

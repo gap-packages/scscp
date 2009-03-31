@@ -16,7 +16,7 @@
 <TitlePage>
   <Title>&SCSCP;</Title>
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
-  <Version>Version 0.4</Version>
+  <Version>Version 1.0</Version>
 
   <Author>Alexander Konovalov
           <Email>alexk at mcs dot st-andrews dot ac dot uk</Email>
@@ -34,14 +34,14 @@
           </Address> 
   </Author>
   
-  <Date>17 September 2008</Date>
+  <Date>31 March 2009</Date>
 
 <Abstract>
 
 <Index Key="SCSCP package">&SCSCP; package</Index> 
 
-The &GAP; package &SCSCP; is the prototype
-implementation of the Symbolic Computation Software Composability 
+The &GAP; package &SCSCP; implements
+the Symbolic Computation Software Composability 
 protocol (<URL>http://www.symbolic-computation.org/scscp</URL>) 
 for the computational algebra system &GAP;.
 
@@ -63,8 +63,8 @@ for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:<P/>
 
   A. Konovalov and S. Linton. 
-  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 0.4;</E> 
-  2008 (<URL>http://www.symbolic-computation.org/</URL>).
+  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 1.0;</E> 
+  2009 (<URL>http://www.symbolic-computation.org/</URL>).
 </Copyright>
   
 <Acknowledgements>
@@ -77,7 +77,8 @@ Versions history:
 Version 0.1 - first half of 2007; 
 Version 0.2 - December 2007;
 Version 0.3 - May 2008;
-Version 0.4 - August 2008.
+Version 0.4 - August 2008;
+Version 1.0 - March 2009.
 </Colophon>
 
 </TitlePage>

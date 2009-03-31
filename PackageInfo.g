@@ -11,9 +11,9 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol for GAP",
-Version := "0.4",
-Date := "17/09/2008",
-ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/scscp-0.4",
+Version := "1.0",
+Date := "31/03/2009",
+ArchiveURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/scscp-1.0",
 ArchiveFormats := ".tar.gz .tar.bz2 -win.zip",
 
 #TextFiles := ["init.g", ......],
@@ -56,10 +56,10 @@ Status := "dev",
 #CommunicatedBy := "",
 #AcceptDate := "",
 
-README_URL := "",
-PackageInfoURL := "",
-AbstractHTML := "",
-PackageWWWHome := "",
+README_URL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/README.scscp",
+PackageInfoURL := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/PackageInfo.g",
+AbstractHTML := "The package implements the <a href=\"http://www.symbolic-computation.org/scscp\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
+PackageWWWHome := "http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm",
                   
 PackageDoc := rec(
   BookName := "SCSCP",
@@ -73,9 +73,9 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">=4.4",
-  NeededOtherPackages := [ ["GAPDoc", ">= 1.1"], 
+  NeededOtherPackages := [ ["GAPDoc", ">= 1.2"], 
                            ["IO", ">=2.3"],
-                           ["openmath", ">=08.09.12"] ],
+                           ["openmath", ">=09.03.31"] ],
   SuggestedOtherPackages := [],
   ExternalConditions := []
 ),

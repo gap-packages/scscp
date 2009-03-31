@@ -18,7 +18,7 @@ Description:
 During GAP Server startup it:
 * loads all functions which has to be acessible as SCSCP services
 * loads lookup mechanisms for them
-* starts to listen specified port (e.g. 26133, as registered by IANA)
+* starts to listen specified port (default 26133, as registered by IANA)
 
 For example, the service provider can write a file "myservice.g" looking like:
 
@@ -28,6 +28,7 @@ InstallSCSCPprocedure("factorial", Factorial, ["integer"],
 .....
 InstallSCSCPprocedure("Simplify", OM-Simplify, ["raw-openmath"],
     "does some special simplification of OpenMath objects");
+    
 RunSCSCPserver( "servername", portnumber );
 
 After this to start the GAP server it remains to do 
@@ -74,7 +75,7 @@ That SCSCP service will be stopped by the client's initiative or under some
 other specified conditions to prevent forgotten jobs from infinite running.
     
 3) GAP Client (to connect to SCSCP server):
-* establish connection with the SCSCP server via the specified port 
+* establishes connection with the SCSCP server via the specified port 
 * performs an exchange of connection initionation messages with the server
 * requests, if necessary, the meta-information about provided services
 * starts exchange loop:
