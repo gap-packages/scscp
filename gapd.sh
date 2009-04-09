@@ -5,7 +5,7 @@
 #W gapd.sh                  The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: $
+#H $Id$
 ##
 ## gapscscp.sh [-h host] [-a] [-l] [-u] [-p port] [-t]
 ##
