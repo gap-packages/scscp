@@ -54,7 +54,7 @@ nrservices_needed:=Length( inputlist );
 
 for i in [ 1 .. Length(SCSCPservers) ] do
     if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
-    if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
+    if PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
       status[i]:=0; # not alive  
       Info( InfoSCSCP, 1, SCSCPservers[i], " is not responding and will not be used!" );
     else  
@@ -86,7 +86,7 @@ while true do
       for i in [ 1 .. Length(SCSCPservers) ] do
         if status[i]=0 then
           if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[i][2]); fi;
-  	      if PingWebService( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
+  	      if PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
             Info( InfoSCSCP, 1, SCSCPservers[i], "is still not responding and can not be used!" );
           else  
             status[i]:=1; # alive and ready to accept
@@ -170,7 +170,7 @@ while true do
   if result = fail then
  	# the service SCSCPservers[nr] seems to crash, mark it as unavailable
  	if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(SCSCPservers[nr][2]); fi;
- 	if PingWebService( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
+ 	if PingSCSCPservice( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
  		Print( SCSCPservers[nr], " is no longer available \n" );
  	 	status[nr]:=0;
  	 	nrservices_alive := nrservices_alive - 1;

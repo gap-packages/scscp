@@ -43,7 +43,7 @@
 <Heading>Other commands</Heading>
 
 <ManSection>
-   <Func Name="PingWebService"
+   <Func Name="PingSCSCPservice"
          Arg="hostname portnumber" />
    <Returns>
      <K>true</K> or <K>fail</K>
@@ -58,12 +58,12 @@
 
 <Example>
 <![CDATA[
-gap> PingWebService("localhost",26133);
+gap> PingSCSCPservice("localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message
 true
-gap> PingWebService("localhost",26134);                     
+gap> PingSCSCPservice("localhost",26134);                     
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 Error: rec(

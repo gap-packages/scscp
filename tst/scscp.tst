@@ -1,6 +1,6 @@
 gap> START_TEST("$Id$");
 gap> SetInfoLevel(InfoSCSCP,0);
-gap> PingWebService( "localhost", 26133 );
+gap> PingSCSCPservice( "localhost", 26133 );
 true
 gap> server := "localhost";;
 gap> stream:=InputOutputTCPStream( server, 26133 );

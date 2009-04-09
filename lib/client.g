@@ -10,9 +10,9 @@
 
 #############################################################################
 #
-# PingWebService( server, port )
+# PingSCSCPservice( server, port )
 #
-InstallGlobalFunction( PingWebService,
+InstallGlobalFunction( PingSCSCPservice,
 function( server, port )
 local stream, initmessage, rt;
 stream := InputOutputTCPStream( server, port );

@@ -25,7 +25,7 @@ status := [ ];
 remoteG := [];
 
 for i in [ 1 .. nrservices ] do
-  if  PingWebService( hostnames[i], ports[i] ) then
+  if  PingSCSCPservice( hostnames[i], ports[i] ) then
     status[i]:=1; # alive and ready to accept
     remoteG[i] := StoreAsRemoteObject( G, hostnames[i], ports[i] ); 
   else

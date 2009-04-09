@@ -27,7 +27,7 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 #
 DeclareGlobalFunction( "InstallSCSCPprocedure" );
 DeclareGlobalFunction( "RunSCSCPserver" );
-DeclareGlobalFunction( "PingWebService" );
+DeclareGlobalFunction( "PingSCSCPservice" );
 DeclareGlobalFunction( "PingStatistic" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
 DeclareGlobalFunction( "ParEvaluateBySCSCP" );

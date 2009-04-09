@@ -9,7 +9,7 @@
 
 for i in [26133..26134] do
   Print("Trying port ", i, " ...\n");
-  t:=PingWebService( "localhost", i );
+  t:=PingSCSCPservice( "localhost", i );
   if t=fail then
     Exec("./gapscscp.sh");
   else
