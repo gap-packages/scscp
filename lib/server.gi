@@ -12,14 +12,10 @@
 #
 # RunSCSCPserver( <server>, <port> )
 #
-# the 1st argument is the name of the server, e.g. "localhost" or 
-# "servername.somewhere.domain", the 2nd is the port number as an integer
-#
-# TODO: the server name may be determined automatically running 'hostname'
-# then the boolean argument may specify whether to use localhost or hostname
-# TODO: portname may be required strictly or not: "run at this port or fail"
-# or "probe this port, if fails, find next suitable". 
-# TODO: get easier portnumber at which server is running (for Jost)
+# The 1st argument is the name of the server, e.g. "localhost" or 
+# "servername.somewhere.domain", the 2nd is the port number as an integer.
+# The 1st argument may also be 'true' to listen to all network interfaces
+# or 'false' to bind the server strictly to "localhost".
 #
 if VERSION <> "4.dev" then
 	CALL_WITH_CATCH := CallFuncList;
@@ -43,6 +39,9 @@ if server = true then
 	bindaddr := "\000\000\000\000";
 	server := "0.0.0.0";
 else
+    if server = false then
+    	server := "localhost";
+    fi;
 	lookup := IO_gethostbyname( server );
 	if lookup = fail then
 	    return rec( socket := fail,
@@ -55,15 +54,19 @@ res := IO_bind( socket, IO_make_sockaddr_in( bindaddr, port ) );
 if res = fail then 
     Print( "Error: ", LastSystemError(), "\n" );
     IO_close( socket );
-    # Trick to select next available port automatically
+    # Uncomment two lines below if you want to select next 
+    # available port automatically instead of quitting
+    # (purely for debugging, so we did not made it an option)
+    #
     # Print("Trying next port ", port+1, "\n" );
     # RunSCSCPserver( server, port+1 );
+    #
     # Printing to *errout* we are able to see this even if the output was redirected
     PrintTo( "*errout*", 
       "\n******************************************\n",
       "failed to start SCSCP server at port ", port, 
       "\n******************************************\n\n" );
-    # Hack to be able to quit GAP from gapscscp.sh script
+    # Trick to be able to quit GAP from gapscscp.sh script
     BindGlobal( "SCSCPserverStatus" , fail );
     return;
 else
@@ -79,7 +82,7 @@ else
         # We accept connections from everywhere
         Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
         if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
-        socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort("0.0.0.0",0) );
+        socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort( "0.0.0.0", 0 ) );
         if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
         Info(InfoSCSCP, 1, "Got connection ...");
         stream := InputOutputTCPStream( socket_descriptor );
