@@ -27,7 +27,8 @@ function( server, port )
 local socket, lookup, bindaddr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
-     errormessage, str, session_id, welcome_string, client_message;
+     errormessage, str, session_id, welcome_string, 
+     client_scscp_version, pos1, pos2;
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
@@ -73,7 +74,7 @@ else
 	welcome_string:= Concatenation( 
           "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
           "\" service_id=\"", server, ":", String(port), ":", String(IO_getpid()), 
-          "\" scscp_versions=\"", SCSCP_VERSION, "\" ?>");
+          "\" scscp_versions=\"1.0 1.1 1.2 1.3\" ?>");
     Print( "#I  Ready to accept TCP/IP connections at ", server, ":", port, " ... \n" );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections
     repeat # until false
@@ -90,9 +91,20 @@ else
         Info(InfoSCSCP, 1, "Sending connection initiation message" );  
         Info(InfoSCSCP, 2, welcome_string );  
         WriteLine( stream, welcome_string );
-        client_message := ReadLine( stream );
-        Info(InfoSCSCP, 1, "Client's version is ", client_message );
-        WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
+        client_scscp_version := ReadLine( stream );
+        if InfoLevel(InfoSCSCP)>0 then
+          Print( "#I  Client replied with ", client_scscp_version );
+        fi;  
+        pos1 := PositionNthOccurrence(client_scscp_version,'\"',1);
+        pos2 := PositionNthOccurrence(client_scscp_version,'\"',2);
+        client_scscp_version := client_scscp_version{[ pos1+1 .. pos2-1 ]};
+        if not client_scscp_version in [ "1.0", "1.1", "1.2", "1.3" ] then
+           Info(InfoSCSCP, 1, "Rejecting the client because of non supported version ", client_scscp_version );           
+           WriteLine( stream, Concatenation( "<?scscp quit reason=\"non supported version ", client_scscp_version, "\" ?>" ) );
+        else
+           SCSCP_VERSION := client_scscp_version;
+           Info(InfoSCSCP, 1, "Confirming version ", SCSCP_VERSION, " to the client ...");           
+           WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
         repeat
             Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
             # currently the timeout is 3600 seconds = 1 hour
@@ -236,6 +248,7 @@ else
               break;   
             fi;						    
         until false;
+        fi;
         Info(InfoSCSCP, 1, "Closing stream ...");
         # socket descriptor will be closed here
         CloseStream( stream );

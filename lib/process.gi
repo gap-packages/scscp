@@ -66,7 +66,8 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_option, omcdname, attribs, ns, server_scscp_version, pos1, pos2, pid;
+      return_option, omcdname, attribs, ns, server_scscp_version, 
+      suggested_versions, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
   if ValueOption("return_cookie") = true then
@@ -100,25 +101,38 @@ if pos1 <> fail then
 else
   pid:=0;
 fi;
- 
+server_scscp_version:=initmessage{ [ PositionSublist(initmessage,"scscp_versions=")+16 .. 
+                                     PositionSublist(initmessage,"\" ?>")-1 ] };
+server_scscp_version := SplitString( server_scscp_version, " " );
+if not SCSCP_VERSION in server_scscp_version then
+  # we select the highest compatible version of the protocol or insist on our version
+  suggested_versions := Intersection( server_scscp_version, SCSCP_COMPATIBLE_VERSIONS );
+  if Length( suggested_versions ) > 0 then
+    SCSCP_VERSION := Maximum( suggested_versions );
+  fi;
+fi;
+Info(InfoSCSCP, 1, "Requesting version ", SCSCP_VERSION, " from the server ..."); 
 WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
 server_scscp_version := ReadLine( stream );
 pos1 := PositionNthOccurrence(server_scscp_version,'\"',1);
 pos2 := PositionNthOccurrence(server_scscp_version,'\"',2);
 if pos1=fail or pos2=fail then
+  CloseStream( stream );
   Error( "Incompatible protocol versions, the server requires ", server_scscp_version );
 else 
   server_scscp_version := server_scscp_version{[ pos1+1 .. pos2-1 ]};
   if server_scscp_version <> SCSCP_VERSION then
+    CloseStream( stream );
     Error("Incompatible protocol versions, the server requires ", server_scscp_version );
   fi;  
+  Info(InfoSCSCP, 1, "Server confirmed version ", SCSCP_VERSION, " to the client ...");           
 fi;
   
 Add( attribs, [ return_option, "" ] );
 
 if InfoLevel( InfoSCSCP ) > 2 then
 
-  Print("#I Composing procedure_call message: \n");
+  Print("#I  Composing procedure_call message: \n");
   omtext:="";
   localstream := OutputTextString( omtext, true );
   OMPutProcedureCall( localstream, 

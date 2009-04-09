@@ -14,8 +14,9 @@ ReadPackage("scscp/lib/process.gd");
 ReadPackage("scscp/lib/remote.gd");
 ReadPackage("scscp/lib/scscp.gd");
 
-# setting the default version of SCSCP
+# setting the default and compatible versions of SCSCP for the client
 SCSCP_VERSION := "1.3";
+SCSCP_COMPATIBLE_VERSIONS := [ "1.0", "1.1", "1.2", "1.3" ];
 
 # We introduce the global variable SCSCPserverMode because 
 # of different handling of OMR at server and client sides. 
