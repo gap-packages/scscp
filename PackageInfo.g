@@ -74,7 +74,7 @@ PackageDoc := rec(
 Dependencies := rec(
   GAP := ">=4.4",
   NeededOtherPackages := [ ["GAPDoc", ">= 1.2"], 
-                           ["IO", ">=2.3"],
+                           ["IO", ">=3.0"],
                            ["openmath", ">=09.03.31"] ],
   SuggestedOtherPackages := [],
   ExternalConditions := []
