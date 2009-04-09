@@ -18,8 +18,6 @@ LogTo(); # to close log file if it was opened from .gaprc
 LoadPackage("scscp");
 LoadPackage("anupq");
 ReadPackage("scscp/example/karatsuba.g");
-LoadPackage("automata");
-ReadPackage("scscp/par/automata.g");
 
 #############################################################################
 #
@@ -153,30 +151,6 @@ InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode,
 
 #############################################################################
 #
-# procedures for automata
-#
-InstallSCSCPprocedure( "EpsilonToNFA", EpsilonToNFA ); # from the 'automata' package
-InstallSCSCPprocedure( "TwoStackSerAut", TwoStackSerAut );
-InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
-
-#############################################################################
-#
-# procedures to extend LAGUNA package
-#
-ReadPackage("laguna/lib/parunits.g");
-InstallSCSCPprocedure( "WS_NormalizedUnitCFpower", WS_NormalizedUnitCFpower );
-InstallSCSCPprocedure( "WS_NormalizedUnitCFcommutator", WS_NormalizedUnitCFcommutator );
-
-#############################################################################
-#
-# procedures for MIP checks from the autiso package
-#
-if LoadPackage("autiso") = true then
-	InstallSCSCPprocedure( "CheckBin512", bin -> [ bin,CheckBin(2,9, bin) ] );
-fi;
-
-#############################################################################
-#
 # procedure to test IO pickling
 #
 IO_UnpickleStringAndPickleItBack:=function( picklestr )
@@ -201,6 +175,14 @@ end;
 
 InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing );
 InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing );
+
+#############################################################################
+#
+# Some experimental code (not included in the public release)
+#
+if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") ) then
+  Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
+fi;
 
 #############################################################################
 #
