@@ -28,7 +28,7 @@ local socket, lookup, bindaddr, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, 
-     client_scscp_version, pos1, pos2;
+     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel;
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
@@ -118,8 +118,10 @@ else
               fi;
             fi;
 
-            Info(InfoSCSCP, 1, "Retrieved, starting evaluation ...");
+            Info(InfoSCSCP, 1, "Retrieving and evaluating ...");
+            rt1 := Runtime();
             callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
+            rt2 := Runtime();
             Info(InfoSCSCP, 1, "Evaluation completed");
             
             # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
@@ -160,10 +162,23 @@ else
                 fi;
             fi;   
             
+            pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_debuglevel" );
+            if pos<>fail then 
+                debuglevel := objrec.attributes[pos][2];
+            else
+                debuglevel := 0;
+            fi;            
+            
             # we gather in callinfo additional information about the
             # procedure call: now it is only call_id, in the future we
             # will add used memory, runtime, etc.
             callinfo:= [ [ "call_id", call_id_value ] ];
+            if debuglevel > 0 then
+              Add( callinfo, [ "info_runtime", rt2-rt1 ] );
+            fi;
+            if debuglevel > 1 then
+              Add( callinfo, [ "info_memory", MemoryUsage( objrec.object ) ] );
+            fi;
                         
             if not callresult[1] then
               if InfoLevel( InfoSCSCP ) > 0 then

@@ -66,7 +66,7 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_option, omcdname, attribs, ns, server_scscp_version, 
+      return_option, debug_option, omcdname, attribs, ns, server_scscp_version, 
       suggested_versions, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
@@ -85,6 +85,12 @@ if ValueOption("omcd") <> fail then
   omcdname := ValueOption("omcd");
 else
   omcdname := "";
+fi;
+
+if ValueOption("debuglevel") <> fail then
+  debug_option := ValueOption("debuglevel");
+else
+  debug_option := 0;
 fi;
 
 stream := InputOutputTCPStream( server, port );
@@ -129,6 +135,9 @@ else
 fi;
   
 Add( attribs, [ return_option, "" ] );
+if debug_option > 0 then
+  Add( attribs, [ "option_debuglevel", debug_option ] );
+fi; 
 
 if InfoLevel( InfoSCSCP ) > 2 then
 

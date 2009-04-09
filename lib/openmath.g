@@ -191,7 +191,7 @@ Add( OMsymTable, [ "scscp1", [
     ["procedure_terminated", x -> x[1] ],
     ["call_id", "call_id" ],
     ["info_memory", "info_memory" ],
-    ["info_runtime", "info_message" ],
+    ["info_message", "info_message" ],
     ["info_runtime", "info_runtime" ],
     ["option_debuglevel", "option_debuglevel" ],
     ["option_max_memory", "option_max_memory" ],
@@ -474,7 +474,7 @@ end;
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
-local omcdname, has_attributes, attr, nameandargs;
+local omcdname, debug_option, has_attributes, attr, nameandargs;
 
 if IsClosedStream( stream )  then
   Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
@@ -495,6 +495,12 @@ if ValueOption("omcd") <> fail then
   fi;  
 else
   omcdname := "scscp_transient_1";
+fi;
+
+if ValueOption("debuglevel") <> fail then
+  debug_option := ValueOption("debuglevel");
+else
+  debug_option := 0;
 fi;
 
 OMIndent := 0;
