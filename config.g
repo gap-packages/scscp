@@ -32,10 +32,10 @@ SuppressOpenMathReferences := true;
 #
 
 # setting the default hostname to be used in the server mode
-SCSCPserverAddress := "localhost";
+SCSCPserverAddress := "localhost"; # Hostname();
 
 # setting the default port
 SCSCPserverPort := 26133;
 
 # setting the default description
-SCSCPserverDescription:="The development version of GAP SCSCP service";
+SCSCPserverDescription:="GAP SCSCP service";
