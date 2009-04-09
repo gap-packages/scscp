@@ -2,26 +2,43 @@
 
 #############################################################################
 ##
-#W  gapscscp.sh             The SCSCP package             Alexander Konovalov
+#W gapd.sh                  The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
 #H $Id: $
 ##
-## gapscscp.sh [-t] [-h host] [-a] [-p port] 
+## gapscscp.sh [-h host] [-a] [-l] [-u] [-p port] [-t]
 ##
-## If '-t' is specified than the output will be redirected to a temporary file.
-## Otherwise, by default it will be redirected to /dev/null
+## The following options may be used to overwrite the default method to
+## specify the hostname to run GAP SCSCP server, stated in scscp/config.g :
+##
+## 1) if '-h host' is specified, then the server will be started at 'host'.
+##    'host' may be given as machine name with or without domain or even as 
+##    'localhost', though we have -l option for that purpose
+##
+## 2) if '-a' is specified, then the output of the call to 'hostname' will be 
+##    used as the SCSCP server address
+##
+## 3) if '-l' is specified, then the server will be started at localhost 
+##    and will not accept any incoming connections from the outside
+##
+## 4) if '-u' is specified, then the server will be started in a "universal"
+##    mode and will accept all incoming connections 
 ## 
-## If '-h host' is specified, this will overwrite the default hostname 
-## given in scscp/config.g. Here 'host' can be 'localhost' or machine name 
-## with or without domain.
+## The options 1-4 above are incompatible, so in case several of them will be
+## given, only the option with the biggest number will be used
 ##
-## If '-a' is specified, then the output of the call to 'hostname' will be 
-## used as the SCSCP server address. This option will overwrite the '-h'
-## option.
+## If none of the options 1-4 above is stated, the hostname for the server
+## will be taken from the scscp/config.g file
+## 
+## Additionally, you may use the following options:
 ##
-## If '-p port' is specified, this will overwrite the default port for the
-## SCSCP server given in scscp/config.g.
+## 5) if '-p port' is specified, this will overwrite the default port for the
+##    SCSCP server given in scscp/config.g
+##
+## 6) if '-t' is specified than the output will be redirected to a temporary 
+##    file, which name will be displayed on screen during startup. Otherwise, 
+##    by default it will be redirected to /dev/null
 ##
 ##
 #############################################################################
@@ -52,6 +69,8 @@ SCSCP_ROOT="/Users/ericjespers/scscp/"
 ##  Parse the arguments.
 ##
 autohost="no"
+localhost="no"
+unimode="no"
 use_temp_file="no"
 host=";"
 port=";"
@@ -61,13 +80,17 @@ while [ $option = "yes" ]; do
   option="no"
   case $1 in
 
-    -t) shift; option="yes"; use_temp_file="yes";;
-    
-    -h) shift; option="yes"; host=":=\""$1"\";"; shift;;
-
     -a) shift; option="yes"; autohost="yes";;
 
+    -h) shift; option="yes"; host=":=\""$1"\";"; shift;;
+
+    -l) shift; option="yes"; localhost="yes";;
+    
+    -u) shift; option="yes"; unimode="yes";;
+
     -p) shift; option="yes"; port=":="$1";"; shift;;
+
+    -t) shift; option="yes"; use_temp_file="yes";;
     
   esac
 done
@@ -82,6 +105,14 @@ if [ $autohost = "yes" ]; then
 	host=":=Hostname();"
 fi;
 
+if [ $localhost = "yes" ]; then
+	host=":=false;"
+fi;
+
+if [ $unimode = "yes" ]; then
+	host=":=true;"
+fi;
+
 echo "Starting SCSCP server with output to $OUTFILE" 
 
 # The next line starts GAP SCSCP server. 
@@ -89,4 +120,3 @@ echo "Starting SCSCP server with output to $OUTFILE"
 # replace $OUTFILE 2>&1 & with $OUTFILE &
 
 echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_ROOT'/example/myserver.g"); if SCSCPserverStatus=fail then QUIT_GAP(); fi;' | exec $GAP > $OUTFILE &
-
