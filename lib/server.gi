@@ -29,6 +29,8 @@ local socket, lookup, bindaddr, res, disconnect, socket_descriptor,
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, 
      client_scscp_version, pos1, pos2, rt1, rt2, debuglevel;
+     
+ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
