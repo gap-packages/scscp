@@ -112,42 +112,53 @@ end;
 #############################################################################
 
 # Other procedures
-InstallSCSCPprocedure( "Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
-InstallSCSCPprocedure( "WS_Factorial", FactorialAsString, "Returns result as a string to transmit large integers", 1 );
-InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function", 1, 1 );
-InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity, rec() );
-InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
-InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
-InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup, "Quillen series of a finite p-group", 2, 2 );
+InstallSCSCPprocedure( "WS_Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
+InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
+InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity );
+InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1, 1 );
+InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
+InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup, 
+	"Quillen series of a finite p-group given by IdGroup (list of two integers)", 1, 1 );
 
 # Series of factorisation methods from the GAP package FactInt
-InstallSCSCPprocedure("WS_FactorsTD", FactorsTD );
-InstallSCSCPprocedure("WS_FactorsPminus1", FactorsPminus1 );
-InstallSCSCPprocedure("WS_FactorsPplus1", FactorsPplus1 );
-InstallSCSCPprocedure("WS_FactorsECM", FactorsECM );
-InstallSCSCPprocedure("WS_FactorsCFRAC", FactorsCFRAC );
-InstallSCSCPprocedure("WS_FactorsMPQS", FactorsMPQS );
+InstallSCSCPprocedure("WS_FactorsTD", FactorsTD, 
+	"FactorsTD from FactInt package, see ?FactorsTD in GAP", 1, 2 );
+InstallSCSCPprocedure("WS_FactorsPminus1", FactorsPminus1, 
+	"FactorsPminus1 from FactInt package, see ?FactorsPminus1 in GAP", 1, 4 );
+InstallSCSCPprocedure("WS_FactorsPplus1", FactorsPplus1, 
+	"FactorsPplus1 from FactInt package, see ?FactorsPplus1 in GAP", 1, 4 );
+InstallSCSCPprocedure("WS_FactorsECM", FactorsECM, 
+	"FactorsECM from FactInt package, see ?FactorsECM in GAP", 1, 5 );
+InstallSCSCPprocedure("WS_FactorsCFRAC", FactorsCFRAC, 
+	"FactorsCFRAC from FactInt package, see ?FactorsCFRAC in GAP", 1, 1 );
+InstallSCSCPprocedure("WS_FactorsMPQS", FactorsMPQS, 
+	"FactorsMPQS from FactInt package, see ?FactorsMPQS in GAP", 1, 1 );
 
-InstallSCSCPprocedure("WS_ConwayPolynomial", ConwayPolynomial );
+InstallSCSCPprocedure("WS_ConwayPolynomial", ConwayPolynomial, "See ?ConwayPolynomial in GAP", 2, 2 );
 
 KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
 return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
 end;
 
-InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString);
+InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString, 
+	"See Examples chapter in the SCSCP package manual", 2, 2 );
 
-InstallSCSCPprocedure( "ApplyFunction", ApplyFunction );
+InstallSCSCPprocedure( "ApplyFunction", ApplyFunction, 
+	"1st argument is a string with the name of the function, 2nd is the list of its arguments", 2, 2 );
 
-InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel );
+InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel, 
+	"To change InfoSCSCP level on the server without restarting", 1, 1 );
 
-InstallSCSCPprocedure( "PointImages", PointImages );
+InstallSCSCPprocedure( "PointImages", PointImages, 
+	"1st argument is a permutation group G, 2nd is an integer n. Returns the set of images of n under generators of G", 2, 2 );
 
 InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
-    "Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
+	"Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
 # Example:
 # EvaluateBySCSCP( "EvaluateOpenMathCode", 
 #   [ OMPlainString("<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMI>1</OMI><OMI>2</OMI></OMA>")],
 #   "localhost",26133 ); 
+
 
 #############################################################################
 #
@@ -157,7 +168,9 @@ IO_UnpickleStringAndPickleItBack:=function( picklestr )
 return( IO_PickleToString( IO_UnpickleFromString( picklestr ) ) );
 end;
 
-InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndPickleItBack  );
+InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndPickleItBack, 
+	"To test how pickling format from IO package may be used for data transmitting (see ?IO_Pickle, ?IO_Unpickle)", 1, 1 );
+
 
 #############################################################################
 #
@@ -173,8 +186,11 @@ SCSCPLogTracesTo();
 return true;
 end;
 
-InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing );
-InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing );
+InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
+	"To turn on tracing mode on the server and save events to specified filename without extensions", 1, 1 );
+InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
+	"To turn off tracing mode on the server", 0, 0 );
+
 
 #############################################################################
 #
@@ -184,10 +200,10 @@ if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].Installation
   Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
 fi;
 
+
 #############################################################################
 #
-# Finally, we start the SCSCP server. Note that RunSCSCPserver will use the 
-# next available port if the default port from scscp/config.g is unavailable
+# Finally, we start the SCSCP server. 
 #
 #############################################################################
 
