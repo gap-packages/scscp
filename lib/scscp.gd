@@ -12,7 +12,8 @@
 # Functions to support symbols from scscp2 CD
 #
 DeclareGlobalFunction( "SCSCP_RETRIEVE" );
-DeclareGlobalFunction( "SCSCP_STORE" );
+DeclareGlobalFunction( "SCSCP_STORE_SESSION" );
+DeclareGlobalFunction( "SCSCP_STORE_PERSISTENT" );
 DeclareGlobalFunction( "SCSCP_UNBIND" );
 DeclareGlobalFunction( "SCSCP_GET_ALLOWED_HEADS" );
 DeclareGlobalFunction( "SCSCP_IS_ALLOWED_HEAD" );

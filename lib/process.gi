@@ -205,8 +205,8 @@ if return_tree then
 else
     result := OMGetObjectWithAttributes( stream );
 fi;    
-# This needs to be fixed. Reference must be converted automatically to the
-# remote object. Then there is no need in a option for cookie in this function.
+# TODO: References must be converted automatically to the remote object. 
+# Then there will be no need in a option for cookie in this function.
 if return_cookie then
   result.object := RemoteObject( result.object, stream![2], stream![3][1] );
 fi;

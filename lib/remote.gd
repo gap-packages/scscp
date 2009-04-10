@@ -31,9 +31,18 @@ DeclareGlobalFunction ( "RemoteObject" );
 
 #############################################################################
 ##
+#O StoreAsRemoteObjectPerSession( <Object> )
 #O StoreAsRemoteObject( <Object> )
 ##
-DeclareOperation( "StoreAsRemoteObject", [ IsObject, IsString, IsPosInt ] );
+DeclareOperation( "StoreAsRemoteObjectPerSession", [ IsObject, IsString, IsPosInt ] );
+DeclareSynonym( "StoreAsRemoteObject", StoreAsRemoteObjectPerSession );
+
+
+#############################################################################
+##
+#O StoreAsRemoteObjectPersistently( <Object> )
+##
+DeclareOperation( "StoreAsRemoteObjectPersistently", [ IsObject, IsString, IsPosInt ] );
 
 
 #############################################################################

@@ -94,14 +94,25 @@ end);
 
 #############################################################################
 ##
-## StoreAsRemoteObject( <Object>, <server>, <port> )
+## StoreAsRemoteObjectPerSession( <Object>, <server>, <port> )
 ##
-InstallMethod( StoreAsRemoteObject, "for an object",
+InstallMethod( StoreAsRemoteObjectPerSession, "for an object",
 [ IsObject, IsString, IsPosInt ],
 function( obj, server, port )
 # TODO: store must return automatically remote object even if called without return_cookie
 # In general, conflicts between procedures and options should be checked and eliminated
-return EvaluateBySCSCP( "store", [ obj ], server, port : return_cookie).object;
+return EvaluateBySCSCP( "store_session", [ obj ], server, port : return_cookie).object;
+end);
+
+
+#############################################################################
+##
+## StoreAsRemoteObjectPersistently( <Object>, <server>, <port> )
+##
+InstallMethod( StoreAsRemoteObjectPersistently, "for an object",
+[ IsObject, IsString, IsPosInt ],
+function( obj, server, port )
+return EvaluateBySCSCP( "store_persistent", [ obj ], server, port : return_cookie).object;
 end);
 
 

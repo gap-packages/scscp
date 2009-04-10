@@ -35,9 +35,13 @@ end);
 
 ##############################################################################
 #
-# SCSCP_STORE( <obj> )
+# SCSCP_STORE_SESSION( <obj> )
+# SCSCP_STORE_PERSISTENT( <obj> )
 #
-InstallGlobalFunction( SCSCP_STORE, x -> x[1] );
+# These are dummy functions since the magic is done in RunSCSCPserver
+#
+InstallGlobalFunction( SCSCP_STORE_SESSION,    x -> x[1] );
+InstallGlobalFunction( SCSCP_STORE_PERSISTENT, x -> x[1] );
 
 
 ##############################################################################
@@ -204,7 +208,8 @@ Add( OMsymTable, [ "scscp1", [
     ] ] );
 
 Add( OMsymTable, [ "scscp2", [ 
-    [ "store", SCSCP_STORE ],
+    [ "store_session", SCSCP_STORE_SESSION ],
+    [ "store_persistent", SCSCP_STORE_PERSISTENT ],
     [ "retrieve", SCSCP_RETRIEVE ],
     [ "unbind", SCSCP_UNBIND ],
     [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ],
@@ -538,9 +543,15 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( stream, "scscp1", "procedure_call" );
-if proc_name in [ "get_allowed_heads", "get_service_description", 
-                  "get_signature", "get_transient_cd", "is_allowed_head", 
-                  "retrieve", "store", "unbind" ] then
+if proc_name in [ "get_allowed_heads", 
+                  "get_service_description", 
+                  "get_signature", 
+                  "get_transient_cd", 
+                  "is_allowed_head", 
+                  "retrieve", 
+                  "store_session", 
+                  "store_persistent", 
+                  "unbind" ] then
   OMPutApplication( stream, "scscp2", proc_name, objrec.object );
 else
   OMPutApplication( stream, omcdname, proc_name, objrec.object );
