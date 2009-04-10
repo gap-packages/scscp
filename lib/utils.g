@@ -28,6 +28,18 @@ IO_Close(s);
 return hostname{[ 1 .. Length(hostname)-1 ]};;
 end;
 
+
+MemoryUsageByGAPinKbytes := function()
+local s, mem;
+s := IO_Popen( "ps", [ "-p", String( IO_getpid() ), "-o", "vsz" ], "r");
+IO_ReadLine(s);
+mem := IO_ReadLine(s);
+IO_Close(s);
+RemoveCharacters( mem, " \n" );
+return Int(mem);
+end;
+
+
 LastCallID:=function()
 return OMTempVars.OMATTR.content[2].content[1].content; 
 end;

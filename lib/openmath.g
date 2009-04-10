@@ -594,7 +594,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
     OMPutSymbol( stream, "scscp1", attr[1] );
-    if attr[1]="call_id" then
+    if attr[1] in [ "call_id", "info_message" ] then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
       OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      

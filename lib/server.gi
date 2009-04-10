@@ -179,7 +179,11 @@ else
               Add( callinfo, [ "info_runtime", rt2-rt1 ] );
             fi;
             if debuglevel > 1 then
-              Add( callinfo, [ "info_memory", MemoryUsage( objrec.object ) ] );
+              Add( callinfo, [ "info_memory", 1024*MemoryUsageByGAPinKbytes() ] );
+            fi;            
+            if debuglevel > 2 then
+              Add( callinfo, [ "info_message", 
+                   Concatenation( "Memory usage for the result is ", String( MemoryUsage( objrec.object ) ), " bytes" ) ] );
             fi;
                         
             if not callresult[1] then
