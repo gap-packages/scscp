@@ -30,7 +30,7 @@ local socket, lookup, bindaddr, res, disconnect, socket_descriptor,
      errormessage, str, session_id, welcome_string, 
      client_scscp_version, pos1, pos2, rt1, rt2, debuglevel;
      
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+# ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;
@@ -41,9 +41,11 @@ IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
 if server = true then
 	bindaddr := "\000\000\000\000";
 	server := "0.0.0.0";
+	SCSCPserverAddress := Hostname();
 else
     if server = false then
     	server := "localhost";
+    	SCSCPserverAddress := "localhost";
     fi;
 	lookup := IO_gethostbyname( server );
 	if lookup = fail then
@@ -70,7 +72,9 @@ if res = fail then
       "failed to start SCSCP server at port ", port, 
       "\n******************************************\n\n" );
     # Trick to be able to quit GAP from gapscscp.sh script
-    BindGlobal( "SCSCPserverStatus" , fail );
+    if not IsBoundGlobal( "SCSCPserverStatus" ) then
+    	BindGlobal( "SCSCPserverStatus" , fail );
+    fi;	
     return;
 else
 	welcome_string:= Concatenation( 
@@ -94,6 +98,10 @@ else
         Info(InfoSCSCP, 2, welcome_string );  
         WriteLine( stream, welcome_string );
         client_scscp_version := ReadLine( stream );
+        if client_scscp_version=fail then
+        	CloseStream( stream );
+        	continue;
+        fi;
         if InfoLevel(InfoSCSCP)>0 then
           Print( "#I  Client replied with ", client_scscp_version );
         fi;  
@@ -209,7 +217,6 @@ else
                 Print(omtext);
               fi;          
               
-              if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
               responseresult := CALL_WITH_CATCH( OMPutProcedureTerminated, 
               							[ stream, 
               							  rec( object:=errormessage[1], 
@@ -257,7 +264,6 @@ else
             fi;       
  
             # TODO: if the client already disconnected at this moment, the server will crash :(
-  	        if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
             responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );
 
             # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY

@@ -199,7 +199,10 @@ if return_cookie and return_tree then
 fi;
 
 stream := process![1];
+if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
+if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage( stream![3][1] ); fi;
 if return_tree then
     result := OMGetObjectWithAttributes( stream : return_tree );
 else

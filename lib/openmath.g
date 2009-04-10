@@ -509,6 +509,7 @@ else
 fi;
 
 OMIndent := 0;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage( stream![3][1] ); fi;
 WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
@@ -594,6 +595,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
 WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
@@ -684,6 +686,7 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 OMIndent := 0;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
 WriteLine( stream, "<?scscp start ?>" );
 OMWriteLine( stream, [ "<OMOBJ>" ] );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then

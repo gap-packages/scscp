@@ -15,6 +15,7 @@
 InstallGlobalFunction( PingSCSCPservice,
 function( server, port )
 local stream, initmessage, rt;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage( port ); fi;
 stream := InputOutputTCPStream( server, port );
 if stream <> fail then
   initmessage := ReadLine( stream );
