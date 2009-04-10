@@ -207,6 +207,4 @@ fi;
 #
 #############################################################################
 
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
-
 RunSCSCPserver( SCSCPserverAddress, SCSCPserverPort );
