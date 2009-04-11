@@ -8,6 +8,16 @@
 #############################################################################
 
 
+
+#############################################################################
+#
+# SCSCPtransientCDs stores information about transient CDs,
+# namely description and signatures of installed procedures
+#
+BindGlobal( "SCSCPtransientCDs", rec() );
+MakeReadWriteGlobal( "SCSCPtransientCDs" );
+
+
 #############################################################################
 ##
 #F  OMgapRPC( <x> )
@@ -157,7 +167,7 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_SIGNATURE,
 function( x )
-local omstr, tran, s, symb, t;
+local omstr;
 if not IsBound( OMsymRecord.(x[1]) ) then
     Error("no_such_transient_cd");
 else
@@ -166,8 +176,8 @@ else
     else
         omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"signature\"/>\n";
         Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
-        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(procname).Minarg : noomobj ), "\n" ) );
-        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(procname).Maxarg : noomobj ), "\n" ) );
+        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Minarg : noomobj ), "\n" ) );
+        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Maxarg : noomobj ), "\n" ) );
         # TODO : return more meaningful information about types of arguments
         Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
         Append( omstr, "</OMA>" );

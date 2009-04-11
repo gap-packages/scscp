@@ -104,33 +104,43 @@ fi;
 # Actual work
 #
 
-pos := PositionProperty( OMsymRecord, x -> x[1]="scscp_transient_1" );
-if pos = fail then
-  pos := Length(OMsymRecord) + 1;
-  OMsymRecord[pos] := [ "scscp_transient_1", [ ] ];
+if not IsBound( OMsymRecord.scscp_transient_1 ) then
+  OMsymRecord.scscp_transient_1 := rec();
 fi;
-SCSCPprocTable := OMsymRecord[ pos ][2];
-pos:=PositionProperty( SCSCPprocTable, x -> x[1]=procname );
-if pos=fail then
-  Add( SCSCPprocTable, [ procname, 
-                         function(arg) return CallFuncList( procfunc, arg[1] ); end, 
-                         procdesc, 
-                         minarg, 
-                         maxarg, 
-                         signature, ] );
-  Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
-  Info( InfoSCSCP, 2, "  * ", procdesc );
-  Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
-  Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
-  Info( InfoSCSCP, 4, "  * Signature : ", signature );
+
+if not IsBound( SCSCPtransientCDs.scscp_transient_1 ) then
+  SCSCPtransientCDs.scscp_transient_1 := rec();
+fi;  
+
+if not IsBound( OMsymRecord.scscp_transient_1.(procname) ) then
+	OMsymRecord.scscp_transient_1.(procname) := function(arg) return CallFuncList( procfunc, arg[1] ); end;
+    SCSCPtransientCDs.scscp_transient_1.(procname) := rec(
+    	Description := procdesc,
+        Minarg := minarg,
+        Maxarg := maxarg,
+        Signature := signature );
+    Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
+    Info( InfoSCSCP, 2, "  * ", procdesc );
+    Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
+    Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
+    Info( InfoSCSCP, 4, "  * Signature : ", signature );
 else
   userinput := InputTextUser();
   repeat
     Print( procname ," is already installed. Do you want to reinstall it [y/n]? \c");
     answer := ReadLine( userinput );
     if answer="y\n" then
-      SCSCPprocTable[pos][2] := procfunc;
-      Print("InstallSCSCPprocedure : procedure ", procname, " reinstalled. \n" ); 
+	  OMsymRecord.scscp_transient_1.(procname) := function(arg) return CallFuncList( procfunc, arg[1] ); end;
+      SCSCPtransientCDs.scscp_transient_1.(procname) := rec(
+    	Description := procdesc,
+        Minarg := minarg,
+        Maxarg := maxarg,
+        Signature := signature );
+      Print( "#I  Reinstalled SCSCP procedure ", procname ); 
+      Info( InfoSCSCP, 2, "  * ", procdesc );
+      Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
+      Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
+      Info( InfoSCSCP, 4, "  * Signature : ", signature );
       break;
     elif answer="n\n" then
       Print("InstallSCSCPprocedure : nothing to install. \n" );
