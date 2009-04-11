@@ -9,7 +9,8 @@
 
 ##############################################################################
 #
-# InstallSCSCPprocedure( procname, procfunc [, description ] [, narg1 [, narg2 ] [, signature ] ])
+# InstallSCSCPprocedure( procname, procfunc 
+#                        [, description ] [, narg1 [, narg2 ] [, signature ] ])
 #
 InstallGlobalFunction( InstallSCSCPprocedure,
 function( arg )
@@ -103,12 +104,12 @@ fi;
 # Actual work
 #
 
-pos := PositionProperty( OMsymTable, x -> x[1]="scscp_transient_1" );
+pos := PositionProperty( OMsymRecord, x -> x[1]="scscp_transient_1" );
 if pos = fail then
-  pos := Length(OMsymTable) + 1;
-  OMsymTable[pos] := [ "scscp_transient_1", [ ] ];
+  pos := Length(OMsymRecord) + 1;
+  OMsymRecord[pos] := [ "scscp_transient_1", [ ] ];
 fi;
-SCSCPprocTable := OMsymTable[ pos ][2];
+SCSCPprocTable := OMsymRecord[ pos ][2];
 pos:=PositionProperty( SCSCPprocTable, x -> x[1]=procname );
 if pos=fail then
   Add( SCSCPprocTable, [ procname, 

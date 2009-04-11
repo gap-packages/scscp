@@ -63,16 +63,18 @@ InstallGlobalFunction( SCSCP_GET_ALLOWED_HEADS,
 function( x )
 # the function should have an argument, which in this case will be an 
 # empty list, since 'get_allowed_heads' has no arguments
-local s,t, omstr;
+local cd, name, omstr;
 if x <> [] then 
   Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x, 
          " which will be ignored!\n");
 fi;
 omstr:="<OMA>\n";
 Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
-for s in OMsymTable do
-  for t in s[2] do
-    Append( omstr, Concatenation( "<OMS cd=\"", s[1], "\" name=\"", t[1], "\"/>\n" ) );
+for cd in RecNames(OMsymRecord) do
+  for name in RecNames(OMsymRecord.(cd)) do
+    if OMsymRecord.(cd).(name) <> fail then
+      Append( omstr, Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>\n" ) );
+    fi;  
   od;
 od;
 Append( omstr, "</OMA>" );
@@ -87,17 +89,14 @@ end);
 InstallGlobalFunction( SCSCP_IS_ALLOWED_HEAD,
 function( x )
 local tran, s, symb, t;
-tran := First( OMsymTable, s -> s[1]=x[1] );
-if tran = fail then
-    return false;
-else
-    symb := First( tran[2], t -> t[1]=x[2] );
-    if symb=fail then
-        return false;
-    else
-        return true;
+if IsBound( OMsymRecord.(x[1]) ) then
+  if IsBound( OMsymRecord.(x[1]).(x[2]) ) then
+    if OMsymRecord.(x[1]).(x[2]) <> fail then
+      return true;
     fi;
-fi;        
+  fi;
+fi;
+return false;
 end);
 
 
@@ -129,9 +128,8 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_TRANSIENT_CD,
 function( x )
-local tran, s, omstr, t;
-tran := First( OMsymTable, s -> s[1]=x[1] );
-if tran = fail then
+local omstr, procname;
+if not IsBound( OMsymRecord.(x[1]) ) then
     Error("no_such_transient_cd");
 else
     omstr:="<CD>\n<CDName>scscp_transient_1</CDName>\n";
@@ -141,9 +139,11 @@ else
     Append( omstr, Concatenation( "<CDRevision>", "0", "</CDRevision>\n" ) );
     Append( omstr, "<CDStatus>private</CDStatus>\n" );
     Append( omstr, "<Description>This is a transient content dictionary containing information about procedures offered by the GAP SCSCP service</Description>\n" );
-    for t in tran[2] do
-        Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>",t[1], "</Name>\n" ) );
-        Append( omstr, Concatenation( "<Role>application</Role>\n<Description>",t[3],"</Description>\n</CDDefinition>\n" ) );
+    for procname in RecNames( OMsymRecord.(x[1]) ) do
+        Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>", procname, "</Name>\n" ) );
+        Append( omstr, Concatenation( "<Role>application</Role>\n<Description>",
+                                      SCSCPtransientCDs.(x[1]).(procname).Description,
+                                      "</Description>\n</CDDefinition>\n" ) );
     od;
 fi;
 Append( omstr, "</CD>" );
@@ -158,18 +158,17 @@ end);
 InstallGlobalFunction( SCSCP_GET_SIGNATURE,
 function( x )
 local omstr, tran, s, symb, t;
-tran := First( OMsymTable, s -> s[1]=x[1] );
-if tran = fail then
+if not IsBound( OMsymRecord.(x[1]) ) then
     Error("no_such_transient_cd");
 else
-    symb := First( tran[2], t -> t[1]=x[2] );
-    if symb=fail then
+    if not IsBound( OMsymRecord.(x[1]).(x[2]) ) then
         Error("no_such_symbol");
     else
         omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"signature\"/>\n";
         Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
-        Append( omstr, Concatenation( OMString( symb[4] : noomobj ), "\n" ) );
-        Append( omstr, Concatenation( OMString( symb[5] : noomobj ), "\n" ) );
+        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(procname).Minarg : noomobj ), "\n" ) );
+        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(procname).Maxarg : noomobj ), "\n" ) );
+        # TODO : return more meaningful information about types of arguments
         Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
         Append( omstr, "</OMA>" );
         return OMPlainString( omstr );
@@ -180,56 +179,54 @@ end);
 
 #############################################################################
 ##
-##  Extending global variable OMsymTable defined in OpenMath package
+##  Extending global record OMsymRecord previously created in OpenMath package
 ##
-Add( OMsymTable, [ "scscp1", [ 
-    ["procedure_call", OMgapRPC ],
-    ["procedure_completed", 
-      function(x); 
-      if IsBound(x[1]) then 
-        return x[1];
-      else
-        return "procedure completed";
-      fi;
-      end ],
-    ["procedure_terminated", x -> x[1] ],
-    ["call_id", "call_id" ],
-    ["info_memory", "info_memory" ],
-    ["info_message", "info_message" ],
-    ["info_runtime", "info_runtime" ],
-    ["option_debuglevel", "option_debuglevel" ],
-    ["option_max_memory", "option_max_memory" ],
-    ["option_min_memory", "option_min_memory" ],
-    ["option_return_cookie", "option_return_cookie" ],
-    ["option_return_object", "option_return_object" ],
-    ["option_return_nothing", "option_return_nothing" ],
-    ["option_runtime", "option_runtime" ],
-    ["error_CAS", "error_CAS" ]
-    ] ] );
+OMsymRecord.scscp1 := rec(
+	procedure_call := OMgapRPC,
+	procedure_completed := 
+    	function(x); 
+        if IsBound(x[1]) then 
+        	return x[1];
+        else
+        	return "procedure completed";
+        fi;
+        end,
+    procedure_terminated := x -> x[1],
+    call_id := "call_id",
+    info_memory := "info_memory",
+    info_message := "info_message",
+    info_runtime := "info_runtime",
+    option_debuglevel := "option_debuglevel",
+    option_max_memory := "option_max_memory",
+    option_min_memory := "option_min_memory",
+    option_return_cookie := "option_return_cookie",
+    option_return_object := "option_return_object",
+    option_return_nothing := "option_return_nothing",
+    option_runtime := "option_runtime",
+    error_CAS := "error_CAS"
+);
 
-Add( OMsymTable, [ "scscp2", [ 
-    [ "store_session", SCSCP_STORE_SESSION ],
-    [ "store_persistent", SCSCP_STORE_PERSISTENT ],
-    [ "retrieve", SCSCP_RETRIEVE ],
-    [ "unbind", SCSCP_UNBIND ],
-    [ "get_allowed_heads", SCSCP_GET_ALLOWED_HEADS ],
-    [ "is_allowed_head", SCSCP_IS_ALLOWED_HEAD ],
-    [ "get_service_description", SCSCP_GET_SERVICE_DESCRIPTION ],
-    [ "get_transient_cd", SCSCP_GET_TRANSIENT_CD ],
-    [ "get_signature", SCSCP_GET_SIGNATURE ]
-    ] ] );
+OMsymRecord.scscp2 := rec( 
+    store_session := SCSCP_STORE_SESSION,
+    store_persistent := SCSCP_STORE_PERSISTENT,
+    retrieve := SCSCP_RETRIEVE,
+    unbind := SCSCP_UNBIND,
+    get_allowed_heads := SCSCP_GET_ALLOWED_HEADS,
+    is_allowed_head := SCSCP_IS_ALLOWED_HEAD,
+    get_service_description := SCSCP_GET_SERVICE_DESCRIPTION,
+    get_transient_cd := SCSCP_GET_TRANSIENT_CD,
+    get_signature := SCSCP_GET_SIGNATURE
+);
     
 BindGlobal("OMgapCDName",
 	function( x )
 	return x[1];
 	end);
    
-Add( OMsymTable, [ "meta", [ 
-    [ "CDName", OMgapCDName ]
-    ] ] );    
-    
-
-        
+OMsymRecord.meta := rec(
+	CDName := OMgapCDName
+);
+       
 
 #############################################################################
 ##
