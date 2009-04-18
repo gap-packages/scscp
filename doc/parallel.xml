@@ -1,4 +1,4 @@
-<!-- $Id:$ -->
+<!-- $Id$ -->
 
 <Chapter Label="Parallel">
 <Heading>Parallel computing with &SCSCP;</Heading>    
@@ -104,6 +104,7 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] 
         the other three lists should coincide. Then the function will call
         <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
         arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
+        <!-- TODO: check and maybe update the code and description --> 
     </Description>
 </ManSection>
 
@@ -134,6 +135,19 @@ rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501,
 Note that in the current implementation there will be no interrupt sygnal 
 sent to the other SCSCP servers, so they will continue computation until the
 end, and will be able to accept new requests after its finishing.
+
+<!-- TODO: document MasterWorker and parconfig file --> 
+
+<!-- TODO: document tracing and citing EdenTV paper --> 
+
+<!-- TODO: move turn off/on tracing to package from myserver.g --> 
+
+<!-- TODO: move turn off/on tracing to package from myserver.g --> 
+
+<!-- TODO: how to glue trace files automatically? --> 
+
+<!-- TODO: move turn off/on tracing to package from myserver.g and load from RunSCSCPserver--> 
+
 
 </Section>
 

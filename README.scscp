@@ -3,9 +3,10 @@
 #W README.scscp             The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: $
+#H $Id: config.g 2811 2009-04-09 14:46:07Z alexk $
 ##
 #############################################################################
+
 
                            The SCSCP Package
                            -----------------
@@ -41,4 +42,4 @@ In the GAP session that will be started, press any key to run the next
 command, except pressing 'q' to stop the demo.
 
 
-Alexander Konovalov, Steve Linton                           March 2009
+Alexander Konovalov, Steve Linton                           April 2009

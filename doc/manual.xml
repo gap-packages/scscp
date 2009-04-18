@@ -4,7 +4,6 @@
 
 <!DOCTYPE Book SYSTEM "gapdoc.dtd"
 [<!ENTITY IO "<Package>IO</Package>">]
-[<!ENTITY openmath "<Package>openmath</Package>">]
 [<!ENTITY OpenMath "<Package>OpenMath</Package>">]
 [<!ENTITY scscp1 "<Package>scscp1</Package>">]
 [<!ENTITY scscp2 "<Package>scscp2</Package>">]
@@ -16,11 +15,17 @@
 <TitlePage>
   <Title>&SCSCP;</Title>
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
-  <Version>Version 1.0</Version>
+  <Version>Version 1.1</Version>
 
   <Author>Alexander Konovalov
           <Email>alexk at mcs dot st-andrews dot ac dot uk</Email>
 	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
+          <Address>
+            School of Computer Science<Br/>
+            University of St Andrews<Br/>
+            Jack Cole Building, North Haugh,<Br/>
+            St Andrews, Fife, KY16 9SX, Scotland
+          </Address> 	      
   </Author>
 
   <Author>Steve Linton
@@ -34,7 +39,7 @@
           </Address> 
   </Author>
   
-  <Date>31 March 2009</Date>
+  <Date>18 April 2009</Date>
 
 <Abstract>
 
@@ -48,7 +53,7 @@ for the computational algebra system &GAP;.
 </Abstract>
 
 <Copyright>
-  &copyright; 2007-2008 by Alexander Konovalov and Steve Linton<P/>
+  &copyright; 2007-2009 by Alexander Konovalov and Steve Linton<P/>
 
   &SCSCP; is free software; you can redistribute it and/or modify it 
   under the terms of the GNU General Public License as published by 
@@ -63,7 +68,7 @@ for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:<P/>
 
   A. Konovalov and S. Linton. 
-  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 1.0;</E> 
+  <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 1.1;</E> 
   2009 (<URL>http://www.symbolic-computation.org/</URL>).
 </Copyright>
   
@@ -73,12 +78,15 @@ is supported by the EU FP6 Programme.
 </Acknowledgements>
 
 <Colophon>
-Versions history: 
-Version 0.1 - first half of 2007; 
-Version 0.2 - December 2007;
-Version 0.3 - May 2008;
-Version 0.4 - August 2008;
-Version 1.0 - March 2009.
+Versions history:
+<List>
+<Item>Version 0.1 - first half of 2007;</Item> 
+<Item>Version 0.2 - December 2007;</Item>
+<Item>Version 0.3 - May 2008;</Item>
+<Item>Version 0.4 - August 2008;</Item>
+<Item>Version 1.0 - March 2009;</Item>
+<Item>Version 1.1 - April 2009.</Item>
+</List> 
 </Colophon>
 
 </TitlePage>
@@ -94,6 +102,7 @@ Version 1.0 - March 2009.
 <#Include SYSTEM "server.xml"> 
 <#Include SYSTEM "client.xml">
 <#Include SYSTEM "examples.xml">
+<#Include SYSTEM "parallel.xml">
 <#Include SYSTEM "service.xml"> 
 
 </Body>

@@ -3,7 +3,7 @@
 IdGroup512:=function( G )
 # this is the client's counterpart for the SCSCP service for the 
 # identification of groups of order 512 using the ANUPQ package. 
-# (See the procedure IdGroup512ByCode in scscp/tst/myserver.g).
+# (See the procedure IdGroup512ByCode in scscp/example/myserver.g).
 # The group must have PC presentation and its pcgs code will be 
 # sent to the server to identify the group.
 local code, result;
@@ -19,7 +19,7 @@ end;
 IdGroup512:=function( G )
 # this is the client's counterpart for the SCSCP service for the 
 # identification of groups of order 512 using the ANUPQ package. 
-# (See the procedure IdGroup512ByCode in scscp/tst/myserver.g).
+# (See the procedure IdGroup512ByCode in scscp/example/myserver.g).
 # The group must have PC presentation and its pcgs code will be 
 # sent to the server to identify the group.
 local code, result;

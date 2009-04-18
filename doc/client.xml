@@ -21,6 +21,7 @@
      given by <C>server</C> and <C>port</C>. Returns the stream in
      the category <C>IsInputOutputTCPStream</C> for the subsequent
      waiting the result from that stream.
+     <!-- TODO: describe options --> 
    </Description>
 </ManSection>
 
@@ -35,6 +36,7 @@
      The function waits, if necessary, until the stream will contain
      some data, then reads appropriate &OpenMath; object from the stream
      and closes the stream;
+     <!-- TODO: describe options --> 
    </Description>
 </ManSection>
 
@@ -71,6 +73,7 @@ sending request and getting result in one call.
      Calls the SCSCP procedure with the name <A>command</A> 
      and the list of arguments <A>listargs</A> at the server and port
      given by <C>server</C> and <C>port</C>.
+     <!-- TODO: describe options --> 
    </Description>
 </ManSection>
 
@@ -152,147 +155,17 @@ gap> IdGroupWS(G);
         causes server crash because of the broken pipe. We introduce this 
         function as a nameplace for further implementing a proper interrupt
         mechanism.
+        <!-- TODO: check and update description --> 
    </Description>
 </ManSection>
 
 </Section>
 
-<Section Label="Workflows">
-<Heading>Managing multiple requests</Heading>
-
-Using procedure calls explained in the previous section, the user can
-create several requests to execute them in parallel, or to wait until
-the fastest result will be available.
-
-<ManSection>
-   <Func Name="SynchronizeProcesses" 
-          Arg="arg"
-         Comm="" />
-   <Returns>
-     list of records with components <C>object</C> and <C>attributes</C> 
-   </Returns>         
-   <Description>
-        The function collects results of from each stream given in the argument,
-        and returns the list, <M>i</M>-th entry of which is the result obtained
-        from the <M>i</M>-th stream. The function accepts both one argument that is a list of 
-        streams, and arbitrary number of arguments, each of them being a stream.
-   </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-< input/output TCP stream to localhost >
-gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-< input/output TCP stream to localhost >
-gap> SynchronizeProcesses(a,b); 
-#I  Process number 1 is ready
-#I  Closed 1st process, waiting for 2nd ...
-[ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] ), 
-  rec( object := "2432902008176640000", attributes := [ [ "call_id", "localhost:26134:6731" ] ] ) ]
-]]>
-</Example>
-
-
-<ManSection>
-   <Func Name="FirstProcess" 
-          Arg="arg"
-         Comm="" />
-   <Returns>
-     records with components <C>object</C> and <C>attributes</C> 
-   </Returns>         
-   <Description>
-        The function waits for the result from each stream given in the argument,
-        and returns the result coming first, closing all remaining streams at 
-        the same time. The function accepts both one argument that is a list of 
-        streams, and arbitrary number of arguments, each of them being a stream.
-   </Description>
-</ManSection>
-
-
-<Example>
-<![CDATA[
-gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-< input/output TCP stream to localhost >
-gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-< input/output TCP stream to localhost >
-gap> FirstProcess(a,b);             
-#I  Process number 1 is ready
-rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] )
-
-]]>
-</Example>
-
-
-<ManSection>
-    <Func Name="ParEvaluateBySCSCP" 
-           Arg="commands listargs servers ports" />
-    <Returns>
-        record with components <C>object</C> and <C>attributes</C> 
-    </Returns>	 
-    <Description>
-        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>,
-        constructed using the <Ref Func="FirstProcess"/>.
-        It can be used when the user can not predict which partcular method will
-        be more efficent and wants to apply to the same arguments all available 
-        methods in parallel, being interested only in the first returned result.
-        <P/>  
-        All arguments are lists. The list of arguments <A>listargs</A> has
-        the same meaning as in <Ref Func="EvaluateBySCSCP"/>. The length of
-        the other three lists should coincide. Then the function will call
-        <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
-        arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
-    </Description>
-</ManSection>
-
-In the example below we call two factorization methods from the &GAP; package 
-<Package>FactInt</Package> to factorize <M>2^{150}+1</M>. The runtime for 
-these two methods here is approximately the same, so you should expect results 
-from both methods in some random order from repeated calls.
-
-<Example>
-<![CDATA[
-gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
->      [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Process number 2 is ready
-rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-      13334701, 1182468601 ], attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
-
-]]>
-</Example>
-
-Note that in the current implementation there will be no interrupt sygnal 
-sent to the other SCSCP servers, so they will continue computation until the
-end, and will be able to accept new requests after its finishing.
-
-</Section>
 
 <Section Label="Remote">
 <Heading>Remote objects</Heading>
+
+<!-- TODO: implement and describe store per session / persistently --> 
 
 The &SCSCP; package introduces new kind of objects - <E>remote objects</E>.
 They provide an opportunity to manipulate with objects on remote services

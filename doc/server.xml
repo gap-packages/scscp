@@ -29,9 +29,8 @@
      If <A>narg2</A> is omitted then the maximal number of arguments will be set to <A>narg1</A>.<P/>
      <A>signature</A> is the signature record of the procedure. 
      It requires at least the minimal number of arguments to be specified.<P/>
-     If optional arguments are not specified, they will be set to their default
-     values - undocumented function, accepting any number of arguments of any kind. 
-     This 
+     If optional arguments are not specified, they will be set to their default values.
+     <!-- TODO: document default values -->
    </Description>
 </ManSection>
 
@@ -90,7 +89,7 @@ InstallSCSCPprocedure : procedure GroupIdentificationService installed.
 </Example>
 
 Some more examples of installation of SCSCP procedures 
-are given in the file <File>scscp/tst/myserver.g</File>. 
+are given in the file <File>scscp/example/myserver.g</File>. 
 
 </Section>
 
@@ -108,10 +107,7 @@ are given in the file <File>scscp/tst/myserver.g</File>.
      For a server hostname, given as a string <A>server</A> and
      an integer <A>port</A> specifying the port number,
      starts SCSCP server at <C>server</C>:<C>port</C>. 
-     If the specified port is not available at a moment, will
-     try the next possible port until it will find available one
-     (This behavior is intended for debugging purposes,
-     and may not be possible in the official release).
+     <!-- TODO: write that first argument may be true/false -->     
    </Description>
 </ManSection>
 
@@ -126,7 +122,9 @@ Waiting for new client connection at localhost:26133 ...
 It is assumed that the service provider will write the server
 configuration file, and will be able to start the SCSCP server
 launching &GAP; e.g. with the command <C>gap myserver.g</C>. An example
-of such configuration file is given in <File>scscp/tst/myserver.g</File>. 
+of such configuration file is given in <File>scscp/example/myserver.g</File>. 
+
+<!-- TODO: describe the gapd.sh script -->     
 
 </Section>
 

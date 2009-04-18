@@ -10,7 +10,7 @@ between client and server using the SCSCP.
 <Heading>Providing Web services with the SCSCP package</Heading>
 
 You can try to run the SCSCP server with the configuration file
-<File>scscp/tst/myserver.g</File>. To do this, go to that directory
+<File>scscp/example/myserver.g</File>. To do this, go to that directory
 and enter <C>gap myserver.g</C>. After this you will see some diagnostic
 messages and finally the server will be waiting for the connection. The
 final part of the startup screen will look as follows:
@@ -30,7 +30,7 @@ final part of the startup screen will look as follows:
 </Example>
 
 See further self-explanatory comments in the file 
-<File>scscp/tst/myserver.g</File>.
+<File>scscp/example/myserver.g</File>.
 There also some test files in the directory <File>scscp/tst/</File>
 supplied with detailed comments. First, you may use demonstration
 files, preliminary loading the code for the demonstration mode as it is
@@ -165,101 +165,6 @@ gap> IdGroup512(DihedralGroup(512));
 #I  Request sent ...
 #I  Waiting for reply ...
 [ 512, 2042 ]
-]]>
-</Example>
-
-</Section>
-
-<Section Label="Karatsuba">
-<Heading>Parallelising Karatsuba multiplication for polynomials</Heading>
-
-The file <File>scscp/tst/karatsuba.g</File> contains an implementation of
-the Karatsuba multiplication algorithm for polynomials. This algorithm can
-be easily parallelised since each recursive step creates three recursive 
-calls of the same function for other polynomials. <E>We will not parallelise
-each</E> recursive call, since this will create enormous data flow. Instead
-of this we parallelise only the top-level function.
-
-For our experiments with parallelising Karatsuba multiplication for
-polynomials with integer coefficients we used the multi-core machine, 
-on which we started one &SCSCP; client and two &SCSCP; servers. 
-After reading the file <File>scscp/tst/karatsuba.g</File>, the following
-function was created on the server
-
-<Example>
-<![CDATA[
-KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
-return String( KaratsubaPolynomialMultiplicationExtRep( 
-                 EvalString(s1), EvalString(s2) ) );
-end;
-]]>
-</Example>
-
-and then was made available as an &SCSCP; procedure under the 
-name <C>WS_Karatsuba</C> by the command
-
-<Example>
-<![CDATA[
-InstallSCSCPprocedure( "WS_Karatsuba", 
-                       KaratsubaPolynomialMultiplicationExtRepByString);
-]]>
-</Example>
-
-This function provides a "brigde" between the client's function 
-<C>KaratsubaPolynomialMultiplicationWS</C> and the server's function 
-<C>KaratsubaPolynomialMultiplicationExtRep</C>, which performs the 
-actual work on the server. <C>WS_Karatsuba</C> converts its string arguments
-into internal representation of univariate polynomials (basically, lists of 
-integers) and then converts the result back into string (since such data
-exchange format was chosen).
-
-We are going to parallelise the following part of the client's code:
-
-<Example>
-<![CDATA[
-...
-u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
-v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
-w := KaratsubaPolynomialMultiplicationExtRep(
-       PlusLaurentPolynomialsExtRep(f1,f0),
-       PlusLaurentPolynomialsExtRep(g1,g0) );
-...
-]]>
-</Example>
-
-and this can be done straightforwardly - we replace two first calls by
-calls of the appropriate &SCSCP; services, then perform the 3rd call locally
-and then collect the results from the two remote calls:
-         
-<Example>
-<![CDATA[
-...
-u := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   
-v := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   
-w := KaratsubaPolynomialMultiplicationExtRep(
-       PlusLaurentPolynomialsExtRep(f1,f0),
-       PlusLaurentPolynomialsExtRep(g1,g0) );
-wsresult:=SynchronizeProcesses2( u,v );
-u := EvalString( wsresult[1].object );
-v := EvalString( wsresult[2].object );
-...
-]]>
-</Example>
-
-We obtain almost double speedup on three cores on randomly generated polynomials
-of degree 32000:
-
-<Example>
-<![CDATA[
-gap> fam:=FamilyObj(1);;
-gap> f:=LaurentPolynomialByCoefficients( fam, 
->         List([1..32000],i->Random(Integers)), 0, 1 );;
-gap> g:=LaurentPolynomialByCoefficients( fam, 
->         List([1..32000],i->Random(Integers)), 0, 1 );;
-gap> t2:=KaratsubaPolynomialMultiplication(f,g);;time;
-5892
-gap> t3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;
-2974
 ]]>
 </Example>
 

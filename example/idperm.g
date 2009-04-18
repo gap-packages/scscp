@@ -3,7 +3,7 @@
 IdGroupWS := function( G )
 # this is the client's counterpart for the SCSCP service for the 
 # indentification of groups in the GAP Small Groups Library.
-# (See the procedure GroupIdentificationService in scscp/tst/myserver.g)
+# (See the procedure GroupIdentificationService in scscp/example/myserver.g)
 # The group is converted to the permutation group and then its generators
 # will be sent to the server for the identification.
 local H, result;

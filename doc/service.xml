@@ -109,7 +109,7 @@ min/avg/max = [ 0, 13/50, 2 ]
    <Description>
       <C>InfoSCSCP</C> is a special Info class for the &SCSCP; package.
       The amount of information to be displayed can be specified by the user 
-      by setting InfoLevel for this class from 0 to 3, and the default value
+      by setting InfoLevel for this class from 0 to 4, and the default value
       of InfoLevel for the package is 1. 
       The higher the level the more information will be displayed. 
       To change the InfoLevel to <C>k</C>, use the command 
@@ -211,6 +211,8 @@ gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
 rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ] ] )
 ]]>
 </Example>
+
+<!-- TODO: document Date in ISO format, Hostname and time --> 
 
 </Section>
 

@@ -3,10 +3,11 @@
 <Chapter Label="OpenMathFunctionality">
 <Heading>&OpenMath; functionality of the &SCSCP; package</Heading>    
 
-The &SCSCP; package extends the &openmath; package to support
-&OpenMath; symbols from the &scscp1; content dictionary <Cite Key="scscp1cd"/>.
+The &SCSCP; package extends the &OpenMath; package to support
+&OpenMath; symbols from the &scscp1; and &scscp2; content dictionaries
+(<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>).
 The &SCSCP; package installs some new functions, and also overwrites
-some functions and global variables from the &openmath; package 
+some functions and global variables from the &OpenMath; package 
 (this is not documented yet, but all changes are backwards compatible).
 
 <Section Label="OpenMath">
@@ -21,7 +22,7 @@ some functions and global variables from the &openmath; package
    </Returns>	 
    <Description>
      This function is similar to the function <C>OMGetObject</C>
-     from the &openmath; package, and the main difference is that it is 
+     from the &OpenMath; package, and the main difference is that it is 
      able to understand &OpenMath; attribution pairs. It retrieves
      exactly one &OpenMath; object from the stream <A>stream</A>, and
      stores it in the <C>object</C> component of the returned record.
