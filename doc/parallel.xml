@@ -1,0 +1,235 @@
+<!-- $Id:$ -->
+
+<Chapter Label="Parallel">
+<Heading>Parallel computing with &SCSCP;</Heading>    
+
+<Section Label="Workflows">
+<Heading>Managing multiple requests</Heading>
+
+Using procedure calls explained in the previous section, the user can
+create several requests to execute them in parallel, or to wait until
+the fastest result will be available.
+
+<ManSection>
+   <Func Name="SynchronizeProcesses" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+     list of records with components <C>object</C> and <C>attributes</C> 
+   </Returns>         
+   <Description>
+        The function collects results of from each stream given in the argument,
+        and returns the list, <M>i</M>-th entry of which is the result obtained
+        from the <M>i</M>-th stream. The function accepts both one argument that is a list of 
+        streams, and arbitrary number of arguments, each of them being a stream.
+   </Description>
+</ManSection>
+
+<Example>
+<![CDATA[
+gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> SynchronizeProcesses(a,b); 
+#I  Process number 1 is ready
+#I  Closed 1st process, waiting for 2nd ...
+[ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] ), 
+  rec( object := "2432902008176640000", attributes := [ [ "call_id", "localhost:26134:6731" ] ] ) ]
+]]>
+</Example>
+
+
+<ManSection>
+   <Func Name="FirstProcess" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+     records with components <C>object</C> and <C>attributes</C> 
+   </Returns>         
+   <Description>
+        The function waits for the result from each stream given in the argument,
+        and returns the result coming first, closing all remaining streams at 
+        the same time. The function accepts both one argument that is a list of 
+        streams, and arbitrary number of arguments, each of them being a stream.
+   </Description>
+</ManSection>
+
+
+<Example>
+<![CDATA[
+gap> a:=NewProcess( "WS_factorial", [10], "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> b:=NewProcess( "WS_factorial", [20], "localhost", 26134 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+< input/output TCP stream to localhost >
+gap> FirstProcess(a,b);             
+#I  Process number 1 is ready
+rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] )
+
+]]>
+</Example>
+
+
+<ManSection>
+    <Func Name="ParEvaluateBySCSCP" 
+           Arg="commands listargs servers ports" />
+    <Returns>
+        record with components <C>object</C> and <C>attributes</C> 
+    </Returns>	 
+    <Description>
+        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>,
+        constructed using the <Ref Func="FirstProcess"/>.
+        It can be used when the user can not predict which partcular method will
+        be more efficent and wants to apply to the same arguments all available 
+        methods in parallel, being interested only in the first returned result.
+        <P/>  
+        All arguments are lists. The list of arguments <A>listargs</A> has
+        the same meaning as in <Ref Func="EvaluateBySCSCP"/>. The length of
+        the other three lists should coincide. Then the function will call
+        <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
+        arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
+    </Description>
+</ManSection>
+
+In the example below we call two factorization methods from the &GAP; package 
+<Package>FactInt</Package> to factorize <M>2^{150}+1</M>. The runtime for 
+these two methods here is approximately the same, so you should expect results 
+from both methods in some random order from repeated calls.
+
+<Example>
+<![CDATA[
+gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
+>      [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message 
+#I  Request sent ...
+#I  Process number 2 is ready
+rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
+      13334701, 1182468601 ], attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
+
+]]>
+</Example>
+
+Note that in the current implementation there will be no interrupt sygnal 
+sent to the other SCSCP servers, so they will continue computation until the
+end, and will be able to accept new requests after its finishing.
+
+</Section>
+
+<Section Label="Karatsuba">
+<Heading>Parallelising Karatsuba multiplication for polynomials</Heading>
+
+The file <File>scscp/tst/karatsuba.g</File> contains an implementation of
+the Karatsuba multiplication algorithm for polynomials. This algorithm can
+be easily parallelised since each recursive step creates three recursive 
+calls of the same function for other polynomials. <E>We will not parallelise
+each</E> recursive call, since this will create enormous data flow. Instead
+of this we parallelise only the top-level function.
+
+For our experiments with parallelising Karatsuba multiplication for
+polynomials with integer coefficients we used the multi-core machine, 
+on which we started one &SCSCP; client and two &SCSCP; servers. 
+After reading the file <File>scscp/tst/karatsuba.g</File>, the following
+function was created on the server
+
+<Example>
+<![CDATA[
+KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
+return String( KaratsubaPolynomialMultiplicationExtRep( 
+                 EvalString(s1), EvalString(s2) ) );
+end;
+]]>
+</Example>
+
+and then was made available as an &SCSCP; procedure under the 
+name <C>WS_Karatsuba</C> by the command
+
+<Example>
+<![CDATA[
+InstallSCSCPprocedure( "WS_Karatsuba", 
+                       KaratsubaPolynomialMultiplicationExtRepByString);
+]]>
+</Example>
+
+This function provides a "brigde" between the client's function 
+<C>KaratsubaPolynomialMultiplicationWS</C> and the server's function 
+<C>KaratsubaPolynomialMultiplicationExtRep</C>, which performs the 
+actual work on the server. <C>WS_Karatsuba</C> converts its string arguments
+into internal representation of univariate polynomials (basically, lists of 
+integers) and then converts the result back into string (since such data
+exchange format was chosen).
+
+We are going to parallelise the following part of the client's code:
+
+<Example>
+<![CDATA[
+...
+u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
+v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
+w := KaratsubaPolynomialMultiplicationExtRep(
+       PlusLaurentPolynomialsExtRep(f1,f0),
+       PlusLaurentPolynomialsExtRep(g1,g0) );
+...
+]]>
+</Example>
+
+and this can be done straightforwardly - we replace two first calls by
+calls of the appropriate &SCSCP; services, then perform the 3rd call locally
+and then collect the results from the two remote calls:
+         
+<Example>
+<![CDATA[
+...
+u := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   
+v := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   
+w := KaratsubaPolynomialMultiplicationExtRep(
+       PlusLaurentPolynomialsExtRep(f1,f0),
+       PlusLaurentPolynomialsExtRep(g1,g0) );
+wsresult:=SynchronizeProcesses2( u,v );
+u := EvalString( wsresult[1].object );
+v := EvalString( wsresult[2].object );
+...
+]]>
+</Example>
+
+We obtain almost double speedup on three cores on randomly generated polynomials
+of degree 32000:
+
+<Example>
+<![CDATA[
+gap> fam:=FamilyObj(1);;
+gap> f:=LaurentPolynomialByCoefficients( fam, 
+>         List([1..32000],i->Random(Integers)), 0, 1 );;
+gap> g:=LaurentPolynomialByCoefficients( fam, 
+>         List([1..32000],i->Random(Integers)), 0, 1 );;
+gap> t2:=KaratsubaPolynomialMultiplication(f,g);;time;
+5892
+gap> t3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;
+2974
+]]>
+</Example>
+
+</Section>
+
+</Chapter>
