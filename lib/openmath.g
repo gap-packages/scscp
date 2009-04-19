@@ -18,17 +18,6 @@ BindGlobal( "SCSCPtransientCDs", rec() );
 MakeReadWriteGlobal( "SCSCPtransientCDs" );
 
 
-#############################################################################
-##
-#F  OMgapRPC( <x> )
-##
-InstallGlobalFunction( OMgapRPC,
-function( x )
-# x is already the result of evaluation of the OM object
-return x[1];
-end);
-
-
 ##############################################################################
 #
 # SCSCP_RETRIEVE( <varnameasstring> )
@@ -192,12 +181,12 @@ end);
 ##  Extending global record OMsymRecord previously created in OpenMath package
 ##
 OMsymRecord.scscp1 := rec(
-	procedure_call := OMgapRPC,
+	procedure_call := x -> x[1], # x is already converted from OM to GAP 
 	procedure_completed := 
     	function(x); 
         if IsBound(x[1]) then 
         	return x[1];
-        else
+        else # when no object is returned
         	return "procedure completed";
         fi;
         end,
@@ -228,13 +217,8 @@ OMsymRecord.scscp2 := rec(
     get_signature := SCSCP_GET_SIGNATURE
 );
     
-BindGlobal("OMgapCDName",
-	function( x )
-	return x[1];
-	end);
-   
 OMsymRecord.meta := rec(
-	CDName := OMgapCDName
+	CDName := x -> x[1]
 );
        
 
@@ -433,6 +417,7 @@ end;
 ##
 ##  This overwrites OMObjects.OMR defined in OpenMath package as
 ##  return OMTempVars.OMREF.(node.attributes.href);
+## 
 OMObjects.OMR := function ( node )
 local ref, pos1, pos2, name, address, port;
 if IsBound( node.attributes.xref ) then

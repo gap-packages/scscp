@@ -18,12 +18,6 @@
 ##
 DeclareInfoClass("InfoSCSCP");
 
-DeclareGlobalFunction( "SCSCPprocLookup" );
-
-DeclareGlobalFunction( "OMgapRPC" );
-
-DeclareGlobalFunction( "CleanNameSpaces" );
-
 DeclareGlobalFunction( "OMGetObjectWithAttributes" );
 
 DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );

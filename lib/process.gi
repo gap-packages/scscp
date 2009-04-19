@@ -38,7 +38,7 @@ end);
 
 #############################################################################
 ##
-#M  PrintObj( <ioTCPstream> )
+#M  PrintObj( <process> )
 ##
 InstallMethod( PrintObj, "for process",
 [ IsProcessRepresentation and IsProcess ],
@@ -171,7 +171,7 @@ end);
 
 #############################################################################
 #
-# CompleteProcess( <stream> )
+# CompleteProcess( <process> )
 #
 # The function waits for the process completion, 
 # then collects the result and closes the stream
@@ -299,7 +299,7 @@ end;
 
 #############################################################################
 #
-# SynchronizeProcesses2( a, b )
+# SynchronizeProcesses2( <process1>, <process2> )
 #
 # We can faster synchronize two processes, avoiding list manipulations
 #
@@ -362,7 +362,7 @@ end;
 
 #############################################################################
 #
-# FirstProcess2( a, b )
+# FirstProcess2( <process1>, <process2> )
 #
 # We can faster handle the case of two processes, avoiding list manipulations
 #
