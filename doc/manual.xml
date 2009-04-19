@@ -69,12 +69,12 @@ for the computational algebra system &GAP;.
 
   A. Konovalov and S. Linton. 
   <E>SCSCP --- Symbolic Computation Software Composability Protocol, Version 1.1;</E> 
-  2009 (<URL>http://www.symbolic-computation.org/</URL>).
+  2009 (<URL>http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm</URL>).
 </Copyright>
   
 <Acknowledgements>
 The project 026133 "SCIEnce - Symbolic Computation Infrastructure for Europe" 
-is supported by the EU FP6 Programme.
+(<URL>http://www.symbolic-computation.org/</URL>) is supported by the EU FP6 Programme.
 </Acknowledgements>
 
 <Colophon>

@@ -4,9 +4,9 @@
 <Heading>Preface</Heading>    
 
 The &GAP; package &SCSCP; implements the Symbolic 
-Computation Software Composability protocol (<Cite Key="SCSCP"/>). This
+Computation Software Composability protocol <Cite Key="SCSCP"/>. This
 protocol specifies an &OpenMath;-based remote procedure call framework, in which
-all messages (procedure calls and returns of results of successful comutation
+all messages (procedure calls and returns of results of successful computation
 or error messages) are encoded in &OpenMath; using content dictionaries 
 &scscp1; and &scscp2; (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>).
 Using the &SCSCP; package, &GAP; can communicate locally or remotely with any 
@@ -90,5 +90,14 @@ functionality for TCP/IP protocol usage provided by the &GAP; package &IO;.
 Such streams may constitute an independent interest for adapting streams-using &GAP; 
 code to use streams across the network.
 <P/>
+
+Finally, the manual describes how the communication by &SCSCP; goes between 
+several instances of the &GAP; system, but the same behaviour is expected 
+from any &SCSCP;-compliant application: the set of supported &OpenMath;
+symbols clearly will be different, but the rules of communication are
+precisely specified in the &SCSCP; specification <Cite Key="SCSCP"/>. See
+the homepage of the SCIEnce project <URL>http://www.symbolic-computation.org/</URL>
+for the information about &SCSCP;-compliant computer algebra systems
+and other tools developed in the project.
 
 </Chapter>

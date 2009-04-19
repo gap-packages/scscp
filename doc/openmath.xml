@@ -1,17 +1,17 @@
 <!-- $Id$ -->
 
-<Chapter Label="OpenMathFunctionality">
-<Heading>&OpenMath; functionality of the &SCSCP; package</Heading>    
+<Chapter Label="SCSCPmessages">
+<Heading>Message exchange by &SCSCP;</Heading>    
 
 The &SCSCP; package extends the &OpenMath; package to support
 &OpenMath; symbols from the &scscp1; and &scscp2; content dictionaries
 (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>).
 The &SCSCP; package installs some new functions, and also overwrites
-some functions and global variables from the &OpenMath; package 
-(this is not documented yet, but all changes are backwards compatible).
+some functions and global variables from the &OpenMath; package.
+<!-- TODO: (this is not documented yet, but all changes are backwards compatible). -->
 
-<Section Label="OpenMath">
-<Heading>OpenMath</Heading>
+<Section Label="SCSCPreceive">
+<Heading>Receiving a message</Heading>
 
 <ManSection>
    <Func Name="OMGetObjectWithAttributes" 
@@ -74,6 +74,11 @@ rec( object := [ 24, 12 ],
 gap> CloseStream( str );
 ]]>
 </Example>
+
+</Section> 
+
+<Section Label="SCSCPsend">
+<Heading>Sending a message</Heading>
 
 <ManSection>
    <Func Name="OMPutProcedureCall" 
@@ -170,6 +175,18 @@ gap> Print(t);
 <?scscp end ?>
 ]]>
 </Example>
+
+<ManSection>
+   <Func Name="OMPutProcedureTerminated" 
+          Arg="stream proc_name objrec"
+         Comm="" />
+   <Returns>
+     Nothing
+   </Returns>	 
+   <Description>
+     <!-- TODO: write this --->
+   </Description>
+</ManSection>
 
 </Section>
 

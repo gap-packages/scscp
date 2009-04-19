@@ -10,6 +10,7 @@ SCSCPLogTracesTo();
 for server in SCSCPservers do
 	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
 od;
+Print("quillen16 done\n");
 
 testname:="quillen100";
 for server in SCSCPservers do
@@ -21,6 +22,7 @@ SCSCPLogTracesTo();
 for server in SCSCPservers do
 	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
 od;
+Print("quillen100 done\n");
 
 testname:="euler";
 for server in SCSCPservers do
@@ -32,6 +34,7 @@ SCSCPLogTracesTo();
 for server in SCSCPservers do
 	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
 od;
+Print("euler done\n");
 
 testname:="vkg64";
 ReadPackage("laguna/lib/parunits.g");
@@ -45,6 +48,7 @@ SCSCPLogTracesTo();
 for server in SCSCPservers do
 	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
 od;
+Print("vkg64 done\n");
 
 testname:="vkg81";
 ReadPackage("laguna/lib/parunits.g");
@@ -57,3 +61,4 @@ SCSCPLogTracesTo();
 for server in SCSCPservers do
 	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
 od;
+Print("vkg81 done\n");

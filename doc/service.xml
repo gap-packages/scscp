@@ -11,14 +11,14 @@
           Arg="" 
          Comm="requires GAPDoc, UNIX or Linux and TeX;" />
    <Description>
-      This function is used to build the manual in the following formats:
-      DVI, PDF, PS, HTML and text for online help.
-      We recommend that the user should have a recent and fairly
-      complete &TeX; distribution.
-      Since the &SCSCP; package is distributed together with its manual,
-      it is not necessary for the user to use this function. Normally
-      it is intended to be used by the developers only. This is the only 
-      function of the &SCSCP; package which requires UNIX/Linux environment.
+      This function is used to build the manual in PDF and HTML
+      formats and also in the plain text format for the online help.
+      To build the PDF version, a recent and fairly complete &TeX; 
+      distribution is recommended.
+      <P/>
+      Since the &SCSCP; manual is distributed together with the package,
+      it is not necessary for the user to use this function, which is
+      normally used only by developers.
    </Description>
 </ManSection>
 
@@ -29,11 +29,12 @@
 	     Comm="requires only GAPDoc" />
    <Description>
       This function is used to build the manual only in HTML format.
-      This does not depend on the availability of the &TeX; installation
-      and works under Windows and Mac OS as well.
-      Since &SCSCP; is distributed together with its manual,
-      it is not necessary for the user to use this function. Normally
-      it is intended to be used by the developers only.
+      This does not require &TeX; installation and works in any operating
+      system.
+      <P/>
+      Since the &SCSCP; manual is distributed together with the package,
+      it is not necessary for the user to use this function, which is
+      normally used only by developers.
    </Description>
 </ManSection>
 
@@ -212,7 +213,14 @@ rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ]
 ]]>
 </Example>
 
-<!-- TODO: document Date in ISO format, Hostname and time --> 
+<!-- TODO: document functions:
+DateISO8601
+Hostname
+MemoryUsageByGAPinKbytes
+LastCallID
+IO_PickleToString
+IO_UnpickleFromString
+--> 
 
 </Section>
 

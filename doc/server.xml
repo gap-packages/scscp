@@ -91,6 +91,24 @@ InstallSCSCPprocedure : procedure GroupIdentificationService installed.
 Some more examples of installation of SCSCP procedures 
 are given in the file <File>scscp/example/myserver.g</File>. 
 
+<ManSection>
+    <Var Name="OMsymRecord"
+      Comm="" />
+    <Description>
+    <!-- TODO: write this --> 
+   </Description>
+</ManSection>
+
+
+<ManSection>
+    <Var Name="SCSCPtransientCDs"
+      Comm="" />
+    <Description>
+    <!-- TODO: write this --> 
+   </Description>
+</ManSection>
+
+
 </Section>
 
 <Section Label="RunServer">
@@ -125,6 +143,71 @@ launching &GAP; e.g. with the command <C>gap myserver.g</C>. An example
 of such configuration file is given in <File>scscp/example/myserver.g</File>. 
 
 <!-- TODO: describe the gapd.sh script -->     
+
+</Section>
+
+<Section Label="SpecialProcedures">
+<Heading>Procedures to get information about the &SCSCP; server</Heading>
+
+<ManSection>
+   <Func Name="GetServiceDescription" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+    ???
+   </Returns>	 
+   <Description>
+    <!-- TODO: document this: -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="GetAllowedHeads" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+    ???
+   </Returns>	 
+   <Description>
+    <!-- TODO: document this: -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="IsAllowedHead" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+    ???
+   </Returns>	 
+   <Description>
+    <!-- TODO: document this: -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="GetTransientCD" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+    ???
+   </Returns>	 
+   <Description>
+    <!-- TODO: document this: -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="GetSignature" 
+         Arg="server port"
+         Comm="" />
+   <Returns>
+    ???
+   </Returns>	 
+   <Description>
+    <!-- TODO: document this: -->
+   </Description>
+</ManSection>
 
 </Section>
 

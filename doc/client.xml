@@ -169,7 +169,11 @@ gap> IdGroupWS(G);
 
 The &SCSCP; package introduces new kind of objects - <E>remote objects</E>.
 They provide an opportunity to manipulate with objects on remote services
-without their actual transmitting over the network.
+without their actual transmitting over the network. Remote objects store
+the information that allows to access the original object: the server name 
+and the port number through which the object can be accessed, and the variable
+name under which it is stored in the remote system. Two remote objects are
+equal if and only if all these three parameters coincide.
 
 <ManSection>
     <Func Name="StoreAsRemoteObject" 
@@ -238,6 +242,29 @@ gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);
 rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26133:6726" ] ] )
 ]]>
 </Example>
+
+
+<ManSection>
+    <Filt Name="IsRemoteObject" 
+           Arg="remoteobject"
+          Comm="" />
+    <Returns>
+      true or false
+    </Returns>	 
+    <Description>
+    <!-- TODO: write this -->
+    </Description>
+</ManSection>
+
+
+<ManSection>
+    <Fam Name="RemoteObjectsFamily" 
+          Comm="" />
+    <Description>
+    <!-- TODO: write this -->
+    </Description>
+</ManSection>
+
 
 <ManSection>
     <Func Name="RetrieveRemoteObject" 

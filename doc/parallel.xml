@@ -136,9 +136,10 @@ Note that in the current implementation there will be no interrupt sygnal
 sent to the other SCSCP servers, so they will continue computation until the
 end, and will be able to accept new requests after its finishing.
 
-<!-- TODO: document MasterWorker and parconfig file --> 
+<!-- TODO: document ParListWithSCSCP, SCSCPreset, parconfig file --> 
 
-<!-- TODO: document tracing and citing EdenTV paper --> 
+<!-- TODO: document tracing, incl. SCSCPLogTracesTo, 
+     SCSCPStartTracing, SCSCPStopTracing, and citing EdenTV paper --> 
 
 <!-- TODO: move turn off/on tracing to package from myserver.g --> 
 

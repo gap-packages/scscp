@@ -1,7 +1,7 @@
 <!-- $Id$ -->
 
 <Chapter Label="Intro">
-<Heading>Introduction</Heading>    
+<Heading>Installation</Heading>    
 
 <Section Label="Install">
 <Heading>Installation and system requirements</Heading>
@@ -44,11 +44,15 @@ in a similar way.
 When there are no access rights to the root directory of the main &GAP; 
 installation, it is also possible to install the package 
 <E>outside the &GAP; main directory</E> by unpacking it inside a 
-directory <File>MYGAPDIR/pkg</File>. Then to load &SCSCP; package 
+directory <File>MYGAPDIR/pkg</File>. Then to load the package
 &GAP; should be started with <C>-l ";MYGAPDIR"</C> option.
 
+</Section>
 
-<!-- TODO: mention configuration files config and parconfig --> 
+<Section Label="Config">
+<Heading>Configuration files</Heading>
+
+<!-- TODO: mention configuration files config and parconfig, and also myserver.g --> 
 
 </Section>
 

@@ -3,10 +3,31 @@
 <Chapter Label="UsingStreams">
 <Heading>Using streams</Heading>    
 
-The package implements new kind of &GAP; input-output streams, namely
+The package implements new kind of &GAP; input-output streams, called
 input-output TCP streams. Such streams are based on the functionality 
 for the TCP/IP protocol usage provided by the &GAP; package &IO;, and 
 may constitute an independent interest for &GAP; users.
+<P/>
+
+Input-output TCP streams are intended to support all operations, implemented
+for streams in &GAP;. It is assumed that all existing code using streams 
+should work with this kind of streams as well (please let us know, if you
+will notice that this is not the case!). We installed methods for
+input-output TCP streams to support the following operations:
+<C>ViewObj</C>,
+<C>PrintObj</C>,
+<C>ReadByte</C>,
+<C>ReadLine</C>,
+<C>ReadAll</C>,
+<C>WriteByte</C>,
+<C>WriteLine</C>,
+<C>WriteAll</C>,
+<C>IsEndOfStream</C>,
+<C>CloseStream</C>,
+<C>FileDescriptorOfStream</C>,
+<C>UNIXSelect</C>.
+<P/>
+
 
 <Section Label="Streams">
 <Heading>Input-output TCP streams</Heading>
@@ -66,24 +87,11 @@ may constitute an independent interest for &GAP; users.
    </Description>
 </ManSection>
 
-Input-output TCP streams are intended to support all operations, implemented
-for streams in &GAP;. It is assumed that all existing code using streams 
-should work with this kind of streams as well (please let us know, if you
-will notice that this is not the case!). We installed methods for
-input-output TCP streams to support the following operations:
-<C>ViewObj</C>,
-<C>PrintObj</C>,
-<C>ReadByte</C>,
-<C>ReadLine</C>,
-<C>ReadAll</C>,
-<C>WriteByte</C>,
-<C>WriteLine</C>,
-<C>WriteAll</C>,
-<C>IsEndOfStream</C>,
-<C>CloseStream</C>,
-<C>FileDescriptorOfStream</C>,
-<C>UNIXSelect</C>.
-<P/>
+</Section>
+
+
+<Section Label="StreamsExample">
+<Heading>Example of client-server communication via input-output TCP streams</Heading>
 
 The following example demonstrates an interaction between client and
 server using input-output TCP stream, and shows how such streams are

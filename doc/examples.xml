@@ -6,8 +6,8 @@
 In this chapter we are going to demonstrate some examples of communication
 between client and server using the SCSCP.
 
-<Section Label="Writing">
-<Heading>Providing Web services with the SCSCP package</Heading>
+<Section Label="ProvidingServices">
+<Heading>Providing services with the SCSCP package</Heading>
 
 You can try to run the SCSCP server with the configuration file
 <File>scscp/example/myserver.g</File>. To do this, go to that directory
