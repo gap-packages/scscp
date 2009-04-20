@@ -213,14 +213,147 @@ rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ]
 ]]>
 </Example>
 
-<!-- TODO: document functions:
-DateISO8601
-Hostname
-MemoryUsageByGAPinKbytes
-LastCallID
-IO_PickleToString
-IO_UnpickleFromString
---> 
+
+<ManSection>
+    <Func Name="DateISO8601"
+      Arg=""
+      Comm="" />
+    <Returns>
+        string
+    </Returns>	 
+    <Description>
+    Returns the current date in the ISO-8601 YYYY-MM-DD format. This is an internal function
+    of the package which is used by the &SCSCP; server to generate the transient content 
+    dictionary, accordingly to the defintion of the &OpenMath; symbol <C>meta.CDDate</C>.
+<Log>
+<![CDATA[
+gap> DateISO8601();
+"2009-03-31"
+]]>
+</Log>
+    </Description>
+</ManSection>
+
+<ManSection>
+    <Func Name="Hostname"
+      Arg=""
+      Comm="" />
+    <Returns>
+        string    
+    </Returns>	 
+    <Description>
+     Returns the result of the call to <File>hostname</File>.
+     This function may be used in the configuration file <File>scscp/config.g</File>
+     to specify that the default hostname which will be used by the &SCSCP; server
+     will be detected automatically using <File>hostname</File>.
+<Log>
+<![CDATA[
+gap> Hostname();
+"scscp.symbolic-computation.co.uk"
+]]>
+</Log>     
+    </Description>
+</ManSection>
+
+<ManSection>
+    <Func Name="MemoryUsageByGAPinKbytes"
+      Arg=""
+      Comm="" />
+    <Returns>
+        integer
+    </Returns>	 
+    <Description>
+    Returns the current volume of the memory used by &GAP; in kylobytes. This is
+    equivalent to calling <File>ps -p &lt;PID> -o vsz</File>, where <C>&lt;PID></C> 
+    is the process ID of the &GAP; process. This is an internal function of the package
+    which is used by the &SCSCP; server to report its memory usage in the 
+    <C>info_memory</C> attribute when being called with the option <C>debuglevel=2</C>
+    (see options in <Ref Func="EvaluateBySCSCP" /> and <Ref Func="NewProcess" />).
+<Log>
+<![CDATA[
+gap> MemoryUsageByGAPinKbytes();
+649848
+]]>
+</Log>     
+    </Description>
+</ManSection>
+
+<ManSection>
+    <Func Name="LastCallID"
+      Arg=""
+      Comm="" />
+    <Returns>
+        string
+    </Returns>	 
+    <Description>
+    Returns the call ID contained in the most recently received message. It may
+    contain some useful debugging information; in particular, the call ID for the
+    &GAP; &SCSCP; client and server contains colon-separated server name, port number, 
+    process ID and a random string.
+<Log>
+<![CDATA[
+gap> LastCallID();
+"scscp.symbolic-computation.co.uk:26133:77372:choDZBgA"
+]]>
+</Log> 
+    </Description>
+</ManSection>
+
+<ManSection>
+    <Func Name="IO_PickleToString"
+      Arg="obj"
+      Comm="" />
+    <Returns>
+        string containing "pickled" object
+    </Returns>	 
+    <Description>
+        This function "pickles" or "serialises" the object <A>obj</A> using 
+        the operation <Ref BookName="IO" Oper="IO_Pickle" /> from the &IO;
+        package, and writes it to a string, from which it could be later 
+        restored using <Ref Func="IO_UnpickleFromString" />. This provides
+        a way to design &SCSCP; procedures which transmit &GAP; objects
+        in the "pickled" format as &OpenMath; strings, which may be useful
+        for objects which may be "pickled" but can not be converted to 
+        &OpenMath; or for which the "pickled" representation is more compact
+        or can be encoded/decoded much faster. 
+        <P/>
+        See <Ref BookName="IO" Oper="IO_Pickle" /> and 
+        <Ref BookName="IO" Oper="IO_Unpickle" /> for more details.
+
+<Example>
+<![CDATA[
+gap> f := IO_PickleToString( GF( 125 ) );
+"FFIEINTG\>15INTG\>13FAIL"
+]]>
+</Example>        
+        
+    </Description>
+</ManSection>
+
+<ManSection>
+    <Func Name="IO_UnpickleFromString"
+      Arg="s"
+      Comm="" />
+    <Returns>
+        "unpickled" GAP object
+    </Returns>	 
+    <Description>
+        This function "unpickles" the string <A>s</A> which was
+        created using the function <Ref Func="IO_PickleToString" />,
+        using the operation <Ref BookName="IO" Oper="IO_Unpickle" /> 
+        from the &IO; package. See <Ref Func="IO_PickleToString" />
+        for more details and suggestions about its usage.
+<Example>
+<![CDATA[
+gap> IO_UnpickleFromString( f );                    
+GF(5^3)
+gap> f = IO_UnpickleFromString( IO_PickleToString( f ) ); 
+true
+]]>
+</Example>   
+     
+    </Description>
+</ManSection>
 
 </Section>
 
