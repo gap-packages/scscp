@@ -42,7 +42,7 @@ return Int(mem);
 end);
 
 
-BindGlobal( "LastCallID",
+BindGlobal( "LastReceivedCallID",
 function()
 return OMTempVars.OMATTR.content[2].content[1].content; 
 end);

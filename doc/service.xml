@@ -279,7 +279,7 @@ gap> MemoryUsageByGAPinKbytes();
 </ManSection>
 
 <ManSection>
-    <Func Name="LastCallID"
+    <Func Name="LastReceivedCallID"
       Arg=""
       Comm="" />
     <Returns>
@@ -292,7 +292,7 @@ gap> MemoryUsageByGAPinKbytes();
     process ID and a random string.
 <Log>
 <![CDATA[
-gap> LastCallID();
+gap> LastReceivedCallID();
 "scscp.symbolic-computation.co.uk:26133:77372:choDZBgA"
 ]]>
 </Log> 
