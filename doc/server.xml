@@ -252,14 +252,12 @@ ed by the GAP SCSCP service",
   CDRevision := "0", 
   CDStatus := "private", 
   CDDefinitions := 
-    [ rec( Name := "WS_Factorial", Description := "See ?Factorial in GAP", Role := "application" ), 
-      rec( Name := "WS_Phi", Description := "Euler's totient function, see ?Phi in GAP", 
-          Role := "application" ), 
+    [ rec( Name := "WS_Factorial", Description := "See ?Factorial in GAP" ), 
+      rec( Name := "WS_Phi", Description := "Euler's totient function, see ?Phi in GAP" ), 
   ...
       rec( Name := "SCSCPStartTracing", Description := "To turn on tracing mode on the server and save\
-          events to specified filename without extensions", Role := "application" ), 
-      rec( Name := "SCSCPStopTracing", Description := "To turn off tracing mode on the server", 
-          Role := "application" ) ] )
+          events to specified filename without extensions" ), 
+      rec( Name := "SCSCPStopTracing", Description := "To turn off tracing mode on the server" ) ] )
 ]]>
 </Example>    
    </Description>

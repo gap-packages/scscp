@@ -140,7 +140,7 @@ else
     Append( omstr, "<Description>This is a transient content dictionary containing information about procedures offered by the GAP SCSCP service</Description>\n" );
     for procname in RecNames( OMsymRecord.(x[1]) ) do
         Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>", procname, "</Name>\n" ) );
-        Append( omstr, Concatenation( "<Role>application</Role>\n<Description>",
+        Append( omstr, Concatenation( "<Description>",
                                       SCSCPtransientCDs.(x[1]).(procname).Description,
                                       "</Description>\n</CDDefinition>\n" ) );
     od;

@@ -119,8 +119,6 @@ else
         for j in [ 1 .. Length(t) ] do
           if t[j].name = "Name" then
             d.Name := t[j].content[1].content;
-          elif t[j].name = "Role" then
-            d.Role := t[j].content[1].content;
           elif t[j].name = "Description" then
             d.Description := t[j].content[1].content;
           else
