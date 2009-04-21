@@ -154,10 +154,21 @@ of such configuration file is given in <File>scscp/example/myserver.g</File>.
          Arg="server port"
          Comm="" />
    <Returns>
-    ???
+    record 
    </Returns>	 
    <Description>
-    <!-- TODO: document this: -->
+    Returns the record with three components containing strings with the
+    name, version and description of the service as specified by the 
+    service provider in the <File>scscp/config.g</File> (for details
+    about configuration files, see <Ref Label="Config" />).
+<Example>
+<![CDATA[
+gap> GetServiceDescription("localhost",26133);
+rec( service_name := "GAP SCSCP service", 
+  version := "GAP 4.4.12 + SCSCP 1.1 started on Tue 21 Apr 2009 00:35:38 BST", 
+  description := "Started with scscp/example/myserver.g from SCSCP 1.1" )
+]]>
+</Example>    
    </Description>
 </ManSection>
 
@@ -166,46 +177,110 @@ of such configuration file is given in <File>scscp/example/myserver.g</File>.
          Arg="server port"
          Comm="" />
    <Returns>
-    ???
+    ??? list of records ???
+    <!-- TODO : why not to return the structure like OMsymRecord ??? -->
    </Returns>	 
    <Description>
-    <!-- TODO: document this: -->
+<!-- TODO: Should we return scscp{1,2} here>? Maybe we should return only transient CD? -->
+<!-- TODO: Also, not all symbols are applications. Any thoughts ? What about using meta.Role ? -->
+<Log>
+<![CDATA[
+gap> GetAllowedHeads("localhost",26133);
+[ rec( name := "one", cd := "alg1" ), 
+  rec( name := "zero", cd := "alg1" ), 
+  rec( name := "abs", cd := "arith1" ), 
+  rec( name := "divide", cd := "arith1" ), 
+  rec( name := "gcd", cd := "arith1" ), 
+  ...
+  rec( name := "subgroup", cd := "group1" ), 
+  rec( name := "group_by_generators", cd := "group1" ),
+  ...
+  rec( name := "WS_Factorial", cd := "scscp_transient_1" ), 
+  rec( name := "WS_Phi", cd := "scscp_transient_1" ), 
+  rec( name := "GroupIdentificationService", cd := "scscp_transient_1" ), 
+  rec( name := "IdGroup512ByCode", cd := "scscp_transient_1" ), 
+  rec( name := "WS_IdGroup", cd := "scscp_transient_1" ), 
+...
+  rec( name := "SCSCPStartTracing", cd := "scscp_transient_1" ), 
+  rec( name := "SCSCPStopTracing", cd := "scscp_transient_1" ) ]
+]]>
+</Log>    
    </Description>
 </ManSection>
 
 <ManSection>
    <Func Name="IsAllowedHead" 
-         Arg="server port"
+         Arg="cd symbol server port"
          Comm="" />
    <Returns>
     ???
    </Returns>	 
    <Description>
-    <!-- TODO: document this: -->
-   </Description>
+<!-- TODO: document this: -->
+Note that no actual check whether cd/name exists!
+<!-- TODO: since we store CD symbols, we may actually check this to avoid misprinting errors in symbol names! -->
+<Example>
+<![CDATA[
+gap> IsAllowedHead("permgp1","group","localhost",26133);                            
+true
+gap> IsAllowedHead("nums1","pi","localhost",26133);          
+false
+]]>
+</Example>  
+   </Description> 
 </ManSection>
 
 <ManSection>
    <Func Name="GetTransientCD" 
-         Arg="server port"
+         Arg="cd server port"
          Comm="" />
    <Returns>
-    ???
+    record
    </Returns>	 
    <Description>
     <!-- TODO: document this: -->
+<Example>
+<![CDATA[
+gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
+rec( 
+  Description := "This is a transient content dictionary containing information about procedures offer\
+ed by the GAP SCSCP service", 
+  CDName := "scscp_transient_1", 
+  CDReviewDate := "2009-04-21", 
+  CDDate := "2009-04-21", 
+  CDVersion := "0", 
+  CDRevision := "0", 
+  CDStatus := "private", 
+  CDDefinitions := 
+    [ rec( Name := "WS_Factorial", Description := "See ?Factorial in GAP", Role := "application" ), 
+      rec( Name := "WS_Phi", Description := "Euler's totient function, see ?Phi in GAP", 
+          Role := "application" ), 
+  ...
+      rec( Name := "SCSCPStartTracing", Description := "To turn on tracing mode on the server and save\
+          events to specified filename without extensions", Role := "application" ), 
+      rec( Name := "SCSCPStopTracing", Description := "To turn off tracing mode on the server", 
+          Role := "application" ) ] )
+]]>
+</Example>    
    </Description>
 </ManSection>
 
 <ManSection>
    <Func Name="GetSignature" 
-         Arg="server port"
+         Arg="cd symbol server port"
          Comm="" />
    <Returns>
-    ???
+    record
    </Returns>	 
    <Description>
     <!-- TODO: document this: -->
+<Example>
+<![CDATA[
+gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);                               
+rec( symbol := rec( name := "WS_Factorial", cd := "scscp_transient_1" ), minarg := 1, maxarg := 1, 
+  symbolargs := rec( name := "symbol_set_all", cd := "scscp2" ) )
+]]>
+</Example>    
    </Description>
 </ManSection>
 
