@@ -20,6 +20,14 @@ IO_Close(s);
 return Concatenation( "20", date{[ 1 .. Length(date)-1 ]} );
 end);
 
+BindGlobal( "CurrentTimestamp",
+function()
+local s, date;
+s := IO_Popen("date", [ ], "r");
+date := IO_ReadLine(s);
+IO_Close(s);
+return date{[ 1 .. Length(date)-1 ]};
+end);
 
 BindGlobal( "Hostname",
 function()

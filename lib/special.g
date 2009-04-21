@@ -43,7 +43,7 @@ r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 
 if r[1].attributes.name = "service_description" then
-  return rec( server_name := r[2].content[1].content,
+  return rec( service_name := r[2].content[1].content,
                   version := r[3].content[1].content,
               description := r[4].content[1].content );
 else

@@ -113,9 +113,9 @@ if x <> [] then
          " which will be ignored!\n");
 fi;
 omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"service_description\"/>\n";
-Append( omstr, "<OMSTR>GAP</OMSTR>\n" );
-Append( omstr, Concatenation("<OMSTR>", VERSION, "</OMSTR>\n" ) );
-Append( omstr, Concatenation("<OMSTR>", SCSCPserverDescription, "</OMSTR>\n" ) );
+Append( omstr, Concatenation("<OMSTR>", SCSCPserviceName, "</OMSTR>\n" ) );
+Append( omstr, Concatenation("<OMSTR>", SCSCPserviceVersion, "</OMSTR>\n" ) );
+Append( omstr, Concatenation("<OMSTR>", SCSCPserviceDescription, "</OMSTR>\n" ) );
 Append( omstr, "</OMA>" );
 return OMPlainString( omstr );
 end);

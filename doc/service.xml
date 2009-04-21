@@ -235,6 +235,26 @@ gap> DateISO8601();
 </ManSection>
 
 <ManSection>
+    <Func Name="CurrentTimestamp"
+      Arg=""
+      Comm="" />
+    <Returns>
+        string
+    </Returns>	 
+    <Description>
+    Returns the result of the call to <File>date</File>.
+    This function may be used in the configuration file <File>scscp/config.g</File>
+    to include this information in the &SCSCP; service description.
+<Log>
+<![CDATA[
+gap> CurrentTimestamp();
+"Tue 31 Mar 2009 11:19:38 BST"
+]]>
+</Log>
+    </Description>
+</ManSection>
+
+<ManSection>
     <Func Name="Hostname"
       Arg=""
       Comm="" />

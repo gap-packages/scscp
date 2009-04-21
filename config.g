@@ -37,5 +37,21 @@ SCSCPserverAddress := "localhost"; # Hostname();
 # setting the default port
 SCSCPserverPort := 26133;
 
-# setting the default description
-SCSCPserverDescription:="GAP SCSCP service";
+# setting the name of the service, for example, 
+# "GAP SCSCP service", "Group identification service" etc.
+SCSCPserviceName:="GAP SCSCP service";
+
+# setting information about the version of the service,
+# which may combine packages versions, timestamp when
+# the server was started, and other information
+SCSCPserviceVersion:= Concatenation( 
+	"GAP ", VERSION, 
+	" + SCSCP ", GAPInfo.PackagesInfo.scscp[1].Version,
+	" started on ", CurrentTimestamp() );
+
+# setting the default description, which may include, for example, 
+# functions exposed, description of resources, contact details of 
+# service provider, and any other useful information
+SCSCPserviceDescription:= Concatenation( 
+	"Started with scscp/example/myserver.g from SCSCP ", 
+	GAPInfo.PackagesInfo.scscp[1].Version );
