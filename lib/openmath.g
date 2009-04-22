@@ -659,10 +659,10 @@ end);
 ##  The first argument is a stream
 ##  The second argument is a record like the one returned by
 ##  OMGetObjectWithAttributes, for example:
-##  rec ( object := 120,
-##    attributes := [ [ "info_runtime", 1000 ], 
-##                    [ "info_memory", 2048 ],
-##                    [ "call_id", "user007" ] ] )
+##  rec (  attributes := [ [ "info_runtime", 1000 ], 
+##                         [ "info_memory", 2048 ],
+##                         [ "call_id", "user007" ] ],
+##  object := "localhost:26133 reports : Rational operations: <divisor> must not be zero")
 ##  The third argument is a string with CD name for the fourth argument.
 ##  The fourth argument is a string with error type, for example
 ##  "error_memory", "error_runtime", "error_system_specific" as defined

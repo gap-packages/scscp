@@ -30,7 +30,7 @@
      <A>signature</A> is the signature record of the procedure. 
      It requires at least the minimal number of arguments to be specified.<P/>
      If optional arguments are not specified, they will be set to their default values.
-     <!-- TODO: document default values -->
+     <!-- TODO: document default values , say what is transient CD -->
    </Description>
 </ManSection>
 

@@ -3,12 +3,20 @@
 <Chapter Label="SCSCPmessages">
 <Heading>Message exchange by &SCSCP;</Heading>    
 
-The &SCSCP; package extends the &OpenMath; package to support
-&OpenMath; symbols from the &scscp1; and &scscp2; content dictionaries
-(<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>).
-The &SCSCP; package installs some new functions, and also overwrites
-some functions and global variables from the &OpenMath; package.
-<!-- TODO: (this is not documented yet, but all changes are backwards compatible). -->
+To ensure message exchange as required by &SCSCP; specification, the 
+&SCSCP; package extends the global record <C>OMsymRecord</C> from the 
+&OpenMath; package with new entries to support &scscp1; and &scscp2; 
+content dictionaries (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>), 
+and also from service-dependent transient private content dictionaries 
+(see <Ref Label="Server" /> for details about transient content 
+dictionaries). It also overwrites some &OpenMath; functions by their 
+extended (but backwards compatible) versions, and adds some new functions 
+to send and receive &SCSCP; messages, documented below.
+<P/>
+Note that functions documented in this chapter belong to the middle-
+level interface, and in most cases the user will find it more convenient
+to use functions developed on top of them and explained in next chapters.
+
 
 <Section Label="SCSCPreceive">
 <Heading>Receiving a message</Heading>
@@ -21,6 +29,7 @@ some functions and global variables from the &OpenMath; package.
      record with components <C>object</C> and <C>attributes</C> or <K>fail</K>
    </Returns>	 
    <Description>
+   <!-- Document option return_tree -->
      This function is similar to the function <C>OMGetObject</C>
      from the &OpenMath; package, and the main difference is that it is 
      able to understand &OpenMath; attribution pairs. It retrieves
@@ -50,11 +59,8 @@ using the function <Ref Func="InstallSCSCPprocedure"/>:
 <Example>
 <![CDATA[
 gap> InstallSCSCPprocedure("WS_factorial", Factorial );
-InstallSCSCPprocedure : procedure WS_factorial installed. 
 gap> InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
-InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
 gap> InstallSCSCPprocedure("GroupByIdNumber", SmallGroup );
-
 gap> test:=Filename( Directory( Concatenation(
 >         GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), 
 >         "omdemo.om" );;
@@ -88,6 +94,7 @@ gap> CloseStream( str );
      Nothing
    </Returns>	 
    <Description>
+      <!-- Document option cd and debuglevel -->
      Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a record 
      <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
      <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A>,
@@ -178,13 +185,22 @@ gap> Print(t);
 
 <ManSection>
    <Func Name="OMPutProcedureTerminated" 
-          Arg="stream proc_name objrec"
+          Arg="stream objrec error_cd error_type"
          Comm="" />
    <Returns>
      Nothing
    </Returns>	 
    <Description>
-     <!-- TODO: write this --->
+    Takes a stream <A>stream</A>, and a record with an error message <A>objrec</A> (for example
+    <C>rec( attributes := [ [ "call_id", "localhost:26133:87643:gcX33cCf" ] ],</C>
+    <C>object := "localhost:26133 reports : Rational operations: &lt;divisor> must not be zero")</C>
+     and writes to the <A>stream</A> an &OpenMath; object <C>procedure&uscore;terminated</C>
+     containing an error determined by the symbol <A>error_type</A> from the content dictionary
+     <A>error_cd</A> (for example, <C>error_memory</C>, <C>error_runtime</C> or 
+     <C>error_system_specific</C> from the &scscp1; content dictionary (<Cite Key="scscp1cd"/>).
+     <P/>
+     This is the internal function of the package, used only in the code for the &SCSCP; server
+     to return the error message to the client.
    </Description>
 </ManSection>
 
