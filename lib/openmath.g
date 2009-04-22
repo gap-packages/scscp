@@ -458,7 +458,7 @@ end;
 
 #############################################################################
 ##
-##  OMPutProcedureCall ( stream, proc_name, objrec : omcd:=omcdname )
+##  OMPutProcedureCall ( stream, proc_name, objrec : cd:=cdname )
 ## 
 ##  The first argument is a stream
 ##  The second argument is procedure name as a string.
@@ -471,7 +471,7 @@ end;
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
-local omcdname, debug_option, has_attributes, attr, nameandargs;
+local cdname, debug_option, has_attributes, attr, nameandargs;
 
 if IsClosedStream( stream )  then
   Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
@@ -485,13 +485,13 @@ if IsOutputTextStream( stream )  then
   SetPrintFormattingStatus( stream, false );
 fi;
 
-if ValueOption("omcd") <> fail then
-  omcdname := ValueOption("omcd");
-  if omcdname="" then
-    omcdname := "scscp_transient_1";
+if ValueOption("cd") <> fail then
+  cdname := ValueOption("cd");
+  if cdname="" then
+    cdname := "scscp_transient_1";
   fi;  
 else
-  omcdname := "scscp_transient_1";
+  cdname := "scscp_transient_1";
 fi;
 
 if ValueOption("debuglevel") <> fail then
@@ -547,7 +547,7 @@ if proc_name in [ "get_allowed_heads",
                   "unbind" ] then
   OMPutApplication( stream, "scscp2", proc_name, objrec.object );
 else
-  OMPutApplication( stream, omcdname, proc_name, objrec.object );
+  OMPutApplication( stream, cdname, proc_name, objrec.object );
 fi;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );

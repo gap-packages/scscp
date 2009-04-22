@@ -57,7 +57,7 @@ end);
 #############################################################################
 #
 # NewProcess( command, listargs, server, port : return_coookie/return_nothing, 
-#                                               omcd:="omcdname" );
+#                                               cd:="cdname" );
 #
 # The function sends the request to the SCSCP server, and
 # returns the InputOutputTCPStream for waiting the result
@@ -66,7 +66,7 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_option, debug_option, omcdname, attribs, ns, server_scscp_version, 
+      return_option, debug_option, cdname, attribs, ns, server_scscp_version, 
       suggested_versions, pos1, pos2, pid;
 
 if ValueOption("return_cookie") <> fail then
@@ -81,10 +81,10 @@ else
   return_option := "option_return_object";
 fi;
 
-if ValueOption("omcd") <> fail then
-  omcdname := ValueOption("omcd");
+if ValueOption("cd") <> fail then
+  cdname := ValueOption("cd");
 else
-  omcdname := "";
+  cdname := "";
 fi;
 
 if ValueOption("debuglevel") <> fail then
@@ -147,7 +147,7 @@ if InfoLevel( InfoSCSCP ) > 2 then
   OMPutProcedureCall( localstream, 
                       command, 
                       rec(     object := listargs, 
-                           attributes := attribs ) : omcd:=omcdname );
+                           attributes := attribs ) : cd:=cdname );
   Print(omtext);
   WriteAll( stream, omtext );
   if IsInputOutputTCPStream( stream ) then
@@ -159,7 +159,7 @@ else
   OMPutProcedureCall( stream, 
                       command, 
                         rec(     object := listargs, 
-                             attributes := attribs ) : omcd:=omcdname );
+                             attributes := attribs ) : cd:=cdname );
 
 fi;
               

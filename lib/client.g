@@ -78,7 +78,7 @@ end);
 #############################################################################
 #
 # EvaluateBySCSCP( command, listargs, server, port : 
-#                  return_coookie/return_nothing/return_tree, omcd:="omcdname" );
+#                  return_coookie/return_nothing/return_tree, cd:="cdname" );
 #
 # Options return_coookie/return_nothing/return_tree are incompatible.
 #
@@ -88,13 +88,13 @@ end);
 # of the XML tree representing the OpenMath object (for example, to be used
 # with "get_allowed_heads").
 #
-# The last option "omcd" is used to specify the name of the OpenMath content
+# The last option "cd" is used to specify the name of the OpenMath content
 # dictionary when it is different from the transient CD used by default.
 #
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
-local return_cookie, return_nothing, return_tree, debug_option, opt, omcdname, result;
+local return_cookie, return_nothing, return_tree, debug_option, opt, cdname, result;
 
 if ValueOption("return_cookie") <> fail then
   return_cookie := true;
@@ -120,10 +120,10 @@ if Number( [ return_cookie, return_nothing, return_tree ], opt -> opt=true ) > 1
          "Only the first specified option will be used therefore.\n" );
 fi;
 
-if ValueOption("omcd") <> fail then
-  omcdname := ValueOption("omcd");
+if ValueOption("cd") <> fail then
+  cdname := ValueOption("cd");
 else
-  omcdname := "";
+  cdname := "";
 fi;
 
 if ValueOption("debuglevel") <> fail then
@@ -133,11 +133,11 @@ else
 fi;
 
 if return_cookie then
-  result := NewProcess( command, listargs, server, port : return_cookie, omcd:=omcdname, debuglevel := debug_option );
+  result := NewProcess( command, listargs, server, port : return_cookie, cd:=cdname, debuglevel := debug_option );
 elif return_nothing then
-  result := NewProcess( command, listargs, server, port : return_nothing, omcd:=omcdname, debuglevel := debug_option );
+  result := NewProcess( command, listargs, server, port : return_nothing, cd:=cdname, debuglevel := debug_option );
 else
-  result := NewProcess( command, listargs, server, port : omcd:=omcdname, debuglevel := debug_option );
+  result := NewProcess( command, listargs, server, port : cd:=cdname, debuglevel := debug_option );
 fi;
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");
