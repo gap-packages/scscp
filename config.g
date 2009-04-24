@@ -23,7 +23,7 @@ SetInfoLevel(InfoSCSCP,4);
 # This might be needed for compatibility with some systems.
 # This parameter was set to false in the OpenMath package.
 # Uncomment the next line, if you need to change it.
-SuppressOpenMathReferences := true;
+# SuppressOpenMathReferences := true;
 
 #############################################################################
 #
@@ -31,8 +31,12 @@ SuppressOpenMathReferences := true;
 # if the server is started using scscp/gapscscp.sh script
 #
 
-# setting the default hostname to be used in the server mode
-SCSCPserverAddress := "localhost"; # Hostname();
+# setting the default hostname to be used in the server mode. May be:
+# * "localhost" or specific string
+# * Hostname(); to determine it automatically
+# * true to listen all network interfaces
+
+SCSCPserverAddress := "localhost";
 
 # setting the default port
 SCSCPserverPort := 26133;
