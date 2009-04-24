@@ -7,6 +7,11 @@
 ##
 #############################################################################
 
+
+#############################################################################
+1.Early development notes (in case of discrepancies, rather trust the manual)
+#############################################################################
+
 The GAP package "SCSCP" has two main components:
 
 1) GAP Server
@@ -84,3 +89,23 @@ other specified conditions to prevent forgotten jobs from infinite running.
     to send the interrupt sygnal in case of timeout
   - analyze the returned result and continues in case of "procedure_completed" 
     or leave the loop in case of "procedure_terminated"
+
+#############################################################################
+2.RELEASE HOW-TO
+#############################################################################
+
+* replace paths from my local machine to something more neutral in:
+  - gapd.sh
+  
+* remove example/private.g file  
+  
+
+#############################################################################
+3.TODO
+#############################################################################
+
+* Allowed heads only from transient CDs and related bunch of changes
+* Separate store per session or persistently
+* Signatures business
+* Change OMsymRecord and merge it with transient CDs record
+* if SCSCP started with true, put some more meaningful in the call_ID.
