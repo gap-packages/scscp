@@ -33,8 +33,8 @@ There are several ways to start &GAP; &SCSCP; server:
     </Item>
     <Item>start &GAP; as <C>gap myserver.g</C>, where <File>myserver.g</File>
         is the server configuration file with the last command being the call 
-        <Ref Func="RunSCSCPserver" /> (an example of such file is supplied with
-        the package in its <File>example</File> subdirectory;
+        <Ref Func="RunSCSCPserver" /> (an example of such configuration file 
+        is given in <File>scscp/example/myserver.g</File> );
     </Item>
     <Item>start &GAP; as a daemon using the script <File>gapd.sh</File> which
         is supplied in the root directory of the package (for the description

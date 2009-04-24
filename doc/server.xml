@@ -95,19 +95,18 @@ are given in the file <File>scscp/example/myserver.g</File>.
     <Var Name="OMsymRecord"
       Comm="" />
     <Description>
-    <!-- TODO: write this --> 
+    This is the global record from the &OpenMath; package used for the conversion
+    from &OpenMath; to &GAP;. It is extended in the &SCSCP; package by adding 
+    support for symbols from <C>scscp1</C> and <C>scscp2</C> content dictionaries
+    (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>). Additionally, 
+    <Ref Func="InstallSCSCPprocedure" /> adds a symbol for the
+    installed &SCSCP; procedure to the component of this record corresponding 
+    to the appropriate transient content dictionary.
+    <!-- TODO: change the structure of OMsymRecord to cd.symbol.method, 
+         cd.symbol.role etc, then transient CD record could me merged 
+         with OMsymRecord -->
    </Description>
 </ManSection>
-
-
-<ManSection>
-    <Var Name="SCSCPtransientCDs"
-      Comm="" />
-    <Description>
-    <!-- TODO: write this --> 
-   </Description>
-</ManSection>
-
 
 </Section>
 
@@ -116,18 +115,34 @@ are given in the file <File>scscp/example/myserver.g</File>.
 
 <ManSection>
    <Func Name="RunSCSCPserver" 
-         Arg="server port"
+         Arg="servertype port"
          Comm="" />
    <Returns>
      Nothing
    </Returns>	 
    <Description>
-     For a server hostname, given as a string <A>server</A> and
-     an integer <A>port</A> specifying the port number,
-     starts SCSCP server at <C>server</C>:<C>port</C>. 
-     <!-- TODO: write that first argument may be true/false -->     
-   </Description>
-</ManSection>
+       Will start the &SCSCP; server at port given by the integer
+       <A>port</A>. The first paratemer <A>servertype</A> is either
+       <K>true</K>, <K>false</K> or a string containing the server
+       hostname:
+       <List>
+       <Item>
+           when <A>servertype</A> is <K>true</K>, the server will 
+           be started in a <Q>universal</Q> mode and will accept all 
+           incoming connections;
+       </Item>
+       <Item>
+           when <A>servertype</A> is <K>false</K>, the server will 
+           be started at <File>localhost</File> and will not accept 
+           any incoming connections from outside;
+       </Item>
+       <Item>
+           when <A>servertype</A> is a string, for example,
+           <File>"scscp.symbolic-computation.org"</File>, the server will 
+           be accessible only by specified server name (this may be useful
+           if the hardware has several network interfaces). 
+       </Item>
+       </List>
 
 <Example>
 <![CDATA[
@@ -137,12 +152,28 @@ Waiting for new client connection at localhost:26133 ...
 ]]>
 </Example>
 
-It is assumed that the service provider will write the server
-configuration file, and will be able to start the SCSCP server
-launching &GAP; e.g. with the command <C>gap myserver.g</C>. An example
-of such configuration file is given in <File>scscp/example/myserver.g</File>. 
+Actually, there are serveral ways to start &GAP; &SCSCP; server:
+<List>
+    <Item>from the &GAP; session as shown in the example above;;
+    </Item>
+    <Item>starting &GAP; as <C>gap myserver.g</C>, where <File>myserver.g</File>
+        is the server configuration file with the last command being the call 
+        <Ref Func="RunSCSCPserver" />, which may take its arguments from the
+        configuration file <File>scscp/config.g</File> (an example of such 
+        configuration file is given in <File>scscp/example/myserver.g</File> );
+    </Item>
+    <Item>start &GAP; as a daemon using the script <File>gapd.sh</File> which
+        is supplied in the root directory of the package (for the description
+        of all available options see comments in <File>gapd.sh</File>) and
+        may owerwrite parameters from <File>scscp/config.g</File>.
+    </Item>
+</List>
 
-<!-- TODO: describe the gapd.sh script -->     
+See <Ref Sect="Config" /> about configuring files <File>config.g</File> and
+<File>gapd.sh</File>.
+
+   </Description>
+</ManSection>
 
 </Section>
 
@@ -163,7 +194,7 @@ of such configuration file is given in <File>scscp/example/myserver.g</File>.
     about configuration files, see <Ref Label="Config" />).
 <Example>
 <![CDATA[
-gap> GetServiceDescription("localhost",26133);
+gap> GetServiceDescription( "localhost", 26133 );
 rec( service_name := "GAP SCSCP service", 
   version := "GAP 4.4.12 + SCSCP 1.1 started on Tue 21 Apr 2009 00:35:38 BST", 
   description := "Started with scscp/example/myserver.g from SCSCP 1.1" )
@@ -178,7 +209,10 @@ rec( service_name := "GAP SCSCP service",
          Comm="" />
    <Returns>
     ??? list of records ???
-    <!-- TODO : why not to return the structure like OMsymRecord ??? -->
+    <!-- TODO : why not to return the structure like OMsymRecord ??? 
+         Actually, to use roles, we need to introduce one more level
+         in OMsymRecord - cd.symbol.method, cd.symbol.role etc,
+         then transient CD record could me merged with OMsymRecord -->
    </Returns>	 
    <Description>
 <!-- TODO: Should we return scscp{1,2} here>? Maybe we should return only transient CD? -->
@@ -213,17 +247,25 @@ gap> GetAllowedHeads("localhost",26133);
          Arg="cd symbol server port"
          Comm="" />
    <Returns>
-    ???
+    <K>true</K> or <K>false</K>
    </Returns>	 
    <Description>
-<!-- TODO: document this: -->
-Note that no actual check whether cd/name exists!
-<!-- TODO: since we store CD symbols, we may actually check this to avoid misprinting errors in symbol names! -->
+    Checks whether the &OpenMath; symbol <A>cd</A><C>.</C><A>symbol</A>,
+    which may be a symbol from a standard or transient &OpenMath; content
+    dictionary, is allowed to appear as <Q>head</Q> symbol (i.e. the first 
+    child of the outermost <C>&lt;OMA></C> in an &SCSCP; procedure call to
+    the &SCSCP; server running at  <A>server</A><C>:</C><A>port</A>. 
+    This enables the client to check whether a particular 
+    symbol is allowed without requesting the full symbol list.
+    <P/>
+    Also, it is acceptable (although not necessarily desirable) for a 
+    server to <Q>overstate</Q> the set of symbols it accepts and use standard 
+    &OpenMath; errors to reject requests later.
 <Example>
 <![CDATA[
-gap> IsAllowedHead("permgp1","group","localhost",26133);                            
+gap> IsAllowedHead( "permgp1", "group", "localhost", 26133 );                            
 true
-gap> IsAllowedHead("nums1","pi","localhost",26133);          
+gap> IsAllowedHead( "nums1", "pi", "localhost", 26133 );          
 false
 ]]>
 </Example>  
@@ -232,19 +274,22 @@ false
 
 <ManSection>
    <Func Name="GetTransientCD" 
-         Arg="cd server port"
+         Arg="transient_cd server port"
          Comm="" />
    <Returns>
     record
    </Returns>	 
    <Description>
-    <!-- TODO: document this: -->
+    Returns a record with the transient content dictionary 
+    <A>transient_cd</A> from the &SCSCP; server running at 
+    <A>server</A><C>:</C><A>port</A>. Names of the component
+    of this record correspond to symbols from the <C>meta</C>
+    content dictionary.
 <Example>
 <![CDATA[
 gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
 rec( 
-  Description := "This is a transient content dictionary containing information about procedures offer\
-ed by the GAP SCSCP service", 
+  Description := "This is a transient CD for the GAP SCSCP service", 
   CDName := "scscp_transient_1", 
   CDReviewDate := "2009-04-21", 
   CDDate := "2009-04-21", 
@@ -252,31 +297,47 @@ ed by the GAP SCSCP service",
   CDRevision := "0", 
   CDStatus := "private", 
   CDDefinitions := 
-    [ rec( Name := "WS_Factorial", Description := "See ?Factorial in GAP" ), 
-      rec( Name := "WS_Phi", Description := "Euler's totient function, see ?Phi in GAP" ), 
+    [ rec( Name := "WS_Factorial", 
+           Description := "See ?Factorial in GAP" ), 
+      rec( Name := "WS_Phi", 
+           Description := "Euler's totient function, see ?Phi in GAP" ), 
   ...
-      rec( Name := "SCSCPStartTracing", Description := "To turn on tracing mode on the server and save\
-          events to specified filename without extensions" ), 
-      rec( Name := "SCSCPStopTracing", Description := "To turn off tracing mode on the server" ) ] )
+      rec( Name := "SCSCPStartTracing", 
+           Description := "To turn on tracing using given filename on the server" ), 
+      rec( Name := "SCSCPStopTracing", 
+           Description := "To turn off tracing on the server" ) ] )
 ]]>
 </Example>    
+<!-- TODO: move tracing from myserver.g inside the package -->
    </Description>
 </ManSection>
 
 <ManSection>
    <Func Name="GetSignature" 
-         Arg="cd symbol server port"
+         Arg="transientcd symbol server port"
          Comm="" />
    <Returns>
     record
    </Returns>	 
    <Description>
-    <!-- TODO: document this: -->
+    Returns a record with the signature of the &OpenMath; symbol 
+    <A>transientcd</A><C>.</C><A>symbol</A> from a transient &OpenMath; content
+    dictionary. This record contains components corresponding to the &OpenMath; 
+    symbol whose signature is described, its minimal and maximal number of its
+    children (that is, of its arguments) and symbols which may be used in the &OpenMath; 
+    encoding of its children. Note that it is acceptable for a symbol from a
+    transient content dictionary to overstate the set of symbols which may
+    occure in its children using the <C>scscp2.symbol_set_all</C> symbol, and
+    use standard &OpenMath; errors to reject requests later, like in the example
+    below: using such approach, we make the procedure <C>WS_Factorial</C> accepting
+    not only immediate <C>&lt;OMI></C> objects but anything which could be
+    evaluated to an integer.
 <Example>
 <![CDATA[
-gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);                               
-rec( symbol := rec( name := "WS_Factorial", cd := "scscp_transient_1" ), minarg := 1, maxarg := 1, 
-  symbolargs := rec( name := "symbol_set_all", cd := "scscp2" ) )
+gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);
+rec( symbol := rec( name := "WS_Factorial", cd := "scscp_transient_1" ),
+     minarg := 1, maxarg := 1,
+     symbolargs := rec( name := "symbol_set_all", cd := "scscp2" ) )
 ]]>
 </Example>    
    </Description>

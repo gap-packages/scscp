@@ -52,7 +52,53 @@ directory <File>MYGAPDIR/pkg</File>. Then to load the package
 <Section Label="Config">
 <Heading>Configuration files</Heading>
 
-<!-- TODO: mention configuration files config and parconfig, and also myserver.g --> 
+There are four files in the package which may need to be modified
+to setup and customise the package.
+
+The first three files are related with the server's functionality:
+
+<List>
+
+<Item>
+<File>scscp/config.g</File> specifies the default <C>InfoLevel</C>
+for the <Ref InfoClass="InfoSCSCP" /> class, default &SCSCP; server
+name and port to be used by <Ref Func="RunSCSCPserver" /> if &GAP;
+is started with the <File>scscp/example/myserver.g</File> file,
+and the service description to be return to the
+client <Ref Func="GetServiceDescription" />.
+</Item>
+
+<Item>
+<File>scscp/gapd.sh</File> is the script to start the &GAP; &SCSCP; server
+as a daemon. To use it, adjust the local call of &GAP; and, if necessary,
+call options (for example, memory usage, startup from the workspace etc.)
+and the location of the root directory of the &SCSCP; package in section 1
+of this script.
+</Item>
+
+<Item>
+<File>scscp/example/myserver.g</File> is an example of the server configuration 
+file which loads all necessary packages, reads all needed code, installs
+all procedures which will be exposed to the client and finally starts the
+&SCSCP; server (see Chapter <Ref Chap="Server" />).
+</Item>
+
+</List>
+
+The fourth file is related with the client's functionality for parallel computations:
+
+<List>
+<Item>
+The file <File>scscp/configpar.g</File> assigns the global variable 
+<C>SCSCPservers</C> which specifies a list of hosts and ports to 
+search for &SCSCP; services (which may be not only represented by 
+&GAP; services, but also by another &SCSCP;-compliant systems). 
+It will be used to run parallel computations with the &SCSCP; 
+package (see Chapter <Ref Chap="Parallel" />). 
+</Item>
+</List>
+
+See comments in these configuration files for further details and examples.
 
 </Section>
 
