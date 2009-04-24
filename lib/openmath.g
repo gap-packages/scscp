@@ -137,7 +137,7 @@ else
     Append( omstr, Concatenation( "<CDVersion>", "0", "</CDVersion>\n" ) );
     Append( omstr, Concatenation( "<CDRevision>", "0", "</CDRevision>\n" ) );
     Append( omstr, "<CDStatus>private</CDStatus>\n" );
-    Append( omstr, "<Description>This is a transient content dictionary containing information about procedures offered by the GAP SCSCP service</Description>\n" );
+    Append( omstr, "<Description>This is a transient CD for the GAP SCSCP service</Description>\n" );
     for procname in RecNames( OMsymRecord.(x[1]) ) do
         Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>", procname, "</Name>\n" ) );
         Append( omstr, Concatenation( "<Description>",
