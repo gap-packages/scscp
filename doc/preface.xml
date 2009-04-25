@@ -20,6 +20,11 @@ for the &GAP; user, since all conversions from &GAP; to &OpenMath; and
 vice versa will be performed in the background.
 <P/>
 
+
+<!-- TODO: mention other compliant systems
+     and where to get more info on them and other tools -->
+     
+
 The package has two main components:
 <List>
 <Item>SCSCP server;</Item>
@@ -66,6 +71,8 @@ and normally it never stops until it will be terminated by the service provider.
 The server maintain a queue of five incoming connections (this parameter
 can be easily modified), and on each iteration evaluates the next request from the queue.
 <P/>
+
+<!-- TODO: mention testing server on chrystal (check its safety first) -->
     
 The SCSCP client:
 <List>

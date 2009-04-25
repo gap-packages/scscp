@@ -45,7 +45,7 @@ if IsBound( arg[3] ) then
         procdesc := Concatenation( procname, " is currently undocumented." );
         pos:=3;
     else 
-        Error("InstallSCSCPprocedure: the ", Ordinal(pos), " argument must be either\n",
+        Error("InstallSCSCPprocedure: the 3rd argument must be either\n",
               "a string with the description of the procedure or\n",
               "a non-negative integer specifying the (minimal) number of its arguments!\n");
     fi;

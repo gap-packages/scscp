@@ -7,36 +7,101 @@
 <Heading>Sending request and getting result</Heading>
 
 <ManSection>
+    <Filt Name="IsProcess" />
+    <Description>
+    This is the category of processes. Process is an abstraction 
+    which encapsulates an <C>InputOutputTCPStream</C>
+    (see <Ref Filt="IsInputOutputTCPStream" /> from a client to the 
+    server and the process ID which the server CAS has (deduced
+    from the connection initiation message, may be not assigned,
+    if the server CAS did not communicate it). Knowledge of the
+    process ID on the server may be useful to send <Q>out-of-band</Q>
+    interrupt messages.
+    Processes in the category <Ref Filt="IsProcess" />
+    are created using the function <Ref Func="NewProcess" />.
+    </Description>
+</ManSection>
+
+
+<ManSection>
    <Func Name="NewProcess" 
           Arg="command listargs server port"
          Comm="" />
    <Returns>
-     stream
+     object in the category <C>IsProcess</C>
    </Returns>	 
    <Description>
      <A>command</A> and <C>server</C> are strings, <A>listargs</A>
      is a list of &GAP; objects and <C>port</C> is an integer.
-     Calls the SCSCP procedure with the name <A>command</A> 
+     Calls the &SCSCP; procedure with the name <A>command</A> 
      and the list of arguments <A>listargs</A> at the server and port
-     given by <C>server</C> and <C>port</C>. Returns the stream in
-     the category <C>IsInputOutputTCPStream</C> for the subsequent
-     waiting the result from that stream.
-     <!-- TODO: describe options --> 
+     given by <C>server</C> and <C>port</C>. Returns an object in
+     the category <C>IsProcess</C> for the subsequent
+     waiting the result from its underlying stream.
+     <P/>
+     It accepts the following options:
+     <List>
+     <Item> 
+     <C>return_cookie</C>
+         is used to specify that the result of the 
+         procedure call should be stored on the server, and the
+         server should return a remote object (see <Ref Sect="Remote" /> )
+         pointing to that result (that is, a cookie);
+     </Item>
+     <Item>
+     <C>return_nothing</C> is used to specify that the server is supposed to reply 
+         with a <C>procedure_completed</C> message carrying no
+         object just to signal that the call was completed successfully
+         (for the compatibility, this will be signalled as "procedure completed" 
+         string on the client's side)
+     </Item>
+     <Item>
+     <C>cd:="cdname"</C> is used to specify that the &OpenMath; symbol corresponding
+         to the first argument <A>command</A> should be looked up in the particular content
+         dictionary <C>cdname</C>.
+     </Item>
+     <Item>
+     <C>debuglevel:=N</C> is used to obtain additional information attributes together 
+         with the result: if <C>N=1</C>, it will report about the CPU time in milliseconds
+         required to compute the result; if <C>N=2</C> it will additionally report about
+         the amount of memory used by &GAP; in bytes will be returned
+         (using the output of <Ref Func="MemoryUsageByGAPinKbytes" /> converted to bytes);
+         if <C>N=3</C> it will additionally report the amount of memory in bytes used by 
+         the resulting object and its subobjects (using the output of 
+         <Ref BookName="ref" Oper="MemoryUsage" />).
+     </Item>
+     </List>
+     Clearly, the first two options <C>return_cookie</C> and <C>return_nothing</C>
+     are incompatible.
+     <P/>
+     See <Ref Func="CompleteProcess" /> and <Ref Func="EvaluateBySCSCP" /> for examples.
    </Description>
 </ManSection>
 
 <ManSection>
    <Func Name="CompleteProcess" 
-          Arg="stream"
+          Arg="process"
          Comm="" />
    <Returns>
      record with components <C>object</C> and <C>attributes</C> 
    </Returns>	 
    <Description>
-     The function waits, if necessary, until the stream will contain
-     some data, then reads appropriate &OpenMath; object from the stream
-     and closes the stream;
-     <!-- TODO: describe options --> 
+     The function waits, if necessary, until the underlying stream of the process 
+     will contain some data, then reads appropriate &OpenMath; object from this stream
+     and closes it.
+     <P/>
+     It accepts two incompatible options:
+     <List>
+     <Item> 
+     <C>return_cookie</C> has the same meaning like for <Ref Func="NewProcess" />
+     </Item>
+     <Item>
+     <C>return_tree</C> is used to specify that the result obtained from the
+         server should be returned as an XML parsed tree without its evaluation.
+     </Item>
+     </List>
+     Clearly, the first two options <C>return_cookie</C> and <C>return_nothing</C>
+     are incompatible.
    </Description>
 </ManSection>
 
@@ -57,8 +122,8 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6543" ] 
 ]]>
 </Example>
 
-The next function combines the two previous functions, performing both
-sending request and getting result in one call.
+See more examples in the description of the function <Ref Func="EvaluateBySCSCP" />,
+which combines the two previous functions by sending request and getting result in one call.
 
 <ManSection>
    <Func Name="EvaluateBySCSCP" 
@@ -73,21 +138,37 @@ sending request and getting result in one call.
      Calls the SCSCP procedure with the name <A>command</A> 
      and the list of arguments <A>listargs</A> at the server and port
      given by <C>server</C> and <C>port</C>.
-     <!-- TODO: describe options --> 
-   </Description>
-</ManSection>
+     <P/>
+     Since <Ref Func="EvaluateBySCSCP" /> combines <Ref Func="NewProcess" /> 
+     and <Ref Func="CompleteProcess" />, it has all options which may be
+     used by that functions ( <C>return_cookie</C>, <C>return_nothing</C> , 
+     <C>return_tree</C>, <C>cd</C> and <C>debuglevel</C>  ) with the same meanings.
 
 <Example>
 <![CDATA[
-gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6543" ] ] )
+rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
+     object := 3628800 )
+gap> SetInfoLevel(InfoSCSCP,0);
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : return_cookie ); 
+rec( attributes := [ [ "call_id", "localhost:26133:2442:jNQG6rml" ] ], 
+  object := < remote object TEMPVarSCSCP@localhost:26133 > )
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : return_nothing );
+rec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ], 
+  object := "procedure completed" )
 ]]>
 </Example>
+
+   </Description>
+</ManSection>
+
 
 Now we demonstrate the procedure <C>GroupIdentificationService</C>,
 also given in the previous chapter:
@@ -98,13 +179,19 @@ gap> G:=SymmetricGroup(4);
 Sym( [ 1 .. 4 ] )
 gap> gens:=GeneratorsOfGroup(G);
 [ (1,2,3,4), (1,2) ]
-gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
+gap> EvaluateBySCSCP( "GroupIdentificationService", [ gens ],
+>                     "localhost", 26133 : debuglevel:=3 ); 
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
 #I  Waiting for reply ...
-rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:6543" ] ] )
+rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ], 
+      [ "info_runtime", 6 ], [ "info_memory", 670175232 ], 
+      [ "info_message", "Memory usage for the result is 24 bytes" ] ], 
+  object := [ 24, 12 ] )
 ]]>
 </Example>
 
@@ -127,7 +214,7 @@ end;
 ]]>
 </Example>
 
-and then use it in the following way:
+and then use it similarly to the <Ref BookName="ref" Func="IdGroup" />:
 
 <Example>
 <![CDATA[
@@ -145,17 +232,14 @@ gap> IdGroupWS(G);
 
 <ManSection>
    <Func Name="TerminateProcess" 
-          Arg="stream"
+          Arg="process"
          Comm="" />
    <Description>
         The function is supposed to send the interrupt signal to the server.
-        Now it just closes the stream on the client side, while the server will
-        recognize this only when the computation will be completed. In fact,
-        closing stream too early (for example, when server writes to it) even
-        causes server crash because of the broken pipe. We introduce this 
-        function as a nameplace for further implementing a proper interrupt
-        mechanism.
-        <!-- TODO: check and update description --> 
+        Current implementation works only when the server is running on the
+        same machine with the client, and sends a <C>SIGINT</C> to the server 
+        using its PID contained in the <A>process</A>.
+        <!-- TODO: check, improve, update. How it works remotely? --> 
    </Description>
 </ManSection>
 
@@ -165,7 +249,7 @@ gap> IdGroupWS(G);
 <Section Label="Remote">
 <Heading>Remote objects</Heading>
 
-<!-- TODO: implement and describe store per session / persistently --> 
+<!-- TODO: implement and document store per session / persistently --> 
 
 The &SCSCP; package introduces new kind of objects - <E>remote objects</E>.
 They provide an opportunity to manipulate with objects on remote services
@@ -245,23 +329,17 @@ rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26133:6726" ] ]
 
 
 <ManSection>
-    <Filt Name="IsRemoteObject" 
-           Arg="remoteobject"
-          Comm="" />
-    <Returns>
-      true or false
-    </Returns>	 
+    <Filt Name="IsRemoteObject" />
     <Description>
-    <!-- TODO: write this -->
+    This is the category of remote objects.
     </Description>
 </ManSection>
 
 
 <ManSection>
-    <Fam Name="RemoteObjectsFamily" 
-          Comm="" />
+    <Fam Name="RemoteObjectsFamily" />
     <Description>
-    <!-- TODO: write this -->
+    This is the familty of remote objects.
     </Description>
 </ManSection>
 

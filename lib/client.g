@@ -78,7 +78,8 @@ end);
 #############################################################################
 #
 # EvaluateBySCSCP( command, listargs, server, port : 
-#                  return_coookie/return_nothing/return_tree, cd:="cdname" );
+#                  return_coookie/return_nothing/return_tree, 
+#                  cd:="cdname", debuglevel:=N );
 #
 # Options return_coookie/return_nothing/return_tree are incompatible.
 #

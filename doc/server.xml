@@ -16,66 +16,54 @@
    <Description>
      For a string <A>procname</A> and a function <A>procfunc</A>, 
      <Ref Func="InstallSCSCPprocedure" /> makes the <A>procfunc</A> 
-     available as SCSCP procedure under the name <A>procname</A>.
+     available as SCSCP procedure under the name <A>procname</A>,
+     adding it to the transient &OpenMath; content dictionary that
+     will be defined during the service lifetime.
      <P/>
-     The second argument <A>procfunc</A> maybe either standard or 
-     user-defined function or procedure.
+     The second argument <A>procfunc</A> may be either a standard or user-defined 
+     function (procedure, operation, etc.).
      <P/>
-     The rest of arguments are optional and may be used in a number of combinations.
-     <P/>
-     <A>description</A> is a string with the description of the procedure, that may be used in the help system.<P/>
-     <A>narg1</A> is a non-negative integer, specifying the minimal number of arguments.<P/>
-     <A>narg2</A> is a non-negative integer or infinity, specifying the maximal number of arguments.
-     If <A>narg2</A> is omitted then the maximal number of arguments will be set to <A>narg1</A>.<P/>
-     <A>signature</A> is the signature record of the procedure. 
-     It requires at least the minimal number of arguments to be specified.<P/>
-     If optional arguments are not specified, they will be set to their default values.
-     <!-- TODO: document default values , say what is transient CD -->
+     The rest of arguments are optional and may be used in a number of combinations:
+     <List>
+     <Item>
+     <A>description</A> is a string with the description of the procedure, 
+     that may be used in the help system. If it is ommitted, the procedure will
+     be reported as undocumented.
+     </Item>
+     <Item>
+     <A>narg1</A> is a non-negative integer, specifying the minimal number of arguments,
+     and <A>narg2</A> is a non-negative integer or infinity, specifying the maximal number 
+     of arguments.
+     If <A>narg2</A> is omitted then the maximal number of arguments will be set to <A>narg1</A>.
+     If both <A>narg1</A> and <A>narg2</A> are omitted then the mimimal number of arguments will be set to zero
+     and their maximal number will be set to infinity.
+     </Item>
+     <Item>
+     <A>signature</A> is the signature record of the procedure. If the <A>signature</A> is
+     given, then the number of arguments must be explicitly specified (giving <A>narg1</A> with
+     or without <A>narg2</A>), though it is allowed to set them to zero and infinity respectively.
+     </Item>
+     </List>
+     <!-- TODO: document signature format properly, say what is symbol_set_all -->
    </Description>
 </ManSection>
 
-In the following example we define the function <C>FactorialAsString</C>
-that takes an integers and returns its factorial in the form of a string.
-This allows correct handling of the case when the result is displayed as
-an integer too large to be printed.
+In the following example we define the function <C>WS_Factorial</C>
+that takes an integers and returns its factorial, using only mandatory
+arguments:
 
 <Example>
 <![CDATA[
-gap> FactorialAsString := x -> String(Factorial( x ) );
-function( x ) ... end
-gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
+gap> InstallSCSCPprocedure( "WS_factorial", Factorial );
 InstallSCSCPprocedure : procedure WS_factorial installed. 
-]]>
-</Example>
-
-Some examples with various combinations of some optional arguments are shown below:
-<Example>
-<![CDATA[
-InstallSCSCPprocedure( "Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
-InstallSCSCPprocedure( "WS_factorial", FactorialAsString, 
-                       "Returns result as a string to transmit large integers", 1 );
-InstallSCSCPprocedure( "GroupIdentificationService", 
-                        IdGroupByGenerators, 1, infinity, rec() );
-InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
-InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
-]]>
-</Example>
-
-The user is able to reinstall SCSCP procedures: 
-
-<Example>
-<![CDATA[
-gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
-WS_factorial is already installed. Do you want to reinstall it [y/n]? y
-InstallSCSCPprocedure : procedure WS_factorial reinstalled. 
 ]]>
 </Example>
 
 In the following example we install the procedure that will accept a list
 of permutations and return the number in the &GAP; Small Groups library
 of the group they generate (for the sake of simplicity we omit tests of
-validity of arguments, availablity of <C>IdGroup</C> for groups of given order
-etc.)
+validity of arguments, availablity of <C>IdGroup</C> for groups of given 
+order etc.)
 
 <Example>
 <![CDATA[
@@ -87,6 +75,38 @@ gap> InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
 InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
 ]]>
 </Example>
+
+After installation, the procedure may be reinstalled, if necessary:
+
+<Example>
+<![CDATA[
+gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
+WS_factorial is already installed. Do you want to reinstall it [y/n]? y
+InstallSCSCPprocedure : procedure WS_factorial reinstalled. 
+]]>
+</Example>
+
+Finally, some examples of various combinations of optional arguments:
+<Example>
+<![CDATA[
+InstallSCSCPprocedure( "WS_Phi", Phi, 
+                       "Euler's totient function, see ?Phi in GAP", 1, 1 );
+InstallSCSCPprocedure( "GroupIdentificationService", 
+                        IdGroupByGenerators, 1, infinity, rec() );
+InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
+InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
+]]>
+</Example>
+
+Note that it is quite acceptable to overstate the signature of the procedure
+and use only mandatory arguments in a call to <Ref Func="InstallSCSCPprocedure" />, 
+which will be installed then as a procedure that can accept arbitrary number of
+arguements encoded without any restrictions on &OpenMath; symbols used, because
+anyway the &GAP; system will return an error in case of th wrong number or type
+of arguments, though it might be a good practice to give a way to the client to
+get more precise procedure description apriori, that is before sending request. 
+See <Ref Sect="SpecialProcedures" /> about utilities for obtaining such information
+about the &SCSCP; service.
 
 Some more examples of installation of SCSCP procedures 
 are given in the file <File>scscp/example/myserver.g</File>. 

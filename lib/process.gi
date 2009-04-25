@@ -57,7 +57,7 @@ end);
 #############################################################################
 #
 # NewProcess( command, listargs, server, port : return_coookie/return_nothing, 
-#                                               cd:="cdname" );
+#                                               cd:="cdname", debuglevel:=N );
 #
 # The function sends the request to the SCSCP server, and
 # returns the InputOutputTCPStream for waiting the result
@@ -171,7 +171,7 @@ end);
 
 #############################################################################
 #
-# CompleteProcess( <process> )
+# CompleteProcess( <process> : return_cookie/return_tree );
 #
 # The function waits for the process completion, 
 # then collects the result and closes the stream
@@ -259,7 +259,6 @@ fi;
 #
 # 3) Remote user executes (in GAP) Exec("ssh <hostname> kill -s SIGUSR2 <pid>");"
 # (need have enough credentials to login into remote machine).
-#
 #
 # (3) Works remotely. However, the user must be an owner of the process, since only the super-user
 # may send signals to other users' processes, and there are other possible issues as well.
