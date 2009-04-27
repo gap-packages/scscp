@@ -15,7 +15,7 @@
 # they also compensate for servers that are just running very slowly, 
 # and they lose nothing, since there are always idle servers by that point.
 
-ReadPackage("scscp/configpar");
+ReadPackage("scscp/configpar.g");
 SCSCPprocesses:=[];
 
 SCSCPreset:=function()
