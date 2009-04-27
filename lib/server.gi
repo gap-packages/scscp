@@ -28,7 +28,7 @@ local socket, lookup, bindaddr, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, 
-     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel;
+     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername;
 
 # additional procedures to turn tracing on/off
     
@@ -48,12 +48,14 @@ IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
 if server = true then
 	bindaddr := "\000\000\000\000";
 	server := "0.0.0.0";
+	servername := Concatenation( Hostname(), ".", server );
 	SCSCPserverAddress := Hostname();
 else
     if server = false then
     	server := "localhost";
     	SCSCPserverAddress := "localhost";
     fi;
+   	servername := server;
 	lookup := IO_gethostbyname( server );
 	if lookup = fail then
 	    return rec( socket := fail,
@@ -86,7 +88,7 @@ if res = fail then
 else
 	welcome_string:= Concatenation( 
           "<?scscp service_name=\"GAP\" service_version=\"", VERSION, 
-          "\" service_id=\"", server, ":", String(port), ":", String(IO_getpid()), 
+          "\" service_id=\"", servername, ":", String(port), ":", String(IO_getpid()), 
           "\" scscp_versions=\"1.0 1.1 1.2 1.3\" ?>");
     Print( "#I  Ready to accept TCP/IP connections at ", server, ":", port, " ... \n" );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections

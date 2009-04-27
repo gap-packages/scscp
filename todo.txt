@@ -108,7 +108,6 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * Fix retrieve message - put full reference instead of OMSTR
 * Separate store per session or persistently
-* if SCSCP started with true, put some more meaningful in the call_ID.
 * Implement all signatures business
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
