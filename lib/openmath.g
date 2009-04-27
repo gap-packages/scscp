@@ -22,14 +22,7 @@ MakeReadWriteGlobal( "SCSCPtransientCDs" );
 #
 # SCSCP_RETRIEVE( <varnameasstring> )
 #
-InstallGlobalFunction( SCSCP_RETRIEVE,
-function( varnameasstring )
-if IsBoundGlobal( varnameasstring[1] ) then
-  return EvalString( varnameasstring[1] );
-else
-  Error( "Unbound global variable ", varnameasstring[1], "\n" );
-fi;
-end);
+InstallGlobalFunction( SCSCP_RETRIEVE, x -> x[1] );
 
 
 ##############################################################################

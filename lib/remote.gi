@@ -123,7 +123,7 @@ end);
 InstallMethod( RetrieveRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "retrieve", [ obj![1] ], obj![2], obj![3]).object;
+return EvaluateBySCSCP( "retrieve", [ obj ], obj![2], obj![3]).object;
 end);
 
 

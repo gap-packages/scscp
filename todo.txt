@@ -106,7 +106,6 @@ other specified conditions to prevent forgotten jobs from infinite running.
 3.TODO
 #############################################################################
 
-* Fix retrieve message - put full reference instead of OMSTR
 * Separate store per session or persistently
 * Implement all signatures business
 
