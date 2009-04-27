@@ -53,6 +53,7 @@ fi;
 #
 #############################################################################
 
+
 #############################################################################
 #
 # ApplyFunction( <string with function name>, <list of arguments> );
@@ -68,6 +69,7 @@ end;
 
 InstallSCSCPprocedure( "ApplyFunction", ApplyFunction, 
 	"1st argument is a string with the name of the function, the rest is the list of its arguments", 2, 2 );
+
 
 #############################################################################
 #
@@ -87,6 +89,7 @@ Unbind(OMsymRecord.cas);
 InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
 	"Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
 	
+	
 #############################################################################
 #
 # ChangeInfoLevel( <n> )
@@ -101,3 +104,21 @@ end;
 InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel, 
 	"To change InfoSCSCP level on the server without restarting", 1, 1 );
 	
+	
+#############################################################################
+#
+# SCSCPRestoreErrorsOnServer( )
+#
+# After this call, the break loop will occure on the server again.
+#
+SCSCPRestoreErrorsOnServer:=function( )
+if VERSION = "4.dev" then
+	RereadLib("error.g"); # to restore the library version of ErrorInner 
+	return true;
+else 
+	Error( "The server version is not 4.dev" );
+fi;	
+end;
+
+InstallSCSCPprocedure( "SCSCPRestoreErrorsOnServer", SCSCPRestoreErrorsOnServer, 
+	"To make break loops happening on the server", 0, 0 );	
