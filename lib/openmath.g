@@ -11,6 +11,8 @@ if VERSION <> "4.dev" then
 	CALL_WITH_CATCH := CallFuncList;
 fi;
 
+SCSCP_UNBIND_MODE := false;
+
 #############################################################################
 #
 # SCSCPtransientCDs stores information about transient CDs,
@@ -375,6 +377,14 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     					node.content[1].content[pos].content[2].content[1].attributes.name, 
     					" is not allowed"], 
 			            attributes := attrs, is_error:=true );
+			    else
+			    	# some checks for some particular special procedures might be here
+			    	if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" and
+			    	   node.content[1].content[pos].content[2].content[1].attributes.name = "unbind" then
+			    	   	SCSCP_UNBIND_MODE := true;
+			    	else
+			    	   	SCSCP_UNBIND_MODE := false;
+			    	fi; 
     			fi;
 			fi;
 		fi;
@@ -462,7 +472,11 @@ if IsBound( node.attributes.xref ) then
     if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
       if IsBound( node.attributes.xref ) then
         if IsBoundGlobal( name ) then
-          return EvalString( name );
+          if SCSCP_UNBIND_MODE then
+          	return name;
+          else
+          	return EvalString( name );
+          fi;	
         else
           Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
         fi;    
@@ -471,7 +485,7 @@ if IsBound( node.attributes.xref ) then
       else
         Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
       fi;
-    else
+    else # for a "foreign" object
       return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
     fi;        
   else
