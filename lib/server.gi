@@ -264,7 +264,7 @@ else
             		Info( InfoSCSCP, 2, "call_id ", call_id_value, " : sending to client ", objrec.object ); 
             
             		if return_cookie then
-                		cookie := TemporaryGlobalVarName( "TEMPVarSCSCP" );  
+                		cookie := TemporaryGlobalVarName( Concatenation( "TEMPVarSCSCP", RandomString(8) ) );  
                 		ASS_GVAR( cookie, objrec.object );
                 		if ISBOUND_GLOBAL( cookie ) then                                             
                     		Info( InfoSCSCP, 2, "Result stored in the global variable ", cookie );  

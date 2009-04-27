@@ -15,7 +15,7 @@
 InstallGlobalFunction( GetAllowedHeads,
 function( server, port )
 local r, i, res;
-r := EvaluateBySCSCP( "get_allowed_heads", [], server, port : return_tree ).object;
+r := EvaluateBySCSCP( "get_allowed_heads", [], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 
@@ -41,7 +41,7 @@ end);
 InstallGlobalFunction( GetServiceDescription,
 function( server, port )
 local r;
-r := EvaluateBySCSCP( "get_service_description", [], server, port : return_tree ).object;
+r := EvaluateBySCSCP( "get_service_description", [], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 

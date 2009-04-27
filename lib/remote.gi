@@ -101,7 +101,7 @@ InstallMethod( StoreAsRemoteObjectPerSession, "for an object",
 function( obj, server, port )
 # TODO: store must return automatically remote object even if called without return_cookie
 # In general, conflicts between procedures and options should be checked and eliminated
-return EvaluateBySCSCP( "store_session", [ obj ], server, port : return_cookie).object;
+return EvaluateBySCSCP( "store_session", [ obj ], server, port : output := "cookie" ).object;
 end);
 
 
@@ -112,7 +112,7 @@ end);
 InstallMethod( StoreAsRemoteObjectPersistently, "for an object",
 [ IsObject, IsString, IsPosInt ],
 function( obj, server, port )
-return EvaluateBySCSCP( "store_persistent", [ obj ], server, port : return_cookie).object;
+return EvaluateBySCSCP( "store_persistent", [ obj ], server, port : output:="cookie").object;
 end);
 
 
@@ -123,7 +123,7 @@ end);
 InstallMethod( RetrieveRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "retrieve", [ obj ], obj![2], obj![3]).object;
+return EvaluateBySCSCP( "retrieve", [ obj ], obj![2], obj![3] : output:="object" ).object;
 end);
 
 
@@ -134,5 +134,14 @@ end);
 InstallMethod( UnbindRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "unbind", [ obj ], obj![2], obj![3]).object;
+local r;
+if IsBound( obj![4]) and obj![4]=false then
+	Error("Remote object is already unbound");
+else
+	r := EvaluateBySCSCP( "unbind", [ obj ], obj![2], obj![3] : output:="object"  ).object;
+	if r=true then
+		obj![4]:=false;
+	fi;
+	return true;
+fi;	
 end);

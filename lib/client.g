@@ -78,14 +78,14 @@ end);
 #############################################################################
 #
 # EvaluateBySCSCP( command, listargs, server, port : 
-#                  return_coookie/return_nothing/return_tree, 
+#                  output:=object/coookie/nothing/tree, 
 #                  cd:="cdname", debuglevel:=N );
 #
-# Options return_coookie/return_nothing/return_tree are incompatible.
+# Options object/coookie/nothing/tree are incompatible.
 #
-# For return_coookie/return_nothing see definions in the SCSCP specification.
+# For object/coookie/nothing see definions in the SCSCP specification.
 #
-# Option return_tree is used when it is necessary to suppress evaluation
+# Option output:="tree" is used when it is necessary to suppress evaluation
 # of the XML tree representing the OpenMath object (for example, to be used
 # with "get_allowed_heads").
 #
@@ -95,30 +95,16 @@ end);
 InstallGlobalFunction( EvaluateBySCSCP,
 function( command, listargs, server, port )
 
-local return_cookie, return_nothing, return_tree, debug_option, opt, cdname, result;
+local output_option, debug_option, opt, cdname, result;
 
-if ValueOption("return_cookie") <> fail then
-  return_cookie := true;
+if ValueOption("output") <> fail then
+  output_option := ValueOption("output");
 else
-  return_cookie := false;  
+  output_option := "object";  
 fi;
 
-if ValueOption("return_nothing") <> fail then
-  return_nothing := true;
-else
-  return_nothing := false;  
-fi;
-
-if ValueOption("return_tree") <> fail then
-  return_tree := true;
-else
-  return_tree := false;  
-fi;
-
-if Number( [ return_cookie, return_nothing, return_tree ], opt -> opt=true ) > 1 then
-  Print( "WARNING: options conflict in EvaluateBySCSCP:\n",
-         "you specify only one of return_cookie / return_nothing /return_tree options!\n",
-         "Only the first specified option will be used therefore.\n" );
+if not output_option in [ "object", "cookie", "nothing", "tree" ] then
+	Error( "output must be one of ", [ "object", "cookie", "nothing", "tree" ], "\n" );
 fi;
 
 if ValueOption("cd") <> fail then
@@ -133,17 +119,11 @@ else
   debug_option := 0;
 fi;
 
-if return_cookie then
-  result := NewProcess( command, listargs, server, port : return_cookie, cd:=cdname, debuglevel := debug_option );
-elif return_nothing then
-  result := NewProcess( command, listargs, server, port : return_nothing, cd:=cdname, debuglevel := debug_option );
-else
-  result := NewProcess( command, listargs, server, port : cd:=cdname, debuglevel := debug_option );
-fi;
+result := NewProcess( command, listargs, server, port : output := output_option, cd:=cdname, debuglevel := debug_option );
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");
-if return_tree then
-  result := CompleteProcess( result : return_tree );
+if output_option = "tree" then
+  result := CompleteProcess( result : output:="tree" );
 else
   result := CompleteProcess( result );
 fi;

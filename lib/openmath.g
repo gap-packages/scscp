@@ -473,6 +473,7 @@ if IsBound( node.attributes.xref ) then
       if IsBound( node.attributes.xref ) then
         if IsBoundGlobal( name ) then
           if SCSCP_UNBIND_MODE then
+            SCSCP_UNBIND_MODE := false;
           	return name;
           else
           	return EvalString( name );

@@ -56,8 +56,9 @@ end);
 
 #############################################################################
 #
-# NewProcess( command, listargs, server, port : return_coookie/return_nothing, 
-#                                               cd:="cdname", debuglevel:=N );
+# NewProcess( command, listargs, server, port : 
+#                               output:=object/coookie/nothing/, 
+#                                             cd:="cdname", debuglevel:=N );
 #
 # The function sends the request to the SCSCP server, and
 # returns the InputOutputTCPStream for waiting the result
@@ -66,20 +67,17 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local stream, initmessage, session_id, omtext, localstream,
-      return_option, debug_option, cdname, attribs, ns, server_scscp_version, 
+      output_option, debug_option, cdname, attribs, ns, server_scscp_version, 
       suggested_versions, pos1, pos2, pid;
 
-if ValueOption("return_cookie") <> fail then
-  if ValueOption("return_cookie") = true then
-    return_option := "option_return_cookie";
-  fi;
-elif ValueOption("return_nothing") <> fail then
-  if ValueOption("return_nothing") = true then
-    return_option := "option_return_nothing";
-  fi;  
+
+if ValueOption("output") <> fail then
+  output_option := ValueOption("output");
 else
-  return_option := "option_return_object";
+  output_option := "object";  
 fi;
+
+output_option:=Concatenation( "option_return_", output_option );
 
 if ValueOption("cd") <> fail then
   cdname := ValueOption("cd");
@@ -134,7 +132,7 @@ else
   Info(InfoSCSCP, 1, "Server confirmed version ", SCSCP_VERSION, " to the client ...");           
 fi;
   
-Add( attribs, [ return_option, "" ] );
+Add( attribs, [ output_option, "" ] );
 if debug_option > 0 then
   Add( attribs, [ "option_debuglevel", debug_option ] );
 fi; 
@@ -178,24 +176,12 @@ end);
 #
 InstallGlobalFunction( CompleteProcess,
 function( process )
-local stream, result, return_cookie, return_tree;
+local stream, result, output_option;
 
-if ValueOption( "return_cookie") <> fail then
-  return_cookie := true;
+if ValueOption( "output") <> fail then
+  output_option := ValueOption( "output");
 else
-  return_cookie := false;  
-fi;
-
-if ValueOption("return_tree") <> fail then
-  return_tree := true;
-else
-  return_tree := false;  
-fi;
-
-if return_cookie and return_tree then
-  Print( "WARNING: options conflict in CompleteProcess:\n",
-         "you can not specify return_cookie and return_tree in the same time!\n",
-         "Only return_cookie option will be used therefore.\n" );
+  output_option := "object";  
 fi;
 
 stream := process![1];
@@ -203,14 +189,14 @@ if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
 IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
 if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage( stream![3][1] ); fi;
-if return_tree then
+if output_option="tree" then
     result := OMGetObjectWithAttributes( stream : return_tree );
 else
     result := OMGetObjectWithAttributes( stream );
 fi;    
 # TODO: References must be converted automatically to the remote object. 
 # Then there will be no need in a option for cookie in this function.
-if return_cookie then
+if output_option="cookie" then
   result.object := RemoteObject( result.object, stream![2], stream![3][1] );
 fi;
 if result = fail then
