@@ -35,8 +35,11 @@ SetInfoLevel(InfoSCSCP,4);
 # * "localhost" or specific string
 # * Hostname(); to determine it automatically
 # * true to listen all network interfaces
+# Uncomment needed line below.
 
 SCSCPserverAddress := "localhost";
+#SCSCPserverAddress := Hostname();
+#SCSCPserverAddress := true;
 
 # setting the default port
 SCSCPserverPort := 26133;
