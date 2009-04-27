@@ -273,7 +273,7 @@ else
               			Print("#I  Composing procedure_completed message: \n");
               			omtext:="";
               			localstream := OutputTextString( omtext, true );
-              			OMPutProcedureCompleted( localstream, output );
+              			CALL_WITH_CATCH( OMPutProcedureCompleted, [ localstream, output ] );
               			Print(omtext);
             		fi;       
  
