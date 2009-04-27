@@ -46,3 +46,56 @@ InstallSCSCPprocedure( "WS_NormalizedUnitCFcommutator", WS_NormalizedUnitCFcommu
 if LoadPackage("autiso") = true then
 	InstallSCSCPprocedure( "CheckBin512", bin -> [ bin,CheckBin(2,9, bin) ] );
 fi;
+
+#############################################################################
+#
+# Some debugging tricks that we should not include in the public service
+#
+#############################################################################
+
+#############################################################################
+#
+# ApplyFunction( <string with function name>, <list of arguments> );
+#
+# Allows to call GAP functions even if they are not installed as SCSCP 
+# procedures, for example:
+# EvaluateBySCSCP("ApplyFunction",["Factorial",[10]],"localhost",26133);  
+# EvaluateBySCSCP("ApplyFunction",["Binomial",[50,10]],"localhost",26133);
+#
+ApplyFunction:=function( func, args )
+return CallFuncList( EvalString( func ), args );
+end;
+
+InstallSCSCPprocedure( "ApplyFunction", ApplyFunction, 
+	"1st argument is a string with the name of the function, the rest is the list of its arguments", 2, 2 );
+
+#############################################################################
+#
+# EvaluateOpenMathCode( <OpenMath plain string> )
+#
+# Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in 
+# OMPlainString, for example:
+# EvaluateBySCSCP( "EvaluateOpenMathCode", 
+#   [ OMPlainString("<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMI>1</OMI><OMI>2</OMI></OMA>")],
+#   "localhost",26133 ); 
+EvaluateOpenMathCode:=function( omc );
+return omc;
+end;
+
+InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
+	"Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
+	
+#############################################################################
+#
+# ChangeInfoLevel( <n> )
+#
+# Changes InfoSCSCP level on the server without restarting it.
+#
+ChangeInfoLevel:=function( n )
+SetInfoLevel( InfoSCSCP, n );
+return true;
+end;
+
+InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel, 
+	"To change InfoSCSCP level on the server without restarting", 1, 1 );
+	
