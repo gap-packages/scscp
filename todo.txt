@@ -106,8 +106,10 @@ other specified conditions to prevent forgotten jobs from infinite running.
 3.TODO
 #############################################################################
 
-* Separate store per session or persistently
-* Implement all signatures business
+* Separate store per session/persistently
+* Really disable heads which are not allowed (allow to turn this on/off?)
+* Implement all bussiness with signatures 
+* Revise interrupts and other processing instructions
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
 to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 

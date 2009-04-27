@@ -7,7 +7,9 @@
 ##
 #############################################################################
 
-
+if VERSION <> "4.dev" then
+	CALL_WITH_CATCH := CallFuncList;
+fi;
 
 #############################################################################
 #
@@ -300,10 +302,10 @@ function( stream )
     if fromgap[1] = '<' and OMgetObjectXMLTree <> ReturnFail  then
         # This is the only difference from OMGetObject
         if return_tree then
-            return OMgetObjectXMLTreeWithAttributes( fromgap : return_tree );
+        	return OMgetObjectXMLTreeWithAttributes( fromgap : return_tree );
         else
             return OMgetObjectXMLTreeWithAttributes( fromgap );
-        fi;    
+        fi;   
     else
         return OMpipeObject( fromgap );
     fi;
@@ -318,7 +320,7 @@ end );
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     function ( string )
-    local return_tree, node, attrs, t, obj;
+    local return_tree, node, attrs, t, obj, pos;
     
     if ValueOption("return_tree") <> fail then
         return_tree := true;
@@ -347,13 +349,46 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     # Now we already know attributes BEFORE the the real computation is started.
     # This allows us to know in advance which kind of return (object/cookie/tree)
     # is expected, and which runtime and memory limits were specified, if any.
-        
+
+	# Now we want to check that this is really procedure_call message and that
+	# the procedure is from scscp_transient_cd
+    
+    if SCSCPserverMode then
+    
+    	pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
+    	if pos=fail then
+			return rec( object := "SCSCP rejected incoming message: it must be a proper scscp1.procedure_call",
+			            attributes := attrs);
+		else
+			node.content[1].content[pos].content := 
+				Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
+			if node.content[1].content[pos].content[1].attributes <> rec( name := "procedure_call", cd := "scscp1" ) then
+				return rec( object := "SCSCP rejected incoming message because it is not a proper scscp1.procedure_call",
+			                attributes := attrs);				
+    		else
+    			node.content[1].content[pos].content[2].content := 
+    				Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
+    			if not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
+					return rec( object := Concatenation(
+    					"SCSCP rejected incoming message because the procedure ",
+    					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
+    					node.content[1].content[pos].content[2].content[1].attributes.name, 
+    					" is not allowed"), 
+			            attributes := attrs);
+    			fi;
+			fi;
+		fi;
+	
+	fi;
+	
+	# if the security check is done, we may proceed
+            
     if return_tree then
         obj := node.content[1];
     else
         obj := OMParseXmlObj( node.content[1] );
     fi;
- 
+    
     # the next check was is a temporary measure to verify that
     # attributes were identified properly
     
@@ -423,6 +458,7 @@ if IsBound( node.attributes.xref ) then
   address:=ref{[pos1+1..pos2-1]};
   port:=Int(ref{[pos2+1..Length(ref)]});
   if SCSCPserverMode then
+    # check that the object is on the same server
     if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
       if IsBound( node.attributes.xref ) then
         if IsBoundGlobal( name ) then

@@ -168,6 +168,7 @@ else
 					# when error message is returned.
             		if not IsRecord(objrec) then
             			objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
+            			callresult[1]:=false;
 					fi;
 			
             		# TODO: Rewrite analysing attributes (i.e. options)

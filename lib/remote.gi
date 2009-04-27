@@ -134,5 +134,5 @@ end);
 InstallMethod( UnbindRemoteObject, "for remote object",
 [ IsRemoteObject ],
 function( obj )
-return EvaluateBySCSCP( "unbind", [ obj![1] ], obj![2], obj![3]).object;
+return EvaluateBySCSCP( "unbind", [ obj ], obj![2], obj![3]).object;
 end);
