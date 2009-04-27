@@ -77,7 +77,11 @@ else
   output_option := "object";  
 fi;
 
-output_option:=Concatenation( "option_return_", output_option );
+if output_option = "tree" then
+	output_option:="option_return_object"; 
+else
+	output_option:=Concatenation( "option_return_", output_option );
+fi;
 
 if ValueOption("cd") <> fail then
   cdname := ValueOption("cd");
