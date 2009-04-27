@@ -107,7 +107,6 @@ other specified conditions to prevent forgotten jobs from infinite running.
 #############################################################################
 
 * Separate store per session/persistently
-* Really disable heads which are not allowed (allow to turn this on/off?)
 * Implement all bussiness with signatures 
 * Revise interrupts and other processing instructions
 

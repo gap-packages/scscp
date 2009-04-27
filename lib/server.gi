@@ -215,7 +215,7 @@ else
                    		    	           String( MemoryUsage( objrec.object ) ), " bytes" ) ] );
             		fi;
                         
-            		if not callresult[1] then
+            		if not callresult[1] or ( IsBound( objrec.is_error) and (objrec.is_error) ) then
               			if InfoLevel( InfoSCSCP ) > 0 then
                 			Print( "#I  Sending error message: ", objrec.object, "\n" );
               			fi; 

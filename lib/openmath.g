@@ -346,35 +346,35 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
       attrs:=attrs[1];
     fi;
        
-    # Now we already know attributes BEFORE the the real computation is started.
+    # At this point we already know attributes BEFORE the the real computation is started.
     # This allows us to know in advance which kind of return (object/cookie/tree)
     # is expected, and which runtime and memory limits were specified, if any.
 
-	# Now we want to check that this is really procedure_call message and that
-	# the procedure is from scscp_transient_cd
-    
-    if SCSCPserverMode then
+	# Now we will check that this is really procedure_call message and that
+	# the procedure is allowed, that is, it is from scscp{1,2} or scscp_transient_X CD
+	
+	if SCSCPserverMode then
     
     	pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
     	if pos=fail then
-			return rec( object := "SCSCP rejected incoming message: it must be a proper scscp1.procedure_call",
-			            attributes := attrs);
+			return rec( object := [ "Message rejected: it must be a proper scscp1.procedure_call" ],
+			            attributes := attrs, is_error:=true );
 		else
 			node.content[1].content[pos].content := 
 				Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
 			if node.content[1].content[pos].content[1].attributes <> rec( name := "procedure_call", cd := "scscp1" ) then
-				return rec( object := "SCSCP rejected incoming message because it is not a proper scscp1.procedure_call",
-			                attributes := attrs);				
+				return rec( object := [ "Message rejected because it is not a proper scscp1.procedure_call" ],
+			                attributes := attrs, is_error:=true );				
     		else
     			node.content[1].content[pos].content[2].content := 
     				Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
     			if not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
-					return rec( object := Concatenation(
-    					"SCSCP rejected incoming message because the procedure ",
+					return rec( object := [
+    					"Message rejected because the procedure ",
     					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
     					node.content[1].content[pos].content[2].content[1].attributes.name, 
-    					" is not allowed"), 
-			            attributes := attrs);
+    					" is not allowed"], 
+			            attributes := attrs, is_error:=true );
     			fi;
 			fi;
 		fi;
