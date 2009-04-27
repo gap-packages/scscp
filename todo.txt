@@ -98,14 +98,20 @@ other specified conditions to prevent forgotten jobs from infinite running.
   - gapd.sh
   
 * remove example/private.g file  
+* remove lines for loading example/private.g file from example/myserver.g
+
   
 
 #############################################################################
 3.TODO
 #############################################################################
 
-* Allowed heads only from transient CDs and related bunch of changes
+* Fix retrieve message - put full reference instead of OMSTR
 * Separate store per session or persistently
-* Signatures business
-* Change OMsymRecord and merge it with transient CDs record
 * if SCSCP started with true, put some more meaningful in the call_ID.
+* Implement all signatures business
+
+* An idea we might consider in the future: change the structure of OMsymRecord 
+to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
+merged with OMsymRecord. Storing cd.symbol.role may be useful, for example,
+GetAllowedHeads then will be able to select only OMA.

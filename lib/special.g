@@ -20,9 +20,12 @@ r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 
 if r[1].attributes.name = "symbol_set" then
-  res :=[];
+  res := rec();
   for i in [ 2.. Length(r) ] do
-    Add( res, r[i].attributes );
+    if not IsBound( res.(r[i].attributes.cd ) )then
+      res.( r[i].attributes.cd ) := [];
+    fi;
+    AddSet( res.( r[i].attributes.cd ), r[i].attributes.name );
   od;  
   return res;
 else

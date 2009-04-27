@@ -122,9 +122,6 @@ are given in the file <File>scscp/example/myserver.g</File>.
     <Ref Func="InstallSCSCPprocedure" /> adds a symbol for the
     installed &SCSCP; procedure to the component of this record corresponding 
     to the appropriate transient content dictionary.
-    <!-- TODO: change the structure of OMsymRecord to cd.symbol.method, 
-         cd.symbol.role etc, then transient CD record could me merged 
-         with OMsymRecord -->
    </Description>
 </ManSection>
 
@@ -228,37 +225,29 @@ rec( service_name := "GAP SCSCP service",
          Arg="server port"
          Comm="" />
    <Returns>
-    ??? list of records ???
-    <!-- TODO : why not to return the structure like OMsymRecord ??? 
-         Actually, to use roles, we need to introduce one more level
-         in OMsymRecord - cd.symbol.method, cd.symbol.role etc,
-         then transient CD record could me merged with OMsymRecord -->
+    record
    </Returns>	 
    <Description>
-<!-- TODO: Should we return scscp{1,2} here>? Maybe we should return only transient CD? -->
-<!-- TODO: Also, not all symbols are applications. Any thoughts ? What about using meta.Role ? -->
-<Log>
+    Returns the record with components corresponding to content
+    dictionaries. Each component is a list of names of symbols from 
+    the corresponding content dictionary which are allowed to appear 
+    as <Q>head</Q> symbol (i.e. the first child of the outermost 
+    <C>&lt;OMA></C> in an &SCSCP; procedure call to the &SCSCP; 
+    server running at  <A>server</A><C>:</C><A>port</A>. 
+    <P/>
+    Note that it is acceptable (although not necessarily desirable) 
+    for a server to <Q>overstate</Q> the set of symbols it accepts 
+    and use standard &OpenMath; errors to reject requests later.   
+<Example>
 <![CDATA[
 gap> GetAllowedHeads("localhost",26133);
-[ rec( name := "one", cd := "alg1" ), 
-  rec( name := "zero", cd := "alg1" ), 
-  rec( name := "abs", cd := "arith1" ), 
-  rec( name := "divide", cd := "arith1" ), 
-  rec( name := "gcd", cd := "arith1" ), 
-  ...
-  rec( name := "subgroup", cd := "group1" ), 
-  rec( name := "group_by_generators", cd := "group1" ),
-  ...
-  rec( name := "WS_Factorial", cd := "scscp_transient_1" ), 
-  rec( name := "WS_Phi", cd := "scscp_transient_1" ), 
-  rec( name := "GroupIdentificationService", cd := "scscp_transient_1" ), 
-  rec( name := "IdGroup512ByCode", cd := "scscp_transient_1" ), 
-  rec( name := "WS_IdGroup", cd := "scscp_transient_1" ), 
-...
-  rec( name := "SCSCPStartTracing", cd := "scscp_transient_1" ), 
-  rec( name := "SCSCPStopTracing", cd := "scscp_transient_1" ) ]
+rec( scscp_transient_1 := [ "GroupIdentificationService", "IO_UnpickleStringAndPickleItBack",
+      "IdGroup512ByCode", "PointImages", "QuillenSeriesByIdGroup", "SCSCPStartTracing", 
+      "SCSCPStopTracing", "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", 
+      "WS_FactorsECM", "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", 
+      "WS_FactorsTD", "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )
 ]]>
-</Log>    
+</Example>    
    </Description>
 </ManSection>
 
