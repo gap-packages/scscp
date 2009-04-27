@@ -69,13 +69,15 @@ if x <> [] then
 fi;
 omstr:="<OMA>\n";
 Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
-for cd in RecNames(OMsymRecord) do
+# we may eventually have more than one transient CD, then the loop will be uncommented
+# for cd in [ RecNames(OMsymRecord) do
+  cd := "scscp_transient_1";
   for name in RecNames(OMsymRecord.(cd)) do
     if OMsymRecord.(cd).(name) <> fail then
       Append( omstr, Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>\n" ) );
     fi;  
   od;
-od;
+# od;
 Append( omstr, "</OMA>" );
 return OMPlainString( omstr );
 end);
