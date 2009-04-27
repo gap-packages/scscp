@@ -317,7 +317,6 @@ rec(
            Description := "To turn off tracing on the server" ) ] )
 ]]>
 </Example>    
-<!-- TODO: move tracing from myserver.g inside the package -->
    </Description>
 </ManSection>
 

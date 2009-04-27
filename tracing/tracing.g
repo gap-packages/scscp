@@ -4,40 +4,50 @@ SCSCP_TRACE_PROCESS_ID     := 0;
 SCSCP_TRACE_THREAD_ID      := 0;
 SCSCP_RESTORE_INFO_LEVEL   := 0;
 
-SCSCPTraceStartTracing := function()
+
+BindGlobal( "SCSCPTraceStartTracing", 
+function()
 local t;
 t := IO_gettimeofday();
 PrintTo( SCSCP_TRACE_FILE, 
 	Concatenation( "\"Start Tracing\"{[2]{0,0},", String(t.tv_sec), ".", String(t.tv_usec), ", 137, ", 
 	SCSCP_TRACE_MACHINE_NUMBER, "};;\n" ) );
-end;
+end);
 
-SCSCPTraceEndTracing := function()
+
+BindGlobal( "SCSCPTraceEndTracing",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
 	Concatenation( "\"End Tracing\"{[2]{0,0},", String(t.tv_sec), ".", String(t.tv_usec), ", 145, ", 
 	SCSCP_TRACE_MACHINE_NUMBER, "};;\n" ) );
-end;
+end);
 
-SCSCPTraceNewProcess := function()
+
+BindGlobal( "SCSCPTraceNewProcess",
+function()
 local t;
 t := IO_gettimeofday();
 SCSCP_TRACE_PROCESS_ID:=SCSCP_TRACE_PROCESS_ID+1;
 AppendTo( SCSCP_TRACE_FILE, 
 	Concatenation( "\"New Process\"{[2]{0,0},", String(t.tv_sec), ".", String(t.tv_usec), ", 153, ", 
 	SCSCP_TRACE_MACHINE_NUMBER, ",", String(SCSCP_TRACE_PROCESS_ID), "};;\n" ) );
-end;
+end);
 
-SCSCPTraceEndProcess := function()
+
+BindGlobal( "SCSCPTraceEndProcess", 
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
 	Concatenation( "\"End Process\"{[2]{0,0},", String(t.tv_sec), ".", String(t.tv_usec), ", 161, ", 
 	SCSCP_TRACE_MACHINE_NUMBER, ",", String(SCSCP_TRACE_PROCESS_ID), "};;\n" ) );
-end;
+end);
 
-SCSCPTraceNewThread := function()
+
+BindGlobal( "SCSCPTraceNewThread",
+function()
 local t;
 t := IO_gettimeofday();
 SCSCP_TRACE_THREAD_ID:=SCSCP_TRACE_THREAD_ID+1;
@@ -46,9 +56,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	SCSCP_TRACE_MACHINE_NUMBER, ",", 
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), ",0};;\n" ) ); # Last zero is "Outport ID"
-end;
+end);
 
-SCSCPTraceEndThread := function()
+
+BindGlobal( "SCSCPTraceEndThread",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -56,9 +68,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	SCSCP_TRACE_MACHINE_NUMBER, ",", 
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), "};;\n" ) );
-end;
+end);
 
-SCSCPTraceRunThread := function()
+
+BindGlobal( "SCSCPTraceRunThread",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -66,9 +80,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	SCSCP_TRACE_MACHINE_NUMBER, ",", 
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), "};;\n" ) );
-end;
+end);
 
-SCSCPTraceSuspendThread := function()
+
+BindGlobal( "SCSCPTraceSuspendThread",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -76,9 +92,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	SCSCP_TRACE_MACHINE_NUMBER, ",", 
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), "};;\n" ) );
-end;
+end);
 
-SCSCPTraceBlockThread := function()
+
+BindGlobal( "SCSCPTraceBlockThread",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -87,9 +105,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), ",0,0};;\n" ) );
 	# last two zeroes are "Inport ID" and "Block Reason"
-end;
+end);
 
-SCSCPTraceDeblockThread := function()
+
+BindGlobal( "SCSCPTraceDeblockThread",
+function()
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -97,11 +117,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	SCSCP_TRACE_MACHINE_NUMBER, ",", 
 	String(SCSCP_TRACE_PROCESS_ID), ",",
 	String(SCSCP_TRACE_THREAD_ID), "};;\n" ) );
-end;
+end);
 
 
-
-SCSCPTraceSendMessage := function( recipient )
+BindGlobal( "SCSCPTraceSendMessage",
+function( recipient )
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -113,9 +133,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	",1,0,0};;\n" ) );               #  1,0,0 for "Receiving Process ID", 
 	                                 # "Receiving Channel" ("Inport ID") 
 	                                 # and "Tag of the message"	
-end;
+end);
 
-SCSCPTraceReceiveMessage := function( sender )
+
+BindGlobal( "SCSCPTraceReceiveMessage", 
+function( sender )
 local t;
 t := IO_gettimeofday();
 AppendTo( SCSCP_TRACE_FILE, 
@@ -127,9 +149,11 @@ AppendTo( SCSCP_TRACE_FILE,
 	",1,0,0,0};;\n" ) );             # 1,0,0,0 for "Sending Process ID",
 	                                 # "Sending Channel" ("Outport ID"),
 	                                 # "Tag of the message" and "Size of message in words"
-end;
+end);
 
-SCSCPLogTracesTo := function( arg )
+
+BindGlobal( "SCSCPLogTracesTo",
+function( arg )
 if Length(arg)=0 then
     SCSCPTraceEndThread(); 
     SCSCPTraceEndProcess();
@@ -157,4 +181,22 @@ elif Length(arg)=1 and IsString(arg[1]) then
 	SCSCPTraceNewThread(); 
 	SCSCPTraceRunThread(); 
 fi;	
-end;
+end)
+;
+
+#############################################################################
+#
+# procedures to start/stop tracing
+#
+BindGlobal( "SCSCPStartTracing",
+function( testname )
+SCSCPLogTracesTo( Concatenation( testname, ".", SCSCPserverAddress, ".", String( SCSCPserverPort ) ) );
+return true;
+end);
+
+
+BindGlobal( "SCSCPStopTracing",
+function()
+SCSCPLogTracesTo();
+return true;
+end);

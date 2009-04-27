@@ -162,26 +162,6 @@ InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndP
 
 #############################################################################
 #
-# procedures to start/stop tracing
-#
-SCSCPStartTracing:=function( testname )
-SCSCPLogTracesTo( Concatenation( testname, ".", SCSCPserverAddress, ".", String( SCSCPserverPort ) ) );
-return true;
-end;
-
-SCSCPStopTracing:=function()
-SCSCPLogTracesTo();
-return true;
-end;
-
-InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
-	"To turn on tracing mode on the server and save events to specified filename without extension", 1, 1 );
-InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
-	"To turn off tracing mode on the server", 0, 0 );
-
-
-#############################################################################
-#
 # Reading some experimental developer's code (not included in the release)
 #
 if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") ) then

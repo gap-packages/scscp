@@ -143,8 +143,6 @@ end, and will be able to accept new requests after its finishing.
 
 <!-- TODO: how to glue trace files automatically? --> 
 
-<!-- TODO: move turn off/on tracing to package from myserver.g and load it from RunSCSCPserver--> 
-
 
 </Section>
 
