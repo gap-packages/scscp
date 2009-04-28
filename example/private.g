@@ -84,8 +84,6 @@ EvaluateOpenMathCode:=function( omc );
 return omc;
 end;
 
-Unbind(OMsymRecord.cas);
-
 InstallSCSCPprocedure( "EvaluateOpenMathCode", EvaluateOpenMathCode, 
 	"Evaluates OpenMath code given as an input (without OMOBJ tags) wrapped in OMPlainString", 1, 1 );
 	

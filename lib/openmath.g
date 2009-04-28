@@ -59,7 +59,7 @@ InstallGlobalFunction( SCSCP_GET_ALLOWED_HEADS,
 function( x )
 # the function should have an argument, which in this case will be an 
 # empty list, since 'get_allowed_heads' has no arguments
-local cd, name, omstr;
+local range, cd, name, omstr;
 if x <> [] then 
   Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x, 
          " which will be ignored!\n");
@@ -67,14 +67,18 @@ fi;
 omstr:="<OMA>\n";
 Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
 # we may eventually have more than one transient CD, then the loop will be uncommented
-# for cd in [ RecNames(OMsymRecord) do
-  cd := "scscp_transient_1";
+if SCSCPserverAcceptsOnlyTransientCD then
+	range := [ "scscp_transient_1" ];
+else
+	range := RecNames(OMsymRecord);
+fi;
+for cd in range do
   for name in RecNames(OMsymRecord.(cd)) do
     if OMsymRecord.(cd).(name) <> fail then
       Append( omstr, Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>\n" ) );
     fi;  
   od;
-# od;
+od;
 Append( omstr, "</OMA>" );
 return OMPlainString( omstr );
 end);
@@ -377,7 +381,8 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     			   not IsBound( node.content[1].content[pos].content[2].content[1].attributes.cd ) then
 				return rec( object := [ "Message rejected because it is not properly formatted" ],
 			                attributes := attrs, is_error:=true );		    			   
-    			elif not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
+    			elif SCSCPserverAcceptsOnlyTransientCD and 
+    			  not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
 					return rec( object := [
     					"Message rejected because the procedure ",
     					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",

@@ -44,6 +44,15 @@ SCSCPserverAddress := "localhost";
 # setting the default port
 SCSCPserverPort := 26133;
 
+# If SCSCPserverAcceptsOnlyTransientCD is true, the server
+# will accept only procedures from scscp_transient_1 CD.
+# otherwise calls like scscp1.procedure_call(integer2.euler(n))
+# will be also possible (however, it is possible to have a
+# designated procedure EvaluateOpenMathCode to evaluate 
+# arbitrary OpenMath code.
+#
+SCSCPserverAcceptsOnlyTransientCD := true;
+
 # setting the name of the service, for example, 
 # "GAP SCSCP service", "Group identification service" etc.
 SCSCPserviceName:="GAP SCSCP service";
