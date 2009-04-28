@@ -22,6 +22,9 @@
     </Description>
 </ManSection>
 
+<!-- TODO: Put notes on ResetOptionsStack() -->
+
+<!-- TODO: change option descriptions accordingly to new rules -->
 
 <ManSection>
    <Func Name="NewProcess" 

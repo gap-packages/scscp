@@ -104,7 +104,6 @@ else
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
         	socket_descriptor := IO_accept( socket, addr );
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
-        	Print("addr = ", addr, "\n");
         	Info(InfoSCSCP, 1, "Got connection from ", List(addr,INT_CHAR), " ... ");
         	stream := InputOutputTCPStream( socket_descriptor );
         	Info(InfoSCSCP, 1, "Stream created ...");
