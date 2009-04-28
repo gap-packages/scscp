@@ -136,13 +136,73 @@ Note that in the current implementation there will be no interrupt sygnal
 sent to the other SCSCP servers, so they will continue computation until the
 end, and will be able to accept new requests after its finishing.
 
-<!-- TODO: document ParListWithSCSCP, SCSCPreset, parconfig file --> 
+</Section>
 
-<!-- TODO: document tracing, incl. SCSCPLogTracesTo, 
-     SCSCPStartTracing, SCSCPStopTracing, and citing EdenTV paper --> 
+<Section Label="MasterWorker">
+<Heading>MasterWorker skeleton</Heading>
+
+In this section we will present more general framework to run parallel computations.
+It follows the well-known master-worker skeleton: we have a master (&SCSCP; client) and
+a number of workers (&SCSCP; servers) which obtain pieces of work from the client,
+perform the required job and report back with the result, waiting for the next job.
+
+To configure this functionality, 
+the file <File>scscp/configpar.g</File> assigns the global variable 
+<C>SCSCPservers</C> which specifies a list of hosts and ports to 
+search for &SCSCP; services (which may be not only represented by 
+&GAP; services, but also by another &SCSCP;-compliant systems). 
+See comments in this file for further instructions.
+
+<!-- TODO: should we load parlist automatically? -->
+
+<ManSection>
+   <Func Name="ParListWithSCSCP" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+
+   </Returns>         
+   <Description>
+   <!--TODO: Document this -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="SCSCPreset" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+
+   </Returns>         
+   <Description>
+   <!--TODO: Document this -->
+   </Description>
+</ManSection>
+
+<ManSection>
+   <Func Name="SCSCPLogTracesTo" 
+          Arg="arg"
+         Comm="" />
+   <Returns>
+
+   </Returns>         
+   <Description>
+   <!--TODO: Document SCSCPLogTracesTo, SCSCPStartTracing, SCSCPStopTracing, using EdenTV --> 
+      
+      <Cite Key="EdenTV" /> 
+      
+      Of course, tracing can be used to investigate communication between a client
+      and a single server in a non-parallel context as well.
 
 <!-- TODO: how to glue trace files automatically? --> 
+   
+   </Description>
+</ManSection>
 
+Using the same approach that is used in <Ref Func="ParListWithSCSCP" />,
+we can modify it to provide the skeleton in which the queue will change during
+the computation (for example, to compute orbits). We plan to provide such tool
+in one of the next versions of the package.
 
 </Section>
 

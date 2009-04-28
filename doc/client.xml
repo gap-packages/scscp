@@ -22,9 +22,7 @@
     </Description>
 </ManSection>
 
-<!-- TODO: Put notes on ResetOptionsStack() -->
-
-<!-- TODO: change option descriptions accordingly to new rules -->
+<!-- TODO: Put notes on ResetOptionsStack() or restore OnQuit; -->
 
 <ManSection>
    <Func Name="NewProcess" 
@@ -45,14 +43,18 @@
      It accepts the following options:
      <List>
      <Item> 
-     <C>return_cookie</C>
+     <C>output:="object"</C> is the default action, the resulting object will
+     be returned even if this option is omitted.
+     </Item>
+     <Item>
+     <C>output:="cookie"</C>
          is used to specify that the result of the 
          procedure call should be stored on the server, and the
          server should return a remote object (see <Ref Sect="Remote" /> )
          pointing to that result (that is, a cookie);
      </Item>
      <Item>
-     <C>return_nothing</C> is used to specify that the server is supposed to reply 
+     <C>output:="nothing"</C> is used to specify that the server is supposed to reply 
          with a <C>procedure_completed</C> message carrying no
          object just to signal that the call was completed successfully
          (for the compatibility, this will be signalled as "procedure completed" 
@@ -74,9 +76,6 @@
          <Ref BookName="ref" Oper="MemoryUsage" />).
      </Item>
      </List>
-     Clearly, the first two options <C>return_cookie</C> and <C>return_nothing</C>
-     are incompatible.
-     <P/>
      See <Ref Func="CompleteProcess" /> and <Ref Func="EvaluateBySCSCP" /> for examples.
    </Description>
 </ManSection>
@@ -93,18 +92,16 @@
      will contain some data, then reads appropriate &OpenMath; object from this stream
      and closes it.
      <P/>
-     It accepts two incompatible options:
+     It has the option <C>output</C> which may have two values:
      <List>
      <Item> 
-     <C>return_cookie</C> has the same meaning like for <Ref Func="NewProcess" />
+     <C>output:="cookie"</C> has the same meaning like for <Ref Func="NewProcess" />
      </Item>
      <Item>
-     <C>return_tree</C> is used to specify that the result obtained from the
+     <C>output:="tree"</C> is used to specify that the result obtained from the
          server should be returned as an XML parsed tree without its evaluation.
      </Item>
      </List>
-     Clearly, the first two options <C>return_cookie</C> and <C>return_nothing</C>
-     are incompatible.
    </Description>
 </ManSection>
 
@@ -144,8 +141,8 @@ which combines the two previous functions by sending request and getting result 
      <P/>
      Since <Ref Func="EvaluateBySCSCP" /> combines <Ref Func="NewProcess" /> 
      and <Ref Func="CompleteProcess" />, it has all options which may be
-     used by that functions ( <C>return_cookie</C>, <C>return_nothing</C> , 
-     <C>return_tree</C>, <C>cd</C> and <C>debuglevel</C>  ) with the same meanings.
+     used by that functions ( <C>output</C>, <C>cd</C> and 
+     <C>debuglevel</C>  ) with the same meanings.
 
 <Example>
 <![CDATA[
@@ -160,10 +157,10 @@ gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
      object := 3628800 )
 gap> SetInfoLevel(InfoSCSCP,0);
-gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : return_cookie ); 
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="cookie" ); 
 rec( attributes := [ [ "call_id", "localhost:26133:2442:jNQG6rml" ] ], 
   object := < remote object TEMPVarSCSCP@localhost:26133 > )
-gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : return_nothing );
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="nothing" );
 rec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ], 
   object := "procedure completed" )
 ]]>
@@ -415,7 +412,7 @@ gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );< remote o
 
 <Example>
 <![CDATA[
-gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : return_cookie);
+gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : output:="cookie" );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message 

@@ -42,9 +42,14 @@
      <A>signature</A> is the signature record of the procedure. If the <A>signature</A> is
      given, then the number of arguments must be explicitly specified (giving <A>narg1</A> with
      or without <A>narg2</A>), though it is allowed to set them to zero and infinity respectively.
+     Note that it is acceptable for a symbol from a transient content dictionary to overstate 
+     the set of symbols which may occur in its children using the <C>scscp2.symbol_set_all</C> 
+     symbol, and to use standard &OpenMath; errors to reject requests later. For example,
+     using such approach, we will define the procedure <C>WS_Factorial</C> accepting
+     not only immediate <C>&lt;OMI></C> objects but anything which could be evaluated to an integer.
      </Item>
      </List>
-     <!-- TODO: document signature format properly, say what is symbol_set_all -->
+     <!-- TODO: document signature format properly -->
    </Description>
 </ManSection>
 
@@ -335,11 +340,11 @@ rec(
     children (that is, of its arguments) and symbols which may be used in the &OpenMath; 
     encoding of its children. Note that it is acceptable for a symbol from a
     transient content dictionary to overstate the set of symbols which may
-    occure in its children using the <C>scscp2.symbol_set_all</C> symbol, and
+    occur in its children using the <C>scscp2.symbol_set_all</C> symbol, and
     use standard &OpenMath; errors to reject requests later, like in the example
-    below: using such approach, we make the procedure <C>WS_Factorial</C> accepting
-    not only immediate <C>&lt;OMI></C> objects but anything which could be
-    evaluated to an integer.
+    below: using such approach, the procedure <C>WS_Factorial</C> is define
+    as accepting not only immediate <C>&lt;OMI></C> objects but anything which 
+    could be evaluated to an integer.
 <Example>
 <![CDATA[
 gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);

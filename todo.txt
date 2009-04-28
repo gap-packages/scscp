@@ -115,6 +115,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * Log servers activity in some GAP-readable format for analysing: 
   where incoming requests came from, when and when reply was sent?
+  Maybe we may even view them using EdenTV?
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
 to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
