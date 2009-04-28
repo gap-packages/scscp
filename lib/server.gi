@@ -162,17 +162,14 @@ else
               			disconnect:=true;
               			break;
             		fi;
-
 					# We detect the case when objrec is not fail and not record 
 					# to convert it to the standard objrec format. This happens
-					# when error message is returned.
+					# when error message is returned
             		if not IsRecord(objrec) then
             			objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
-            			callresult[1]:=false;
 					fi;
-			
             		# TODO: Rewrite analysing attributes (i.e. options)
-            
+                    
             		pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_id" );
             		# the call_id is mandatory, however, we still can do something without it
             		if pos<>fail then 
@@ -191,7 +188,6 @@ else
                   			return_nothing := false;
                 		fi;
             		fi;   
-            
             		pos := PositionProperty( objrec.attributes, atp -> atp[1]="option_debuglevel" );
             		if pos<>fail then 
                 		debuglevel := objrec.attributes[pos][2];
@@ -214,7 +210,7 @@ else
                    			Concatenation( "Memory usage for the result is ", 
                    		    	           String( MemoryUsage( objrec.object ) ), " bytes" ) ] );
             		fi;
-                        
+    
             		if not callresult[1] or ( IsBound( objrec.is_error) and (objrec.is_error) ) then
               			if InfoLevel( InfoSCSCP ) > 0 then
                 			Print( "#I  Sending error message: ", objrec.object, "\n" );
