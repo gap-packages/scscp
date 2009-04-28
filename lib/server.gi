@@ -36,6 +36,9 @@ InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing,
 	"To turn on tracing mode on the server and save events to specified filename without extension", 1, 1 );
 InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
 	"To turn off tracing mode on the server", 0, 0 );     
+
+# forbid opportunity to send plain GAP code to the server
+Unbind(OMsymRecord.cas);
      
 ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
 
@@ -98,13 +101,11 @@ else
         	# We accept connections from everywhere
         	Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
         	addr := IO_MakeIPAddressPort( "0.0.0.0", 0 );
-        	Print("addr before = ", addr, "\n");
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
         	socket_descriptor := IO_accept( socket, addr );
-        	Print("addr after = ", addr, "\n");
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
         	Print("addr = ", addr, "\n");
-        	Info(InfoSCSCP, 1, "Got connection ...");
+        	Info(InfoSCSCP, 1, "Got connection from ", List(addr,INT_CHAR), " ... ");
         	stream := InputOutputTCPStream( socket_descriptor );
         	Info(InfoSCSCP, 1, "Stream created ...");
         	Info(InfoSCSCP, 1, "Sending connection initiation message" );  
