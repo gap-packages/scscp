@@ -24,7 +24,7 @@ fi;
 InstallGlobalFunction( RunSCSCPserver,
 function( server, port )
 
-local socket, lookup, bindaddr, res, disconnect, socket_descriptor, 
+local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, 
@@ -97,9 +97,13 @@ else
     	repeat # until disconnect: this loop is a signle SCSCP session
         	# We accept connections from everywhere
         	Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
+        	addr := IO_MakeIPAddressPort( "0.0.0.0", 0 );
+        	Print("addr before = ", addr, "\n");
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
-        	socket_descriptor := IO_accept( socket, IO_MakeIPAddressPort( "0.0.0.0", 0 ) );
+        	socket_descriptor := IO_accept( socket, addr );
+        	Print("addr after = ", addr, "\n");
         	if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
+        	Print("addr = ", addr, "\n");
         	Info(InfoSCSCP, 1, "Got connection ...");
         	stream := InputOutputTCPStream( socket_descriptor );
         	Info(InfoSCSCP, 1, "Stream created ...");

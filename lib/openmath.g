@@ -364,13 +364,20 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 		else
 			node.content[1].content[pos].content := 
 				Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
-			if node.content[1].content[pos].content[1].attributes <> rec( name := "procedure_call", cd := "scscp1" ) then
+			if not IsBound( node.content[1].content[pos].content[1] ) or 
+			   not IsBound( node.content[1].content[pos].content[1].attributes ) or
+			   node.content[1].content[pos].content[1].attributes <> rec( name := "procedure_call", cd := "scscp1" ) then
 				return rec( object := [ "Message rejected because it is not a proper scscp1.procedure_call" ],
 			                attributes := attrs, is_error:=true );				
     		else
     			node.content[1].content[pos].content[2].content := 
     				Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
-    			if not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
+    			if not IsBound( node.content[1].content[pos].content[2].content[1] ) or
+    			   not IsBound( node.content[1].content[pos].content[2].content[1].attributes ) or
+    			   not IsBound( node.content[1].content[pos].content[2].content[1].attributes.cd ) then
+				return rec( object := [ "Message rejected because it is not properly formatted" ],
+			                attributes := attrs, is_error:=true );		    			   
+    			elif not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
 					return rec( object := [
     					"Message rejected because the procedure ",
     					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",

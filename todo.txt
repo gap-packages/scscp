@@ -106,9 +106,22 @@ other specified conditions to prevent forgotten jobs from infinite running.
 3.TODO
 #############################################################################
 
-* Separate store per session/persistently
+* Restart chrystal as 'scscp' user.
+
+* CDs: matrix1, polynomial4, order1 (in openmath)
+
+* Separate store per session/persistently (cookie = per session, we need
+  a way to transform it to persistent remote object, if needed).
 * Implement all bussiness with signatures 
 * Revise interrupts and other processing instructions
+* Update test files
+
+* How to free port to reset SCSCP session without quitting (when error happens). 
+  Have global varialble for open streams like in parlist.g?
+
+* Put a note on ResetOptionsStack()
+
+* Can we log servers activity, e.g. where incoming requests came from and when?
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
 to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
