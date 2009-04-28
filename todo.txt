@@ -99,6 +99,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
   
 * remove example/private.g file  
 * remove lines for loading example/private.g file from example/myserver.g
+* remove getting IP address of the client, if it is not yet using IO package
 
 #############################################################################
 3.TODO
@@ -112,7 +113,8 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * Revise interrupts and other processing instructions
 * Update test files
 
-* Can we log servers activity, e.g. where incoming requests came from and when?
+* Log servers activity in some GAP-readable format for analysing: 
+  where incoming requests came from, when and when reply was sent?
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
 to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
