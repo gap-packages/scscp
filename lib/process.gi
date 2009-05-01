@@ -229,39 +229,6 @@ function( process )
 if process![1]![2]="localhost" then
   IO_kill( process![2], IO.SIGINT );
 fi;  
-# closing stream too early (for example, when server writes to it)
-# causes server crash because of the broken pipe :( 
-# we need to send a proper Ctrl-C signal to the server, then it
-# will enter into a break loop and will send an error message from the
-# break loop to the client - this happens when you press Ctrl-C in the
-# server's window.
-# CloseStream(process![1]); 
-#
-# Another possible scenarios:
-#
-# 1) Multi-user service: the SCSCP server accepts A:1 incoming request and starts another
-# process B:2. The client communicates with B:2, and then sends to A:1 request to interrupt
-# the service B:2. Then A:1 performs (in GAP) either "IO_kill(<pid>,15);" or
-# Exec("kill -s SIGUSR2 <pid>");
-#
-# 2) Single-user service: We start two parallel services, A:1 is the production service, and B:1
-# is used to interrupt (and restart somehow?) the service A:1
-#
-# 3) Remote user executes (in GAP) Exec("ssh <hostname> kill -s SIGUSR2 <pid>");"
-# (need have enough credentials to login into remote machine).
-#
-# (3) Works remotely. However, the user must be an owner of the process, since only the super-user
-# may send signals to other users' processes, and there are other possible issues as well.
-#
-# (1) and (2) require some care of a register of users and their respective pid
-# so the request like
-#
-#    <OMS cd="scscp1" name="interrupt_computation" />
-#    <OMSTR>call_identifier</OMSTR>
-#
-# should lead to terminate that session for which the client is authorised.
-# This must be feasible.
-#
 end);
 
 

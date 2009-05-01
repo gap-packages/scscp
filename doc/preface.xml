@@ -17,14 +17,12 @@ or even, for example, an external Java or C/C++ application via libraries
 or <URL>http://www.imcce.fr/Equipes/ASD/trip/scscp/</URL>
 providing an &SCSCP; API. Such communication will go into seamless manner 
 for the &GAP; user, since all conversions from &GAP; to &OpenMath; and
-vice versa will be performed in the background.
+vice versa will be performed in the background. See the SCIEnce project
+homepage <URL>http://www.symbolic-computation.org/</URL> for the details
+about computer algebra systems and other sotware supporting &SCSCP;
 <P/>
 
-
-<!-- TODO: mention other compliant systems and where to get more info on them and other tools -->
-     
-
-The package has two main components:
+The &SCSCP; package for &GAP; has two main components:
 <List>
 <Item>SCSCP server;</Item>
 <Item>SCSCP client.</Item>
@@ -71,7 +69,12 @@ The server maintain a queue of five incoming connections (this parameter
 can be easily modified), and on each iteration evaluates the next request from the queue.
 <P/>
 
-<!-- TODO: mention testing server on chrystal (check its safety first) -->
+There is an &SCSCP; server accessible at <File>chrystal.mcs.st-andrews.ac.uk</File>, 
+port 26133. It is running under development versions of the &GAP; system and a selection
+of currently distributed packages. The reader is encouraged to try to use examples from
+the manual to access this service, replacing <File>"localhost"</File> by its address,
+where appropriate. Please report to Alexander Konovalov if you will discover any bugs
+or if the server seems not available.
     
 The SCSCP client:
 <List>

@@ -104,7 +104,7 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] 
         the other three lists should coincide. Then the function will call
         <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
         arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
-        <!-- TODO: check and maybe update the code and description --> 
+        <!-- TODO: check and maybe rename and maybe update the code and description --> 
     </Description>
 </ManSection>
 
@@ -153,7 +153,6 @@ search for &SCSCP; services (which may be not only represented by
 &GAP; services, but also by another &SCSCP;-compliant systems). 
 See comments in this file for further instructions.
 
-<!-- TODO: should we load parlist automatically? -->
 
 <ManSection>
    <Func Name="ParListWithSCSCP" 
@@ -166,6 +165,7 @@ See comments in this file for further instructions.
    <!--TODO: Document this -->
    </Description>
 </ManSection>
+
 
 <ManSection>
    <Func Name="SCSCPreset" 
@@ -187,15 +187,15 @@ See comments in this file for further instructions.
 
    </Returns>         
    <Description>
-   <!--TODO: Document SCSCPLogTracesTo, SCSCPStartTracing, SCSCPStopTracing, using EdenTV --> 
+   <!--TODO: Document SCSCPLogTracesTo, SCSCPStartTracing, SCSCPStopTracing,
+       gluing trace files, their viewing with EdenTV --> 
+      
       
       <Cite Key="EdenTV" /> 
       
       Of course, tracing can be used to investigate communication between a client
-      and a single server in a non-parallel context as well.
-
-<!-- TODO: how to glue trace files automatically? --> 
-   
+      and a single server in a non-parallel context as well. 
+         
    </Description>
 </ManSection>
 

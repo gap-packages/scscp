@@ -97,7 +97,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * replace paths from my local machine to something more neutral in:
   - gapd.sh
   
-* remove example/private.g file  
+* remove file: todo.txt, example/private.g, tracing/glue.sh
 * remove lines for loading example/private.g file from example/myserver.g
 * remove getting IP address of the client, if it is not yet using IO package
 
@@ -107,17 +107,71 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * CDs: matrix1, polynomial4, order1 (in openmath)
 
+* Check upper/lowercasing in manual examples
+
 * Separate store per session/persistently (cookie = per session, we need
   a way to transform it to persistent remote object, if needed).
+
 * Implement all bussiness with signatures 
-* Revise interrupts and other processing instructions
+
+* Revise TerminateProcess, redo interrupts and check handling of other 
+  processing instructions
+
 * Update test files
+
+* Should we change OnQuit to perform ResetOptionsStack()?
 
 * Log servers activity in some GAP-readable format for analysing: 
   where incoming requests came from, when and when reply was sent?
   Maybe we may even view them using EdenTV?
+  
+* Automatic gluing trace files and starting EdenTV (path to it should 
+  be in some config.file)  
+  
+* Aautomatic adjustments of the timeout (see Runtimes() record) in parlist.g
+
+* TODO (suggested by SL): A useful trick which Google uses is that they 
+  automatically restart the last 5% or so of the computations to finish, 
+  without actually knowing whether the servers have died or not. That way 
+  they also compensate for servers that are just running very slowly, 
+  and they lose nothing, since there are always idle servers by that point.  
 
 * An idea we might consider in the future: change the structure of OMsymRecord 
 to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
 merged with OMsymRecord. Storing cd.symbol.role may be useful, for example,
 GetAllowedHeads then will be able to select only OMA.
+
+* INTERRUPTS:
+
+Once we tried to do CloseStream(process![1]), but closing stream too 
+early (for example, when server writes to it) causes server crash 
+because of the broken pipe :( 
+We need to send a proper Ctrl-C signal to the server, then it
+will enter into a break loop and will send an error message from the
+break loop to the client - this happens when you press Ctrl-C in the
+server's window.
+
+Another possible scenarios:
+
+1) Multi-user service: the SCSCP server accepts A:1 incoming request and starts another
+process B:2. The client communicates with B:2, and then sends to A:1 request to interrupt
+the service B:2. Then A:1 performs (in GAP) either "IO_kill(<pid>,15);" or
+Exec("kill -s SIGUSR2 <pid>");
+
+2) Single-user service: We start two parallel services, A:1 is the production service, and B:1
+is used to interrupt (and restart somehow?) the service A:1
+
+3) Remote user executes (in GAP) Exec("ssh <hostname> kill -s SIGUSR2 <pid>");"
+(need have enough credentials to login into remote machine).
+
+(3) Works remotely. However, the user must be an owner of the process, since only the super-user
+may send signals to other users' processes, and there are other possible issues as well.
+
+(1) and (2) require some care of a register of users and their respective pid
+so the request like
+
+    <OMS cd="scscp1" name="interrupt_computation" />
+    <OMSTR>call_identifier</OMSTR>
+
+should lead to terminate that session for which the client is authorised.
+This must be feasible.

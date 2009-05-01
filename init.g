@@ -38,3 +38,5 @@ ReadPackage("scscp/lib/openmath.g");
 ReadPackage("scscp/lib/webservice.g");
 ReadPackage("scscp/lib/special.g");
 ReadPackage("scscp/lib/buildman.g");
+ReadPackage("scscp/configpar.g");
+ReadPackage("scscp/par/parlist.g");

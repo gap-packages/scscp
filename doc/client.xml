@@ -22,7 +22,9 @@
     </Description>
 </ManSection>
 
-<!-- TODO: Put notes on ResetOptionsStack() or restore OnQuit; -->
+Functions presented below allow options. In case of a break loop,
+use <Ref BookName="ref" Func="ResetOptionsStack" /> to reset the
+option stack before continuing.
 
 <ManSection>
    <Func Name="NewProcess" 
@@ -111,7 +113,7 @@ in the previous chapter:
 
 <Example>
 <![CDATA[
-gap> s := NewProcess( "WS_factorial", [10], "localhost", 26133 );                  
+gap> s := NewProcess( "WS_Factorial", [10], "localhost", 26133 );                  
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message 
@@ -236,10 +238,12 @@ gap> IdGroupWS(G);
          Comm="" />
    <Description>
         The function is supposed to send the interrupt signal to the server.
-        Current implementation works only when the server is running on the
-        same machine with the client, and sends a <C>SIGINT</C> to the server 
-        using its PID contained in the <A>process</A>.
-        <!-- TODO: check, improve, update. How it works remotely? --> 
+        Current implementation works only when the server is running as
+        <Q>localhost</Q> by sending a <C>SIGINT</C> to the server 
+        using its PID contained in the <A>process</A>. It will do nothing
+        if the server is running remotely, as the &SCSCP; specification 
+        allows the server to ignore interrupt messages. Remote interrupts
+        will be introduced in one of the next versions of the package.
    </Description>
 </ManSection>
 

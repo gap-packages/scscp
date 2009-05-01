@@ -7,9 +7,12 @@
 #
 # 2) SCSCPservers is a proper GAP list, so you can use GAP
 #    language constructions to generate it for a range
-#    of port numbers, for example:
+#    of port numbers, for example, for the beowulf cluster
+#    with hostnames from bwlf01 to bwlf32 you may use: 
 # 
-#    List([1..32],i->[ Concatenation("bwlf",Concatenation(List([1..2-Length(String(i))], i->"0")),String(i)),26133]);
+#    List([1..32],i->[ Concatenation("bwlf",
+#      Concatenation( List([1..2-Length(String(i))], i->"0") ),
+#                     String(i)),26133]);
 #
 # 3) It is better to arrange services in this list in a way
 #    that faster services and services with shorter latency

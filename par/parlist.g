@@ -7,15 +7,6 @@
 ##
 #############################################################################
 
-# TODO: automatic adjustments of the timeout (see Runtimes() record)
-
-# TODO (suggested by SL): A useful trick which Google uses is that they 
-# automatically restart the last 5% or so of the computations to finish, 
-# without actually knowing whether the servers have died or not. That way 
-# they also compensate for servers that are just running very slowly, 
-# and they lose nothing, since there are always idle servers by that point.
-
-ReadPackage("scscp/configpar.g");
 SCSCPprocesses:=[];
 
 SCSCPreset:=function()
