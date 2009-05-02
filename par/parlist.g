@@ -20,32 +20,33 @@ end;
 
 #############################################################################
 #
-# ParQuickWithSCSCP( commands, listargs, servers, ports )
+# ParQuickWithSCSCP( commands, listargs )
 #
-# The idea of ParFirstWithSCSCP is to apply various methods, 
-# given in the first argument 'commands' as the list of names of 
-# SCSCP procedures to the list of arguments 'listargs', where
-# i-th SCSCP procedure will be called on servers[i]:ports[i] 
+# The idea of ParQuickWithSCSCP is to apply various methods from the first 
+# argument 'commands' containing the list of names of SCSCP procedures to 
+# the list of arguments 'listargs', where i-th SCSCP procedure will be 
+# executed at SCSCPservers[i]
 #
 # Example of usage (the time of computation by these two methods
 # is approximately the same, so you should expect results from both
 # methods in some random order from repeated calls):
 #
-# ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-# ParQuickWithSCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+# ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
+# ParQuickWithSCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 #
 InstallGlobalFunction( ParQuickWithSCSCP,
-function( commands, listargs, servers, ports )
-local nserv, processes, nr;
-if Length( Set ( List( [ commands, servers, ports ], Length ) ) ) <> 1 then
-  Error("ParQuickWithSCSCP : Arguments commands, servers and ports must have equal length!!!\n");
+function( commands, listargs )
+local nr, res;
+if Length( commands ) < Length( SCSCPservers ) then
+  Error("ParQuickWithSCSCP : the number of procedures smaller than the number of services!!!\n");
 fi;
-nserv := Length(ports);
-processes := [];
-for nr in [ 1 .. nserv ] do
-  processes[nr] := NewProcess( commands[nr], listargs, servers[nr], ports[nr] );
+SCSCPprocesses := [];
+for nr in [ 1 .. Length(commands) ] do
+  SCSCPprocesses[nr] := NewProcess( commands[nr], listargs, SCSCPservers[nr][1], SCSCPservers[nr][2] );
 od;  
-return FirstProcess( processes );
+res := FirstProcess( SCSCPprocesses );
+SCSCPreset(); # we want this to be a tiny bit later to prevent broken pipes
+return res;
 end);
 
 
