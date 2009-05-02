@@ -129,35 +129,3 @@ else
 fi;
 return result;
 end);
-
-
-#############################################################################
-#
-# ParEvaluateBySCSCP( commands, listargs, servers, ports )
-#
-# This is a counterpart to the function EvaluateBySCSCP
-# The idea of ParEvaluateBySCSCP is to apply various methods, 
-# given in the first argument 'commands' as the list of names of 
-# SCSCP procedures to the list of arguments 'listargs', where
-# i-th SCSCP procedure will be called on servers[i]:ports[i] 
-#
-# Example of usage (the time of computation by these two methods
-# is approximately the same, so you should expect results from both
-# methods in some random order from repeated calls):
-#
-# ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-# ParEvaluateBySCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
-#
-InstallGlobalFunction( ParEvaluateBySCSCP,
-function( commands, listargs, servers, ports )
-local nserv, processes, nr;
-if Length( Set ( List( [ commands, servers, ports ], Length ) ) ) <> 1 then
-  Error("ParEvaluateBySCSCP : Arguments commands, servers and ports must have equal length!!!\n");
-fi;
-nserv := Length(ports);
-processes := [];
-for nr in [ 1 .. nserv ] do
-  processes[nr] := NewProcess( commands[nr], listargs, servers[nr], ports[nr] );
-od;  
-return FirstProcess( processes );
-end);

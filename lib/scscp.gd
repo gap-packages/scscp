@@ -31,7 +31,8 @@ DeclareGlobalFunction( "RunSCSCPserver" );
 DeclareGlobalFunction( "PingSCSCPservice" );
 DeclareGlobalFunction( "PingStatistic" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
-DeclareGlobalFunction( "ParEvaluateBySCSCP" );
+DeclareGlobalFunction( "ParQuickWithSCSCP" );
+DeclareGlobalFunction( "ParListWithSCSCP" );
 
 
 #############################################################################

@@ -19,10 +19,42 @@ od;
 end;
 
 #############################################################################
+#
+# ParQuickWithSCSCP( commands, listargs, servers, ports )
+#
+# The idea of ParFirstWithSCSCP is to apply various methods, 
+# given in the first argument 'commands' as the list of names of 
+# SCSCP procedures to the list of arguments 'listargs', where
+# i-th SCSCP procedure will be called on servers[i]:ports[i] 
+#
+# Example of usage (the time of computation by these two methods
+# is approximately the same, so you should expect results from both
+# methods in some random order from repeated calls):
+#
+# ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+# ParQuickWithSCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+#
+InstallGlobalFunction( ParQuickWithSCSCP,
+function( commands, listargs, servers, ports )
+local nserv, processes, nr;
+if Length( Set ( List( [ commands, servers, ports ], Length ) ) ) <> 1 then
+  Error("ParQuickWithSCSCP : Arguments commands, servers and ports must have equal length!!!\n");
+fi;
+nserv := Length(ports);
+processes := [];
+for nr in [ 1 .. nserv ] do
+  processes[nr] := NewProcess( commands[nr], listargs, servers[nr], ports[nr] );
+od;  
+return FirstProcess( processes );
+end);
+
+
+#############################################################################
 ##
 ## ParListWithSCSCP( inputlist, remoteprocname : timeout=int; recallfrequency=int )
 ##
-ParListWithSCSCP := function( inputlist, remoteprocname )
+InstallGlobalFunction( ParListWithSCSCP,
+function( inputlist, remoteprocname )
 local status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
@@ -179,4 +211,4 @@ while true do
   Unbind(callargspositions[nr]);
   fi;
 od; # end of the outer loop
-end;
+end);

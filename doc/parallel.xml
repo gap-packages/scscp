@@ -87,7 +87,7 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] 
 
 
 <ManSection>
-    <Func Name="ParEvaluateBySCSCP" 
+    <Func Name="ParQuickWithSCSCP" 
            Arg="commands listargs servers ports" />
     <Returns>
         record with components <C>object</C> and <C>attributes</C> 
@@ -115,7 +115,7 @@ from both methods in some random order from repeated calls.
 
 <Example>
 <![CDATA[
-gap> ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
+gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
 >      [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...

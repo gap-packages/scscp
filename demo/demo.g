@@ -74,4 +74,4 @@ EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);
 RetrieveRemoteObject(s);
 UnbindRemoteObject(s);
 
-ParEvaluateBySCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
