@@ -112,7 +112,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * Separate store per session/persistently (cookie = per session, we need
   a way to transform it to persistent remote object, if needed).
 
-* Implement all bussiness with signatures 
+* Implement verification of arguments for procedures with non-trivial signatures 
 
 * Revise TerminateProcess, redo interrupts and check handling of other 
   processing instructions
@@ -125,7 +125,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
   where incoming requests came from, when and when reply was sent?
   Maybe we may even view them using EdenTV?
   
-* Automatic gluing trace files and starting EdenTV (path to it should 
+* Automatically glue trace files and start EdenTV (path to it should 
   be in some config.file)  
   
 * Aautomatic adjustments of the timeout (see Runtimes() record) in parlist.g

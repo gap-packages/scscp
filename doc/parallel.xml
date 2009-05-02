@@ -12,16 +12,20 @@ the fastest result will be available.
 
 <ManSection>
    <Func Name="SynchronizeProcesses" 
-          Arg="arg"
+          Arg="proclist"
+        Label="for list of processes"
          Comm="" />
+   <Func Name="SynchronizeProcesses" 
+          Arg="process1 process2 ... processN"
+         Comm="" />  
    <Returns>
      list of records with components <C>object</C> and <C>attributes</C> 
    </Returns>         
    <Description>
-        The function collects results of from each stream given in the argument,
+        The function collects results of from each process given in the argument,
         and returns the list, <M>i</M>-th entry of which is the result obtained
-        from the <M>i</M>-th stream. The function accepts both one argument that is a list of 
-        streams, and arbitrary number of arguments, each of them being a stream.
+        from the <M>i</M>-th process. The function accepts both one argument that is a list of 
+        processes, and arbitrary number of arguments, each of them being a process.
    </Description>
 </ManSection>
 
@@ -30,36 +34,47 @@ the fastest result will be available.
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
-< input/output TCP stream to localhost >
+< process at localhost:26133 pid=2064 >
 gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
-< input/output TCP stream to localhost >
-gap> SynchronizeProcesses(a,b); 
+< process at localhost:26134 pid=1975 >
+gap> SynchronizeProcesses(a,b);
 #I  Process number 1 is ready
 #I  Closed 1st process, waiting for 2nd ...
-[ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] ), 
-  rec( object := "2432902008176640000", attributes := [ [ "call_id", "localhost:26134:6731" ] ] ) ]
+[ rec( attributes := [ [ "call_id", "localhost:26133:2064:yCWBGYFO" ] ], 
+      object := 3628800 ), 
+  rec( attributes := [ [ "call_id", "localhost:26134:1975:yAAWvGTL" ] ], 
+      object := 2432902008176640000 ) ]
+
 ]]>
 </Example>
 
 
 <ManSection>
    <Func Name="FirstProcess" 
-          Arg="arg"
+          Arg="proclist"
+        Label="for list of processes"
          Comm="" />
+   <Func Name="FirstProcess" 
+          Arg="process1 process2 ... processN"
+         Comm="" />         
    <Returns>
      records with components <C>object</C> and <C>attributes</C> 
    </Returns>         
    <Description>
-        The function waits for the result from each stream given in the argument,
-        and returns the result coming first, closing all remaining streams at 
+        The function waits for the result from each process given in the argument,
+        and returns the result coming first, terminating all remaining processes at 
         the same time. The function accepts both one argument that is a list of 
-        streams, and arbitrary number of arguments, each of them being a stream.
+        processes, and arbitrary number of arguments, each of them being a process.
    </Description>
 </ManSection>
 
@@ -69,19 +84,23 @@ gap> SynchronizeProcesses(a,b);
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
-< input/output TCP stream to localhost >
+< process at localhost:26133 pid=2064 >
 gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
 #I  Request sent ...
-< input/output TCP stream to localhost >
-gap> FirstProcess(a,b);             
+< process at localhost:26134 pid=1975 >
+gap>  FirstProcess(a,b); 
 #I  Process number 1 is ready
-rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] ] )
-
+rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ], 
+  object := 3628800 )
 ]]>
 </Example>
 
@@ -148,10 +167,28 @@ rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501,
 <Section Label="MasterWorker">
 <Heading>MasterWorker skeleton</Heading>
 
-In this section we will present more general framework to run parallel computations.
-It follows the well-known master-worker skeleton: we have a master (&SCSCP; client) and
-a number of workers (&SCSCP; servers) which obtain pieces of work from the client,
-perform the required job and report back with the result, waiting for the next job.
+In this section we will present more general framework to run parallel computations,
+which has a number of useful features:
+<List>
+<Item>
+it is implemented purely in &GAP;;
+</Item>
+<Item>
+the client (i.e. master, which orchestrates the computation) 
+will work in UNIX/Linux, Mac OS X and MS Windows;
+</Item>
+<Item>
+it may orchestrate both &GAP; and non-&GAP; &SCSCP; servers;
+</Item>
+<Item>
+if one of servers (i.e. workers) will be lost, it will retry the
+computation on another server;
+</Item>
+<Item>
+it allows to add dynamically new workers during the computation
+on hostnames and ports from a previously declared range;
+</Item>
+</List>
 
 To configure this functionality, 
 the file <File>scscp/configpar.g</File> assigns the global variable 
@@ -163,13 +200,44 @@ See comments in this file for further instructions.
 
 <ManSection>
    <Func Name="ParListWithSCSCP" 
-          Arg="arg"
+          Arg="listargs procname"
          Comm="" />
    <Returns>
-
+    list
    </Returns>         
    <Description>
-   <!--TODO: Document this -->
+<Ref Func="ParListWithSCSCP" /> implements
+the well-known master-worker skeleton: we have a master (&SCSCP; client) and
+a number of workers (&SCSCP; servers) which obtain pieces of work from the client,
+perform the required job and report back with the result, waiting for the next job.
+<P/>
+It returns the list of the same length as <A>listargs</A>, <M>i</M>-th element of
+which is the result of calling the procedure <A>procname</A> with the argument
+<A>listargs[i]</A>.
+<P/>
+It accepts two options which should be given as non-negative integers:
+<C>timeout</C> which specifies how long the client will wait for the result
+(if not given, the default value is one hour) and <C>recallfrequency</C>
+which specifies the number of iterations after which the search for new
+services will be performed (if not givem the default value is zero meaning 
+no such search at all).
+    
+<Example>
+<![CDATA[
+gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
+#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 2 ] )
+#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 3 ] )
+#I  [ "localhost", 26133 ] --> master : [ 2, 1 ]
+#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 4 ] )
+#I  [ "localhost", 26134 ] --> master : [ 6, 1 ]
+#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 5 ] )
+#I  [ "localhost", 26133 ] --> master : [ 24, 12 ]
+#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 6 ] )
+#I  [ "localhost", 26133 ] --> master : [ 720, 763 ]
+#I  [ "localhost", 26134 ] --> master : [ 120, 34 ]
+[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
+]]>
+</Example>
    </Description>
 </ManSection>
 
@@ -185,7 +253,7 @@ See comments in this file for further instructions.
    and <Ref Func="ParQuickWithSCSCP" />, some of parallel requests may
    be still running at the remaining services, making them unaccessible
    for further procedure calls. <Ref Func="SCSCPreset" /> resets them
-   by closing all open  streams to &SCSCP; servers.
+   by closing all open streams to &SCSCP; servers.
    </Description>
 </ManSection>
 
@@ -209,17 +277,23 @@ See comments in this file for further instructions.
    </Description>
 </ManSection>
 
-Using the same approach that is used in <Ref Func="ParListWithSCSCP" />,
-we can provide the skeleton in which the queue will change during
+<Ref Func="ParListWithSCSCP" /> can be easily modified to have parallel versions 
+of other list operations like 
+<Ref BookName="ref" Func="ForAll" />,
+<Ref BookName="ref" Func="ForAny" />,
+<Ref BookName="ref" Func="First" />,
+<Ref BookName="ref" Func="Number" />,
+<Ref BookName="ref" Func="Filtered" />,
+and also to have the skeleton in which the queue may be modified during
 the computation (for example, to compute orbits). We plan to provide such tool
 in one of the next versions of the package.
 
 </Section>
 
 <Section Label="Karatsuba">
-<Heading>Parallelising Karatsuba multiplication for polynomials</Heading>
+<Heading>Example: parallelising Karatsuba multiplication for polynomials</Heading>
 
-The file <File>scscp/tst/karatsuba.g</File> contains an implementation of
+The file <File>scscp/example/karatsuba.g</File> contains an implementation of
 the Karatsuba multiplication algorithm for polynomials. This algorithm can
 be easily parallelised since each recursive step creates three recursive 
 calls of the same function for other polynomials. <E>We will not parallelise
@@ -229,7 +303,7 @@ of this we parallelise only the top-level function.
 For our experiments with parallelising Karatsuba multiplication for
 polynomials with integer coefficients we used the multi-core machine, 
 on which we started one &SCSCP; client and two &SCSCP; servers. 
-After reading the file <File>scscp/tst/karatsuba.g</File>, the following
+After reading the file <File>scscp/example/karatsuba.g</File>, the following
 function was created on the server
 
 <Example>

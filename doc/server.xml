@@ -47,9 +47,28 @@
      symbol, and to use standard &OpenMath; errors to reject requests later. For example,
      using such approach, we will define the procedure <C>WS_Factorial</C> accepting
      not only immediate <C>&lt;OMI></C> objects but anything which could be evaluated to an integer.
+     <P/>.
+     The signature must be either a list of records, where <M>i</M>-th record corresponds
+     to the <M>i</M>-th argument, or a record itself meaning that it refers to any argument.
+     In the latter case the record may be <C>rec( )</C> corresponding to the 
+     <C>scscp2.symbol_set_all</C> symbol (this will be assumed by default if the signature
+     will be ommitted). 
+     <P/>
+     If more detailed description is needed, the signature record (one for all arguments or
+     a specific one) may have components <C>CDgroups</C>, <C>CDs</C> and <C>Symbols</C>.
+     The first two are lists of names of content dictionary groups and content dictionaries,
+     and the third is a record whose components are names of content dictionaries, containing
+     lists of names of allowed symbols from these dictionaries, for example: 
+<Example>
+<![CDATA[
+signature := rec( CDgroups := [ "scscp" ],
+		               CDs := [ "arith1", "linalg1" ],
+		           Symbols := rec( polyd1 := [ "DMP", "term", "SDMP" ],
+		                            polyu := [ "poly_u_rep", "term" ] ) );
+]]>
+</Example>
      </Item>
      </List>
-     <!-- TODO: document signature format properly -->
    </Description>
 </ManSection>
 
