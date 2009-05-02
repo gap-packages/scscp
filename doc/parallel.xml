@@ -89,30 +89,35 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6726" ] 
 <ManSection>
    <Var Name="SCSCPservers" />
    <Description>
-   <!--TODO: Document this -->
+   <Ref Var="SCSCPservers" /> is
+   a list of hosts and ports to search for &SCSCP; services 
+   (which may be not only represented by &GAP; services, but also
+   by another &SCSCP;-compliant systems). 
+   <P/>
+   It is used by parallel skeletons <Ref Func="ParQuickWithSCSCP" />
+   and <Ref Func="ParQuickWithSCSCP" />.
+   <P/>
+   The initial value of this variable is specified in the file 
+   <File>scscp/configpar.g</File> and may be reassigned later.
    </Description>
 </ManSection>
 
 
 <ManSection>
     <Func Name="ParQuickWithSCSCP" 
-           Arg="commands listargs servers ports" />
+           Arg="commands listargs" />
     <Returns>
         record with components <C>object</C> and <C>attributes</C> 
     </Returns>	 
     <Description>
-        This is a variation of the function <Ref Func="EvaluateBySCSCP"/>,
-        constructed using the <Ref Func="FirstProcess"/>.
-        It can be used when the user can not predict which partcular method will
-        be more efficent and wants to apply to the same arguments all available 
-        methods in parallel, being interested only in the first returned result.
+        This function is constructed using the <Ref Func="FirstProcess"/>.
+        It is useful when it is not known which partcular method is
+        more efficent, because it allows to call in parallel several procedures
+        (given by the list of their names <A>commands</A>) 
+        with the same list of arguments <A>listargs</A> (having
+        the same meaning as in <Ref Func="EvaluateBySCSCP"/>)
+        and obtain the result of that procedure call which will be computed faster.
         <P/>  
-        All arguments are lists. The list of arguments <A>listargs</A> has
-        the same meaning as in <Ref Func="EvaluateBySCSCP"/>. The length of
-        the other three lists should coincide. Then the function will call
-        <M>i</M>-th SCSCP procedure from the list <A>commands</A> with 
-        arguments from the list <A>listargs</A> at <A>servers</A>[i]:<A>ports</A>[i].
-        <!-- TODO: check and maybe update the code and description --> 
     </Description>
 </ManSection>
 
@@ -123,8 +128,7 @@ from both methods in some random order from repeated calls.
 
 <Example>
 <![CDATA[
-gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],     
->      [ 2^150+1 ], [ "localhost", "localhost" ], [ 26133, 26134 ] );
+gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message 
@@ -136,13 +140,8 @@ gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ],
 #I  Process number 2 is ready
 rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
       13334701, 1182468601 ], attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
-
 ]]>
 </Example>
-
-Note that in the current implementation there will be no interrupt sygnal 
-sent to the other SCSCP servers, so they will continue computation until the
-end, and will be able to accept new requests after its finishing.
 
 </Section>
 
@@ -177,13 +176,16 @@ See comments in this file for further instructions.
 
 <ManSection>
    <Func Name="SCSCPreset" 
-          Arg="arg"
-         Comm="" />
+          Arg=""/>
    <Returns>
-
-   </Returns>         
+    nothing
+   </Returns>          
    <Description>
-   <!--TODO: Document this -->
+   If an error occurs during a call of <Ref Func="ParQuickWithSCSCP" />
+   and <Ref Func="ParQuickWithSCSCP" />, some of parallel requests may
+   be still running at the remaining services, making them unaccessible
+   for further procedure calls. <Ref Func="SCSCPreset" /> resets them
+   by closing all open  streams to &SCSCP; servers.
    </Description>
 </ManSection>
 
@@ -208,7 +210,7 @@ See comments in this file for further instructions.
 </ManSection>
 
 Using the same approach that is used in <Ref Func="ParListWithSCSCP" />,
-we can modify it to provide the skeleton in which the queue will change during
+we can provide the skeleton in which the queue will change during
 the computation (for example, to compute orbits). We plan to provide such tool
 in one of the next versions of the package.
 

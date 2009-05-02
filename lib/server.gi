@@ -172,7 +172,6 @@ else
             		if not IsRecord(objrec) then
             			objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
 					fi;
-            		# TODO: Rewrite analysing attributes (i.e. options)
                     
             		pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_id" );
             		# the call_id is mandatory, however, we still can do something without it
@@ -287,7 +286,6 @@ else
               			Print(omtext);
             		fi;       
  
-            		# TODO: if the client already disconnected at this moment, the server will crash :(
             		responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );
 
             		# FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY

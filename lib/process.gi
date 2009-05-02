@@ -198,8 +198,6 @@ if output_option="tree" then
 else
     result := OMGetObjectWithAttributes( stream );
 fi;    
-# TODO: References must be converted automatically to the remote object. 
-# Then there will be no need in a option for cookie in this function.
 if output_option="cookie" then
   result.object := RemoteObject( result.object, stream![2], stream![3][1] );
 fi;

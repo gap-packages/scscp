@@ -170,7 +170,6 @@ else
         Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
         Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Minarg : noomobj ), "\n" ) );
         Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Maxarg : noomobj ), "\n" ) );
-        # TODO : return more meaningful information about types of arguments
         Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
         Append( omstr, "</OMA>" );
         return OMPlainString( omstr );
