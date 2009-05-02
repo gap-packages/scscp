@@ -58,7 +58,7 @@ using the function <Ref Func="InstallSCSCPprocedure"/>:
 
 <Example>
 <![CDATA[
-gap> InstallSCSCPprocedure("WS_factorial", Factorial );
+gap> InstallSCSCPprocedure("WS_Factorial", Factorial );
 gap> InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 gap> InstallSCSCPprocedure("GroupByIdNumber", SmallGroup );
 gap> test:=Filename( Directory( Concatenation(
@@ -106,7 +106,7 @@ gap> CloseStream( str );
 <Example>
 <![CDATA[
 gap> t:="";; stream:=OutputTextString(t,true);;
-gap> OMPutProcedureCall( stream, "WS_factorial", rec( object:= [ 5 ], 
+gap> OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ], 
 >      attributes:=[ [ "call_id", "user007" ], 
 >                    ["option_runtime",1000],
 >                    ["option_min_memory",1024], 
@@ -134,7 +134,7 @@ gap> Print(t);
 		<OMA>
 			<OMS cd="scscp1" name="procedure_call"/>
 			<OMA>
-				<OMS cd="scscp_transient_1" name="WS_factorial"/>
+				<OMS cd="scscp_transient_1" name="WS_Factorial"/>
 				<OMI> 5</OMI>
 			</OMA>
 		</OMA>

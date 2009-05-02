@@ -18,7 +18,7 @@ final part of the startup screen will look as follows:
 <Example>
 <![CDATA[
 #I  Installed SCSCP procedure Factorial
-#I  Installed SCSCP procedure WS_factorial
+#I  Installed SCSCP procedure WS_Factorial
 #I  Installed SCSCP procedure GroupIdentificationService
 #I  Installed SCSCP procedure IdGroup512ByCode
 #I  Installed SCSCP procedure WS_IdGroup

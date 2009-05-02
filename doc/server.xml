@@ -59,8 +59,8 @@ arguments:
 
 <Example>
 <![CDATA[
-gap> InstallSCSCPprocedure( "WS_factorial", Factorial );
-InstallSCSCPprocedure : procedure WS_factorial installed. 
+gap> InstallSCSCPprocedure( "WS_Factorial", Factorial );
+InstallSCSCPprocedure : procedure WS_Factorial installed. 
 ]]>
 </Example>
 
@@ -85,9 +85,9 @@ After installation, the procedure may be reinstalled, if necessary:
 
 <Example>
 <![CDATA[
-gap> InstallSCSCPprocedure( "WS_factorial", FactorialAsString );
-WS_factorial is already installed. Do you want to reinstall it [y/n]? y
-InstallSCSCPprocedure : procedure WS_factorial reinstalled. 
+gap> InstallSCSCPprocedure( "WS_Factorial", Factorial );
+WS_Factorial is already installed. Do you want to reinstall it [y/n]? y
+InstallSCSCPprocedure : procedure WS_Factorial reinstalled. 
 ]]>
 </Example>
 

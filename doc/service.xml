@@ -127,7 +127,7 @@ min/avg/max = [ 0, 13/50, 2 ]
 
 <Example>
 <![CDATA[
-gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133); 
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133); 
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
 #I  Got connection initiation message 
@@ -140,7 +140,7 @@ rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:38" ] ] 
 <Example>
 <![CDATA[
 gap> SetInfoLevel(InfoSCSCP,0);                              
-gap> EvaluateBySCSCP( "WS_factorial",[10],"localhost",26133);
+gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:41" ] ] )
 ]]>
 </Example>

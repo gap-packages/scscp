@@ -3,7 +3,7 @@
 <!-- OpenMath objects -->
 
 <?scscp start ?>
-<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_id"></OMS><OMSTR>georgiana</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="SCSCP_transient_1" name="WS_factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
+<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_id"></OMS><OMSTR>georgiana</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="SCSCP_transient_1" name="WS_Factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
 <?scscp end ?>
 
 <?scscp start ?>
@@ -31,7 +31,7 @@
     <OMA>
         <OMS cd="scscp1" name="procedure_call" />
         <OMA> 
-            <OMS cd="scscp_transient_1" name="WS_factorial" />
+            <OMS cd="scscp_transient_1" name="WS_Factorial" />
             <OMI>5</OMI>
         </OMA>
     </OMA>
