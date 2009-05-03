@@ -14,9 +14,44 @@ extended (but backwards compatible) versions, and adds some new functions
 to send and receive &SCSCP; messages, documented below.
 <P/>
 Note that functions documented in this chapter belong to the middle-
-level interface, and in most cases the user will find it more convenient
+level interface, and the user may find it more convenient
 to use functions developed on top of them and explained in next chapters.
 
+<Section Label="SCSCPstart">
+<Heading>Connection initiation phase</Heading>
+
+<ManSection>
+    <Func Name="StartSCSCPsession" 
+           Arg="stream"
+          Comm="" />
+    <Returns>
+    string
+    </Returns>	 
+    <Description>
+    Initialises &SCSCP; session and negotiates with the server about the
+    version of the protocol. Returns the string with the <C>service_id</C>
+    (which may be used later as a part of the call identifier) or causes
+    an error message if can not perform these tasks.
+<Example>
+<![CDATA[
+gap> s := InputOutputTCPStream("localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+< input/output TCP stream to localhost:26133 >
+gap> StartSCSCPsession(s);
+#I  Got connection initiation message
+#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+6133:5541" scscp_versions="1.0 1.1 1.2 1.3" ?>
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
+"localhost:26133:5541"
+]]>
+</Example>
+After the call to <Ref Func="StartSCSCPsession" /> the &SCSCP; server is
+ready to accept procedure calls.
+    </Description>
+</ManSection>
+</Section>
 
 <Section Label="SCSCPreceive">
 <Heading>Receiving a message</Heading>
@@ -203,6 +238,47 @@ gap> Print(t);
      to return the error message to the client.
    </Description>
 </ManSection>
+
+</Section>
+
+
+<Section Label="SCSCPsession">
+<Heading>Example: &SCSCP; session</Heading>
+
+In the following example we start an &SCSCP; session and peform ten
+procedure calls in a loop before closing that session. Note that we
+demonstrate the usage of <C>sid</C> and the function <C>RandomString"</C> 
+from the &OpenMath; package to produce some unique call identifier.
+The call ID is a mandatory attribute for any procedure call, however, 
+it may be just a string with the number of the procedure call:
+<Example>
+<![CDATA[
+gap> stream:=InputOutputTCPStream( "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+< input/output TCP stream to localhost:26133 >
+gap> sid := StartSCSCPsession( stream );
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
+"localhost:26133:5541"
+gap> res:=[];
+[  ]
+gap> for i in [1..10] do
+>     OMPutProcedureCall( stream, "WS_Factorial", 
+>       rec( object := [ i ], 
+>        attributes := [ [ "call_id", 
+>          Concatenation( sid, ":", RandomString(8) ) ] ] ) );
+>     IO_select( [ FileDescriptorOfStream(stream) ], [ ], [ ], 60*60, 0 );
+>     res[i]:=OMGetObjectWithAttributes( stream ).object;
+> od;
+gap> CloseStream(stream);
+gap> res;
+[ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
+]]>
+</Example>
+Also note the usage of <Ref BookName="IO" Func="IO_select" /> to wait
+until the result of the computation will be available from <C>stream</C>.
 
 </Section>
 

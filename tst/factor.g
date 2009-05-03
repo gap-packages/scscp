@@ -2,7 +2,7 @@
 
 TestFactorial:=function( server, port, username, nrsessions, sessionlength )
 # This is a test to experiment with various patterns of clients requests.
-# Usage example: TestFactorial( "localhost", 26133, "user1_", 20, 20 );
+# Usage example: TestFactorial( "localhost", 26133, "user1_", 10, 20 );
 local call_nr, n, stream, k, res, obj;
 res:=[];
 call_nr:=0;
@@ -20,7 +20,7 @@ for n in [ 1 .. nrsessions ] do
     Print( call_nr, " \c");
     OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [k], 
                          attributes:=[ ["call_id", Concatenation(username, String(call_nr)) ] ] ) );
-    IO_select( [ IO_GetFD(stream![1]) ], [ ], [ ], 60*60, 0 );
+    IO_select( [ FileDescriptorOfStream(stream) ], [ ], [ ], 60*60, 0 );
     obj:=OMGetObjectWithAttributes( stream );
     Add( res, obj );
   od;

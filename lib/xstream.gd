@@ -10,3 +10,5 @@
 DeclareCategory( "IsInputOutputTCPStream", IsInputOutputStream );
 
 DeclareGlobalFunction ( "InputOutputTCPStream" );
+
+DeclareAttribute( "FileDescriptorOfStream", IsInputOutputTCPStream );
