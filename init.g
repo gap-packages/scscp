@@ -32,11 +32,11 @@ IN_SCSCP_TRACING_MODE := false;
 # read the other part of code  
 ReadPackage("scscp/lib/utils.g");
 ReadPackage("scscp/config.g");
+ReadPackage("scscp/configpar.g");
 ReadPackage("scscp/tracing/tracing.g");
 ReadPackage("scscp/lib/client.g");
 ReadPackage("scscp/lib/openmath.g");
 ReadPackage("scscp/lib/webservice.g");
 ReadPackage("scscp/lib/special.g");
 ReadPackage("scscp/lib/buildman.g");
-ReadPackage("scscp/configpar.g");
 ReadPackage("scscp/par/parlist.g");

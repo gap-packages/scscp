@@ -109,6 +109,8 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * Check upper/lowercasing etc. in manual examples
 
+* Spellchecking
+
 * Separate store per session/persistently (cookie = per session, we need
   a way to transform it to persistent remote object, if needed).
 

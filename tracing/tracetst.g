@@ -1,64 +1,27 @@
-ReadPackage("scscp/par/parlist.g");
+ReadPackage("laguna/lib/parunits.g");
 
-testname:="quillen16";
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
-od;
-SCSCPLogTracesTo( testname );
+SCSCPLogTracesToGlobal("quillen16");
 ParListWithSCSCP(List([1..16], i->[512,i]),"QuillenSeriesByIdGroup");
-SCSCPLogTracesTo();
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
-od;
+SCSCPLogTracesToGlobal();
 Print("quillen16 done\n");
 
-testname:="quillen100";
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
-od;
-SCSCPLogTracesTo( testname );
+SCSCPLogTracesToGlobal("quillen100");
 ParListWithSCSCP(List([1..100], i->[512,i]),"QuillenSeriesByIdGroup");
-SCSCPLogTracesTo();
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
-od;
+SCSCPLogTracesToGlobal();
 Print("quillen100 done\n");
 
-testname:="euler";
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
-od;
-SCSCPLogTracesTo( testname );
+SCSCPLogTracesToGlobal("euler");
 ParListWithSCSCP( [1..1000], "WS_Phi");
-SCSCPLogTracesTo();
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
-od;
-Print("euler done\n");
+SCSCPLogTracesToGlobal();
+Print("Euler done\n");
 
-testname:="vkg64";
-ReadPackage("laguna/lib/parunits.g");
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
-od;
-SCSCPLogTracesTo( testname );
 n:=16;G:=DihedralGroup(n);id:=IdGroup(G);
+SCSCPLogTracesToGlobal("vkg64");
 ParPcNormalizedUnitGroup(GroupRing(GF(2),SmallGroup(id)));
-SCSCPLogTracesTo(); 
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
-od;
+SCSCPLogTracesToGlobal();
 Print("vkg64 done\n");
 
-testname:="vkg81";
-ReadPackage("laguna/lib/parunits.g");
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
-od;
-SCSCPLogTracesTo( testname );
+SCSCPLogTracesToGlobal("vkg81");
 ParPcNormalizedUnitGroup(GroupRing(GF(3),SmallGroup(81,7)));
-SCSCPLogTracesTo(); 
-for server in SCSCPservers do
-	EvaluateBySCSCP("SCSCPStopTracing",[ ], server[1], server[2] );
-od;
+SCSCPLogTracesToGlobal();
 Print("vkg81 done\n");

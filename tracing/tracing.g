@@ -180,9 +180,31 @@ elif Length(arg)=1 and IsString(arg[1]) then
 	SCSCPTraceNewProcess(); 
 	SCSCPTraceNewThread(); 
 	SCSCPTraceRunThread(); 
+else
+	Error("SCSCPLogTracesTo : the number of arguments must be 0 or 1");	
 fi;	
-end)
-;
+end);
+
+
+BindGlobal( "SCSCPLogTracesToGlobal",
+function( arg )
+local server, testname;
+if Length(arg)=0 then
+	SCSCPLogTracesTo();
+	for server in SCSCPservers do
+		EvaluateBySCSCP( "SCSCPStopTracing",[ ], server[1], server[2] );
+    od;
+elif Length(arg)=1 and IsString(arg[1]) then
+    testname := arg[1];
+	for server in SCSCPservers do
+		EvaluateBySCSCP("SCSCPStartTracing",[ testname ], server[1], server[2] );
+	od;
+	SCSCPLogTracesTo( testname );
+else
+	Error("SCSCPLogTracesTo : the number of arguments must be 0 or 1");	
+fi;	
+end);
+
 
 #############################################################################
 #
@@ -200,3 +222,4 @@ function()
 SCSCPLogTracesTo();
 return true;
 end);
+
