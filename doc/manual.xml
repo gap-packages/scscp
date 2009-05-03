@@ -1,4 +1,5 @@
 <!-- $Id$ -->
+<?LaTeX ExtraPreamble="\usepackage[pdftex]{graphicx}"?>
 
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
@@ -8,6 +9,7 @@
 [<!ENTITY scscp1 "<Package>scscp1</Package>">]
 [<!ENTITY scscp2 "<Package>scscp2</Package>">]
 [<!ENTITY ANUPQ "<Package>ANUPQ</Package>">]
+[<!ENTITY EdenTV "<Package>EdenTV</Package>">]
 [<!ENTITY SCSCP "<Package>SCSCP</Package>">] >
 
 <Book Name="scscp">

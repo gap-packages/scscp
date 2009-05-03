@@ -12,12 +12,12 @@ the fastest result will be available.
 
 <ManSection>
    <Func Name="SynchronizeProcesses" 
+          Arg="process1 process2 ... processN"
+         Comm="" />  
+   <Func Name="SynchronizeProcesses" 
           Arg="proclist"
         Label="for list of processes"
          Comm="" />
-   <Func Name="SynchronizeProcesses" 
-          Arg="process1 process2 ... processN"
-         Comm="" />  
    <Returns>
      list of records with components <C>object</C> and <C>attributes</C> 
    </Returns>         
@@ -61,12 +61,12 @@ gap> SynchronizeProcesses(a,b);
 
 <ManSection>
    <Func Name="FirstProcess" 
+          Arg="process1 process2 ... processN"
+         Comm="" /> 
+   <Func Name="FirstProcess" 
           Arg="proclist"
         Label="for list of processes"
          Comm="" />
-   <Func Name="FirstProcess" 
-          Arg="process1 process2 ... processN"
-         Comm="" />         
    <Returns>
      records with components <C>object</C> and <C>attributes</C> 
    </Returns>         
@@ -258,22 +258,73 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 </ManSection>
 
 <ManSection>
-   <Func Name="SCSCPLogTracesTo" 
-          Arg="arg"
+   <Func Name="SCSCPLogTracesToGlobal" 
+          Arg="testname"
          Comm="" />
-   <Returns>
-
-   </Returns>         
+   <Func Name="SCSCPLogTracesToGlobal" 
+          Arg=""
+        Label="to stop tracing"
+         Comm="" />         
    <Description>
-   <!--TODO: Document SCSCPLogTracesTo, SCSCPStartTracing, SCSCPStopTracing,
-       gluing trace files, their viewing with EdenTV --> 
-      
-      
-      <Cite Key="EdenTV" /> 
-      
-      Of course, tracing can be used to investigate communication between a client
-      and a single server in a non-parallel context as well. 
-         
+    To analyse the performance of parallel &SCSCP; framework, we make use of the
+    &EdenTV; program <Cite Key="EdenTV" /> developed initially to visualize the
+    performance of parallel programs written in functional programming language
+    Eden (<URL>http://www.mathematik.uni-marburg.de/~eden/</URL>).
+    <P/>
+    Called with the string containing the name of the test, this functions turns
+    on writing information about key activity events into trace files in current 
+    directories for the client and servers listed <Ref Var="SCSCPservers" />.
+    The trace file will have the name of the format <A>testname</A><C>.client.tr</C>
+    for the client and <A>testname</A><C>.&lt;hostname>.&lt;port>.tr</C> for the server.
+    After the test these files should be collected from remote servers and 
+    contatenated (e.g. using <File>cat</File>) together with the preamble from 
+    the file <File>scscp/tracing/stdhead.txt</File>. We recommend to put after the
+    preamble first all traces from servers and then the client's traces to have 
+    nicer diagrams). The resulting file then may be opened with &EdenTV;.
+    <P/>
+    In the following example we generate trace files for two tests:
+<Log>
+<![CDATA[
+SCSCPLogTracesToGlobal("quillen100");
+ParListWithSCSCP( List( [1..100], i->[512,i]), "QuillenSeriesByIdGroup" );
+SCSCPLogTracesToGlobal();
+SCSCPLogTracesToGlobal( "euler" );
+ParListWithSCSCP( [1..1000], "WS_Phi" );
+SCSCPLogTracesToGlobal();
+]]>
+</Log>
+
+<Alt Only="LaTeX">
+\centerline{\resizebox{140mm}{!}{\includegraphics{img/quillen.pdf}}}
+</Alt>
+
+<Alt Only="HTML">
+&lt;img src="img/quillen.jpg" align="left" />
+</Alt>
+
+<Alt Only="LaTeX">
+\centerline{\resizebox{140mm}{!}{\includegraphics{img/euler.pdf}}}
+</Alt>
+
+<Alt Only="HTML">
+&lt;img src="img/euler.jpg" align="left" />
+</Alt>
+
+<Alt Only="Text">
+/See diagrams in HTML and PDF versions of the manual/
+</Alt>
+
+     The diagrams (made on an dual core MacBook laptop), 
+     shows that in the first case parallelising is efficient and master
+     efficiently distributes load to workers, while in the second case a single computation 
+     is just too short, so most of the time is spent on communication. To parallelise
+     such computation efficiently, tasks must rather be grouped in chunks, which should
+     be enough large to reduce the communication overload, but enough small to ensure
+     that tasks are evenly distributed.
+     <P/>
+     Of course, tracing can be used to investigate communication between a client
+     and a single server in a non-parallel context as well. For this purpose,
+     <Ref Var="SCSCPservers" /> must be modified to contain only one server.          
    </Description>
 </ManSection>
 
