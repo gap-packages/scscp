@@ -75,6 +75,46 @@ fi;
 end);
 
 
+InstallGlobalFunction( StartSCSCPsession,
+function( stream )
+local initmessage, session_id, pos1, pos2, server_scscp_version, suggested_versions;
+initmessage := ReadLine( stream );
+NormalizeWhitespace( initmessage );
+Info( InfoSCSCP, 1, "Got connection initiation message" );
+Info( InfoSCSCP, 2, initmessage );
+session_id := initmessage{ [ PositionSublist(initmessage,"service_id=")+12 .. 
+                             PositionSublist(initmessage,"\" scscp_versions")-1 ] };
+server_scscp_version:=initmessage{ [ PositionSublist(initmessage,"scscp_versions=")+16 .. 
+                                     PositionSublist(initmessage,"\" ?>")-1 ] };
+server_scscp_version := SplitString( server_scscp_version, " " );
+if not SCSCP_VERSION in server_scscp_version then
+  # we select the highest compatible version of the protocol or insist on our version
+  suggested_versions := Intersection( server_scscp_version, SCSCP_COMPATIBLE_VERSIONS );
+  if Length( suggested_versions ) > 0 then
+    SCSCP_VERSION := Maximum( suggested_versions );
+  fi;
+fi;
+Info(InfoSCSCP, 1, "Requesting version ", SCSCP_VERSION, " from the server ..."); 
+WriteLine( stream, Concatenation( "<?scscp version=\"", SCSCP_VERSION, "\" ?>" ) );
+server_scscp_version := ReadLine( stream );
+pos1 := PositionNthOccurrence(server_scscp_version,'\"',1);
+pos2 := PositionNthOccurrence(server_scscp_version,'\"',2);
+if pos1=fail or pos2=fail then
+  CloseStream( stream );
+  Error( "Incompatible protocol versions, the server requires ", server_scscp_version );
+else 
+  server_scscp_version := server_scscp_version{[ pos1+1 .. pos2-1 ]};
+  if server_scscp_version <> SCSCP_VERSION then
+    CloseStream( stream );
+    Error("Incompatible protocol versions, the server requires ", server_scscp_version );
+  else
+    Info(InfoSCSCP, 1, "Server confirmed version ", SCSCP_VERSION, " to the client ..."); 
+    return session_id;          
+  fi;  
+fi;
+end);
+
+
 #############################################################################
 #
 # EvaluateBySCSCP( command, listargs, server, port : 

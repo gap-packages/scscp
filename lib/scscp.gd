@@ -30,6 +30,7 @@ DeclareGlobalFunction( "InstallSCSCPprocedure" );
 DeclareGlobalFunction( "RunSCSCPserver" );
 DeclareGlobalFunction( "PingSCSCPservice" );
 DeclareGlobalFunction( "PingStatistic" );
+DeclareGlobalFunction( "StartSCSCPsession" );
 DeclareGlobalFunction( "EvaluateBySCSCP" );
 DeclareGlobalFunction( "ParQuickWithSCSCP" );
 DeclareGlobalFunction( "ParListWithSCSCP" );

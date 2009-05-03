@@ -27,7 +27,7 @@ function( server, port )
 local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
-     errormessage, str, session_id, welcome_string, 
+     errormessage, str, session_id, welcome_string, session_cookies,
      client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername;
 
 # additional procedures to turn tracing on/off
@@ -95,8 +95,14 @@ else
           "\" scscp_versions=\"1.0 1.1 1.2 1.3\" ?>");
     Print( "#I  Ready to accept TCP/IP connections at ", server, ":", port, " ... \n" );
     IO_listen( socket, 5 ); # Allow a backlog of 5 connections
+    session_cookies := [];
     repeat # until false: this is the outer infinite loop
     	disconnect := false;  
+    	# cleanup of cookies from previous session and resetting their list
+    	for cookie in session_cookies do
+    	   UnbindGlobal( cookie );
+    	od;
+    	session_cookies := [];
     	repeat # until disconnect: this loop is a signle SCSCP session
         	# We accept connections from everywhere
         	Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
@@ -129,8 +135,10 @@ else
 				client_scscp_version := client_scscp_version{[ pos1+1 .. pos2-1 ]};
         	fi;
         	if not client_scscp_version in [ "1.0", "1.1", "1.2", "1.3" ] then
-				Info(InfoSCSCP, 1, "Rejecting the client because of non supported version ", client_scscp_version );           
-				WriteLine( stream, Concatenation( "<?scscp quit reason=\"non supported version ", client_scscp_version, "\" ?>" ) );
+				Info(InfoSCSCP, 1, "Rejecting the client because of non supported version ", 
+				                   client_scscp_version );           
+				WriteLine( stream, Concatenation( "<?scscp quit reason=\"non supported version ", 
+				                                  client_scscp_version, "\" ?>" ) );
 			else
             	SCSCP_VERSION := client_scscp_version;
             	Info(InfoSCSCP, 1, "Confirming version ", SCSCP_VERSION, " to the client ...");           
@@ -220,7 +228,8 @@ else
               			fi; 
               			if objrec.object[1] = "OpenMathError: " then
                 			errormessage := [ 
-                  				OMPlainString( Concatenation( "<OMS cd=\"", objrec.object[4], "\" name=\"", objrec.object[6], "\"/>" ) ), 
+                  				OMPlainString( Concatenation( "<OMS cd=\"", objrec.object[4], 
+                  				                              "\" name=\"", objrec.object[6], "\"/>" ) ), 
                   											  "error", objrec.object[2] ];
               			else
                 			# glue together error messages into a single string
@@ -270,6 +279,10 @@ else
                 		else
                     		Error( "Failed to store result in the global variable ", cookie, "\n" );                                                  
                 		fi;
+                		# should the cookie be destroyed after the session?
+                		if SCSCP_STORE_SESSION_MODE then
+                		    Add( session_cookies, cookie );
+                		fi;
                 		output := rec( object     := RemoteObject( cookie, server, port ),
                     		           attributes := callinfo );
             		elif return_nothing then
@@ -301,8 +314,8 @@ else
         	Info(InfoSCSCP, 1, "Closing stream ...");
         	# socket descriptor will be closed here
         	CloseStream( stream );
-    	until disconnect;
-    until false;
+    	until disconnect; # end of a single SCSCP session
+    until false; # end of the outer infinite loop
     # Print("Server terminated, closing socket ... \c");   
     # IO_close(socket); # a relic from times when we had procedure to stop the server
 fi;

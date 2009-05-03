@@ -12,6 +12,7 @@ if VERSION <> "4.dev" then
 fi;
 
 SCSCP_UNBIND_MODE := false;
+SCSCP_STORE_SESSION_MODE := true;
 
 #############################################################################
 #
@@ -325,7 +326,7 @@ end );
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     function ( string )
-    local return_tree, node, attrs, t, obj, pos;
+    local return_tree, node, attrs, t, obj, pos, name;
     
     if ValueOption("return_tree") <> fail then
         return_tree := true;
@@ -359,6 +360,9 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 	# the procedure is allowed, that is, it is from scscp{1,2} or scscp_transient_X CD
 	
 	if SCSCPserverMode then
+	
+	    SCSCP_UNBIND_MODE := false;
+        SCSCP_STORE_SESSION_MODE := true;
     
     	pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
     	if pos=fail then
@@ -390,11 +394,13 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 			            attributes := attrs, is_error:=true );
 			    else
 			    	# some checks for some particular special procedures might be here
-			    	if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" and
-			    	   node.content[1].content[pos].content[2].content[1].attributes.name = "unbind" then
-			    	   	SCSCP_UNBIND_MODE := true;
-			    	else
-			    	   	SCSCP_UNBIND_MODE := false;
+			    	if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" then
+			    	    name := node.content[1].content[pos].content[2].content[1].attributes.name;
+			    	    if name = "unbind" then
+			    	        SCSCP_UNBIND_MODE := true; 
+			    	    elif name = "store_persistent" then
+                            SCSCP_STORE_SESSION_MODE := false;		    	        
+			    	    fi;
 			    	fi; 
     			fi;
 			fi;
