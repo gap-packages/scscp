@@ -121,7 +121,7 @@ min/avg/max = [ 0, 13/50, 2 ]
       <C>procedure&uscore;completed</C> message you need to do the same
       on the server.
       In the following examples we demonstrate various degrees of output 
-      detalisation using Info messages.
+      details using Info messages.
    </Description>
 </ManSection>
 
@@ -224,7 +224,7 @@ rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ]
     <Description>
     Returns the current date in the ISO-8601 YYYY-MM-DD format. This is an internal function
     of the package which is used by the &SCSCP; server to generate the transient content 
-    dictionary, accordingly to the defintion of the &OpenMath; symbol <C>meta.CDDate</C>.
+    dictionary, accordingly to the definition of the &OpenMath; symbol <C>meta.CDDate</C>.
 <Log>
 <![CDATA[
 gap> DateISO8601();

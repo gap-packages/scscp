@@ -140,8 +140,8 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
     </Description>
 </ManSection>
 
-In the example below we call two factorization methods from the &GAP; package 
-<Package>FactInt</Package> to factorize <M>2^{150}+1</M>. The runtime for 
+In the example below we call two factorisation methods from the &GAP; package 
+<Package>FactInt</Package> to factorise <M>2^{150}+1</M>. The runtime for 
 these two methods here is approximately the same, so you should expect results 
 from both methods in some random order from repeated calls.
 
@@ -219,7 +219,7 @@ It accepts two options which should be given as non-negative integers:
 <C>timeout</C> which specifies how long the client will wait for the result
 (if not given, the default value is one hour) and <C>recallfrequency</C>
 which specifies the number of iterations after which the search for new
-services will be performed (if not givem the default value is zero meaning 
+services will be performed (if not given the default value is zero meaning 
 no such search at all).
     
 <Example>
@@ -251,7 +251,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
    <Description>
    If an error occurs during a call of <Ref Func="ParQuickWithSCSCP" />
    and <Ref Func="ParQuickWithSCSCP" />, some of parallel requests may
-   be still running at the remaining services, making them unaccessible
+   be still running at the remaining services, making them inaccessible
    for further procedure calls. <Ref Func="SCSCPreset" /> resets them
    by closing all open streams to &SCSCP; servers.
    </Description>
@@ -317,7 +317,7 @@ SCSCPLogTracesToGlobal();
      The diagrams (made on an dual core MacBook laptop), 
      shows that in the first case parallelising is efficient and master
      efficiently distributes load to workers, while in the second case a single computation 
-     is just too short, so most of the time is spent on communication. To parallelise
+     is just too short, so most of the time is spent on communication. To parallelize
      such computation efficiently, tasks must rather be grouped in chunks, which should
      be enough large to reduce the communication overload, but enough small to ensure
      that tasks are evenly distributed.
@@ -346,10 +346,10 @@ in one of the next versions of the package.
 
 The file <File>scscp/example/karatsuba.g</File> contains an implementation of
 the Karatsuba multiplication algorithm for polynomials. This algorithm can
-be easily parallelised since each recursive step creates three recursive 
-calls of the same function for other polynomials. <E>We will not parallelise
+be easily parallelized since each recursive step creates three recursive 
+calls of the same function for other polynomials. <E>We will not parallelize
 each</E> recursive call, since this will create enormous data flow. Instead
-of this we parallelise only the top-level function.
+of this we parallelize only the top-level function.
 
 For our experiments with parallelising Karatsuba multiplication for
 polynomials with integer coefficients we used the multi-core machine, 
@@ -376,7 +376,7 @@ InstallSCSCPprocedure( "WS_Karatsuba",
 ]]>
 </Example>
 
-This function provides a "brigde" between the client's function 
+This function provides a "bridge" between the client's function 
 <C>KaratsubaPolynomialMultiplicationWS</C> and the server's function 
 <C>KaratsubaPolynomialMultiplicationExtRep</C>, which performs the 
 actual work on the server. <C>WS_Karatsuba</C> converts its string arguments
@@ -384,7 +384,7 @@ into internal representation of univariate polynomials (basically, lists of
 integers) and then converts the result back into string (since such data
 exchange format was chosen).
 
-We are going to parallelise the following part of the client's code:
+We are going to parallelize the following part of the client's code:
 
 <Example>
 <![CDATA[

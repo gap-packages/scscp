@@ -109,19 +109,12 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * Check upper/lowercasing etc. in manual examples
 
-* Spellchecking
-
-* Separate store per session/persistently (cookie = per session, we need
-  a way to transform it to persistent remote object, if needed).
-
-* ConnectionInitiation function and  example of session with cookies
-
 * Implement verification of arguments for procedures with non-trivial signatures 
 
 * Revise TerminateProcess, redo interrupts and check handling of other 
   processing instructions
 
-* Update test files
+* Update test files and include them in PackageInfo.g
 
 * Should we change OnQuit to perform ResetOptionsStack()?
 
@@ -134,7 +127,8 @@ other specified conditions to prevent forgotten jobs from infinite running.
   
 * Aautomatic adjustments of the timeout (see Runtimes() record) in parlist.g
 
-* Par{Quick/List}WithSCSCP may accept option specifying the list of services to use.
+* Par{Quick/List}WithSCSCP may accept option specifying the list of services 
+  to use if not coinciding with SCSCPservers
 
 * TODO (suggested by SL): A useful trick which Google uses is that they 
   automatically restart the last 5% or so of the computations to finish, 

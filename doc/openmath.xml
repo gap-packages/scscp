@@ -265,7 +265,7 @@ gap> Print(t);
 <Section Label="SCSCPsession">
 <Heading>Example: &SCSCP; session</Heading>
 
-In the following example we start an &SCSCP; session and peform ten
+In the following example we start an &SCSCP; session and perform ten
 procedure calls in a loop before closing that session. Note that we
 demonstrate the usage of <C>sid</C> and the function <C>RandomString"</C> 
 from the &OpenMath; package to produce some unique call identifier.

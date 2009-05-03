@@ -27,7 +27,7 @@
      <List>
      <Item>
      <A>description</A> is a string with the description of the procedure, 
-     that may be used in the help system. If it is ommitted, the procedure will
+     that may be used in the help system. If it is omitted, the procedure will
      be reported as undocumented.
      </Item>
      <Item>
@@ -35,7 +35,7 @@
      and <A>narg2</A> is a non-negative integer or infinity, specifying the maximal number 
      of arguments.
      If <A>narg2</A> is omitted then the maximal number of arguments will be set to <A>narg1</A>.
-     If both <A>narg1</A> and <A>narg2</A> are omitted then the mimimal number of arguments will be set to zero
+     If both <A>narg1</A> and <A>narg2</A> are omitted then the minimal number of arguments will be set to zero
      and their maximal number will be set to infinity.
      </Item>
      <Item>
@@ -52,7 +52,7 @@
      to the <M>i</M>-th argument, or a record itself meaning that it refers to any argument.
      In the latter case the record may be <C>rec( )</C> corresponding to the 
      <C>scscp2.symbol_set_all</C> symbol (this will be assumed by default if the signature
-     will be ommitted). 
+     will be omitted). 
      <P/>
      If more detailed description is needed, the signature record (one for all arguments or
      a specific one) may have components <C>CDgroups</C>, <C>CDs</C> and <C>Symbols</C>.
@@ -86,7 +86,7 @@ InstallSCSCPprocedure : procedure WS_Factorial installed.
 In the following example we install the procedure that will accept a list
 of permutations and return the number in the &GAP; Small Groups library
 of the group they generate (for the sake of simplicity we omit tests of
-validity of arguments, availablity of <C>IdGroup</C> for groups of given 
+validity of arguments, availability of <C>IdGroup</C> for groups of given 
 order etc.)
 
 <Example>
@@ -125,10 +125,10 @@ InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 Note that it is quite acceptable to overstate the signature of the procedure
 and use only mandatory arguments in a call to <Ref Func="InstallSCSCPprocedure" />, 
 which will be installed then as a procedure that can accept arbitrary number of
-arguements encoded without any restrictions on &OpenMath; symbols used, because
-anyway the &GAP; system will return an error in case of th wrong number or type
+arguments encoded without any restrictions on &OpenMath; symbols used, because
+anyway the &GAP; system will return an error in case of the wrong number or type
 of arguments, though it might be a good practice to give a way to the client to
-get more precise procedure description apriori, that is before sending request. 
+get more precise procedure description a priori, that is before sending request. 
 See <Ref Sect="SpecialProcedures" /> about utilities for obtaining such information
 about the &SCSCP; service.
 
@@ -163,7 +163,7 @@ are given in the file <File>scscp/example/myserver.g</File>.
    </Returns>	 
    <Description>
        Will start the &SCSCP; server at port given by the integer
-       <A>port</A>. The first paratemer <A>servertype</A> is either
+       <A>port</A>. The first parameter <A>servertype</A> is either
        <K>true</K>, <K>false</K> or a string containing the server
        hostname:
        <List>
@@ -193,7 +193,7 @@ Waiting for new client connection at localhost:26133 ...
 ]]>
 </Example>
 
-Actually, there are serveral ways to start &GAP; &SCSCP; server:
+Actually, there are several ways to start &GAP; &SCSCP; server:
 <List>
     <Item>from the &GAP; session as shown in the example above;;
     </Item>
@@ -206,7 +206,7 @@ Actually, there are serveral ways to start &GAP; &SCSCP; server:
     <Item>start &GAP; as a daemon using the script <File>gapd.sh</File> which
         is supplied in the root directory of the package (for the description
         of all available options see comments in <File>gapd.sh</File>) and
-        may owerwrite parameters from <File>scscp/config.g</File>.
+        may overwrite parameters from <File>scscp/config.g</File>.
     </Item>
 </List>
 
@@ -265,11 +265,12 @@ rec( service_name := "GAP SCSCP service",
 <Example>
 <![CDATA[
 gap> GetAllowedHeads("localhost",26133);
-rec( scscp_transient_1 := [ "GroupIdentificationService", "IO_UnpickleStringAndPickleItBack",
-      "IdGroup512ByCode", "PointImages", "QuillenSeriesByIdGroup", "SCSCPStartTracing", 
-      "SCSCPStopTracing", "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", 
-      "WS_FactorsECM", "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", 
-      "WS_FactorsTD", "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )
+rec( scscp_transient_1 := [ "GroupIdentificationService", 
+      "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "PointImages", 
+      "QuillenSeriesByIdGroup", "SCSCPStartTracing", "SCSCPStopTracing", 
+      "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", "WS_FactorsECM", 
+      "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", "WS_FactorsTD", 
+      "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )
 ]]>
 </Example>    
    </Description>

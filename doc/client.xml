@@ -327,7 +327,7 @@ group again or use it as an argument.
 Thus, the usage of remote objects existing during a session reduces the
 network traffic, since we pass only references instead of actual &OpenMath;
 representation of an object. Also, the remote object on the server may
-accummulate certain information in its properties and attributes, which may
+accumulate certain information in its properties and attributes, which may
 not be included in it default &OpenMath; representation.
 <P/>
 
@@ -395,7 +395,7 @@ gap> OMPrint(s);
 ]]>
 </Example>
 
-This allows substritution of remote object as arguments into procedure calls 
+This allows substitution of remote object as arguments into procedure calls 
 in the same manner like we do this with usual objects:
 
 <Example>

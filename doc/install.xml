@@ -71,7 +71,7 @@ is started with the <File>scscp/example/myserver.g</File> file;
 </Item>
 <Item>
 whether the server accepts calls procedures which are standard &OpenMath; symbols, 
-or only procedures istalled in the transient content dictionary (see <Ref Func="InstallSCSCPprocedure" />);
+or only procedures installed in the transient content dictionary (see <Ref Func="InstallSCSCPprocedure" />);
 </Item>
 <Item>
 service description to be return to the client by <Ref Func="GetServiceDescription" />.
