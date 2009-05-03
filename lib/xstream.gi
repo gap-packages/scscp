@@ -292,3 +292,20 @@ end);
 InstallMethod( FileDescriptorOfStream, "for ioTCPstream",
 [ IsInputOutputTCPStreamRep and IsInputOutputStream ],
 stream -> IO_GetFD( stream![1] ) );
+
+
+#############################################################################
+##
+#F  SCSCPwait( <ioTCPstream>, [ <timeout>] )
+##
+InstallGlobalFunction( SCSCPwait,
+function( arg )
+if Length(arg) = 2 then
+    IO_Select( [ arg[1]![1] ], [ ], [ ], [ ], arg[2], 0 );
+elif Length(arg) = 1 then
+    IO_Select( [ arg[1]![1] ], [ ], [ ], [ ], 3600, 0 );
+fi;
+end);    
+
+        
+        

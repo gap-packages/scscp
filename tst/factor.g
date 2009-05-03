@@ -20,7 +20,7 @@ for n in [ 1 .. nrsessions ] do
     Print( call_nr, " \c");
     OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [k], 
                          attributes:=[ ["call_id", Concatenation(username, String(call_nr)) ] ] ) );
-    IO_select( [ FileDescriptorOfStream(stream) ], [ ], [ ], 60*60, 0 );
+    SCSCPwait( stream );
     obj:=OMGetObjectWithAttributes( stream );
     Add( res, obj );
   od;
