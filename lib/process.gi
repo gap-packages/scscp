@@ -166,9 +166,7 @@ if output_option="tree" then
 else
     result := OMGetObjectWithAttributes( stream );
 fi;    
-if output_option="cookie" then
-  result.object := RemoteObject( result.object, stream![2], stream![3][1] );
-fi;
+
 if result = fail then
 	Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", stream![2], ":", stream![3][1], ", returning fail" );
 else
