@@ -507,7 +507,7 @@ if IsBound( node.attributes.xref ) then
       return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
     fi;        
   else
-    return node.attributes.xref;
+    return RemoteObject( node.attributes.xref, address, port );
   fi;
 elif IsBound( node.attributes.href ) then
   ref := node.attributes.href;
