@@ -253,8 +253,6 @@ gap> IdGroupWS(G);
 <Section Label="Remote">
 <Heading>Remote objects</Heading>
 
-<!-- TODO: implement and document store per session / persistently --> 
-
 The &SCSCP; package introduces new kind of objects - <E>remote objects</E>.
 They provide an opportunity to manipulate with objects on remote services
 without their actual transmitting over the network. Remote objects store
@@ -262,8 +260,89 @@ the information that allows to access the original object: the server name
 and the port number through which the object can be accessed, and the variable
 name under which it is stored in the remote system. Two remote objects are
 equal if and only if all these three parameters coincide.
+<P/>
+
+There are two types of remote object which differ by their lifetime: 
+<List>
+<Item>remote objects which exist only within the session;</Item>
+<Item>persistent remote objects which stay alive across multiple sessions.</Item>
+</List>
+
+First we show the example of the remote object in a session. The procedure
+<C>PointImages</C> returns the set of images of a point <M>i</M> under the 
+generators of the group <M>G</M>. First we create the symmetric group 
+<M>S_3</M> on the client and store it remotely on the server (call 1),
+then we compute set of images for <M>i=1,2</M> (calls 2,3) and finally 
+demonstrate that we may retrieve the group from the server (call 4):
+
+<Example>
+<![CDATA[
+gap> stream:=InputOutputTCPStream( "localhost", 26133 );
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+< input/output TCP stream to localhost:26133 >
+gap> StartSCSCPsession(stream);
+#I  Got connection initiation message
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
+"localhost:26133:6184"
+gap> OMPutProcedureCall( stream, "store_session", 
+>       rec( object := [ SymmetricGroup(3) ], 
+>        attributes := [ [ "call_id", "1" ], 
+>                        ["option_return_cookie"] ] ) );
+true
+gap> SCSCPwait( stream );
+gap> G:=OMGetObjectWithAttributes( stream ).object;
+< remote object TEMPVarSCSCPoS5nhta3@localhost:26133 >
+gap> OMPutProcedureCall( stream, "PointImages", 
+>       rec( object := [ G, 1 ], 
+>        attributes := [ [ "call_id", "2" ] ] ) );
+true
+gap> SCSCPwait( stream );
+gap> OMGetObjectWithAttributes( stream );
+rec( attributes := [ [ "call_id", "2" ] ], object := [ 2 ] )
+gap> OMPutProcedureCall( stream, "PointImages", 
+>       rec( object := [ G, 2 ], 
+>        attributes := [ [ "call_id", "3" ] ] ) );
+true
+gap> SCSCPwait( stream );
+gap> OMGetObjectWithAttributes( stream );
+rec( attributes := [ [ "call_id", "3" ] ], object := [ 1, 3 ] )
+gap> OMPutProcedureCall( stream, "retrieve", 
+>       rec( object := [ G ], 
+>        attributes := [ [ "call_id", "4" ] ] ) );
+true
+gap> SCSCPwait( stream );
+gap> OMGetObjectWithAttributes( stream );
+rec( attributes := [ [ "call_id", "4" ] ], 
+  object := Group([ (1,2,3), (1,2) ]) )
+gap> CloseStream(stream);
+]]>
+</Example>
+
+After the stream is closed, it is no longer possible to retrieve the
+group again or use it as an argument.
+<P/>
+
+Thus, the usage of remote objects existing during a session reduces the
+network traffic, since we pass only references instead of actual &OpenMath;
+representation of an object. Also, the remote object on the server may
+accummulate certain information in its properties and attributes, which may
+not be included in it default &OpenMath; representation.
+<P/>
+
+Now we show remote objects which are keeping alive after the session is
+closed. Such remote objects may be accessed later, for example, by:
+<List>
+<Item>subsequent procedure calls from the same instance of &GAP; or another system;</Item>
+<Item>other instances of &GAP; or another systems, if the identifier of an object is known</Item>
+<Item>another &SCSCP; servers which obtained a reference to such object as an argument of a procedure call</Item>
+</List>
 
 <ManSection>
+    <Func Name="StoreAsRemoteObjectPersistently" 
+           Arg="obj server port"
+          Comm="" />
     <Func Name="StoreAsRemoteObject" 
            Arg="obj server port"
           Comm="" />
@@ -273,7 +352,7 @@ equal if and only if all these three parameters coincide.
     <Description>
       Returns the remote object corresponding to the object created at
       <A>server</A><C>:</C><A>port</A> from the &OpenMath; representation
-      of the first argument <A>obj</A>.
+      of the first argument <A>obj</A>. The second form is just a synonym.
     </Description>
 </ManSection>
 

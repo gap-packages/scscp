@@ -13,12 +13,12 @@ dictionaries). It also overwrites some &OpenMath; functions by their
 extended (but backwards compatible) versions, and adds some new functions 
 to send and receive &SCSCP; messages, documented below.
 <P/>
-Note that functions documented in this chapter belong to the middle-
-level interface, and the user may find it more convenient
-to use functions developed on top of them and explained in next chapters.
+Note that functions documented in this chapter belong to the middle-level 
+interface, and the user may find it more convenient to use functions 
+developed on top of them and explained in next chapters.
 
-<Section Label="SCSCPstart">
-<Heading>Connection initiation phase</Heading>
+<Section Label="SCSCPclient">
+<Heading>Communication with the &SCSCP; server</Heading>
 
 <ManSection>
     <Func Name="StartSCSCPsession" 
@@ -51,10 +51,88 @@ After the call to <Ref Func="StartSCSCPsession" /> the &SCSCP; server is
 ready to accept procedure calls.
     </Description>
 </ManSection>
-</Section>
 
-<Section Label="SCSCPreceive">
-<Heading>Receiving a message</Heading>
+<ManSection>
+   <Func Name="OMPutProcedureCall" 
+          Arg="stream proc_name objrec"
+         Comm="" />
+   <Returns>
+     Nothing
+   </Returns>	 
+   <Description>
+      <!-- Document option cd and debuglevel -->
+     Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a record 
+     <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
+     <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A>,
+     arguments given by the list <C>objrec.object</C> and options
+     (as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
+     This function accept the option <C>cd:="cdname"</C> to specify the
+     name of the content dictionary if the procedure is actually a standard
+     &OpenMath; symbol (note that the server may reject such a call if it
+     accepts only calls of procedures from the transient content dictionary,
+     see <Ref Func="InstallSCSCPprocedure" /> for explanation).
+<Example>
+<![CDATA[
+gap> t:="";; stream:=OutputTextString(t,true);;
+gap> OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ], 
+>      attributes:=[ [ "call_id", "user007" ], 
+>                    ["option_runtime",1000],
+>                    ["option_min_memory",1024], 
+>                    ["option_max_memory",2048],
+>                    ["option_debuglevel",1], 
+>                    ["option_return_object"] ] ) );;
+gap> Print(t);
+<?scscp start ?>
+<OMOBJ>
+	<OMATTR>
+		<OMATP>
+			<OMS cd="scscp1" name="call_id"/>
+			<OMSTR>user007</OMSTR>
+			<OMS cd="scscp1" name="option_runtime"/>
+			<OMI>1000</OMI>
+			<OMS cd="scscp1" name="option_min_memory"/>
+			<OMI>1024</OMI>
+			<OMS cd="scscp1" name="option_max_memory"/>
+			<OMI>2048</OMI>
+			<OMS cd="scscp1" name="option_debuglevel"/>
+			<OMI>1</OMI>
+			<OMS cd="scscp1" name="option_return_object"/>
+			<OMSTR></OMSTR>
+		</OMATP>
+		<OMA>
+			<OMS cd="scscp1" name="procedure_call"/>
+			<OMA>
+				<OMS cd="scscp_transient_1" name="WS_Factorial"/>
+				<OMI> 5</OMI>
+			</OMA>
+		</OMA>
+	</OMATTR>
+</OMOBJ>
+<?scscp end ?>
+]]>
+</Example>
+   </Description>
+</ManSection>
+
+
+<ManSection>
+    <Func Name="SCSCPwait" 
+           Arg="stream [timeout]"
+          Comm="" />
+    <Returns>
+    nothing
+    </Returns>	 
+    <Description>
+    This function may be used by the &SCSCP; client to wait
+    (using <Ref BookName="IO" Func="IO_select" />)
+    until the result of the procedure call will be 
+    available from <A>stream</A>. By default the timeout is
+    one hour, to specify another value give it as the optional
+    second argument in seconds. See the end of this chapter 
+    for the example.
+    </Description>
+</ManSection>
+
 
 <ManSection>
    <Func Name="OMGetObjectWithAttributes" 
@@ -118,66 +196,8 @@ gap> CloseStream( str );
 
 </Section> 
 
-<Section Label="SCSCPsend">
-<Heading>Sending a message</Heading>
-
-<ManSection>
-   <Func Name="OMPutProcedureCall" 
-          Arg="stream proc_name objrec"
-         Comm="" />
-   <Returns>
-     Nothing
-   </Returns>	 
-   <Description>
-      <!-- Document option cd and debuglevel -->
-     Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a record 
-     <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
-     <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A>,
-     arguments given by the list <C>objrec.object</C> and options
-     (as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
-   </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> t:="";; stream:=OutputTextString(t,true);;
-gap> OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ], 
->      attributes:=[ [ "call_id", "user007" ], 
->                    ["option_runtime",1000],
->                    ["option_min_memory",1024], 
->                    ["option_max_memory",2048],
->                    ["option_debuglevel",1], 
->                    ["option_return_object"] ] ) );;
-gap> Print(t);
-<?scscp start ?>
-<OMOBJ>
-	<OMATTR>
-		<OMATP>
-			<OMS cd="scscp1" name="call_id"/>
-			<OMSTR>user007</OMSTR>
-			<OMS cd="scscp1" name="option_runtime"/>
-			<OMI>1000</OMI>
-			<OMS cd="scscp1" name="option_min_memory"/>
-			<OMI>1024</OMI>
-			<OMS cd="scscp1" name="option_max_memory"/>
-			<OMI>2048</OMI>
-			<OMS cd="scscp1" name="option_debuglevel"/>
-			<OMI>1</OMI>
-			<OMS cd="scscp1" name="option_return_object"/>
-			<OMSTR></OMSTR>
-		</OMATP>
-		<OMA>
-			<OMS cd="scscp1" name="procedure_call"/>
-			<OMA>
-				<OMS cd="scscp_transient_1" name="WS_Factorial"/>
-				<OMI> 5</OMI>
-			</OMA>
-		</OMA>
-	</OMATTR>
-</OMOBJ>
-<?scscp end ?>
-]]>
-</Example>
+<Section Label="SCSCPserver">
+<Heading>Communication with the &SCSCP; client</Heading>
 
 <ManSection>
    <Func Name="OMPutProcedureCompleted" 
@@ -269,7 +289,7 @@ gap> for i in [1..10] do
 >       rec( object := [ i ], 
 >        attributes := [ [ "call_id", 
 >          Concatenation( sid, ":", RandomString(8) ) ] ] ) );
->     IO_select( [ FileDescriptorOfStream(stream) ], [ ], [ ], 60*60, 0 );
+>     SCSCPwait( stream );
 >     res[i]:=OMGetObjectWithAttributes( stream ).object;
 > od;
 gap> CloseStream(stream);
@@ -277,7 +297,7 @@ gap> res;
 [ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
 ]]>
 </Example>
-Also note the usage of <Ref BookName="IO" Func="IO_select" /> to wait
+Also note the usage of <Ref Func="SCSCPwait" /> to wait
 until the result of the computation will be available from <C>stream</C>.
 
 </Section>
