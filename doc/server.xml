@@ -62,9 +62,9 @@
 <Example>
 <![CDATA[
 signature := rec( CDgroups := [ "scscp" ],
-		               CDs := [ "arith1", "linalg1" ],
-		           Symbols := rec( polyd1 := [ "DMP", "term", "SDMP" ],
-		                            polyu := [ "poly_u_rep", "term" ] ) );
+                  CDs := [ "arith1", "linalg1" ],
+                  Symbols := rec( polyd1 := [ "DMP", "term", "SDMP" ],
+                                   polyu := [ "poly_u_rep", "term" ] ) );
 ]]>
 </Example>
      </Item>

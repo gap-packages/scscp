@@ -107,14 +107,14 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * CDs: matrix1, polynomial4, order1 (in openmath)
 
-* Check upper/lowercasing etc. in manual examples
+* Check more carefully examples and demo files, esp. upper/lowercasing etc.
 
 * Implement verification of arguments for procedures with non-trivial signatures 
 
 * Revise TerminateProcess, redo interrupts and check handling of other 
   processing instructions
 
-* Update test files and include them in PackageInfo.g
+* Extend test files with more examples
 
 * Should we change OnQuit to perform ResetOptionsStack()?
 

@@ -158,7 +158,8 @@ gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 #I  Request sent ...
 #I  Process number 2 is ready
 rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-      13334701, 1182468601 ], attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
+      13334701, 1182468601 ], 
+ attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
 ]]>
 </Example>
 
@@ -293,27 +294,11 @@ ParListWithSCSCP( [1..1000], "WS_Phi" );
 SCSCPLogTracesToGlobal();
 ]]>
 </Log>
-
-<Alt Only="LaTeX">
-\centerline{\resizebox{140mm}{!}{\includegraphics{img/quillen.pdf}}}
-</Alt>
-
-<Alt Only="HTML">
-&lt;img src="img/quillen.jpg" align="left" />
-</Alt>
-
-<Alt Only="LaTeX">
-\centerline{\resizebox{140mm}{!}{\includegraphics{img/euler.pdf}}}
-</Alt>
-
-<Alt Only="HTML">
-&lt;img src="img/euler.jpg" align="left" />
-</Alt>
-
-<Alt Only="Text">
-/See diagrams in HTML and PDF versions of the manual/
-</Alt>
-
+<Alt Only="LaTeX">\centerline{\resizebox{120mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
+<Alt Only="HTML">&lt;img src="img/quillen.jpg" align="left" /></Alt>
+<Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{120mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
+<Alt Only="HTML">&lt;img src="img/euler.jpg" align="left" /></Alt>
+<Alt Only="Text">/See diagrams in HTML and PDF versions of the manual/</Alt>
      The diagrams (made on an dual core MacBook laptop), 
      shows that in the first case parallelising is efficient and master
      efficiently distributes load to workers, while in the second case a single computation 
@@ -324,7 +309,7 @@ SCSCPLogTracesToGlobal();
      <P/>
      Of course, tracing can be used to investigate communication between a client
      and a single server in a non-parallel context as well. For this purpose,
-     <Ref Var="SCSCPservers" /> must be modified to contain only one server.          
+     <Ref Var="SCSCPservers" /> must be modified to contain only one server.   
    </Description>
 </ManSection>
 
