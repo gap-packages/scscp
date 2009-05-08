@@ -62,8 +62,7 @@ SCSCPserviceName:="GAP SCSCP service";
 # the server was started, and other information
 SCSCPserviceVersion:= Concatenation( 
 	"GAP ", VERSION, 
-	" + SCSCP ", GAPInfo.PackagesInfo.scscp[1].Version,
-	" started on ", CurrentTimestamp() );
+	" + SCSCP ", GAPInfo.PackagesInfo.scscp[1].Version );
 
 # setting the default description, which may include, for example, 
 # functions exposed, description of resources, contact details of 

@@ -30,6 +30,8 @@ local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor,
      errormessage, str, session_id, welcome_string, session_cookies,
      client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername;
 
+Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
+
 # additional procedures to turn tracing on/off
     
 InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
