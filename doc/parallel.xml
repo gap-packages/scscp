@@ -270,7 +270,8 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
     To analyse the performance of parallel &SCSCP; framework, we make use of the
     &EdenTV; program <Cite Key="EdenTV" /> developed initially to visualize the
     performance of parallel programs written in functional programming language
-    Eden (<URL>http://www.mathematik.uni-marburg.de/~eden/</URL>).
+    Eden, and now distributed under the GNU Public License and available from
+    <URL>http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV</URL>.
     <P/>
     Called with the string containing the name of the test, this functions turns
     on writing information about key activity events into trace files in current 
@@ -294,9 +295,9 @@ ParListWithSCSCP( [1..1000], "WS_Phi" );
 SCSCPLogTracesToGlobal();
 ]]>
 </Log>
-<Alt Only="LaTeX">\centerline{\resizebox{120mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
+<Alt Only="LaTeX">\centerline{\resizebox{110mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
 <Alt Only="HTML">&lt;img src="img/quillen.jpg" align="left" /></Alt>
-<Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{120mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
+<Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{110mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
 <Alt Only="HTML">&lt;img src="img/euler.jpg" align="left" /></Alt>
 <Alt Only="Text">/See diagrams in HTML and PDF versions of the manual/</Alt>
      The diagrams (made on an dual core MacBook laptop), 
