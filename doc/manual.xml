@@ -17,7 +17,7 @@
 <TitlePage>
   <Title>&SCSCP;</Title>
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
-  <Version>Version 1.1.1</Version>
+  <Version>Version 1.1.2</Version>
 
   <Author>Alexander Konovalov
           <Email>alexk at mcs dot st-andrews dot ac dot uk</Email>
@@ -41,7 +41,7 @@
           </Address> 
   </Author>
   
-  <Date>6 May 2009</Date>
+  <Date>9 May 2009</Date>
 
 <Abstract>
 
