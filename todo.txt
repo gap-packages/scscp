@@ -124,6 +124,10 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * CDs: matrix1, polynomial4, order1 (in openmath)
 
+* Manual: check for empty <Returns> blocks
+
+* Is SCSCP version restored after session if it was altered?
+
 * Check more carefully examples and demo files, esp. upper/lowercasing etc.
 
 * Implement verification of arguments for procedures with non-trivial signatures 
