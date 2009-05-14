@@ -18,6 +18,7 @@
 LogTo(); # to close log file if it was opened from .gaprc
 LoadPackage("scscp");
 LoadPackage("anupq");
+LoadPackage("monoid");
 ReadPackage("scscp/example/karatsuba.g");
 
 #############################################################################
@@ -120,7 +121,8 @@ InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1, 1 );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
 InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup, 
 	"Quillen series of a finite p-group given by IdGroup (list of two integers)", 1, 1 );
-
+InstallSCSCPprocedure( "WS_AutomorphismGroup", AutomorphismGroup, 1, 1 );
+	
 # Series of factorisation methods from the GAP package FactInt
 InstallSCSCPprocedure("WS_FactorsTD", FactorsTD, 
 	"FactorsTD from FactInt package, see ?FactorsTD in GAP", 1, 2 );
@@ -158,15 +160,6 @@ end;
 
 InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndPickleItBack, 
 	"To test how pickling format from IO package may be used for data transmitting (see ?IO_Pickle, ?IO_Unpickle)", 1, 1 );
-
-
-#############################################################################
-#
-# Reading some experimental developer's code (not included in the release)
-#
-if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") ) then
-  Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
-fi;
 
 
 #############################################################################
