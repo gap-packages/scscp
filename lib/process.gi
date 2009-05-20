@@ -7,6 +7,7 @@
 ##
 #############################################################################
 
+SCSCP_CURRENT_SESSION_STREAM := fail;
 
 DeclareRepresentation( "IsProcessRepresentation", 
                        IsPositionalObjectRep,
@@ -17,6 +18,14 @@ ProcessesFamily := NewFamily( "ProcessesFamily(...)", IsProcess );
 ProcessDefaultType := NewType( ProcessesFamily, 
                                IsProcessRepresentation and IsProcess);
 
+OnQuit:=function()
+if SCSCP_CURRENT_SESSION_STREAM <> fail then
+    Print( "SCSCP : ", SCSCP_CURRENT_SESSION_STREAM );
+    CloseStream( SCSCP_CURRENT_SESSION_STREAM );
+    Print( " is closed\n" );
+    SCSCP_CURRENT_SESSION_STREAM := fail;
+fi;    
+end;
 
 #############################################################################
 ##
@@ -66,7 +75,7 @@ end);
 InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
-local stream, session_id, omtext, localstream, output_option, debug_option, 
+local tcpstream, session_id, omtext, localstream, output_option, debug_option, 
       cdname, attribs, ns, pos1, pos2, pid;
 
 if ValueOption("output") <> fail then
@@ -93,8 +102,9 @@ else
   debug_option := 0;
 fi;
 
-stream := InputOutputTCPStream( server, port );
-session_id := StartSCSCPsession( stream );
+tcpstream := InputOutputTCPStream( server, port );
+session_id := StartSCSCPsession( tcpstream );
+SCSCP_CURRENT_SESSION_STREAM := tcpstream;
 
 pos1 := PositionNthOccurrence(session_id,':',2);
 if pos1 <> fail then
@@ -119,23 +129,23 @@ if InfoLevel( InfoSCSCP ) > 2 then
                       rec(     object := listargs, 
                            attributes := attribs ) : cd:=cdname );
   Print(omtext);
-  WriteAll( stream, omtext );
-  if IsInputOutputTCPStream( stream ) then
-    IO_Flush( stream![1] );
+  WriteAll( tcpstream, omtext );
+  if IsInputOutputTCPStream( tcpstream ) then
+    IO_Flush( tcpstream![1] );
   fi;
   
 else
   
-  OMPutProcedureCall( stream, 
+  OMPutProcedureCall( tcpstream, 
                       command, 
                         rec(     object := listargs, 
                              attributes := attribs ) : cd:=cdname );
 
 fi;
               
-Info( InfoSCSCP, 1, "Request sent ..."); 
-             
-return Objectify( ProcessDefaultType, [ stream, pid ] );
+Info( InfoSCSCP, 1, "Request sent ...");
+SCSCP_CURRENT_SESSION_STREAM := fail;             
+return Objectify( ProcessDefaultType, [ tcpstream, pid ] );
 end); 
 
 
@@ -148,7 +158,7 @@ end);
 #
 InstallGlobalFunction( CompleteProcess,
 function( process )
-local stream, result, output_option;
+local tcpstream, result, output_option;
 
 if ValueOption( "output") <> fail then
   output_option := ValueOption( "output");
@@ -156,23 +166,25 @@ else
   output_option := "object";  
 fi;
 
-stream := process![1];
+tcpstream := process![1];
+SCSCP_CURRENT_SESSION_STREAM := tcpstream;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
-IO_Select( [ stream![1] ], [ ], [ ], [ ], 60*60, 0 );
+IO_Select( [ tcpstream![1] ], [ ], [ ], [ ], 60*60, 0 );
 if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
-if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage( stream![3][1] ); fi;
+if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage( tcpstream![3][1] ); fi;
 if output_option="tree" then
-    result := OMGetObjectWithAttributes( stream : return_tree );
+    result := OMGetObjectWithAttributes( tcpstream : return_tree );
 else
-    result := OMGetObjectWithAttributes( stream );
+    result := OMGetObjectWithAttributes( tcpstream );
 fi;    
 
 if result = fail then
-	Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", stream![2], ":", stream![3][1], ", returning fail" );
+	Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", tcpstream![2], ":", tcpstream![3][1], ", returning fail" );
 else
 	Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
 fi;	
-CloseStream(stream); 
+CloseStream(tcpstream); 
+SCSCP_CURRENT_SESSION_STREAM := fail;
 return result;
 end);
 
