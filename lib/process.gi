@@ -18,14 +18,26 @@ ProcessesFamily := NewFamily( "ProcessesFamily(...)", IsProcess );
 ProcessDefaultType := NewType( ProcessesFamily, 
                                IsProcessRepresentation and IsProcess);
 
+MakeReadWriteGlobal("OnQuit");
+
 OnQuit:=function()
 if SCSCP_CURRENT_SESSION_STREAM <> fail then
     Print( "SCSCP : ", SCSCP_CURRENT_SESSION_STREAM );
     CloseStream( SCSCP_CURRENT_SESSION_STREAM );
     Print( " is closed\n" );
     SCSCP_CURRENT_SESSION_STREAM := fail;
-fi;    
+    if not IsEmpty( OptionsStack )  then
+        repeat
+            PopOptions(  );
+        until IsEmpty( OptionsStack );
+        Info( InfoWarning, 1, "Options stack has been reset" );
+    fi;
+    return;
+fi;
 end;
+
+MakeReadOnlyGlobal("OnQuit");
+
 
 #############################################################################
 ##
