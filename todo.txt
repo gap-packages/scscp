@@ -122,6 +122,12 @@ other specified conditions to prevent forgotten jobs from infinite running.
 3.TODO
 #############################################################################
 
+* Think about authentication using private/public keys or another method
+
+* Parameter to regulate the queue length on the server
+
+* Allow to restrict the range of IP addresses from which it accepts request
+
 * CDs: matrix1, polynomial4, order1 (in openmath)
 
 * Manual: check for empty <Returns> blocks
@@ -136,8 +142,6 @@ other specified conditions to prevent forgotten jobs from infinite running.
   processing instructions
 
 * Extend test files with more examples
-
-* Should we change OnQuit to perform ResetOptionsStack()?
 
 * Log servers activity in some GAP-readable format for analysing: 
   where incoming requests came from, when and when reply was sent?
