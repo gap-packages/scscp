@@ -35,7 +35,7 @@ There are several ways to start &GAP; &SCSCP; server:
     </Item>
     <Item>start &GAP; as <C>gap myserver.g</C>, where <File>myserver.g</File>
         is the server configuration file with the last command being the call 
-        <Ref Func="RunSCSCPserver" /> (an example of such configuration file 
+        of <Ref Func="RunSCSCPserver" /> (an example of such configuration file 
         is given in <File>scscp/example/myserver.g</File> );
     </Item>
     <Item>start &GAP; as a daemon using the script <File>gapd.sh</File> which
@@ -75,6 +75,7 @@ of currently distributed packages. The reader is encouraged to try to use exampl
 the manual to access this service, replacing <File>"localhost"</File> by its address,
 where appropriate. Please report to Alexander Konovalov if you will discover any bugs
 or if the server seems not available.
+<P/>
     
 The SCSCP client:
 <List>
@@ -87,11 +88,12 @@ The SCSCP client:
 </Item>
 </List>
 
-On the top of this functionality we built a set of instructions for parallel 
-computations using the &SCSCP; framework, allowing to send several procedure 
-calls in parallel and then collect all results or pick up the first available 
-result, and implemented the master-worker skeleton. These tools are presented
-in the Chapter <Ref Label="Parallel"/>.
+On the top of this functionality we built a set of instructions for simple 
+parallel computations framework using the &SCSCP; protocol, which allows
+to send several procedure calls in parallel and then collect all results or 
+pick up the first available result, and implements the master-worker skeleton. 
+These tools are presented in the Chapter <Ref Label="Parallel"/>.
+<P/>
 
 The package also implements a new kind of &GAP; input-output streams, namely
 input-output TCP streams (see Chapter <Ref Label="UsingStreams"/>), based on the 

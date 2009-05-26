@@ -51,9 +51,8 @@
    </Returns>	 
    <Description>
         This function returns <K>true</K> if the client can establish
-        connection with the SCSCP server at <A>hostname</A>:<A>portnumber</A>, 
-        printing in this case also the connection initiation messages as a 
-        side-effect. Otherwise, the function returns <K>fail</K>.
+        connection with the SCSCP server at <A>hostname</A>:<A>portnumber</A>.
+        Otherwise, it returns <K>fail</K>.
    </Description>
 </ManSection>
 
@@ -111,15 +110,10 @@ min/avg/max = [ 0, 13/50, 2 ]
       <C>InfoSCSCP</C> is a special Info class for the &SCSCP; package.
       The amount of information to be displayed can be specified by the user 
       by setting InfoLevel for this class from 0 to 4, and the default value
-      of InfoLevel for the package is 1. 
-      The higher the level the more information will be displayed. 
+      of InfoLevel for the package is specified in the file <File>scscp/config.g</File>. 
+      The higher the level is, the more information will be displayed. 
       To change the InfoLevel to <C>k</C>, use the command 
       <C>SetInfoLevel(InfoSCSCP, k)</C>. 
-      Note that &OpenMath; messages will be displayed only on the sending
-      side, i.e. to view the <C>procedure&uscore;call</C> message you need
-      to set InfoLevel to 3 on client, and to view the 
-      <C>procedure&uscore;completed</C> message you need to do the same
-      on the server.
       In the following examples we demonstrate various degrees of output 
       details using Info messages.
    </Description>
@@ -242,9 +236,8 @@ gap> DateISO8601();
         string
     </Returns>	 
     <Description>
-    Returns the result of the call to <File>date</File>.
-    This function may be used in the configuration file <File>scscp/config.g</File>
-    to include this information in the &SCSCP; service description.
+    Returns the result of the call to <File>date</File>. This is an internal function
+    of the package which is used to add the timestamp to the &SCSCP; service description.
 <Log>
 <![CDATA[
 gap> CurrentTimestamp();
@@ -333,9 +326,9 @@ gap> LastReceivedCallID();
         restored using <Ref Func="IO_UnpickleFromString" />. This provides
         a way to design &SCSCP; procedures which transmit &GAP; objects
         in the "pickled" format as &OpenMath; strings, which may be useful
-        for objects which may be "pickled" but can not be converted to 
-        &OpenMath; or for which the "pickled" representation is more compact
-        or can be encoded/decoded much faster. 
+        for objects which may be "pickled" by the &IO; package but can not be 
+        converted to &OpenMath; or for which the "pickled" representation is 
+        more compact or can be encoded/decoded much faster. 
         <P/>
         See <Ref BookName="IO" Oper="IO_Pickle" /> and 
         <Ref BookName="IO" Oper="IO_Unpickle" /> for more details.

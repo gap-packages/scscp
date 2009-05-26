@@ -62,7 +62,7 @@ input-output TCP streams to support the following operations:
      stream   
    </Returns>	 
    <Description>
-     Returns stream in the category <C>IsInputOutputTCPStream</C> 
+     Returns a stream in the category <C>IsInputOutputTCPStream</C> 
      for the given socket descriptor that will be used to accept 
      incoming connections. An example demonstrating this will be 
      given after the next section.
@@ -81,8 +81,8 @@ input-output TCP streams to support the following operations:
      stream
    </Returns>	 
    <Description>
-     Returns stream in the category <C>IsInputOutputTCPStream</C> 
-     that will be used by client for communication with the 
+     Returns a stream in the category <C>IsInputOutputTCPStream</C> 
+     that will be used by the client for communication with the 
      specified server and port.
    </Description>
 </ManSection>
@@ -98,11 +98,12 @@ server using input-output TCP stream, and shows how such streams are
 created in the function <Ref Func="RunSCSCPserver"/>. It uses
 some functions from the &IO; package, see the &IO; manual for their
 description. Now we will show step by step what is happens on server and 
-client (of course, if you will try this example, the numbers denoting to 
+client (of course, if you will try this example, the numbers denoting 
 descriptors may be different).
 <P/>
 
-First, we enter the following commands on the server's side:
+Firts, we will start two &GAP; sessions, one for the server, another one
+for the client. Now we enter the following commands on the server's side:
 
 <Example>
 <![CDATA[

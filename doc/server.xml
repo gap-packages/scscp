@@ -4,7 +4,30 @@
 <Heading>Running SCSCP server</Heading>    
 
 <Section Label="InstallProcedures">
-<Heading>Installing procedures</Heading>
+<Heading>Installation of &SCSCP; procedures</Heading>
+
+There may various ways to run &SCSCP; server, for example:
+<List>
+<Item>
+allowing generic services like evaluation of arbitrary &OpenMath; code;
+</Item>
+<Item>
+offering highly specialized procedures like identification of groups of order 512;
+</Item>
+<Item>
+providing access to a database of mathematical objects.
+</Item>
+</List>
+Each of these use cases requires certain control over the level of functionality 
+exposed to the client. To achieve this, before starting &SCSCP; service its 
+provider must call the function <Ref Func="InstallSCSCPprocedure" /> to make 
+required procedures <Q>visible</Q> for the client. 
+<P/>
+Additionally, the service can be made made accessible only for clients running 
+on the same computer, or accessible only through a particular network interface,
+or generally accessible. This customization is made at the stage of starting 
+the &SCSCP; server with the function <Ref Func="RunSCSCPserver" />.
+
 
 <ManSection>
    <Func Name="InstallSCSCPprocedure" 
@@ -17,17 +40,17 @@
      For a string <A>procname</A> and a function <A>procfunc</A>, 
      <Ref Func="InstallSCSCPprocedure" /> makes the <A>procfunc</A> 
      available as SCSCP procedure under the name <A>procname</A>,
-     adding it to the transient &OpenMath; content dictionary that
-     will be defined during the service lifetime.
+     adding it to the transient &OpenMath; content dictionary 
+     <C>scscp_transient_1</C> that will exist during the service lifetime.
      <P/>
      The second argument <A>procfunc</A> may be either a standard or user-defined 
-     function (procedure, operation, etc.).
+     &GAP; function (procedure, operation, etc.).
      <P/>
      The rest of arguments are optional and may be used in a number of combinations:
      <List>
      <Item>
-     <A>description</A> is a string with the description of the procedure, 
-     that may be used in the help system. If it is omitted, the procedure will
+     <A>description</A> is a string with the description of the procedure.
+     It may be used by the help system. If it is omitted, the procedure will
      be reported as undocumented.
      </Item>
      <Item>
@@ -40,25 +63,29 @@
      </Item>
      <Item>
      <A>signature</A> is the signature record of the procedure. If the <A>signature</A> is
-     given, then the number of arguments must be explicitly specified (giving <A>narg1</A> with
-     or without <A>narg2</A>), though it is allowed to set them to zero and infinity respectively.
-     Note that it is acceptable for a symbol from a transient content dictionary to overstate 
+     given, then the number of arguments must be explicitly specified (by <A>narg1</A> with
+     or without <A>narg2</A>) at least to zero and infinity respectively (to ensure proper
+     matching of arguments).
+     Note that it is completely acceptable for a symbol from a transient content dictionary to overstate 
      the set of symbols which may occur in its children using the <C>scscp2.symbol_set_all</C> 
-     symbol, and to use standard &OpenMath; errors to reject requests later. For example,
+     symbol, and to use standard &OpenMath; errors to reject requests later at the stage of 
+     their evaluation. For example,
      using such approach, we will define the procedure <C>WS_Factorial</C> accepting
      not only immediate <C>&lt;OMI></C> objects but anything which could be evaluated to an integer.
      <P/>.
      The signature must be either a list of records, where <M>i</M>-th record corresponds
-     to the <M>i</M>-th argument, or a record itself meaning that it refers to any argument.
+     to the <M>i</M>-th argument, or a record itself meaning that it specifies the signature
+     for all arguments.
      In the latter case the record may be <C>rec( )</C> corresponding to the 
      <C>scscp2.symbol_set_all</C> symbol (this will be assumed by default if the signature
      will be omitted). 
      <P/>
-     If more detailed description is needed, the signature record (one for all arguments or
-     a specific one) may have components <C>CDgroups</C>, <C>CDs</C> and <C>Symbols</C>.
-     The first two are lists of names of content dictionary groups and content dictionaries,
-     and the third is a record whose components are names of content dictionaries, containing
-     lists of names of allowed symbols from these dictionaries, for example: 
+     If more detailed description of allowed arguments is needed, the signature record 
+     (one for all arguments or a specific one) may have components <C>CDgroups</C>, 
+     <C>CDs</C> and <C>Symbols</C>. The first two are lists of names of content dictionary 
+     groups and content dictionaries, and the third is a record whose components are names 
+     of content dictionaries, containing lists of names of allowed symbols from these dictionaries, 
+     for example: 
 <Example>
 <![CDATA[
 signature := rec( CDgroups := [ "scscp" ],
@@ -74,7 +101,7 @@ signature := rec( CDgroups := [ "scscp" ],
 
 In the following example we define the function <C>WS_Factorial</C>
 that takes an integers and returns its factorial, using only mandatory
-arguments:
+arguments of <Ref Func="InstallSCSCPprocedure" />:
 
 <Example>
 <![CDATA[
@@ -143,9 +170,10 @@ are given in the file <File>scscp/example/myserver.g</File>.
     from &OpenMath; to &GAP;. It is extended in the &SCSCP; package by adding 
     support for symbols from <C>scscp1</C> and <C>scscp2</C> content dictionaries
     (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>). Additionally, 
-    <Ref Func="InstallSCSCPprocedure" /> adds a symbol for the
-    installed &SCSCP; procedure to the component of this record corresponding 
-    to the appropriate transient content dictionary.
+    <Ref Func="InstallSCSCPprocedure" /> adds to this record a component
+    corresponding to the appropriate transient content dictionary 
+    (by default, <C>scscp_transient_1</C>) defining mappings between
+    &OpenMath; symbols from this content dictionary and installed &SCSCP; procedures.
    </Description>
 </ManSection>
 
@@ -159,7 +187,7 @@ are given in the file <File>scscp/example/myserver.g</File>.
          Arg="servertype port"
          Comm="" />
    <Returns>
-     Nothing
+     nothing
    </Returns>	 
    <Description>
        Will start the &SCSCP; server at port given by the integer
@@ -181,7 +209,8 @@ are given in the file <File>scscp/example/myserver.g</File>.
            when <A>servertype</A> is a string, for example,
            <File>"scscp.symbolic-computation.org"</File>, the server will 
            be accessible only by specified server name (this may be useful
-           if the hardware has several network interfaces). 
+           to manage accessibility if, for example,
+           the hardware has several network interfaces). 
        </Item>
        </List>
 
@@ -195,7 +224,7 @@ Waiting for new client connection at localhost:26133 ...
 
 Actually, there are several ways to start &GAP; &SCSCP; server:
 <List>
-    <Item>from the &GAP; session as shown in the example above;;
+    <Item>from the &GAP; session as shown in the example above;
     </Item>
     <Item>starting &GAP; as <C>gap myserver.g</C>, where <File>myserver.g</File>
         is the server configuration file with the last command being the call 
@@ -210,7 +239,7 @@ Actually, there are several ways to start &GAP; &SCSCP; server:
     </Item>
 </List>
 
-See <Ref Sect="Config" /> about configuring files <File>config.g</File> and
+See Section <Ref Sect="Config" /> about configuring files <File>config.g</File> and
 <File>gapd.sh</File>.
 
    </Description>
@@ -255,11 +284,11 @@ rec( service_name := "GAP SCSCP service",
     Returns the record with components corresponding to content
     dictionaries. Each component is a list of names of symbols from 
     the corresponding content dictionary which are allowed to appear 
-    as <Q>head</Q> symbol (i.e. the first child of the outermost 
-    <C>&lt;OMA></C> in an &SCSCP; procedure call to the &SCSCP; 
+    as a <Q>head</Q> symbol (i.e. the first child of the outermost 
+    <C>&lt;OMA></C>) in an &SCSCP; procedure call to the &SCSCP; 
     server running at  <A>server</A><C>:</C><A>port</A>. 
     <P/>
-    Note that it is acceptable (although not necessarily desirable) 
+    Note that it is acceptable (although not quite desirable) 
     for a server to <Q>overstate</Q> the set of symbols it accepts 
     and use standard &OpenMath; errors to reject requests later.   
 <Example>
@@ -290,7 +319,7 @@ rec( scscp_transient_1 := [ "GroupIdentificationService",
     child of the outermost <C>&lt;OMA></C> in an &SCSCP; procedure call to
     the &SCSCP; server running at  <A>server</A><C>:</C><A>port</A>. 
     This enables the client to check whether a particular 
-    symbol is allowed without requesting the full symbol list.
+    symbol is allowed without requesting the full list of symbols.
     <P/>
     Also, it is acceptable (although not necessarily desirable) for a 
     server to <Q>overstate</Q> the set of symbols it accepts and use standard 
@@ -316,9 +345,16 @@ false
    <Description>
     Returns a record with the transient content dictionary 
     <A>transient_cd</A> from the &SCSCP; server running at 
-    <A>server</A><C>:</C><A>port</A>. Names of the component
+    <A>server</A><C>:</C><A>port</A>. Names of components
     of this record correspond to symbols from the <C>meta</C>
     content dictionary.
+    <P/>
+    By default, the name of the transient content dictionary 
+    for the &GAP; &SCSCP; server is <C>scscp_transient_1</C>.
+    Other systems may use transient content dictionaries with
+    another names, which, however, must always begin with
+    <C>scscp_transient_</C> and may be guessed from the output
+    of <Ref Func="GetAllowedHeads"/>.
 <Example>
 <![CDATA[
 gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
@@ -356,14 +392,14 @@ rec(
     Returns a record with the signature of the &OpenMath; symbol 
     <A>transientcd</A><C>.</C><A>symbol</A> from a transient &OpenMath; content
     dictionary. This record contains components corresponding to the &OpenMath; 
-    symbol whose signature is described, its minimal and maximal number of its
-    children (that is, of its arguments) and symbols which may be used in the &OpenMath; 
+    symbol whose signature is described, the minimal and maximal number of its
+    children (that is, of its arguments), and symbols which may be used in the &OpenMath; 
     encoding of its children. Note that it is acceptable for a symbol from a
     transient content dictionary to overstate the set of symbols which may
     occur in its children using the <C>scscp2.symbol_set_all</C> symbol, and
     use standard &OpenMath; errors to reject requests later, like in the example
-    below: using such approach, the procedure <C>WS_Factorial</C> is define
-    as accepting not only immediate <C>&lt;OMI></C> objects but anything which 
+    below: using such approach, the procedure <C>WS_Factorial</C> is defined
+    to accept not only immediate <C>&lt;OMI></C> objects but anything which 
     could be evaluated to an integer.
 <Example>
 <![CDATA[

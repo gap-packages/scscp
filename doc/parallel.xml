@@ -7,8 +7,8 @@
 <Heading>Managing multiple requests</Heading>
 
 Using procedure calls explained in the previous section, the user can
-create several requests to execute them in parallel, or to wait until
-the fastest result will be available.
+create several requests to multiple services to execute them in parallel, 
+or to wait until the fastest result will be available.
 
 <ManSection>
    <Func Name="SynchronizeProcesses" 
@@ -114,7 +114,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
    by another &SCSCP;-compliant systems). 
    <P/>
    It is used by parallel skeletons <Ref Func="ParQuickWithSCSCP" />
-   and <Ref Func="ParQuickWithSCSCP" />.
+   and <Ref Func="ParListWithSCSCP" />.
    <P/>
    The initial value of this variable is specified in the file 
    <File>scscp/configpar.g</File> and may be reassigned later.
@@ -131,7 +131,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
     <Description>
         This function is constructed using the <Ref Func="FirstProcess"/>.
         It is useful when it is not known which partcular method is
-        more efficent, because it allows to call in parallel several procedures
+        more efficient, because it allows to call in parallel several procedures
         (given by the list of their names <A>commands</A>) 
         with the same list of arguments <A>listargs</A> (having
         the same meaning as in <Ref Func="EvaluateBySCSCP"/>)
@@ -141,9 +141,9 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 </ManSection>
 
 In the example below we call two factorisation methods from the &GAP; package 
-<Package>FactInt</Package> to factorise <M>2^{150}+1</M>. The runtime for 
-these two methods here is approximately the same, so you should expect results 
-from both methods in some random order from repeated calls.
+<Package>FactInt</Package> to factorise <M>2^{150}+1</M>. The example is selected
+in such a way that the runtime of these two methods is approximately the same, 
+so you should expect results from both methods in some random order from repeated calls.
 
 <Example>
 <![CDATA[
@@ -183,11 +183,12 @@ it may orchestrate both &GAP; and non-&GAP; &SCSCP; servers;
 </Item>
 <Item>
 if one of servers (i.e. workers) will be lost, it will retry the
-computation on another server;
+computation on another available server;
 </Item>
 <Item>
 it allows to add dynamically new workers during the computation
-on hostnames and ports from a previously declared range;
+on hostnames and ports from a range perviously declared in
+<Ref Var="SCSCPservers" />.
 </Item>
 </List>
 
@@ -251,7 +252,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
    </Returns>          
    <Description>
    If an error occurs during a call of <Ref Func="ParQuickWithSCSCP" />
-   and <Ref Func="ParQuickWithSCSCP" />, some of parallel requests may
+   and <Ref Func="ParListWithSCSCP" />, some of parallel requests may
    be still running at the remaining services, making them inaccessible
    for further procedure calls. <Ref Func="SCSCPreset" /> resets them
    by closing all open streams to &SCSCP; servers.
@@ -279,12 +280,13 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
     The trace file will have the name of the format <A>testname</A><C>.client.tr</C>
     for the client and <A>testname</A><C>.&lt;hostname>.&lt;port>.tr</C> for the server.
     After the test these files should be collected from remote servers and 
-    contatenated (e.g. using <File>cat</File>) together with the preamble from 
-    the file <File>scscp/tracing/stdhead.txt</File>. We recommend to put after the
+    concatenated (e.g. using <File>cat</File>) together with the standard preamble from 
+    the file <File>scscp/tracing/stdhead.txt</File> (we recommend to put after the
     preamble first all traces from servers and then the client's traces to have 
     nicer diagrams). The resulting file then may be opened with &EdenTV;.
     <P/>
-    In the following example we generate trace files for two tests:
+    In the following example we use a dual core MacBook laptop to generate trace 
+    files for two tests and then show their corresponding trace diagrams:
 <Log>
 <![CDATA[
 SCSCPLogTracesToGlobal("quillen100");
@@ -302,9 +304,9 @@ SCSCPLogTracesToGlobal();
 <Alt Only="Text">/See diagrams in HTML and PDF versions of the manual/</Alt>
      The diagrams (made on an dual core MacBook laptop), 
      shows that in the first case parallelising is efficient and master
-     efficiently distributes load to workers, while in the second case a single computation 
+     successfully distributes load to workers, while in the second case a single computation 
      is just too short, so most of the time is spent on communication. To parallelize
-     such computation efficiently, tasks must rather be grouped in chunks, which should
+     the Euler's function example efficiently, tasks must rather be grouped in chunks, which should
      be enough large to reduce the communication overload, but enough small to ensure
      that tasks are evenly distributed.
      <P/>
@@ -322,7 +324,7 @@ of other list operations like
 <Ref BookName="ref" Func="Number" />,
 <Ref BookName="ref" Func="Filtered" />,
 and also to have the skeleton in which the queue may be modified during
-the computation (for example, to compute orbits). We plan to provide such tool
+the computation (for example, to compute orbits). We plan to provide such tools
 in one of the next versions of the package.
 
 </Section>
@@ -338,7 +340,7 @@ each</E> recursive call, since this will create enormous data flow. Instead
 of this we parallelize only the top-level function.
 
 For our experiments with parallelising Karatsuba multiplication for
-polynomials with integer coefficients we used the multi-core machine, 
+polynomials with integer coefficients we used the multi-core workstation, 
 on which we started one &SCSCP; client and two &SCSCP; servers. 
 After reading the file <File>scscp/example/karatsuba.g</File>, the following
 function was created on the server
@@ -370,6 +372,10 @@ into internal representation of univariate polynomials (basically, lists of
 integers) and then converts the result back into string (since such data
 exchange format was chosen).
 
+<Alt Only="LaTeX">
+\newpage
+</Alt>         
+        
 We are going to parallelize the following part of the client's code:
 
 <Example>
@@ -387,7 +393,7 @@ w := KaratsubaPolynomialMultiplicationExtRep(
 and this can be done straightforwardly - we replace two first calls by
 calls of the appropriate &SCSCP; services, then perform the 3rd call locally
 and then collect the results from the two remote calls:
-         
+          
 <Example>
 <![CDATA[
 ...

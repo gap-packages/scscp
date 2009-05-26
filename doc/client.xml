@@ -3,28 +3,27 @@
 <Chapter Label="ClientFunctionality">
 <Heading>Client's functionality</Heading>    
 
+Sending and getting requests to the &SCSCP; server(s),
+the client operates with processes. Process is an abstraction 
+which encapsulates an <C>InputOutputTCPStream</C>
+(see <Ref Filt="IsInputOutputTCPStream" />) from a client to the 
+server and the process ID of the CAS running as a server (deduced
+from the connection initiation message; may be unassigned,
+if the server CAS did not communicate it).
+
+
 <Section Label="Client">
 <Heading>Sending request and getting result</Heading>
 
 <ManSection>
     <Filt Name="IsProcess" />
     <Description>
-    This is the category of processes. Process is an abstraction 
-    which encapsulates an <C>InputOutputTCPStream</C>
-    (see <Ref Filt="IsInputOutputTCPStream" /> from a client to the 
-    server and the process ID which the server CAS has (deduced
-    from the connection initiation message, may be not assigned,
-    if the server CAS did not communicate it). Knowledge of the
-    process ID on the server may be useful to send <Q>out-of-band</Q>
-    interrupt messages.
-    Processes in the category <Ref Filt="IsProcess" />
-    are created using the function <Ref Func="NewProcess" />.
+    This is the category of processes.
+    Processes in this category are created 
+    using the function <Ref Func="NewProcess" />.
     </Description>
 </ManSection>
 
-Functions presented below allow options. In case of a break loop,
-use <Ref BookName="ref" Func="ResetOptionsStack" /> to reset the
-option stack before continuing.
 
 <ManSection>
    <Func Name="NewProcess" 
@@ -45,8 +44,10 @@ option stack before continuing.
      It accepts the following options:
      <List>
      <Item> 
-     <C>output:="object"</C> is the default action, the resulting object will
-     be returned even if this option is omitted.
+     <C>output:="object"</C> is used to specify that the server must
+        return the actual object evaluated as a result of the procedure call.
+        This is the default action requested by the client if the 
+        <C>output</C> option is omitted.
      </Item>
      <Item>
      <C>output:="cookie"</C>
@@ -59,17 +60,19 @@ option stack before continuing.
      <C>output:="nothing"</C> is used to specify that the server is supposed to reply 
          with a <C>procedure_completed</C> message carrying no
          object just to signal that the call was completed successfully
-         (for the compatibility, this will be signalled as "procedure completed" 
-         string on the client's side)
+         (for the compatibility, this will be evaluated to a <C>"procedure completed"</C>
+         string on the client's side);
      </Item>
      <Item>
      <C>cd:="cdname"</C> is used to specify that the &OpenMath; symbol corresponding
          to the first argument <A>command</A> should be looked up in the particular content
-         dictionary <C>cdname</C>.
+         dictionary <C>cdname</C>. Otherwise, it will be looked for in the default
+         content dictionary (<C>scscp_transient_1</C> for the &GAP; &SCSCP; server);
      </Item>
      <Item>
      <C>debuglevel:=N</C> is used to obtain additional information attributes together 
-         with the result: if <C>N=1</C>, it will report about the CPU time in milliseconds
+         with the result. The &GAP; &SCSCP; server does the following: 
+         if <C>N=1</C>, it will report about the CPU time in milliseconds
          required to compute the result; if <C>N=2</C> it will additionally report about
          the amount of memory used by &GAP; in bytes will be returned
          (using the output of <Ref Func="MemoryUsageByGAPinKbytes" /> converted to bytes);
@@ -91,13 +94,13 @@ option stack before continuing.
    </Returns>	 
    <Description>
      The function waits, if necessary, until the underlying stream of the process 
-     will contain some data, then reads appropriate &OpenMath; object from this stream
+     will contain some data, then reads the appropriate &OpenMath; object from this stream
      and closes it.
      <P/>
      It has the option <C>output</C> which may have two values:
      <List>
      <Item> 
-     <C>output:="cookie"</C> has the same meaning like for <Ref Func="NewProcess" />
+     <C>output:="cookie"</C> has the same meaning as for the <Ref Func="NewProcess" />
      </Item>
      <Item>
      <C>output:="tree"</C> is used to specify that the result obtained from the
@@ -108,8 +111,8 @@ option stack before continuing.
 </ManSection>
 
 In the following example we demonstrate combination of the two previous
-functions to send request and get result, calling the procedure, installed 
-in the previous chapter: 
+functions to send request and get result, calling the procedure <C>WS_Factorial</C>, 
+installed in the previous chapter: 
 
 <Example>
 <![CDATA[
@@ -142,7 +145,7 @@ which combines the two previous functions by sending request and getting result 
      given by <C>server</C> and <C>port</C>.
      <P/>
      Since <Ref Func="EvaluateBySCSCP" /> combines <Ref Func="NewProcess" /> 
-     and <Ref Func="CompleteProcess" />, it has all options which may be
+     and <Ref Func="CompleteProcess" />, it accepts all options which may be
      used by that functions ( <C>output</C>, <C>cd</C> and 
      <C>debuglevel</C>  ) with the same meanings.
 
@@ -197,8 +200,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
 ]]>
 </Example>
 
-Service provider can build some clients function on top of this functionality
-and offer them to client, for example, the client can read the function
+Service provider may suggest to the client to use a counterpart function
 
 <Example>
 <![CDATA[
@@ -216,7 +218,7 @@ end;
 ]]>
 </Example>
 
-and then use it similarly to the <Ref BookName="ref" Func="IdGroup" />:
+which works exactly like <Ref BookName="ref" Func="IdGroup" />:
 
 <Example>
 <![CDATA[
@@ -237,7 +239,8 @@ gap> IdGroupWS(G);
           Arg="process"
          Comm="" />
    <Description>
-        The function is supposed to send the interrupt signal to the server.
+        The function is supposed to send an <Q>out-of-band</Q>
+        interrupt signal to the server.
         Current implementation works only when the server is running as
         <Q>localhost</Q> by sending a <C>SIGINT</C> to the server 
         using its PID contained in the <A>process</A>. It will do nothing
@@ -264,11 +267,11 @@ equal if and only if all these three parameters coincide.
 
 There are two types of remote object which differ by their lifetime: 
 <List>
-<Item>remote objects which exist only within the session;</Item>
+<Item>temporary remote objects which exist only within a single session;</Item>
 <Item>persistent remote objects which stay alive across multiple sessions.</Item>
 </List>
 
-First we show the example of the remote object in a session. The procedure
+First we show the example of the temporary remote object in a session. The procedure
 <C>PointImages</C> returns the set of images of a point <M>i</M> under the 
 generators of the group <M>G</M>. First we create the symmetric group 
 <M>S_3</M> on the client and store it remotely on the server (call 1),
@@ -321,7 +324,7 @@ gap> CloseStream(stream);
 </Example>
 
 After the stream is closed, it is no longer possible to retrieve the
-group again or use it as an argument.
+group <M>G</M> again or use it as an argument.
 <P/>
 
 Thus, the usage of remote objects existing during a session reduces the
@@ -331,12 +334,12 @@ accumulate certain information in its properties and attributes, which may
 not be included in it default &OpenMath; representation.
 <P/>
 
-Now we show remote objects which are keeping alive after the session is
+Now we show remote objects which remain alive after the session is
 closed. Such remote objects may be accessed later, for example, by:
 <List>
 <Item>subsequent procedure calls from the same instance of &GAP; or another system;</Item>
-<Item>other instances of &GAP; or another systems, if the identifier of an object is known</Item>
-<Item>another &SCSCP; servers which obtained a reference to such object as an argument of a procedure call</Item>
+<Item>other instances of &GAP; or another systems (if the identifier of an object is known)</Item>
+<Item>another &SCSCP; servers which obtained a reference to such object as an argument of a procedure call.</Item>
 </List>
 
 <ManSection>
@@ -368,8 +371,8 @@ gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
 ]]>
 </Example>
 
-The remote object carries the information that is necessary to access 
-the original object: its identifier, server and port:
+Internally, the remote object carries all the information which is required 
+to get access to the original object: its identifier, server and port:
 
 <Example>
 <![CDATA[
@@ -432,13 +435,14 @@ rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26133:6726" ] ]
            Arg="remoteobject"
           Comm="" />
     <Returns>
-      remote object
+      object
     </Returns>	 
     <Description>
       This function retrieves the remote object from the remote service
       in the &OpenMath; format and constructs it locally. Note, however,
-      that default &OpenMath; representation may not contain all information
-      about the object which was accumulated at the time in the remote service.
+      that for a complex mathematical object its default &OpenMath; 
+      representation may not contain all information about it which was 
+      accumulated during its lifetime on the &SCSCP; server.
     </Description>
 </ManSection>
 
@@ -463,9 +467,9 @@ Group([ (1,2,3), (1,2) ])
     </Returns>	 
     <Description>
        Removes any value currently bound to the global variable 
-       determined by <A>remoteobject</A>, and returns <K>true</K> or
-       <K>false</K> dependently on whether this action was successful
-       or not. 
+       determined by <A>remoteobject</A> at the &SCSCP; server, 
+       and returns <K>true</K> or <K>false</K> dependently on 
+       whether this action was successful or not. 
     </Description>
 </ManSection>
 

@@ -3,16 +3,18 @@
 <Chapter Label="SCSCPmessages">
 <Heading>Message exchange by &SCSCP;</Heading>    
 
-To ensure message exchange as required by &SCSCP; specification, the 
+To ensure the message exchange as required by &SCSCP; specification, the 
 &SCSCP; package extends the global record <C>OMsymRecord</C> from the 
 &OpenMath; package with new entries to support &scscp1; and &scscp2; 
 content dictionaries (<Cite Key="scscp1cd"/>, <Cite Key="scscp2cd"/>), 
-and also from service-dependent transient private content dictionaries 
+and also service-dependent transient private content dictionaries 
 (see <Ref Label="Server" /> for details about transient content 
 dictionaries). It also overwrites some &OpenMath; functions by their 
-extended (but backwards compatible) versions, and adds some new functions 
-to send and receive &SCSCP; messages, documented below.
+extended (but backwards compatible) versions, and adds some new 
+&OpenMath;-related functions to send and receive &SCSCP; messages, 
+documented below.
 <P/>
+
 Note that functions documented in this chapter belong to the middle-level 
 interface, and the user may find it more convenient to use functions 
 developed on top of them and explained in next chapters.
@@ -63,14 +65,16 @@ ready to accept procedure calls.
       <!-- Document option cd and debuglevel -->
      Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a record 
      <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object 
-     <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A>,
-     arguments given by the list <C>objrec.object</C> and options
-     (as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
-     This function accept the option <C>cd:="cdname"</C> to specify the
+     <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A> with
+     arguments given by the list <C>objrec.object</C> and procedure call options
+     (which should be encoded as &OpenMath; attributes) given in the list <C>objrec.attributes</C>.
+     This function accepts the option <C>cd:="cdname"</C> to specify the
      name of the content dictionary if the procedure is actually a standard
-     &OpenMath; symbol (note that the server may reject such a call if it
+     &OpenMath; symbol  note that the server may reject such a call if it
      accepts only calls of procedures from the transient content dictionary,
-     see <Ref Func="InstallSCSCPprocedure" /> for explanation).
+     see <Ref Func="InstallSCSCPprocedure" /> for explanation). If the <C>cdname</C>
+     is not specified, <C>scscp_transient_1</C> content dictionary will be assumed
+     by default.
 <Example>
 <![CDATA[
 gap> t:="";; stream:=OutputTextString(t,true);;
@@ -139,7 +143,7 @@ gap> Print(t);
           Arg="stream"
          Comm="" />
    <Returns>
-     record with components <C>object</C> and <C>attributes</C> or <K>fail</K>
+     record with components <C>object</C> and <C>attributes</C>, or <K>fail</K>
    </Returns>	 
    <Description>
    <!-- Document option return_tree -->
@@ -157,7 +161,8 @@ gap> Print(t);
      the SCSCP are allowed, otherwise an error message will be displayed.
      <P/>
      If the procedure was not successful, the function returns <K>fail</K>
-     instead of an error message like <C>OMGetObject</C> does. Returning
+     instead of an error message like the function 
+     <Ref BookName="OpenMath" Func="OMGetObject" /> does. Returning
      <K>fail</K> is useful when <C>OMGetObjectWithAttributes</C> is used
      inside accept-evaluate-return loop.
    </Description>
@@ -204,6 +209,7 @@ gap> CloseStream( str );
           Arg="stream objrec"
          Comm="" />
    <Returns>
+       nothing
    </Returns>	 
    <Description>
      Takes a stream <A>stream</A>, and a record 
@@ -243,7 +249,7 @@ gap> Print(t);
           Arg="stream objrec error_cd error_type"
          Comm="" />
    <Returns>
-     Nothing
+     nothing
    </Returns>	 
    <Description>
     Takes a stream <A>stream</A>, and a record with an error message <A>objrec</A> (for example
@@ -254,7 +260,7 @@ gap> Print(t);
      <A>error_cd</A> (for example, <C>error_memory</C>, <C>error_runtime</C> or 
      <C>error_system_specific</C> from the &scscp1; content dictionary (<Cite Key="scscp1cd"/>).
      <P/>
-     This is the internal function of the package, used only in the code for the &SCSCP; server
+     This is the internal function of the package which is used only in the code for the &SCSCP; server
      to return the error message to the client.
    </Description>
 </ManSection>
@@ -267,10 +273,12 @@ gap> Print(t);
 
 In the following example we start an &SCSCP; session and perform ten
 procedure calls in a loop before closing that session. Note that we
-demonstrate the usage of <C>sid</C> and the function <C>RandomString"</C> 
-from the &OpenMath; package to produce some unique call identifier.
+demonstrate the usage of the session ID <C>sid</C> and the function 
+<C>RandomString</C> from the &OpenMath; package to produce some unique 
+call identifier.
 The call ID is a mandatory attribute for any procedure call, however, 
-it may be just a string with the number of the procedure call:
+it is not nesessarily random; for example, it may be just a string 
+with the number of the procedure call.
 <Example>
 <![CDATA[
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
