@@ -50,13 +50,13 @@
 ##  Define the local call of GAP and call options, if necessary, for example,
 ##  memory usage, start with the workspace etc.
 ##  
-GAP="/Users/ericjespers/CVSREPS/GAPDEV/bin/gap.sh -b -r"
+GAP="~/CVSREPS/GAPDEV/bin/gap.sh -b -r"
 ##
 #############################################################################
 ##
 ##  Define the location of the root directory of the GAP package SCSCP
 ##
-SCSCP_ROOT="/Users/ericjespers/scscp/"
+SCSCP_ROOT="~/scscp/"
 ##
 ##
 #############################################################################
