@@ -113,14 +113,25 @@ end;
 #
 #############################################################################
 
-# Other procedures
+# Simple procedures for tests and demos
 InstallSCSCPprocedure( "WS_Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
 InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
-InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 1, infinity );
-InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1, 1 );
+
+# Group identification in the GAP small group library
+InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 
+	"Accepts a list of permutations and returns IdGroup of the group they generate", 1, infinity );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
+InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 
+	"Identification of groups of order 512 using the ANUPQ package", 1, 1 );
+
+# Important MIP (modular isomorphism problem for group algebras of finite p-group 
+# over the field of p elements) invariant
 InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup, 
 	"Quillen series of a finite p-group given by IdGroup (list of two integers)", 1, 1 );
+
+# Service used to compute automorphism groups of transformation semigroups with
+# the MONOID package, which requires the GRAPE package, and the latter requires 
+# the external program 'nauty' by Brendan D. McKay
 InstallSCSCPprocedure( "WS_AutomorphismGroup", AutomorphismGroup, 1, 1 );
 	
 # Series of factorisation methods from the GAP package FactInt
@@ -152,6 +163,19 @@ InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByS
 
 #############################################################################
 #
+# procedures for the UnitLib package for the parallel computation of the
+# normalized unit group of a modular group algebra of a finite p-group
+# from the GAP small groups library
+#
+if LoadPackage("unitlib") = true then
+  if CompareVersionNumbers( GAPInfo.PackagesInfo.("unitlib")[1].Version, "3.0.0" ) then
+	InstallSCSCPprocedure( "NormalizedUnitCFpower", NormalizedUnitCFpower );
+	InstallSCSCPprocedure( "NormalizedUnitCFcommutator", NormalizedUnitCFcommutator );
+fi;
+
+
+#############################################################################
+#
 # procedure to test pickling/unpickling from the IO package for data encoding
 # 
 IO_UnpickleStringAndPickleItBack:=function( picklestr )
@@ -160,6 +184,15 @@ end;
 
 InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndPickleItBack, 
 	"To test how pickling format from IO package may be used for data transmitting (see ?IO_Pickle, ?IO_Unpickle)", 1, 1 );
+
+
+#############################################################################
+#
+# some private code which may be missing in your installation
+# 
+if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") ) then
+	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
+fi;
 
 
 #############################################################################

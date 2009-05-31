@@ -14,8 +14,8 @@
 #
 #############################################################################
 
-LoadPackage("automata");
-ReadPackage("scscp/par/automata.g");
+#LoadPackage("automata");
+#ReadPackage("scscp/par/automata.g");
 
 #############################################################################
 #
@@ -27,17 +27,10 @@ ReadPackage("scscp/par/automata.g");
 #
 # procedures for automata
 #
-InstallSCSCPprocedure( "EpsilonToNFA", EpsilonToNFA ); # from the 'automata' package
-InstallSCSCPprocedure( "TwoStackSerAut", TwoStackSerAut );
-InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
+#InstallSCSCPprocedure( "EpsilonToNFA", EpsilonToNFA ); # from the 'automata' package
+#InstallSCSCPprocedure( "TwoStackSerAut", TwoStackSerAut );
+#InstallSCSCPprocedure( "DerivedStatesOfAutomaton", DerivedStatesOfAutomaton );
 
-#############################################################################
-#
-# procedures to extend LAGUNA package
-#
-ReadPackage("laguna/lib/parunits.g");
-InstallSCSCPprocedure( "WS_NormalizedUnitCFpower", WS_NormalizedUnitCFpower );
-InstallSCSCPprocedure( "WS_NormalizedUnitCFcommutator", WS_NormalizedUnitCFcommutator );
 
 #############################################################################
 #
