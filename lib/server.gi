@@ -235,8 +235,8 @@ else
                   											  "error", objrec.object[2] ];
               			else
                 			# glue together error messages into a single string
-              				errormessage := [ Concatenation( server, ":", String(port), 
-              	        			          " reports : ", Concatenation( objrec.object ) ), 
+              				errormessage := [ Concatenation( servername, ":", String(port), " reports : ", 
+              								  Concatenation( List( objrec.object, String ) ) ), 
               	                			  "scscp1", "error_system_specific" ];
  			  			fi;
  			  
