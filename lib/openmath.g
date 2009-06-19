@@ -385,7 +385,8 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 				return rec( object := [ "Message rejected because it is not properly formatted" ],
 			                attributes := attrs, is_error:=true );		    			   
     			elif SCSCPserverAcceptsOnlyTransientCD and 
-    			  not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" then
+    			  ( Length( node.content[1].content[pos].content[2].content[1].attributes.cd ) < 5 or 
+    			  not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" ) then
 					return rec( object := [
     					"Message rejected because the procedure ",
     					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
