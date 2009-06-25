@@ -133,6 +133,16 @@ InstallSCSCPprocedure( "QuillenSeriesByIdGroup", QuillenSeriesByIdGroup,
 # the MONOID package, which requires the GRAPE package, and the latter requires 
 # the external program 'nauty' by Brendan D. McKay
 InstallSCSCPprocedure( "WS_AutomorphismGroup", AutomorphismGroup, 1, 1 );
+
+# GAP group libraries
+InstallSCSCPprocedure( "WS_AlternatingGroup", AlternatingGroup );
+InstallSCSCPprocedure( "WS_SymmetricGroup", SymmetricGroup );
+InstallSCSCPprocedure( "WS_SmallGroup", SmallGroup );
+InstallSCSCPprocedure( "WS_TransitiveGroup", TransitiveGroup );
+InstallSCSCPprocedure( "WS_PrimitiveGroup", PrimitiveGroup );
+
+# Lattice of subgroups
+InstallSCSCPprocedure( "WS_LatticeSubgroups", LatticeSubgroups, 1, 1 );
 	
 # Series of factorisation methods from the GAP package FactInt
 InstallSCSCPprocedure("WS_FactorsTD", FactorsTD, 
