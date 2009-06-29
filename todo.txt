@@ -130,8 +130,6 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * CDs: matrix1, polynomial4, order1 (in openmath)
 
-* Manual: check for empty <Returns> blocks
-
 * Is SCSCP version restored after session if it was altered?
 
 * Check more carefully examples and demo files, esp. upper/lowercasing etc.
@@ -150,7 +148,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * Automatically glue trace files and start EdenTV (path to it should 
   be in some config.file)  
   
-* Aautomatic adjustments of the timeout (see Runtimes() record) in parlist.g
+* Automatic adjustments of the timeout (see Runtimes() record) in parlist.g
 
 * Par{Quick/List}WithSCSCP may accept option specifying the list of services 
   to use if not coinciding with SCSCPservers
