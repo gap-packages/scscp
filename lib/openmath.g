@@ -478,17 +478,25 @@ end;
 ## 
 OMObjects.OMR := function ( node )
 local ref, pos1, pos2, name, address, port;
-if IsBound( node.attributes.xref ) then
-  ref := node.attributes.xref;
+if IsBound( node.attributes.href ) then
+  ref := node.attributes.href;
   pos1:=Position( ref, '@' );
   pos2:=Position( ref, ':' );
-  name := ref{[1..pos1-1]};
-  address:=ref{[pos1+1..pos2-1]};
-  port:=Int(ref{[pos2+1..Length(ref)]});
-  if SCSCPserverMode then
-    # check that the object is on the same server
-    if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
-      if IsBound( node.attributes.xref ) then
+  if pos1=fail or pos2=fail then
+    # we deduce that this is the reference to an object within
+    # the same OpenMath document 
+    if ref[1]=CHAR_INT(35) then
+      return OMTempVars.OMREF.(ref{[2..Length(ref)]});
+    else
+      Error( "OpenMath reference: the first symbol must be ", CHAR_INT(35), "\n" ); 
+    fi;
+  else
+    name := ref{[1..pos1-1]};
+    address:=ref{[pos1+1..pos2-1]};
+    port:=Int(ref{[pos2+1..Length(ref)]});
+    if SCSCPserverMode then
+      # check that the object is on the same server
+      if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
         if IsBoundGlobal( name ) then
           if SCSCP_UNBIND_MODE then
             SCSCP_UNBIND_MODE := false;
@@ -497,28 +505,20 @@ if IsBound( node.attributes.xref ) then
           	return EvalString( name );
           fi;	
         else
-          Error( "Client request refers to an unbound variable ", node.attributes.xref, "\n");
+          Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
         fi;    
-      elif IsBound( node.attributes.href ) then
-        return OMTempVars.OMREF.(node.attributes.href);
-      else
-        Error("SCSCP:OMObjects.OMR : can not handle OMR in ", node, "\n");
-      fi;
-    else # for a "foreign" object
-      return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
-    fi;        
-  else
-    return RemoteObject( node.attributes.xref, address, port );
+      else # for a "foreign" object
+        return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
+      fi;    
+    else # in the client's mode
+      return RemoteObject( node.attributes.href, address, port );
+    fi;
   fi;
-elif IsBound( node.attributes.href ) then
-  ref := node.attributes.href;
-  # we assume that the first symbol is hash '#'
-  return OMTempVars.OMREF.(ref{[2..Length(ref)]});
 else
-  Error( "OpenMath reference: only href and xref are supported !\n");
+  Error( "OpenMath reference: only href is supported !\n");
 fi;  
 end; 
-   
+
 
 #############################################################################
 ##
