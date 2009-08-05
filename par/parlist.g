@@ -52,11 +52,11 @@ end);
 
 #############################################################################
 ##
-## ParListWithSCSCP( inputlist, remoteprocname : timeout=int; recallfrequency=int )
+## ParListWithSCSCP( inputlist, remoteprocname : noretry, timeout=int, recallfrequency=int )
 ##
 InstallGlobalFunction( ParListWithSCSCP,
 function( inputlist, remoteprocname )
-local status, i, itercount, recallfreq, output, callargspositions, 
+local noretry, status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
        
@@ -64,6 +64,12 @@ if ValueOption("timeout")=fail then
   timeout:=60*60; # default timeout - one hour, given in seconds;
 else
   timeout:=ValueOption("timeout");
+fi;
+
+if ValueOption("noretry")=fail then
+  noretry:=false; # no retrying calls which exceeded the timeout
+else
+  noretry:=ValueOption("noretry");
 fi;
 
 if ValueOption("recallfrequency")=fail then
@@ -159,7 +165,7 @@ while true do
   if Length( waitinglist ) = 0 then
   	if Length( callargspositions ) = 0 then
   	  # no next tasks, no waiting tasks and no arguments sent off - computation completed!
-  	  if Length(output) <> Length(inputlist) or not IsDenseList(output) then
+  	  if not noretry and ( Length(output) <> Length(inputlist) or not IsDenseList(output) ) then
   	    Error( "The output list does not match the input list!\n" );
   	  else
         return output;
@@ -182,34 +188,48 @@ while true do
   # This may happen when server was terminated by ^C and is in a break loop,
   # so no procedure_terminated message will appear on the client's side
   if nrdesc=fail then
-   	Error( "ParSCSCP: waited for ", timeout, " seconds with no response from ", SCSCPservers{waitinglist}, "\n" );  
+    if noretry then
+      nr := Random( waitinglist );
+  	  TerminateProcess( SCSCPprocesses[nr] );
+  	  if not IsClosedStream( SCSCPprocesses[nr]![1] ) then
+		CloseStream( SCSCPprocesses[nr]![1] );
+	  fi;	
+      result:=fail;
+    else  
+   	  Error( "ParSCSCP: waited for ", timeout, " seconds with no response from ", SCSCPservers{waitinglist}, "\n" );  
+   	fi;
   else	
   	nr := waitinglist[ nrdesc ];
   	result := CompleteProcess( SCSCPprocesses[nr] );
   fi;
-  if result = fail then
- 	# the service SCSCPservers[nr] seems to crash, mark it as unavailable
- 	if PingSCSCPservice( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
+  
+  if result=fail then
+    if noretry then
+      Info( InfoSCSCP, 2, SCSCPservers[nr], " : timeout exceeded, procedure call terminated" );
+      status[nr]:=1;
+    else
+ 	  # the service SCSCPservers[nr] seems to crash, mark it as unavailable
+ 	  if PingSCSCPservice( SCSCPservers[nr][1], SCSCPservers[nr][2] ) = fail then
  		Print( SCSCPservers[nr], " is no longer available \n" );
  	 	status[nr]:=0;
  	 	nrservices_alive := nrservices_alive - 1;
 		if nrservices_alive = 0 then
-			Error( "Can not continue computation - no SCSCP service left available!\n" );
+		  Error( "Can not continue computation - no SCSCP service left available!\n" );
 		fi;
- 	else
+ 	  else
  		Error("ParSCSCP: failed to get result from ", SCSCPservers[nr] );
- 	fi;
-    # we need to retry the call with argument inputlist[callargspositions[nr] ]
-    Add( retrystack, callargspositions[nr] );
-    Unbind( callargspositions[nr] );
+ 	  fi;
+      # we need to retry the call with argument inputlist[callargspositions[nr] ]
+      Add( retrystack, callargspositions[nr] );
+    fi;
   else
-  #
-  # processing the result
-  #
-  Info( InfoSCSCP, 2, SCSCPservers[nr], " --> master : ", result.object );
-  status[nr]:=1;
-  output[ callargspositions[nr] ] := result.object;
-  Unbind(callargspositions[nr]);
+    #
+    # processing the result
+    #
+    Info( InfoSCSCP, 2, SCSCPservers[nr], " --> master : ", result.object );
+    status[nr]:=1;
+    output[ callargspositions[nr] ] := result.object;
   fi;
+  Unbind(callargspositions[nr]);
 od; # end of the outer loop
 end);
