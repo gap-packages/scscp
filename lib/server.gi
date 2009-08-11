@@ -28,7 +28,7 @@ local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, session_cookies,
-     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername;
+     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname;
 
 Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
 
@@ -49,11 +49,12 @@ SCSCPserverAddress := server;
 SCSCPserverPort := port;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
+hostname := Hostname();
 
 if server = true then
 	bindaddr := "\000\000\000\000";
 	server := "0.0.0.0";
-	servername := Concatenation( Hostname(), ".", server );
+	servername := Concatenation( hostname, ".", server );
 	SCSCPserverAddress := Hostname();
 else
     if server = false then
@@ -285,7 +286,7 @@ else
                 		if SCSCP_STORE_SESSION_MODE then
                 		    Add( session_cookies, cookie );
                 		fi;
-                		output := rec( object     := RemoteObject( cookie, server, port ),
+                		output := rec( object     := RemoteObject( cookie, hostname, port ),
                     		           attributes := callinfo );
             		elif return_nothing then
 			  			output := rec( attributes:= callinfo );
