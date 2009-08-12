@@ -7,6 +7,12 @@
 ##
 #############################################################################
 
+# additional procedures to turn tracing on/off
+    
+InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
+	"To turn on tracing mode on the server and save events to specified filename without extension", 1, 1 );
+InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
+	"To turn off tracing mode on the server", 0, 0 );     
 
 #############################################################################
 #
@@ -32,13 +38,6 @@ local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor,
 
 Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
 
-# additional procedures to turn tracing on/off
-    
-InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
-	"To turn on tracing mode on the server and save events to specified filename without extension", 1, 1 );
-InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
-	"To turn off tracing mode on the server", 0, 0 );     
-
 # forbid opportunity to send plain GAP code to the server
 Unbind(OMsymRecord.cas);
      
@@ -49,11 +48,10 @@ SCSCPserverAddress := server;
 SCSCPserverPort := port;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
-hostname := Hostname();
-
 if server = true then
 	bindaddr := "\000\000\000\000";
 	server := "0.0.0.0";
+	hostname := Hostname();
 	servername := Concatenation( hostname, ".", server );
 	SCSCPserverAddress := Hostname();
 else
@@ -62,7 +60,8 @@ else
     	SCSCPserverAddress := "localhost";
     fi;
    	servername := server;
-	lookup := IO_gethostbyname( server );
+   	hostname := server;
+ 	lookup := IO_gethostbyname( server );
 	if lookup = fail then
 	    return rec( socket := fail,
 	            errormsg := "RunSCSCPserver: cannot find hostname" );
@@ -102,10 +101,11 @@ else
     repeat # until false: this is the outer infinite loop
     	disconnect := false;  
     	# cleanup of cookies from previous session and resetting their list
-    	for cookie in session_cookies do
-    	   UnbindGlobal( cookie );
-    	od;
-    	session_cookies := [];
+    	# comment out next four lines to disable this feature
+    	# for cookie in session_cookies do
+    	#   UnbindGlobal( cookie );
+    	# od;
+    	# session_cookies := [];
     	repeat # until disconnect: this loop is a signle SCSCP session
         	# We accept connections from everywhere
         	Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
