@@ -17,6 +17,7 @@
 
 LogTo(); # to close log file if it was opened from .gaprc
 LoadPackage("scscp");
+LoadPackage("factint");
 LoadPackage("anupq");
 LoadPackage("monoid");
 ReadPackage("scscp/example/karatsuba.g");
