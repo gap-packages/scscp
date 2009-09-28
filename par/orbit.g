@@ -79,3 +79,56 @@ while true do
   od;
 od;
 end;
+
+
+# Added for Sergey Shpectorov
+
+DistributeObject:=function( obj )
+local i, cookies;
+cookies:=[];
+for i in [ 1 .. Length(SCSCPservers) ] do
+  if  PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] ) <> fail then
+    cookies[i] := StoreAsRemoteObject( obj, SCSCPservers[i][1], SCSCPservers[i][2] ); 
+    EvaluateBySCSCP("ResetOrbits", [], SCSCPservers[i][1], SCSCPservers[i][2] );
+  else
+    Error( SCSCPservers[i][1],":",SCSCPservers[i][2]," is not responding !!!\n" );
+  fi;   
+od;
+return cookies;
+end;
+
+
+IsElementOfKnownOrbit:=function( elt )
+local i, calls, res, x;
+calls:=[];
+for i in [ 1 .. Length(SCSCPservers) ] do
+  calls[i]:=NewProcess("IsKnownElement", [elt], SCSCPservers[i][1], SCSCPservers[i][2] );
+od;
+res := List( SynchronizeProcesses( calls ), x -> x.object);
+return ForAny( res, x -> x = true );
+end; 
+
+
+NumberOfOrbits:=function( cookies, seeds, limit )
+local nr, i, neworbplace, elt;
+nr := 0;
+for i in [ 1 .. Length(SCSCPservers) ] do
+  nr := nr + EvaluateBySCSCP("NumberOfStoredOrbits", [], SCSCPservers[i][1], SCSCPservers[i][2] ).object;
+od;
+neworbplace:=0;
+for elt in seeds do
+  if not IsElementOfKnownOrbit( elt ) then
+    nr := nr+1;
+    if nr >= limit then
+        return nr;
+    fi;
+    neworbplace := (neworbplace+1) mod Length(SCSCPservers);
+    if neworbplace=0 then 
+      neworbplace:=Length(SCSCPservers); 
+    fi;
+    EvaluateBySCSCP("NewOrbit", [ cookies[i], elt], SCSCPservers[i][1], SCSCPservers[i][2] );
+  fi;
+od;      
+return nr;
+end;
+

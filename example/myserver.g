@@ -206,6 +206,9 @@ if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].Installation
 	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
 fi;
 
+if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/orbits.g") ) then
+	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/orbits.g") );
+fi;
 
 #############################################################################
 #
