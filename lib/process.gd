@@ -3,7 +3,7 @@
 #W process.gd               The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id:$
+#H $Id$
 ##
 #############################################################################
 
@@ -19,3 +19,5 @@ DeclareGlobalFunction ( "TerminateProcess" );
 DeclareGlobalFunction ( "SynchronizeProcesses" );
 
 DeclareGlobalFunction ( "FirstProcess" );
+
+DeclareGlobalFunction ( "FirstTrueProcess" );

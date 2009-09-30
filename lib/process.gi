@@ -344,3 +344,88 @@ else
   return FirstProcessN( arg[1] );
 fi;
 end);
+
+
+
+#############################################################################
+#
+# FirstTrueProcessN( <list of processes> )
+#
+FirstTrueProcessN := function( processes )
+local result, waitinglist, descriptors, s, nrdesc, i, nrprocess;
+result := [];
+waitinglist:=[ 1 .. Length(processes) ];
+while Length(waitinglist) > 0 do
+  descriptors := List( processes{waitinglist}, s -> IO_GetFD( s![1]![1] ) );  
+  IO_select( descriptors, [ ], [ ], 60*60, 0 );
+  nrdesc := First( [ 1 .. Length(descriptors) ], i -> descriptors[i]<>fail );
+  nrprocess := waitinglist[ nrdesc ];
+  Info( InfoSCSCP, 1, "Process number ", nrprocess, " is ready");
+  result[nrprocess] := CompleteProcess( processes[nrprocess] );
+  SubtractSet(waitinglist,[nrprocess]);
+  if result[nrprocess].object = true then
+    Info( InfoSCSCP, 1, "Process number ", nrprocess, " returned true, closing remaining processes");
+    for i in waitinglist do
+      # TerminateProcess( processes[i] );
+      CloseStream( processes[i]![1]);
+    od;
+    return true;
+  fi;    
+od;
+return result;
+end;
+
+
+#############################################################################
+#
+# FirstTrueProcess2( <process1>, <process2> )
+#
+# We can faster handle the case of two processes, avoiding list manipulations
+#
+FirstTrueProcess2 := function( a, b )
+local result, descriptors;
+result:=[];
+descriptors := [ IO_GetFD( a![1]![1] ), IO_GetFD( b![1]![1] ) ];
+IO_select( descriptors, [ ], [ ], 60*60, 0 );
+if descriptors[1]<>fail then # 1st process is ready
+  Info( InfoSCSCP, 1, "Process number 1 is ready");
+  result[1] := CompleteProcess( a );
+  if result[1].object = true then
+    Info( InfoSCSCP, 1, "Process number 1 returned true, closing process number 2");
+    CloseStream( b![1] );
+    return true;
+  fi;
+  Info( InfoSCSCP, 1, "Closed 1st process, waiting for 2nd ...");  
+  result[2] := CompleteProcess( b );
+  return result;
+elif descriptors[2]<>fail then # 2nd process is ready
+  Info( InfoSCSCP, 1, "Process number 2 is ready");
+  result[2] := CompleteProcess( b );
+  if result[2].object = true then
+    Info( InfoSCSCP, 1, "Process number 2 returned true, closing process number 1");
+    CloseStream( a![1] );
+    # TerminateProcess( a );
+    return true;
+  fi;  
+  Info( InfoSCSCP, 1, "Closed 2nd process, waiting for 1st ...");  
+  result[1] := CompleteProcess( a );  
+  return result;
+else
+  Error("Error in Synchronize2, both descriptors failed!!! \n");
+fi;
+end;
+
+
+#############################################################################
+#
+# FirstTrueProcess( <list of processes> )
+# FirstTrueProcess( <process1>, ..., <processN> )
+#
+InstallGlobalFunction( FirstTrueProcess,
+function( arg )
+if Length(arg)=2 then
+  return FirstTrueProcess2( arg[1], arg[2] );
+else
+  return FirstTrueProcessN( arg[1] );
+fi;
+end);
