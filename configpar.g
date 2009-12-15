@@ -22,13 +22,8 @@
 #    the number of services.
 #
 SCSCPservers:= 
-# Concatenation( 
-[ 
-[ "localhost", 26133 ],
-[ "localhost", 26134 ] 
-]
-# List( [26133..26140], i-> [ "ardbeg", i ] ),
-# List( [26133..26140], i-> [ "ladybank02", i ] ),
-# [ "chrystal.mcs.st-andrews.ac.uk", 26133 ],
-# )
-;
+Concatenation( 
+List( [26133..26140], i-> [ "ladybank01", i ] ),
+List( [26133..26140], i-> [ "ladybank02", i ] ), 
+List( [26133..26140], i-> [ "ladybank03", i ] )
+);

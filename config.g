@@ -15,7 +15,7 @@
 #
 
 # setting the default InfoLevel
-SetInfoLevel(InfoSCSCP,4);
+SetInfoLevel(InfoSCSCP,2);
 
 # If the SuppressOpenMathReferences is set to true, then 
 # OMPutReference (lib/openmath.gi) will put the actual 
@@ -37,9 +37,9 @@ SetInfoLevel(InfoSCSCP,4);
 # * true to listen all network interfaces
 # Uncomment needed line below.
 
-SCSCPserverAddress := "localhost";
+#SCSCPserverAddress := "localhost";
 #SCSCPserverAddress := Hostname();
-#SCSCPserverAddress := true;
+SCSCPserverAddress := true;
 
 # setting the default port
 SCSCPserverPort := 26133;
