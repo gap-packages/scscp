@@ -1,5 +1,4 @@
 #!/bin/sh
-
 #############################################################################
 ##
 #W gapd.sh                  The SCSCP package             Alexander Konovalov
@@ -50,13 +49,17 @@
 ##  Define the local call of GAP and call options, if necessary, for example,
 ##  memory usage, start with the workspace etc.
 ##  
-GAP="/home/alexk/gap/gap4r4/bin/gap.sh -b -r"
+GAP="~/CVSREPS/GAPDEV/bin/gap.sh -b -r"
 ##
 #############################################################################
 ##
-##  Define the location of the root directory of the GAP package SCSCP
+##  Define the configuration file for the SCSCP server. Note that since GAP
+##  reads the configuration file immediately before starting SCSCP server,
+##  you may redefine in it all variables that were set to their default
+##  values in scscp/config.g and scscp/configpar.g files (explicitly or
+##  reading your appropriately modified private copies of that files).
 ##
-SCSCP_ROOT="/home/alexk/gap/scscp/"
+SCSCP_CONFIG="~/scscp/example/myserver.g"
 ##
 ##
 #############################################################################
@@ -119,4 +122,4 @@ echo "Starting SCSCP server with output to $OUTFILE"
 # To redirect stderr to /dev/null as well,
 # replace $OUTFILE 2>&1 & with $OUTFILE &
 
-echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_ROOT'/example/myserver.g"); if SCSCPserverStatus=fail then QUIT_GAP(); fi;' | exec $GAP > $OUTFILE &
+echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_CONFIG'"); if SCSCPserverStatus=fail then QUIT_GAP(); fi;' | exec $GAP > $OUTFILE &
