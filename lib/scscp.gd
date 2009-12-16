@@ -7,6 +7,21 @@
 ##
 #############################################################################
 
+
+#############################################################################
+##
+##  InfoSCSCP
+##  InfoMasterWorker
+##  
+##  We declare two new Info classes for our packages, one for the SCSCP 
+##  communication and another for the MasterWorker skeleton, since the
+##  user may want to use them in different combinations. To change the 
+##  InfoLevel to k, use the command in the format SetInfoLevel(Info...,k)
+##
+DeclareInfoClass("InfoSCSCP");
+DeclareInfoClass("InfoMasterWorker");
+
+
 #############################################################################
 #
 # Functions to support symbols from scscp2 CD

@@ -8,16 +8,6 @@
 #############################################################################
 
 
-#############################################################################
-##
-##  InfoSCSCP
-##  
-##  We declare new Info class for our package. The default level is equal to
-##  one and mean that only some basic information messages will be printed.
-##  To change the Infolevel to k, use the command SetInfoLevel(InfoSCSCP,k)
-##
-DeclareInfoClass("InfoSCSCP");
-
 DeclareGlobalFunction( "OMGetObjectWithAttributes" );
 
 DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
