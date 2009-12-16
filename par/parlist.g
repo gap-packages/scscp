@@ -58,7 +58,8 @@ InstallGlobalFunction( ParListWithSCSCP,
 function( inputlist, remoteprocname )
 local noretry, status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
-      s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed;
+      s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed, 
+      len, infomw;
        
 if ValueOption("timeout")=fail then
   timeout:=60*60; # default timeout - one hour, given in seconds;
@@ -78,9 +79,12 @@ else
   recallfreq:=ValueOption("recallfreq");
 fi;
 
+infomw:=InfoLevel(InfoMasterWorker);
+
 status := [ ];
 nrservices_alive:=0;
 nrservices_needed:=Length( inputlist );
+len:=Length( inputlist );
 
 for i in [ 1 .. Length(SCSCPservers) ] do
     if PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
@@ -152,7 +156,17 @@ while true do
       callargspositions[nr] := inputposition;
       SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[inputposition] ], 
                                    SCSCPservers[nr][1], SCSCPservers[nr][2] );
-      Info( InfoSCSCP, 2, "master -> ", SCSCPservers[nr], " : ", inputlist[inputposition] );
+      if infomw <> 0 then                       
+        if infomw = 1 then
+      	  Print( inputposition, "/", len, "\r");
+        elif infomw = 2 or infomw = 3 then
+      	  Print( "#I  ", inputposition, "/", len, ":master --> ", 
+                SCSCPservers[nr][1], ":", SCSCPservers[nr][2], "\n" );
+        else
+      	  Print( "#I  ", inputposition, "/", len, ":master --> ", 
+                SCSCPservers[nr][1], ":", SCSCPservers[nr][2], " : ", inputlist[inputposition], "\n" );
+        fi;        
+	  fi;
       status[nr] := 2; # status 2 means that we are waiting to hear from this service
     else
       break; # if we are here all services are busy
@@ -226,7 +240,17 @@ while true do
     #
     # processing the result
     #
-    Info( InfoSCSCP, 2, SCSCPservers[nr], " --> master : ", result.object );
+    if infomw <> 0 then                       
+      if infomw > 2 then
+        Print( "#I  ", SCSCPservers[nr][1], ":", SCSCPservers[nr][2], 
+               " --> ", callargspositions[nr], "/", len, ":master" );
+        if infomw > 4 then
+          Print( " : ", result.object, "\n" );
+        else
+          Print("\n"); 
+        fi;
+      fi;        
+	fi;
     status[nr]:=1;
     output[ callargspositions[nr] ] := result.object;
   fi;
