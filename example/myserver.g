@@ -142,6 +142,17 @@ InstallSCSCPprocedure( "WS_SmallGroup", SmallGroup );
 InstallSCSCPprocedure( "WS_TransitiveGroup", TransitiveGroup );
 InstallSCSCPprocedure( "WS_PrimitiveGroup", PrimitiveGroup );
 
+# Multiplication services
+InstallSCSCPprocedure( "WS_Mult", function(a,b) return a*b; end );
+InstallSCSCPprocedure( "WS_MultMatrix", 
+	function(a,b) 
+	if not IsMatrix(a) or not IsMatrix(b) then
+		Error( "The argument must be a matrix!" );
+	else
+		return a*b; 
+	fi;
+	end );
+
 # Lattice of subgroups
 InstallSCSCPprocedure( "WS_LatticeSubgroups", LatticeSubgroups, 1, 1 );
 	
