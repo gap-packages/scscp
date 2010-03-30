@@ -107,8 +107,8 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * replace paths from my local machine to something more neutral in:
   - gapd.sh
   
-* remove files: todo.txt, example/private.g, example/rings.g, tracing/glue.sh,
-  all from 'par' directory except parlist.g
+* remove files: parscscp.g, todo.txt, example/private.g, example/rings.g, 
+  tracing/glue.sh, and all from 'par' directory except parlist.g
 
 * remove possibly hidden files left e.g. '.DS_Store' left by Mac OS
 

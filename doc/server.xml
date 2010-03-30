@@ -266,8 +266,8 @@ See Section <Ref Sect="Config" /> about configuring files <File>config.g</File> 
 <![CDATA[
 gap> GetServiceDescription( "localhost", 26133 );
 rec( service_name := "GAP SCSCP service", 
-  version := "GAP 4.4.12 + SCSCP 1.1 started on Tue 21 Apr 2009 00:35:38 BST", 
-  description := "Started with scscp/example/myserver.g from SCSCP 1.1" )
+  version := "GAP 4.4.12 + SCSCP 1.1 started on Tue 30 Mar 2010 00:35:38 BST", 
+  description := "Started with scscp/example/myserver.g from SCSCP 1.2" )
 ]]>
 </Example>    
    </Description>
@@ -361,8 +361,8 @@ gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
 rec( 
   Description := "This is a transient CD for the GAP SCSCP service", 
   CDName := "scscp_transient_1", 
-  CDReviewDate := "2009-04-21", 
-  CDDate := "2009-04-21", 
+  CDReviewDate := "2010-03-30", 
+  CDDate := "2010-03-30", 
   CDVersion := "0", 
   CDRevision := "0", 
   CDStatus := "private", 

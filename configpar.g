@@ -21,9 +21,9 @@
 #    up computation when the number of tasks is smaller than
 #    the number of services.
 #
-SCSCPservers:= 
-Concatenation( 
-List( [26133..26140], i-> [ "ladybank01", i ] ),
-List( [26133..26140], i-> [ "ladybank02", i ] ), 
-List( [26133..26140], i-> [ "ladybank03", i ] )
-);
+SCSCPservers:= List( [26133..26134], i-> [ "localhost",  i ] );
+# Concatenation( 
+# List( [26133..26140], i-> [ "ladybank01", i ] ),
+# List( [26133..26140], i-> [ "ladybank02", i ] ), 
+# List( [26133..26140], i-> [ "ladybank03", i ] )
+# );
