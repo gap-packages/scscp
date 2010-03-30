@@ -103,9 +103,9 @@ other specified conditions to prevent forgotten jobs from infinite running.
 * copy package to another location to wrap archives
 
 * remove SVN subdirectories
+rm -r .svn/ */.svn/ */*/.svn/
 
-* replace paths from my local machine to something more neutral in:
-  - gapd.sh
+* replace paths from my local machine to something more neutral in gapd.sh
   
 * remove files: parscscp.g, todo.txt, example/private.g, example/rings.g, 
   tracing/glue.sh, and all from 'par' directory except parlist.g
@@ -116,7 +116,21 @@ other specified conditions to prevent forgotten jobs from infinite running.
 
 * remove getting IP address of the client, if it is not yet using IO package
 
-* wrap the archive
+* wrap the archive with the right version number:
+cd ..
+tar cfvz scscp-1.2.0.tar.gz scscp/
+tar cjvf scscp-1.2.0.tar.bz2 scscp/
+
+* copy archive, PackageInfo.g, README to web page:
+scp scscp-* scscp/PackageInfo.g scscp/README.scscp alexk@shell.cs.st-and.ac.uk:~/public_html/scscp/
+
+* copy manual to the web page:
+scp scscp/doc/*.html scscp/doc/*.css scscp/doc/*.pdf alexk@shell.cs.st-and.ac.uk:~/public_html/scscp/
+
+* check the PackageInfo.g, README, archive and the manual online:
+http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm
+
+* update the web-page: modify version and links.
 
 #############################################################################
 3.TODO
