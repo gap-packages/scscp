@@ -218,12 +218,13 @@ which is the result of calling the procedure <A>procname</A> with the argument
 <A>listargs[i]</A>.
 <P/>
 It accepts two options which should be given as non-negative integers:
-<C>timeout</C> which specifies how long the client will wait for the result
+<C>timeout</C> which specifies in minutes how long the client must wait for the result
 (if not given, the default value is one hour) and <C>recallfrequency</C>
 which specifies the number of iterations after which the search for new
 services will be performed (if not given the default value is zero meaning 
-no such search at all).
-    
+no such search at all). There is also a boolean option <C>noretry</C> which,
+if set to <K>true</K>, means that no retrying calls will be performed if the 
+timeout is exceeded and an incomplete resut may be returned.
 <Example>
 <![CDATA[
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
