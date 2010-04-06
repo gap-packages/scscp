@@ -221,6 +221,11 @@ if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].Installation
 	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/orbits.g") );
 fi;
 
+if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/rewrite.g") ) then
+	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/rewrite.g") );
+	InstallSCSCPprocedure( "RewritabilityWorker", RewritabilityWorker );
+fi;
+
 #############################################################################
 #
 # Finally, we start the SCSCP server. 
