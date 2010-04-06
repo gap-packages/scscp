@@ -120,7 +120,7 @@ fi;
 #orbsA:=Orbits(A,G);
 #x:=Filtered( List(orbsA, q -> q[1] ), q -> q <> () );
 #x:=List( x, q -> [ [ q ], Stabilizer( A,q ) ] );
-n:=Length(x[1]);
+n:=Length(w);
 res:=[];
 repeat
     n:=n+1;
