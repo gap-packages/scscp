@@ -78,7 +78,7 @@ end);
 #############################################################################
 #
 # NewProcess( command, listargs, server, port : 
-#                               output:=object/coookie/nothing/, 
+#                               output:=object/coookie/nothing/deferred, 
 #                                             cd:="cdname", debuglevel:=N );
 #
 # The function sends the request to the SCSCP server, and
@@ -145,7 +145,6 @@ if InfoLevel( InfoSCSCP ) > 2 then
   if IsInputOutputTCPStream( tcpstream ) then
     IO_Flush( tcpstream![1] );
   fi;
-  
 else
   
   OMPutProcedureCall( tcpstream, 

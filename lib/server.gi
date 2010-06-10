@@ -32,9 +32,9 @@ function( server, port )
 
 local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
-     return_cookie, return_nothing, cookie, omtext, localstream, callresult, responseresult,
+     return_cookie, return_nothing, return_deferred, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, session_cookies,
-     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname;
+     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname, todo;
 
 Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
 
@@ -166,6 +166,8 @@ else
             		callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
             		rt2 := Runtime();
             		Info(InfoSCSCP, 1, "Evaluation completed");
+            		
+            		# Print( "Evaluation result: ", callresult, "\n");
             
             		# FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
             		if VERSION <> "4.dev" then callresult := [ true, callresult ]; fi;
@@ -191,7 +193,13 @@ else
             		else
                 		call_id_value := "N/A";
             		fi;
-            
+            		
+            		if ForAny( objrec.attributes, atp -> atp[1]="option_return_deferred" ) then
+            			return_deferred := true;
+            		else	
+            			return_deferred := false;
+					fi;
+					            
             		if ForAny( objrec.attributes, atp -> atp[1]="option_return_cookie" ) then 
                 		return_cookie := true;
             		else
@@ -271,6 +279,11 @@ else
               			disconnect:=true;
               			break;            
             		fi;  
+            		
+            		if return_deferred then
+            		  todo := objrec.object;
+            		  objrec.object := true;
+            		fi;
                        
             		Info( InfoSCSCP, 2, "call_id ", call_id_value, " : sending to client ", objrec.object ); 
             
@@ -311,7 +324,13 @@ else
               			Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");				
               			disconnect:=true;
               			break;   
-            		fi;						    
+            		fi;		
+            		
+            		if return_deferred then
+	            		todo := OMParseXmlObj( todo );
+	            		# Print( "todo = ", todo, "\n");
+    				fi;
+    				        						    
         		until false;
         	fi;
         	Info(InfoSCSCP, 1, "Closing stream ...");

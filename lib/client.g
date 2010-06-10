@@ -143,8 +143,8 @@ else
   output_option := "object";  
 fi;
 
-if not output_option in [ "object", "cookie", "nothing", "tree" ] then
-	Error( "output must be one of ", [ "object", "cookie", "nothing", "tree" ], "\n" );
+if not output_option in [ "object", "cookie", "nothing", "tree", "deferred" ] then
+	Error( "output must be one of ", [ "object", "cookie", "nothing", "tree", "deferred" ], "\n" );
 fi;
 
 if ValueOption("cd") <> fail then
