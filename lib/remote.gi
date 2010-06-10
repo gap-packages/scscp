@@ -85,9 +85,9 @@ end);
 #M  OMPut( <RemoteObject> )
 ##
 InstallMethod( OMPut, "for stream and RemoteObject",
-[ IsOutputStream, IsRemoteObjectRep and IsRemoteObject ],
-function ( stream, x )
-    OMWriteLine( stream, [ "<OMR href=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
+[ IsOpenMathXMLWriter, IsRemoteObjectRep and IsRemoteObject ],
+function ( writer, x )
+    OMWriteLine( writer![1], [ "<OMR href=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
 return;
 end);
 

@@ -204,6 +204,7 @@ OMsymRecord.scscp1 := rec(
     option_return_cookie := "option_return_cookie",
     option_return_object := "option_return_object",
     option_return_nothing := "option_return_nothing",
+    option_return_deferred := "option_return_deferred",
     option_runtime := "option_runtime",
     error_CAS := "error_CAS"
 );
@@ -326,7 +327,7 @@ end );
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     function ( string )
-    local return_tree, node, attrs, t, obj, pos, name;
+    local return_tree, return_deferred, node, attrs, t, obj, pos, name;
     
     if ValueOption("return_tree") <> fail then
         return_tree := true;
@@ -351,6 +352,8 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     if Length(attrs)=1 then
       attrs:=attrs[1];
     fi;
+    
+    Print("Attributes : ", attrs, "\n");
        
     # At this point we already know attributes BEFORE the the real computation is started.
     # This allows us to know in advance which kind of return (object/cookie/tree)
@@ -410,8 +413,14 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 	fi;
 	
 	# if the security check is done, we may proceed
-            
-    if return_tree then
+	
+	if ForAny( attrs, t -> t[1]="option_return_deferred" ) then
+		return_deferred := true;
+	else
+		return_deferred := false;	
+	fi;
+	
+    if return_tree or return_deferred then
         obj := node.content[1];
     else
         obj := OMParseXmlObj( node.content[1] );
@@ -535,7 +544,10 @@ end;
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
-local cdname, debug_option, has_attributes, attr, nameandargs;
+local writer, cdname, debug_option, has_attributes, attr, nameandargs;
+
+# TODO: support both writers
+writer:=OpenMathXMLWriter(stream);
 
 if IsClosedStream( stream )  then
   Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
@@ -576,7 +588,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "scscp1", attr[1] );
+    OMPutSymbol( writer, "scscp1", attr[1] );
     if attr[1]="call_id" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "option_min_memory", "option_max_memory",
@@ -584,7 +596,8 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
       OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
     elif attr[1] in [ "option_return_object", 
                       "option_return_cookie",
-                      "option_return_nothing" ] then
+                      "option_return_nothing",
+                      "option_return_deferred" ] then
       OMWriteLine( stream, [ "<OMSTR></OMSTR>" ] );
     else
       Error("Unsupported option : ", attr[1], "\n" );
@@ -599,7 +612,7 @@ fi;
 OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "scscp1", "procedure_call" );
+OMPutSymbol( writer, "scscp1", "procedure_call" );
 if proc_name in [ "get_allowed_heads", 
                   "get_service_description", 
                   "get_signature", 
@@ -609,9 +622,9 @@ if proc_name in [ "get_allowed_heads",
                   "store_session", 
                   "store_persistent", 
                   "unbind" ] then
-  OMPutApplication( stream, "scscp2", proc_name, objrec.object );
+  OMPutApplication( writer, "scscp2", proc_name, objrec.object );
 else
-  OMPutApplication( stream, cdname, proc_name, objrec.object );
+  OMPutApplication( writer, cdname, proc_name, objrec.object );
 fi;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
@@ -643,7 +656,9 @@ end);
 ##
 InstallGlobalFunction( OMPutProcedureCompleted,
 function( stream, objrec )
-local has_attributes, attr;
+local writer, has_attributes, attr;
+# TODO: support both writers
+writer:=OpenMathXMLWriter(stream);
 if IsClosedStream( stream )  then
   Error( "closed stream" );
 fi;
@@ -662,7 +677,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "scscp1", attr[1] );
+    OMPutSymbol( writer, "scscp1", attr[1] );
     if attr[1] in [ "call_id", "info_message" ] then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
@@ -679,9 +694,9 @@ else
 fi;
 OMIndent := OMIndent + 1;
 if IsBound(objrec.object) then
-  OMPutApplication( stream, "scscp1", "procedure_completed", [ objrec.object ] );
+  OMPutApplication( writer, "scscp1", "procedure_completed", [ objrec.object ] );
 else
-  OMPutApplication( stream, "scscp1", "procedure_completed", [ ] );
+  OMPutApplication( writer, "scscp1", "procedure_completed", [ ] );
 fi;  
 OMIndent := OMIndent - 1;
 if has_attributes then
@@ -703,12 +718,14 @@ end);
 ##
 InstallGlobalFunction( OMPutError,
 function ( stream, cd, name, list )
-local  obj;
+local writer, obj;
+# TODO: support both writers
+writer:=OpenMathXMLWriter(stream);
 OMWriteLine( stream, [ "<OME>" ] );
 OMIndent := OMIndent + 1;
-OMPutSymbol( stream, cd, name );
+OMPutSymbol( writer, cd, name );
 for obj  in list  do
-    OMPut( stream, obj );
+    OMPut( writer, obj );
 od;
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OME>" ] );
@@ -734,7 +751,9 @@ end);
 ##
 InstallGlobalFunction( OMPutProcedureTerminated,
 function( stream, objrec, error_cd, error_type )
-local has_attributes, attr;
+local writer, has_attributes, attr;
+# TODO: support both writers
+writer:=OpenMathXMLWriter(stream);
 if IsClosedStream( stream )  then
   Error( "closed stream" );
 fi;
@@ -753,7 +772,7 @@ if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( stream, "scscp1", attr[1] );
+    OMPutSymbol( writer, "scscp1", attr[1] );
     if attr[1]="call_id" then
       OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
     elif attr[1] in [ "info_memory", "info_runtime" ] then
@@ -771,7 +790,7 @@ fi;
 OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
-OMPutSymbol( stream, "scscp1", "procedure_terminated" );
+OMPutSymbol( writer, "scscp1", "procedure_terminated" );
 OMPutError( stream, error_cd, error_type, [ objrec.object ] );
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
