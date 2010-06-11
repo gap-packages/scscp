@@ -29,9 +29,9 @@ InstallGlobalFunction( RemoteObject,
 function( identifier, hostname, port )
 local pos;
 if IsString(identifier) and IsString(hostname) and IsPosInt(port) then
-pos := Position( identifier, '@');
+pos := PositionNthOccurrence( identifier, '/', 3);
 if pos <> fail then
-  identifier := identifier{[1..pos-1]};
+  identifier := identifier{[pos+1..Length(identifier)]};
 fi;  
 return Objectify( RemoteObjectDefaultType,
                     [ identifier, hostname, port ] ); 
@@ -87,7 +87,10 @@ end);
 InstallMethod( OMPut, "for stream and RemoteObject",
 [ IsOpenMathXMLWriter, IsRemoteObjectRep and IsRemoteObject ],
 function ( writer, x )
-    OMWriteLine( writer![1], [ "<OMR href=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
+# old                                            name    @   server  :   port
+# old OMWriteLine( writer![1], [ "<OMR href=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
+# new                                          scscp://   server  :   port    /   name
+       OMWriteLine( writer![1], [ "<OMR href=\"scscp://", x![2], ":", x![3], "/", x![1], "\" />" ] );
 return;
 end);
 

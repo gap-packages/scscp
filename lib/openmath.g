@@ -486,26 +486,35 @@ end;
 ##  return OMTempVars.OMREF.(node.attributes.href);
 ## 
 OMObjects.OMR := function ( node )
-local ref, pos1, pos2, name, address, port;
+local ref, pos1, pos2, pos3, name, server, port;
 if IsBound( node.attributes.href ) then
   ref := node.attributes.href;
-  pos1:=Position( ref, '@' );
-  pos2:=Position( ref, ':' );
-  if pos1=fail or pos2=fail then
-    # we deduce that this is the reference to an object within
-    # the same OpenMath document 
+  Print(ref,"\n");
+  pos1:=PositionSublist( ref, "://" );
+  pos2:=PositionNthOccurrence( ref, ':', 2);
+  if pos1=fail then
+    # reference to an object within the same OpenMath document 
     if ref[1]=CHAR_INT(35) then
       return OMTempVars.OMREF.(ref{[2..Length(ref)]});
     else
       Error( "OpenMath reference: the first symbol must be ", CHAR_INT(35), "\n" ); 
     fi;
+  elif pos2=fail then
+    # reference to an object in a file
+    Error("References to files are not implemented yet");
   else
-    name := ref{[1..pos1-1]};
-    address:=ref{[pos1+1..pos2-1]};
-    port:=Int(ref{[pos2+1..Length(ref)]});
+    # reference to a remote object
+    if not ref{[1..pos1+2]} = "scscp://" then
+    	Error("Can not parse the reference ", ref, "\n");
+    fi;
+    pos3 := PositionNthOccurrence( ref, '/', 3);
+    server:=ref{[pos1+3..pos2-1]};
+    port:=Int(ref{[pos2+1..pos3-1]});
+    name := ref{[pos3+1..Length(ref)]};
+    Print(server,"\n",port,"\n",name,"\n");
     if SCSCPserverMode then
       # check that the object is on the same server
-      if [address,port]=[SCSCPserverAddress,SCSCPserverPort] then
+      if [server,port]=[SCSCPserverAddress,SCSCPserverPort] then
         if IsBoundGlobal( name ) then
           if SCSCP_UNBIND_MODE then
             SCSCP_UNBIND_MODE := false;
@@ -517,10 +526,10 @@ if IsBound( node.attributes.href ) then
           Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
         fi;    
       else # for a "foreign" object
-        return EvaluateBySCSCP( "retrieve", [ name ], address, port ).object;
+        return EvaluateBySCSCP( "retrieve", [ name ], server, port ).object;
       fi;    
     else # in the client's mode
-      return RemoteObject( node.attributes.href, address, port );
+      return RemoteObject( node.attributes.href, server, port );
     fi;
   fi;
 else
