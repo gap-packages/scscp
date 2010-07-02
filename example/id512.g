@@ -16,23 +16,6 @@ result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ],
 return result.object;
 end;
 
-IdGroup512:=function( G )
-# this is the client's counterpart for the SCSCP service for the 
-# identification of groups of order 512 using the ANUPQ package. 
-# (See the procedure IdGroup512ByCode in scscp/example/myserver.g).
-# The group must have PC presentation and its pcgs code will be 
-# sent to the server to identify the group.
-local code, result;
-if Size( G ) <> 512 then
-  Error( "G must be a group of order 512 !!!\n" );
-fi;
-code := CodePcGroup( G );
-result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ], 
-                           "localhost", 26133 );
-                           # "chrystal.mcs.st-and.ac.uk", 26133 );
-return result.object;
-end;
-
 
 TestIdGroup512:=function( nrcalls )
 # This is the test to generate a sequence of calls to the
