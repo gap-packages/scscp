@@ -352,8 +352,6 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     if Length(attrs)=1 then
       attrs:=attrs[1];
     fi;
-    
-    Print("Attributes : ", attrs, "\n");
        
     # At this point we already know attributes BEFORE the the real computation is started.
     # This allows us to know in advance which kind of return (object/cookie/tree)
@@ -489,7 +487,6 @@ OMObjects.OMR := function ( node )
 local ref, pos1, pos2, pos3, name, server, port;
 if IsBound( node.attributes.href ) then
   ref := node.attributes.href;
-  Print(ref,"\n");
   pos1:=PositionSublist( ref, "://" );
   pos2:=PositionNthOccurrence( ref, ':', 2);
   if pos1=fail then
@@ -511,7 +508,6 @@ if IsBound( node.attributes.href ) then
     server:=ref{[pos1+3..pos2-1]};
     port:=Int(ref{[pos2+1..pos3-1]});
     name := ref{[pos3+1..Length(ref)]};
-    Print(server,"\n",port,"\n",name,"\n");
     if SCSCPserverMode then
       # check that the object is on the same server
       if [server,port]=[SCSCPserverAddress,SCSCPserverPort] then

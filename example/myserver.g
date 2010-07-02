@@ -105,6 +105,9 @@ local g;
 return Set( List( GeneratorsOfGroup(G), g -> n^g ) );
 end;
 
+SCSCPadditionService:=function(a,b)
+return a+b;
+end;
 
 #############################################################################
 #
@@ -116,6 +119,7 @@ end;
 
 # Simple procedures for tests and demos
 InstallSCSCPprocedure( "WS_Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
+InstallSCSCPprocedure( "addition", SCSCPadditionService, "to add two integers", 2, 2 );
 InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
 
 # Group identification in the GAP small group library
