@@ -51,8 +51,11 @@ SCSCPserverPort := 26133;
 # will be also possible (however, it is possible to have a
 # designated procedure EvaluateOpenMathCode to evaluate 
 # arbitrary OpenMath code.
+# 
+# If you run a public service it is recommended to set this 
+# parameter to 'true'
 #
-SCSCPserverAcceptsOnlyTransientCD := true;
+SCSCPserverAcceptsOnlyTransientCD := false;
 
 # setting the name of the service, for example, 
 # "GAP SCSCP service", "Group identification service" etc.

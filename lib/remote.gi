@@ -65,7 +65,7 @@ InstallMethod( \=,
 InstallMethod( ViewObj, "for RemoteObject",
 [ IsRemoteObjectRep and IsRemoteObject ],
 function( obj )
-    Print("< remote object ", obj![1], "@", obj![2], ":", obj![3], " >");
+    Print("< remote object scscp://", obj![2], ":", obj![3], "/", obj![1], " >");
 end);
 
 

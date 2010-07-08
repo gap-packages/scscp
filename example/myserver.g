@@ -121,6 +121,10 @@ end;
 InstallSCSCPprocedure( "WS_Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
 InstallSCSCPprocedure( "addition", SCSCPadditionService, "to add two integers", 2, 2 );
 InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
+InstallSCSCPprocedure( "Length", Length, 1, 1 );
+InstallSCSCPprocedure( "Size", Size, 1, 1 );
+InstallSCSCPprocedure( "NrConjugacyClasses", NrConjugacyClasses, 1, 1 );
+InstallSCSCPprocedure( "SylowSubgroup", SylowSubgroup, 2, 2 );
 
 # Group identification in the GAP small group library
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 
@@ -128,6 +132,8 @@ InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators,
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
 InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 
 	"Identification of groups of order 512 using the ANUPQ package", 1, 1 );
+	
+InstallSCSCPprocedure( "MatrixGroup", Group );
 
 # Important MIP (modular isomorphism problem for group algebras of finite p-group 
 # over the field of p elements) invariant
@@ -145,6 +151,7 @@ InstallSCSCPprocedure( "WS_SymmetricGroup", SymmetricGroup );
 InstallSCSCPprocedure( "WS_SmallGroup", SmallGroup );
 InstallSCSCPprocedure( "WS_TransitiveGroup", TransitiveGroup );
 InstallSCSCPprocedure( "WS_PrimitiveGroup", PrimitiveGroup );
+InstallSCSCPprocedure( "MathieuGroup", MathieuGroup );
 
 # Multiplication services
 InstallSCSCPprocedure( "WS_Mult", function(a,b) return a*b; end );
