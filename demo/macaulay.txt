@@ -1,0 +1,10 @@
+loadPackage "SCSCP"; loadPackage "OpenMath";
+GAP = newConnection "127.0.0.1"
+openMath 6 * 7
+GAP <== openMath 6 * 7
+m1 = id_(QQ^10)^{1,6,2,7,3,8,4,9,5,0}
+m2 = id_(QQ^10)^{1,0,2,3,4,5,6,7,8,9};
+G = GAP <=== matrixGroup({m1,m2})
+size G
+GAP <== size G
+close GAP
