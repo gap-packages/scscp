@@ -18,7 +18,9 @@ ProcessesFamily := NewFamily( "ProcessesFamily(...)", IsProcess );
 ProcessDefaultType := NewType( ProcessesFamily, 
                                IsProcessRepresentation and IsProcess);
 
-MakeReadWriteGlobal("OnQuit");
+if IsReadOnlyGlobal("OnQuit") then
+	MakeReadWriteGlobal("OnQuit");
+fi;
 
 OnQuit:=function()
 if SCSCP_CURRENT_SESSION_STREAM <> fail then
