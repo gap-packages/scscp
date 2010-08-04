@@ -10,9 +10,11 @@
 # additional procedures to turn tracing on/off
     
 InstallSCSCPprocedure( "SCSCPStartTracing", SCSCPStartTracing, 
-	"To turn on tracing mode on the server and save events to specified filename without extension", 1, 1 );
+	"To turn on tracing mode on the server and save events to specified filename without extension", 
+	1, 1 : force );
 InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing, 
-	"To turn off tracing mode on the server", 0, 0 );     
+	"To turn off tracing mode on the server", 
+	0, 0 : force );     
 
 #############################################################################
 #

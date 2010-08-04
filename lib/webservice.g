@@ -15,11 +15,16 @@
 InstallGlobalFunction( InstallSCSCPprocedure,
 function( arg )
 local procname, procfunc, procdesc, minarg, maxarg, signature, 
-      nodesc, nonarg, nosig, pos, SCSCPprocTable, x, userinput, answer;
+      nodesc, nonarg, nosig, pos, SCSCPprocTable, x, userinput, answer, inforcemode;
 
 # 
 # Analysing arguments
 #
+if ValueOption("force") <> fail then
+  inforcemode := ValueOption("force");
+else
+  inforcemode := false;
+fi;
 
 nodesc := false;
 nonarg := false;
@@ -112,18 +117,20 @@ if not IsBound( SCSCPtransientCDs.scscp_transient_1 ) then
   SCSCPtransientCDs.scscp_transient_1 := rec();
 fi;  
 
-if not IsBound( OMsymRecord.scscp_transient_1.(procname) ) then
+if not IsBound( OMsymRecord.scscp_transient_1.(procname) ) or inforcemode then
 	OMsymRecord.scscp_transient_1.(procname) := function(arg) return CallFuncList( procfunc, arg[1] ); end;
     SCSCPtransientCDs.scscp_transient_1.(procname) := rec(
     	Description := procdesc,
         Minarg := minarg,
         Maxarg := maxarg,
         Signature := signature );
-    Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
-    Info( InfoSCSCP, 2, "  * ", procdesc );
-    Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
-    Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
-    Info( InfoSCSCP, 4, "  * Signature : ", signature );
+    if not inforcemode then   
+    	Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
+    	Info( InfoSCSCP, 2, "  * ", procdesc );
+    	Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
+    	Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
+    	Info( InfoSCSCP, 4, "  * Signature : ", signature );
+    fi;
 else
   userinput := InputTextUser();
   repeat
