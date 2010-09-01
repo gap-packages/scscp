@@ -16,6 +16,4 @@ DeclareGlobalFunction( "OMPutProcedureCall" );
 
 DeclareGlobalFunction( "OMPutProcedureCompleted" );
 
-DeclareGlobalFunction( "OMPutError" );
-
 DeclareGlobalFunction( "OMPutProcedureTerminated" );

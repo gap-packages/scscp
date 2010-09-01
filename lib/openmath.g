@@ -719,27 +719,6 @@ end);
 
 #############################################################################
 ##
-##  OMPutError( stream, cd, name, list )
-##
-InstallGlobalFunction( OMPutError,
-function ( stream, cd, name, list )
-local writer, obj;
-# TODO: support both writers
-writer:=OpenMathXMLWriter(stream);
-OMWriteLine( stream, [ "<OME>" ] );
-OMIndent := OMIndent + 1;
-OMPutSymbol( writer, cd, name );
-for obj  in list  do
-    OMPut( writer, obj );
-od;
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OME>" ] );
-return;
-end);
-
-
-#############################################################################
-##
 ##  OMPutProcedureTerminated( stream, objrec, error_cd, error_type )
 ## 
 ##  The first argument is a stream
@@ -796,7 +775,7 @@ OMIndent := OMIndent + 1;
 OMWriteLine( stream, [ "<OMA>" ] );
 OMIndent := OMIndent + 1;
 OMPutSymbol( writer, "scscp1", "procedure_terminated" );
-OMPutError( stream, error_cd, error_type, [ objrec.object ] );
+OMPutError( writer, error_cd, error_type, [ objrec.object ] );
 OMIndent := OMIndent - 1;
 OMWriteLine( stream, [ "</OMA>" ] );
 OMIndent := OMIndent - 1;
