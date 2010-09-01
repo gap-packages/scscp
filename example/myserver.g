@@ -118,6 +118,7 @@ end;
 #############################################################################
 
 # Simple procedures for tests and demos
+InstallSCSCPprocedure( "Identity", x -> x, "Identity procedure for tests", 1, 1 );
 InstallSCSCPprocedure( "WS_Factorial", Factorial, "See ?Factorial in GAP", 1, 1 );
 InstallSCSCPprocedure( "addition", SCSCPadditionService, "to add two integers", 2, 2 );
 InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
