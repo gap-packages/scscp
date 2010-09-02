@@ -237,12 +237,14 @@ OMsymRecord.meta := rec(
 ##  r.object, containing the corresponding GAP object, and r.attributes, 
 ##  which is a list of pairs [ name, value ], for example 
 ##  [ ["call_id", "user007" ], ["option_runtime", 300000] ]
-##  This is a counterpart of the function OpenMath function OMGetObject.
+##  This is a counterpart of the function OMGetObject from OpenMath package .
 ##
 InstallGlobalFunction( OMGetObjectWithAttributes,
 function( stream )
     local return_tree,
           fromgap, # string
+          firstbyte,
+          gap_obj,
           success, # whether PipeOpenMathObject worked
           readline;
         
@@ -257,12 +259,7 @@ function( stream )
     else
         return_tree := false;  
     fi;
-    
-    fromgap := "";
 
-    # Get one OpenMath object from 'stream' and put into 'fromgap',
-    # using PipeOpenMathObject
-    
     # read new line until <?scscp start ?>
     repeat
       readline:=ReadLine(stream);
@@ -274,47 +271,55 @@ function( stream )
         Info( InfoSCSCP, 2, readline );
       fi;  
     until readline= "<?scscp start ?>";
-    
-    success := PipeOpenMathObject( stream, fromgap );
 
-    if success <> true  then
-      Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
-      return fail;
-    fi;
+    firstbyte := ReadByte(stream);
     
-    # Now 'fromgap' is the string with OpenMath encoding
+    if firstbyte = 24 then 
+  	    # Binary encoding
+ 	    gap_obj := GetNextObject( stream, firstbyte );
+     	gap_obj := OMParseXmlObj( gap_obj );
+        return gap_obj;
+    else
+     	# XML encoding
+        fromgap := "";                
+        # Get one OpenMath object from 'stream' and put into 'fromgap',
+        # using PipeOpenMathObject
+    
+	    success := PipeOpenMathObject( stream, fromgap, firstbyte );
+
+    	if success <> true  then
+      		Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
+      		return fail;
+    	fi;
+    
+    	# Now 'fromgap' is the string with OpenMath encoding
         
-    if InfoLevel( InfoSCSCP ) > 2 then
-      Print("#I Received message: \n");
-      Print( fromgap );
-      Print( "\n" );
-    fi;
+    	if InfoLevel( InfoSCSCP ) > 2 then
+      		Print("#I Received message: \n");
+      		Print( fromgap );
+      		Print( "\n" );
+    	fi;
 
-    # read new line until <?scscp end ?>
-    repeat
-      readline:=ReadLine(stream);
-      if readline=fail then
-        return fail;
-      fi;  
-      NormalizeWhitespace( readline );
-      if Length( readline ) > 0 then 
-        Info( InfoSCSCP, 2, readline );
-      fi; 
-    until readline= "<?scscp end ?>";
+    	# read new line until <?scscp end ?>
+    	repeat
+      		readline:=ReadLine(stream);
+      		if readline=fail then
+        		return fail;
+      		fi;  
+      		NormalizeWhitespace( readline );
+      		if Length( readline ) > 0 then 
+        		Info( InfoSCSCP, 2, readline );
+      		fi; 
+    	until readline= "<?scscp end ?>";
 
-    # convert the OpenMath string into a Gap object using an appropriate
-    # function
+    	# convert the OpenMath string into a Gap object using an appropriate
+    	# function
 
-    # this means XML encoding
-    if fromgap[1] = '<' and OMgetObjectXMLTree <> ReturnFail  then
-        # This is the only difference from OMGetObject
         if return_tree then
         	return OMgetObjectXMLTreeWithAttributes( fromgap : return_tree );
         else
             return OMgetObjectXMLTreeWithAttributes( fromgap );
         fi;   
-    else
-        return OMpipeObject( fromgap );
     fi;
 end );
 
