@@ -126,10 +126,10 @@ if not IsBound( OMsymRecord.scscp_transient_1.(procname) ) or inforcemode then
         Signature := signature );
     if not inforcemode then   
     	Info( InfoSCSCP, 1, "Installed SCSCP procedure ", procname ); 
-    	Info( InfoSCSCP, 2, "  * ", procdesc );
-    	Info( InfoSCSCP, 3, "  * Minimal number of arguments : ", minarg );
-    	Info( InfoSCSCP, 3, "  * Maximal number of arguments : ", maxarg );
-    	Info( InfoSCSCP, 4, "  * Signature : ", signature );
+    	Info( InfoSCSCP, 5, "  * ", procdesc );
+    	Info( InfoSCSCP, 5, "  * Minimal number of arguments : ", minarg );
+    	Info( InfoSCSCP, 5, "  * Maximal number of arguments : ", maxarg );
+    	Info( InfoSCSCP, 5, "  * Signature : ", signature );
     fi;
 else
   userinput := InputTextUser();
