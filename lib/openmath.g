@@ -584,39 +584,33 @@ fi;
 OMIndent := 0;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage( stream![3][1] ); fi;
 WriteLine( stream, "<?scscp start ?>" );
-OMWriteLine( stream, [ "<OMOBJ>" ] );
+OMPutOMOBJ( writer );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
-  OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATTR>" ] );
   OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
     OMPutSymbol( writer, "scscp1", attr[1] );
-    if attr[1]="call_id" then
-      OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
-    elif attr[1] in [ "option_min_memory", "option_max_memory",
+    if attr[1] in [ "call_id", "option_min_memory", "option_max_memory",
                       "option_runtime", "option_debuglevel" ] then
-      OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
+      OMPut( writer, attr[2] );
     elif attr[1] in [ "option_return_object", 
                       "option_return_cookie",
                       "option_return_nothing",
                       "option_return_deferred" ] then
-      OMWriteLine( stream, [ "<OMSTR></OMSTR>" ] );
+      OMPut( writer, "" );
     else
       Error("Unsupported option : ", attr[1], "\n" );
     fi;
   od;
   OMIndent := OMIndent - 1;    
   OMWriteLine( stream, [ "</OMATP>" ] );
-  OMIndent := OMIndent - 1;
 else
   has_attributes:=false;
 fi;
-OMIndent := OMIndent + 1;
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
+OMPutOMA( writer );
 OMPutSymbol( writer, "scscp1", "procedure_call" );
 if proc_name in [ "get_allowed_heads", 
                   "get_service_description", 
@@ -631,14 +625,12 @@ if proc_name in [ "get_allowed_heads",
 else
   OMPutApplication( writer, cdname, proc_name, objrec.object );
 fi;
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
-OMIndent := OMIndent - 1;
+OMPutEndOMA( writer );
 if has_attributes then
+  OMIndent := OMIndent - 1;    
   OMWriteLine( stream, [ "</OMATTR>" ] );
-  OMIndent := OMIndent - 1;
 fi;
-OMWriteLine( stream, [ "</OMOBJ>" ] );
+OMPutEndOMOBJ( writer );
 WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
@@ -673,20 +665,17 @@ fi;
 OMIndent := 0;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
 WriteLine( stream, "<?scscp start ?>" );
-OMWriteLine( stream, [ "<OMOBJ>" ] );
+OMPutOMOBJ( writer );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
-  OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATTR>" ] );
   OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( writer, "scscp1", attr[1] );
-    if attr[1] in [ "call_id", "info_message" ] then
-      OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
-    elif attr[1] in [ "info_memory", "info_runtime" ] then
-      OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
+  	if attr[1] in [ "call_id", "info_memory", "info_message", "info_runtime" ] then
+      OMPutSymbol( writer, "scscp1", attr[1] );
+      OMPut( writer, attr[2] );
     else
       Error("Unsupported attribute : ", attr[1], "\n" );
     fi;
@@ -706,9 +695,8 @@ fi;
 OMIndent := OMIndent - 1;
 if has_attributes then
   OMWriteLine( stream, [ "</OMATTR>" ] );
-  OMIndent := OMIndent - 1;
 fi;
-OMWriteLine( stream, [ "</OMOBJ>" ] );
+OMPutEndOMOBJ( writer );
 WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );
@@ -747,43 +735,35 @@ fi;
 OMIndent := 0;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
 WriteLine( stream, "<?scscp start ?>" );
-OMWriteLine( stream, [ "<OMOBJ>" ] );
+OMPutOMOBJ( writer );
 if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
   has_attributes:=true;
-  OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATTR>" ] );
   OMIndent := OMIndent + 1;
   OMWriteLine( stream, [ "<OMATP>" ] );
   OMIndent := OMIndent + 1;
   for attr in objrec.attributes do
-    OMPutSymbol( writer, "scscp1", attr[1] );
-    if attr[1]="call_id" then
-      OMWriteLine( stream, [ "<OMSTR>", attr[2], "</OMSTR>" ] );
-    elif attr[1] in [ "info_memory", "info_runtime" ] then
-      OMWriteLine( stream, [ "<OMI>", attr[2], "</OMI>" ] );                      
+    if attr[1] in [ "call_id", "info_memory", "info_runtime" ] then
+    	OMPutSymbol( writer, "scscp1", attr[1] );
+    	OMPut( writer, attr[2] );
     else
       Error("Unsupported attribute : ", attr[1], "\n" );
     fi;
   od;
   OMIndent := OMIndent - 1;    
   OMWriteLine( stream, [ "</OMATP>" ] );
-  OMIndent := OMIndent - 1;
 else
   has_attributes:=false;
 fi;
-OMIndent := OMIndent + 1;
-OMWriteLine( stream, [ "<OMA>" ] );
-OMIndent := OMIndent + 1;
+OMPutOMA( writer );
 OMPutSymbol( writer, "scscp1", "procedure_terminated" );
 OMPutError( writer, error_cd, error_type, [ objrec.object ] );
-OMIndent := OMIndent - 1;
-OMWriteLine( stream, [ "</OMA>" ] );
-OMIndent := OMIndent - 1;
+OMPutEndOMA( writer );
 if has_attributes then
+  OMIndent := OMIndent - 1; 
   OMWriteLine( stream, [ "</OMATTR>" ] );
-  OMIndent := OMIndent - 1;
 fi;
-OMWriteLine( stream, [ "</OMOBJ>" ] );
+OMPutEndOMOBJ( writer );
 WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
   IO_Flush( stream![1] );

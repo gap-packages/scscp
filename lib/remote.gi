@@ -87,10 +87,8 @@ end);
 InstallMethod( OMPut, "for stream and RemoteObject",
 [ IsOpenMathXMLWriter, IsRemoteObjectRep and IsRemoteObject ],
 function ( writer, x )
-# old                                            name    @   server  :   port
-# old OMWriteLine( writer![1], [ "<OMR href=\"", x![1], "@", x![2], ":", x![3], "\" />" ] );
-# new                                          scscp://   server  :   port    /   name
        OMWriteLine( writer![1], [ "<OMR href=\"scscp://", x![2], ":", x![3], "/", x![1], "\" />" ] );
+# Writing references in the form   <OMR href= "scscp://   server  :   port    /   name     " />
 return;
 end);
 
