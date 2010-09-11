@@ -29,6 +29,9 @@ SCSCPserverMode := false;
 # be switched using the EventsTracesTo function
 IN_SCSCP_TRACING_MODE := false;
 
+# Setting the default OpenMath encoding to XML
+IN_SCSCP_BINARY_MODE := false;
+
 # read the other part of code  
 ReadPackage("scscp/lib/utils.g");
 ReadPackage("scscp/config.g");

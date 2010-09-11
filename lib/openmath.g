@@ -275,12 +275,14 @@ function( stream )
     firstbyte := ReadByte(stream);
     
     if firstbyte = 24 then 
-  	    # Binary encoding
+  	    # Reading binary encoding => set reply mode to binary
+  	    IN_SCSCP_BINARY_MODE:=true;  
  	    gap_obj := GetNextObject( stream, firstbyte );
      	gap_obj := OMParseXmlObj( gap_obj );
-        return gap_obj;
+        return rec( object := gap_obj, attributes := OMParseXmlObj( OMTempVars.OMATTR ) );
     else
-     	# XML encoding
+     	# Reading XML encoding => set reply mode to XML
+     	IN_SCSCP_BINARY_MODE:=false;  
         fromgap := "";                
         # Get one OpenMath object from 'stream' and put into 'fromgap',
         # using PipeOpenMathObject
@@ -555,10 +557,11 @@ end;
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
 local writer, cdname, debug_option, has_attributes, attr, nameandargs;
-
-# TODO: support both writers
-writer:=OpenMathXMLWriter(stream);
-
+if IN_SCSCP_BINARY_MODE then
+	writer:=OpenMathBinaryWriter(stream);
+else 
+	writer:=OpenMathXMLWriter(stream);
+fi;
 if IsClosedStream( stream )  then
   Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
 fi;
@@ -655,8 +658,11 @@ end);
 InstallGlobalFunction( OMPutProcedureCompleted,
 function( stream, objrec )
 local writer, has_attributes, attr;
-# TODO: support both writers
-writer:=OpenMathXMLWriter(stream);
+if IN_SCSCP_BINARY_MODE then
+	writer:=OpenMathBinaryWriter(stream);
+else 
+	writer:=OpenMathXMLWriter(stream);
+fi;
 if IsClosedStream( stream )  then
   Error( "closed stream" );
 fi;
@@ -718,8 +724,11 @@ end);
 InstallGlobalFunction( OMPutProcedureTerminated,
 function( stream, objrec, error_cd, error_type )
 local writer, has_attributes, attr;
-# TODO: support both writers
-writer:=OpenMathXMLWriter(stream);
+if IN_SCSCP_BINARY_MODE then
+	writer:=OpenMathBinaryWriter(stream);
+else 
+	writer:=OpenMathXMLWriter(stream);
+fi;
 if IsClosedStream( stream )  then
   Error( "closed stream" );
 fi;
