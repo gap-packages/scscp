@@ -278,7 +278,7 @@ function( stream )
   	    # Reading binary encoding => set reply mode to binary
   	    IN_SCSCP_BINARY_MODE:=true;  
  	    gap_obj := GetNextObject( stream, firstbyte );
-     	gap_obj := OMParseXmlObj( gap_obj );
+     	gap_obj := OMParseXmlObj( gap_obj.content[1] );
         return rec( object := gap_obj, attributes := OMParseXmlObj( OMTempVars.OMATTR ) );
     else
      	# Reading XML encoding => set reply mode to XML
