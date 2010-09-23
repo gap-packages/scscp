@@ -90,7 +90,7 @@ InstallGlobalFunction( NewProcess,
 function( command, listargs, server, port )
 
 local tcpstream, session_id, omtext, localstream, output_option, debug_option, 
-      cdname, attribs, ns, pos1, pos2, pid;
+      cdname, attribs, ns, pos1, pos2, pid, token;
 
 if ValueOption("output") <> fail then
   output_option := ValueOption("output");
@@ -142,7 +142,17 @@ if InfoLevel( InfoSCSCP ) > 2 then
                       command, 
                       rec(     object := listargs, 
                            attributes := attribs ) : cd:=cdname );
-  Print(omtext);
+  if IN_SCSCP_BINARY_MODE then
+    localstream:=InputTextString( omtext );
+    token:=ReadByte( localstream );
+    while token <> fail do
+      Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
+      token:=ReadByte( localstream );
+    od;
+    Print("\n");
+  else
+    Print(omtext);
+  fi;
   WriteAll( tcpstream, omtext );
   if IsInputOutputTCPStream( tcpstream ) then
     IO_Flush( tcpstream![1] );
@@ -151,8 +161,8 @@ else
   
   OMPutProcedureCall( tcpstream, 
                       command, 
-                        rec(     object := listargs, 
-                             attributes := attribs ) : cd:=cdname );
+                      rec(     object := listargs, 
+                           attributes := attribs ) : cd:=cdname );
 
 fi;
               
