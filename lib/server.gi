@@ -36,7 +36,8 @@ local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor,
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
      return_cookie, return_nothing, return_deferred, cookie, omtext, localstream, callresult, responseresult,
      errormessage, str, session_id, welcome_string, session_cookies,
-     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname, todo;
+     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname, 
+     todo, token;
 
 Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
 
@@ -253,10 +254,20 @@ else
                             localstream := OutputTextString( omtext, true );
                             OMPutProcedureTerminated( localstream, 
                                 rec( object:=errormessage[1], 
-                                 attributes:=callinfo ), 
+                                attributes:=callinfo ), 
                                 errormessage[2], 
                                 errormessage[3] );
-                            Print(omtext);
+                            if IN_SCSCP_BINARY_MODE then
+                            	localstream:=InputTextString( omtext );
+                            	token:=ReadByte( localstream );
+                            	while token <> fail do
+                                	Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
+                                	token:=ReadByte( localstream );
+                                od;
+                                Print("\n#I  Total length ", Length(omtext), " bytes \n");
+                            else
+                            	Print(omtext, "#I  Total length ", Length(omtext), " characters \n");
+                            fi;
                         fi;          
               
                         responseresult := CALL_WITH_CATCH( OMPutProcedureTerminated, 
@@ -310,7 +321,17 @@ else
                         omtext:="";
                         localstream := OutputTextString( omtext, true );
                         CALL_WITH_CATCH( OMPutProcedureCompleted, [ localstream, output ] );
-                        Print(omtext);
+                        if IN_SCSCP_BINARY_MODE then
+                            localstream:=InputTextString( omtext );
+                            token:=ReadByte( localstream );
+                            while token <> fail do
+                                Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
+                                token:=ReadByte( localstream );
+                            od;
+                            Print("\n#I  Total length ", Length(omtext), " bytes \n");
+                        else
+                            Print(omtext, "#I  Total length ", Length(omtext), " characters \n");
+                        fi;
                     fi;       
  
                     responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );

@@ -19,7 +19,7 @@ ProcessDefaultType := NewType( ProcessesFamily,
                                IsProcessRepresentation and IsProcess);
 
 if IsReadOnlyGlobal("OnQuit") then
-	MakeReadWriteGlobal("OnQuit");
+    MakeReadWriteGlobal("OnQuit");
 fi;
 
 OnQuit:=function()
@@ -93,27 +93,27 @@ local tcpstream, session_id, omtext, localstream, output_option, debug_option,
       cdname, attribs, ns, pos1, pos2, pid, token;
 
 if ValueOption("output") <> fail then
-  output_option := ValueOption("output");
+    output_option := ValueOption("output");
 else
-  output_option := "object";  
+    output_option := "object";  
 fi;
 
 if output_option = "tree" then
-	output_option:="option_return_object"; 
+    output_option:="option_return_object"; 
 else
-	output_option:=Concatenation( "option_return_", output_option );
+    output_option:=Concatenation( "option_return_", output_option );
 fi;
 
 if ValueOption("cd") <> fail then
-  cdname := ValueOption("cd");
+    cdname := ValueOption("cd");
 else
-  cdname := "";
+    cdname := "";
 fi;
 
 if ValueOption("debuglevel") <> fail then
-  debug_option := ValueOption("debuglevel");
+    debug_option := ValueOption("debuglevel");
 else
-  debug_option := 0;
+    debug_option := 0;
 fi;
 
 tcpstream := InputOutputTCPStream( server, port );
@@ -122,47 +122,48 @@ SCSCP_CURRENT_SESSION_STREAM := tcpstream;
 
 pos1 := PositionNthOccurrence(session_id,':',2);
 if pos1 <> fail then
-  pid := EvalString( session_id{[ pos1+1 .. Length(session_id) ]} );
+    pid := EvalString( session_id{[ pos1+1 .. Length(session_id) ]} );
 else
-  pid:=0;
+    pid:=0;
 fi;
 
 attribs := [ [ "call_id", Concatenation( session_id, ":", RandomString(8) ) ] ];
 Add( attribs, [ output_option, "" ] );
 if debug_option > 0 then
-  Add( attribs, [ "option_debuglevel", debug_option ] );
+    Add( attribs, [ "option_debuglevel", debug_option ] );
 fi; 
 
 if InfoLevel( InfoSCSCP ) > 2 then
 
-  Print("#I  Composing procedure_call message: \n");
-  omtext:="";
-  localstream := OutputTextString( omtext, true );
-  OMPutProcedureCall( localstream, 
-                      command, 
-                      rec(     object := listargs, 
-                           attributes := attribs ) : cd:=cdname );
-  if IN_SCSCP_BINARY_MODE then
-    localstream:=InputTextString( omtext );
-    token:=ReadByte( localstream );
-    while token <> fail do
-      Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
-      token:=ReadByte( localstream );
-    od;
-    Print("\n");
-  else
-    Print(omtext);
-  fi;
-  WriteAll( tcpstream, omtext );
-  if IsInputOutputTCPStream( tcpstream ) then
-    IO_Flush( tcpstream![1] );
-  fi;
+    Print("#I  Composing procedure_call message: \n");
+    omtext:="";
+    localstream := OutputTextString( omtext, true );
+    OMPutProcedureCall( localstream, 
+                        command, 
+                        rec(     object := listargs, 
+                             attributes := attribs ) : cd:=cdname );
+    if IN_SCSCP_BINARY_MODE then
+        localstream:=InputTextString( omtext );
+        token:=ReadByte( localstream );
+        while token <> fail do
+            Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
+            token:=ReadByte( localstream );
+        od;
+        Print("\n#I  Total length ", Length(omtext), " bytes \n");
+    else
+        Print(omtext, "#I  Total length ", Length(omtext), " characters \n");
+    fi;
+    WriteAll( tcpstream, omtext );
+    if IsInputOutputTCPStream( tcpstream ) then
+        IO_Flush( tcpstream![1] );
+    fi;
+  
 else
   
-  OMPutProcedureCall( tcpstream, 
-                      command, 
-                      rec(     object := listargs, 
-                           attributes := attribs ) : cd:=cdname );
+    OMPutProcedureCall( tcpstream, 
+                        command, 
+                        rec(     object := listargs, 
+                             attributes := attribs ) : cd:=cdname );
 
 fi;
               
@@ -202,10 +203,10 @@ else
 fi;    
 
 if result = fail then
-	Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", tcpstream![2], ":", tcpstream![3][1], ", returning fail" );
+    Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", tcpstream![2], ":", tcpstream![3][1], ", returning fail" );
 else
-	Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
-fi;	
+    Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
+fi; 
 CloseStream(tcpstream); 
 SCSCP_CURRENT_SESSION_STREAM := fail;
 return result;
