@@ -20,6 +20,7 @@ LoadPackage("scscp");
 LoadPackage("factint");
 LoadPackage("anupq");
 LoadPackage("monoid");
+LoadPackage("cvec");
 ReadPackage("scscp/example/karatsuba.g");
 
 #############################################################################
