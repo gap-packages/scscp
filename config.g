@@ -15,7 +15,7 @@
 #
 
 # setting the default InfoLevels
-SetInfoLevel(InfoSCSCP,3);
+SetInfoLevel(InfoSCSCP,0);
 SetInfoLevel(InfoMasterWorker,2);
 
 # If the SuppressOpenMathReferences is set to true, then 
