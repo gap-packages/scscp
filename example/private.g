@@ -112,4 +112,4 @@ fi;
 end;
 
 InstallSCSCPprocedure( "SCSCPRestoreErrorsOnServer", SCSCPRestoreErrorsOnServer, 
-	"To make break loops happening on the server", 0, 0 );	
+	"To make break loops happening on the server", 0, 0 );
