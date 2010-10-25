@@ -34,7 +34,7 @@ BindGlobal( "Demonstration", function( file )
             last3 := last2;
             last2 := last;
             last := result;
-            View( result);
+            View(result);
             Print("\n" );
         fi;
 
@@ -49,4 +49,4 @@ BindGlobal( "Demonstration", function( file )
     InputLogTo();
 end );
 
-Demonstration("issac2010.g");
+Demonstration("unikl2010.g");
