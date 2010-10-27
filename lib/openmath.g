@@ -695,7 +695,8 @@ else
   OMPutApplication( writer, "scscp1", "procedure_completed", [ ] );
 fi;  
 if has_attributes then
-  OMPutEndOMATTR( writer );fi;
+  OMPutEndOMATTR( writer );
+fi;
 OMPutEndOMOBJ( writer );
 WriteLine( stream, "<?scscp end ?>" );
 if IsInputOutputTCPStream( stream ) then
