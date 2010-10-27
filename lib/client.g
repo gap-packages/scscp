@@ -117,7 +117,7 @@ end);
 
 #############################################################################
 #
-# EvaluateBySCSCP( command, listargs, server, port : 
+# EvaluateBySCSCP( command, listargs, <connection | server, port> : 
 #                  output:=object/coookie/nothing/tree, 
 #                  cd:="cdname", debuglevel:=N );
 #
@@ -133,9 +133,9 @@ end);
 # dictionary when it is different from the transient CD used by default.
 #
 InstallGlobalFunction( EvaluateBySCSCP,
-function( command, listargs, server, port )
+function( arg )
 
-local output_option, debug_option, opt, cdname, result;
+local output_option, debug_option, opt, cdname, process, result;
 
 if ValueOption("output") <> fail then
   output_option := ValueOption("output");
@@ -159,13 +159,27 @@ else
   debug_option := 0;
 fi;
 
-result := NewProcess( command, listargs, server, port : output := output_option, cd:=cdname, debuglevel := debug_option );
+if Length(arg)=3 then
+    process := NewProcess( arg[1], arg[2], arg[3] : output := output_option, 
+                                    cd:=cdname, debuglevel := debug_option );
+elif Length(arg)=4 then
+    process := NewProcess( arg[1], arg[2], arg[3], arg[4] : output := output_option, 
+                                    cd:=cdname, debuglevel := debug_option );
+else
+    Error("EvaluateBySCSCP : wrong number of arguments\n");
+fi;
 
 Info( InfoSCSCP, 1, "Waiting for reply ...");
 if output_option = "tree" then
-  result := CompleteProcess( result : output:="tree" );
+  result := CompleteProcess( process : output:="tree" );
 else
-  result := CompleteProcess( result );
+  result := CompleteProcess( process );
 fi;
+
+if Length(arg)=4 then
+  CloseStream( process![1] );
+fi;
+
 return result;
 end);
+

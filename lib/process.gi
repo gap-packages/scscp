@@ -24,18 +24,20 @@ fi;
 
 OnQuit:=function()
 if SCSCP_CURRENT_SESSION_STREAM <> fail then
-    Print( "SCSCP : ", SCSCP_CURRENT_SESSION_STREAM );
-    CloseStream( SCSCP_CURRENT_SESSION_STREAM );
-    Print( " is closed\n" );
+    if not IsClosedStream( SCSCP_CURRENT_SESSION_STREAM ) then
+        Print( "SCSCP : ", SCSCP_CURRENT_SESSION_STREAM );
+        CloseStream( SCSCP_CURRENT_SESSION_STREAM );
+        Print( " is closed\n" );
+    fi;    
     SCSCP_CURRENT_SESSION_STREAM := fail;
-    if not IsEmpty( OptionsStack )  then
-        repeat
-            PopOptions(  );
-        until IsEmpty( OptionsStack );
-        Info( InfoWarning, 1, "Options stack has been reset" );
-    fi;
-    return;
+fi;    
+if not IsEmpty( OptionsStack )  then
+    repeat
+        PopOptions(  );
+    until IsEmpty( OptionsStack );
+    Info( InfoWarning, 1, "Options stack has been reset" );
 fi;
+return;
 end;
 
 MakeReadOnlyGlobal("OnQuit");
@@ -79,7 +81,7 @@ end);
 
 #############################################################################
 #
-# NewProcess( command, listargs, server, port : 
+# NewProcess( command, listargs, <connection | server, port> : 
 #                               output:=object/coookie/nothing/deferred, 
 #                                             cd:="cdname", debuglevel:=N );
 #
@@ -87,7 +89,7 @@ end);
 # returns the InputOutputTCPStream for waiting the result
 #
 InstallGlobalFunction( NewProcess,
-function( command, listargs, server, port )
+function( arg )
 
 local tcpstream, session_id, omtext, localstream, output_option, debug_option, 
       cdname, attribs, ns, pos1, pos2, pid, token;
@@ -116,8 +118,14 @@ else
     debug_option := 0;
 fi;
 
-tcpstream := InputOutputTCPStream( server, port );
-session_id := StartSCSCPsession( tcpstream );
+if Length(arg)=3 then
+    tcpstream  := arg[3]![1]; # connection's stream 
+    session_id := arg[3]![2];# connection's session_id
+else
+    tcpstream  := InputOutputTCPStream( arg[3], arg[4] );
+    session_id := StartSCSCPsession( tcpstream );
+fi;
+    
 SCSCP_CURRENT_SESSION_STREAM := tcpstream;
 
 pos1 := PositionNthOccurrence(session_id,':',2);
@@ -139,8 +147,8 @@ if InfoLevel( InfoSCSCP ) > 2 then
     omtext:="";
     localstream := OutputTextString( omtext, true );
     OMPutProcedureCall( localstream, 
-                        command, 
-                        rec(     object := listargs, 
+                        arg[1], 
+                        rec(     object := arg[2], 
                              attributes := attribs ) : cd:=cdname );
     if IN_SCSCP_BINARY_MODE then
         localstream:=InputTextString( omtext );
@@ -161,8 +169,8 @@ if InfoLevel( InfoSCSCP ) > 2 then
 else
   
     OMPutProcedureCall( tcpstream, 
-                        command, 
-                        rec(     object := listargs, 
+                        arg[1], 
+                        rec(     object := arg[2], 
                              attributes := attribs ) : cd:=cdname );
 
 fi;
@@ -207,7 +215,9 @@ if result = fail then
 else
     Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
 fi; 
-CloseStream(tcpstream); 
+# CloseStream(tcpstream); 
+# TODO: Close stream where needed elsewhere, check what's with the line below
+# or introduce CompleteProcessNotClosingStream (ugly)
 SCSCP_CURRENT_SESSION_STREAM := fail;
 return result;
 end);

@@ -563,7 +563,7 @@ else
 	writer:=OpenMathXMLWriter(stream);
 fi;
 if IsClosedStream( stream )  then
-  Error( "OMPutProcedureCall: the 2nd argument <proc_name> must be a string \n" );
+  Error( "OMPutProcedureCall: the 1st argument <proc_name> must be an open stream \n" );
 fi;
 
 if IsBound( objrec.object ) and not IsList( objrec.object ) then
