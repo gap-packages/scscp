@@ -176,10 +176,7 @@ else
   result := CompleteProcess( process );
 fi;
 
-if Length(arg)=4 then
-  CloseStream( process![1] );
-fi;
-
 return result;
+
 end);
 
