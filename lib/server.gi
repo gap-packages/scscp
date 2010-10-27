@@ -233,6 +233,8 @@ else
                     fi;
     
                     if not callresult[1] or ( IsBound( objrec.is_error) and (objrec.is_error) ) then
+                        # preparations to send an error message to the client
+                        IN_SCSCP_BINARY_MODE := false;
                         if InfoLevel( InfoSCSCP ) > 0 then
                             Print( "#I  Sending error message: ", objrec.object, "\n" );
                         fi; 
@@ -257,17 +259,7 @@ else
                                 attributes:=callinfo ), 
                                 errormessage[2], 
                                 errormessage[3] );
-                            if IN_SCSCP_BINARY_MODE then
-                            	localstream:=InputTextString( omtext );
-                            	token:=ReadByte( localstream );
-                            	while token <> fail do
-                                	Print( EnsureCompleteHexNum( HexStringInt( token ) ) );
-                                	token:=ReadByte( localstream );
-                                od;
-                                Print("\n#I  Total length ", Length(omtext), " bytes \n");
-                            else
-                            	Print(omtext, "#I  Total length ", Length(omtext), " characters \n");
-                            fi;
+                            Print(omtext, "#I  Total length ", Length(omtext), " characters \n");
                         fi;          
               
                         responseresult := CALL_WITH_CATCH( OMPutProcedureTerminated, 
