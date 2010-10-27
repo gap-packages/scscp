@@ -7,11 +7,28 @@
 ##
 #############################################################################
 
+#############################################################################
+# 
+# The current stream is remembered to properly close the connection 
+# after an exit from a break loop
+#
 SCSCP_CURRENT_SESSION_STREAM := fail;
 
+
+#############################################################################
+# 
+# IsProcessRepresentation
+#
+# The 1st element is a stream
+# The 2nd is a process id
+# The 3rd is true if the process is a part of a multi-session
+# (that is, the stream should not be closed after the process is
+# completed in order to continue the session without another 
+# handshaking stage
+# 
 DeclareRepresentation( "IsProcessRepresentation", 
                        IsPositionalObjectRep,
-                       [ 1, 2 ] );
+                       [ 1, 2, 3 ] );
                        
 ProcessesFamily := NewFamily( "ProcessesFamily(...)", IsProcess );
                        
@@ -57,7 +74,11 @@ function( proc )
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("process at ",stream![2],":",stream![3][1], " pid=", pid, " >");
+    Print( "process " );
+    if proc![3] then
+        Print("in session ");
+    fi;    
+    Print("at ",stream![2],":",stream![3][1], " pid=", pid, " >");
 end);
 
 
@@ -75,7 +96,11 @@ function( proc )
     if IsClosedStream(stream) then
         Print("closed ");
     fi;
-    Print("process at ",stream![2],":",stream![3][1], " pid=", pid, " >");
+    Print( "process " );
+    if proc![3] then
+        Print("in session ");
+    fi; 
+    Print("at ",stream![2],":",stream![3][1], " pid=", pid, " >");
 end);
 
 
@@ -92,7 +117,7 @@ InstallGlobalFunction( NewProcess,
 function( arg )
 
 local tcpstream, session_id, omtext, localstream, output_option, debug_option, 
-      cdname, attribs, ns, pos1, pos2, pid, token;
+      cdname, attribs, ns, pos1, pos2, pid, token, multisession;
 
 if ValueOption("output") <> fail then
     output_option := ValueOption("output");
@@ -121,9 +146,11 @@ fi;
 if Length(arg)=3 then
     tcpstream  := arg[3]![1]; # connection's stream 
     session_id := arg[3]![2];# connection's session_id
+    multisession := true;
 else
     tcpstream  := InputOutputTCPStream( arg[3], arg[4] );
     session_id := StartSCSCPsession( tcpstream );
+    multisession := false;
 fi;
     
 SCSCP_CURRENT_SESSION_STREAM := tcpstream;
@@ -177,7 +204,7 @@ fi;
               
 Info( InfoSCSCP, 1, "Request sent ...");
 SCSCP_CURRENT_SESSION_STREAM := fail;             
-return Objectify( ProcessDefaultType, [ tcpstream, pid ] );
+return Objectify( ProcessDefaultType, [ tcpstream, pid, multisession ] );
 end); 
 
 
@@ -215,9 +242,9 @@ if result = fail then
 else
     Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
 fi; 
-# CloseStream(tcpstream); 
-# TODO: Close stream where needed elsewhere, check what's with the line below
-# or introduce CompleteProcessNotClosingStream (ugly)
+if not process![3] then # we are in single call session
+  CloseStream(tcpstream); 
+fi;  
 SCSCP_CURRENT_SESSION_STREAM := fail;
 return result;
 end);
