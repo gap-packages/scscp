@@ -84,11 +84,37 @@ end);
 ##
 #M  OMPut( <RemoteObject> )
 ##
-InstallMethod( OMPut, "for stream and RemoteObject",
+InstallMethod( OMPut, "for OpenMath XML writer and RemoteObject",
 [ IsOpenMathXMLWriter, IsRemoteObjectRep and IsRemoteObject ],
 function ( writer, x )
        OMWriteLine( writer![1], [ "<OMR href=\"scscp://", x![2], ":", x![3], "/", x![1], "\" />" ] );
 # Writing references in the form   <OMR href= "scscp://   server  :   port    /   name     " />
+return;
+end);
+
+
+#############################################################################
+##
+#M  OMPut( <RemoteObject> )
+##
+InstallMethod( OMPut, "for OpenMath binary writer and RemoteObject",
+[ IsOpenMathBinaryWriter, IsRemoteObjectRep and IsRemoteObject ],
+function ( writer, x )
+local refStri, refLength, lengthList;
+# Error("IN!!!\n");
+#      OMWriteLine( writer![1], [ "<OMR href=\"scscp://", x![2], ":", x![3], "/", x![1], "\" />" ] );
+# Writing references in the form   <OMR href= "scscp://   server  :   port    /   name     " />
+   refStri := Concatenation( "scscp://", x![2], ":", String(x![3]), "/", x![1] );
+   refLength := Length(refStri); 
+   if refLength > 255 then
+   	WriteByte (writer![1], 159); #31+128
+   	lengthList := BigIntToListofInts(refLength);
+	WriteIntasBytes(writer![1], lengthList);
+   else 
+   	WriteByte (writer![1], 31);
+   	WriteByte (writer![1], refLength);
+   fi;
+   WriteAll(writer![1], refStri);
 return;
 end);
 
