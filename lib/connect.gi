@@ -3,7 +3,7 @@
 #W process.gi               The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: process.gi 4280 2010-09-23 19:47:58Z alexk $
+#H $Id$
 ##
 #############################################################################
 
