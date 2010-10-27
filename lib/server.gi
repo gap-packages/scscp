@@ -95,7 +95,7 @@ else
           "\" scscp_versions=\"1.0 1.1 1.2 1.3\" ?>");
     Print( "#I  Ready to accept TCP/IP connections at ", 
            server, ":", port, " ... \n" );
-    IO_listen( socket, 5 ); # Allow a backlog of 5 connections
+    IO_listen( socket, SCSCPqueueLength ); # Allow a backlog of 5 connections
     session_cookies := [];
     repeat # until false: this is the outer infinite loop
         disconnect := false;  

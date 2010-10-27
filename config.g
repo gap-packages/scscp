@@ -57,6 +57,13 @@ SCSCPserverPort := 26133;
 #
 SCSCPserverAcceptsOnlyTransientCD := false;
 
+# The server may have a backlog of SCSCPqueueLength connections:
+# if the client will try to connect while the server is busy, it
+# will be placed in the queue if the current length of the queue 
+# is shorter than SCSCPqueueLength. Otherwise, the connection will
+# be refused.
+SCSCPqueueLength := 5;
+
 # setting the name of the service, for example, 
 # "GAP SCSCP service", "Group identification service" etc.
 SCSCPserviceName:="GAP SCSCP service";
