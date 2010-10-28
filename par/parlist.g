@@ -59,7 +59,7 @@ function( inputlist, remoteprocname )
 local noretry, status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed, 
-      len, infomw;
+      len, infomw, connections;
        
 if ValueOption("timeout")=fail then
   timeout:=60*60; # default timeout - one hour, given in seconds;
@@ -81,6 +81,7 @@ fi;
 
 infomw:=InfoLevel(InfoMasterWorker);
 
+connections := [];
 status := [ ];
 nrservices_alive:=0;
 nrservices_needed:=Length( inputlist );
@@ -88,17 +89,18 @@ len:=Length( inputlist );
 
 for i in [ 1 .. Length(SCSCPservers) ] do
     if PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
-      status[i]:=0; # not alive  
-      Info( InfoSCSCP, 1, SCSCPservers[i], " is not responding and will not be used!" );
-    else  
-      status[i]:=1; # alive and ready to accept
-      Info( InfoSCSCP, 1, SCSCPservers[i], " responded and attached to the computation!" );
-      nrservices_alive := nrservices_alive + 1;
-      if nrservices_alive >= nrservices_needed then
-        break;
-      fi;
+    	status[i]:=0; # the server is not alive  
+    	Info( InfoSCSCP, 1, SCSCPservers[i], " is not responding and will not be used!" );
+    else 
+        connections[i] := NewSCSCPconnection( SCSCPservers[i][1], SCSCPservers[i][2] );
+    	status[i]:=1; # the server is alive and ready to accept
+        Info( InfoSCSCP, 1, SCSCPservers[i], " responded and attached to the computation!" );
+        nrservices_alive := nrservices_alive + 1;
+        if nrservices_alive >= nrservices_needed then
+        	break;
+        fi;
     fi;   
-  od;
+od;
 
 if nrservices_alive = 0 then
 	Error( "Can not start computation - no SCSCP service available!\n" );
@@ -121,6 +123,7 @@ while true do
   	      if PingSCSCPservice( SCSCPservers[i][1], SCSCPservers[i][2] )=fail then
             Info( InfoSCSCP, 1, SCSCPservers[i], "is still not responding and can not be used!" );
           else  
+            connections[i]:=NewSCSCPconnection( SCSCPservers[i][1], SCSCPservers[i][2] );
             status[i]:=1; # alive and ready to accept
             Info( InfoSCSCP, 1, SCSCPservers[i], " responded and attached to the computation!" );
             nrservices_alive := nrservices_alive + 1;
@@ -154,8 +157,9 @@ while true do
       fi;	
       # remember which argument was sent to this service
       callargspositions[nr] := inputposition;
-      SCSCPprocesses[nr] := NewProcess( remoteprocname, [ inputlist[inputposition] ], 
-                                   SCSCPservers[nr][1], SCSCPservers[nr][2] );
+      SCSCPprocesses[nr] := NewProcess( remoteprocname, 
+                                        [ inputlist[inputposition] ], 
+                                        connections[nr] );
       if infomw <> 0 then                       
         if infomw = 1 then
       	  Print( inputposition, "/", len, "\r");
@@ -182,6 +186,11 @@ while true do
   	  if not noretry and ( Length(output) <> Length(inputlist) or not IsDenseList(output) ) then
   	    Error( "The output list does not match the input list!\n" );
   	  else
+  	    for i in [1..Length(connections)] do
+  	      if not IsClosedStream ( connections[i]![1] ) then
+  	        CloseSCSCPconnection( connections[i] );
+  	      fi;  
+  	    od;
         return output;
       fi;
     else
@@ -208,6 +217,7 @@ while true do
   	  if not IsClosedStream( SCSCPprocesses[nr]![1] ) then
 		CloseStream( SCSCPprocesses[nr]![1] );
 	  fi;	
+	  CloseSCSCPconnection( connections[nr] );
       result:=fail;
     else  
    	  Error( "ParSCSCP: waited for ", timeout, " seconds with no response from ", SCSCPservers{waitinglist}, "\n" );  
