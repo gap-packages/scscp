@@ -281,6 +281,12 @@ function( stream )
      	gap_obj := OMParseXmlObj( gap_obj.content[1] );
         return rec( object := gap_obj, attributes := OMParseXmlObj( OMTempVars.OMATTR ) );
     else
+    
+    	if firstbyte = fail then
+      		Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
+      		return fail;
+    	fi;
+    	
      	# Reading XML encoding => set reply mode to XML
      	IN_SCSCP_BINARY_MODE:=false;  
         fromgap := "";                
