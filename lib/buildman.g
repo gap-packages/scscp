@@ -11,8 +11,7 @@
 ##
 ##  SCSCPBuildManual()
 ##
-BindGlobal( "SCSCPBuildManual",
-function()
+BindGlobal( "SCSCPBuildManual", function()
 local path, main, files, bookname;
 path:=Concatenation(
                GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");
@@ -27,8 +26,7 @@ end);
 ##
 ##  SCSCPBuildManualHTML()
 ##
-BindGlobal( "SCSCPBuildManualHTML",
-function()
+BindGlobal( "SCSCPBuildManualHTML", function()
 local path, main, files, str, r, h;
 path:=Concatenation(
                GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");

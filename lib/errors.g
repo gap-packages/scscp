@@ -12,8 +12,7 @@ if VERSION = "4.dev" then
 MakeReadWriteGlobal( "ErrorInner" );
 UnbindGlobal( "ErrorInner" );
 
-BIND_GLOBAL( "ErrorInner",
-    function( arg ) 
+BindGlobal( "ErrorInner", function( arg ) 
    
         if not IsLVarsBag(arg[1].context) then
             PrintTo("*errout*", "ErrorInner:   option context must be a local variables bag\n");

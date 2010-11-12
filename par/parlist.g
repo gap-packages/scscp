@@ -34,8 +34,7 @@ end;
 # ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 # ParQuickWithSCSCP( [ "WS_FactorsCFRAC", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 #
-InstallGlobalFunction( ParQuickWithSCSCP,
-function( commands, listargs )
+InstallGlobalFunction( ParQuickWithSCSCP, function( commands, listargs )
 local nr, res;
 if Length( commands ) < Length( SCSCPservers ) then
   Error("ParQuickWithSCSCP : the number of procedures smaller than the number of services!!!\n");
@@ -54,8 +53,7 @@ end);
 ##
 ## ParListWithSCSCP( inputlist, remoteprocname : noretry, timeout=int, recallfrequency=int )
 ##
-InstallGlobalFunction( ParListWithSCSCP,
-function( inputlist, remoteprocname )
+InstallGlobalFunction( ParListWithSCSCP, function( inputlist, remoteprocname )
 local noretry, status, i, itercount, recallfreq, output, callargspositions, 
       currentposition, inputposition, timeout, nr, waitinglist, descriptors, 
       s, nrdesc, retrystack, result, nrservices_alive, nrservices_needed, 

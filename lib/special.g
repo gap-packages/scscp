@@ -12,8 +12,7 @@
 #
 # GetAllowedHeads( server, port )
 #
-InstallGlobalFunction( GetAllowedHeads,
-function( server, port )
+InstallGlobalFunction( GetAllowedHeads, function( server, port )
 local r, i, res;
 r := EvaluateBySCSCP( "get_allowed_heads", [], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
@@ -38,8 +37,7 @@ end);
 #
 # GetServiceDescription( server, port )
 #
-InstallGlobalFunction( GetServiceDescription,
-function( server, port )
+InstallGlobalFunction( GetServiceDescription, function( server, port )
 local r;
 r := EvaluateBySCSCP( "get_service_description", [], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
@@ -59,8 +57,7 @@ end);
 #
 # GetSignature( cd, name, server, port )
 #
-InstallGlobalFunction( GetSignature,
-function( cd, name, server, port )
+InstallGlobalFunction( GetSignature, function( cd, name, server, port )
 local r, ra, re;
 r := EvaluateBySCSCP( "get_signature",
   [ OMPlainString( Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>") ) ], 
@@ -93,8 +90,7 @@ end);
 #
 # GetTransientCD( cdname, server, port )
 #
-InstallGlobalFunction( GetTransientCD,
-function( cdname, server, port )
+InstallGlobalFunction( GetTransientCD, function( cdname, server, port )
 local r, rcd, re, i, j, res, t, defs, d;
 r := EvaluateBySCSCP( "get_transient_cd",
   [ OMPlainString( Concatenation( 
@@ -160,8 +156,7 @@ end);
 #
 # IsAllowedHead( cd, name, server, port )
 #
-InstallGlobalFunction( IsAllowedHead,
-function( cd, name, server, port )
+InstallGlobalFunction( IsAllowedHead, function( cd, name, server, port )
 return EvaluateBySCSCP( "is_allowed_head",
   [ OMPlainString( Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>") ) ], 
   server, port ).object;

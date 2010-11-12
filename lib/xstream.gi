@@ -159,8 +159,7 @@ end);
 ##
 #M  ReadAllIoTCPStream( <ioTCPstream> )
 ##
-BindGlobal( "ReadAllIoTCPStream",
-function(stream, limit)
+BindGlobal( "ReadAllIoTCPStream", function(stream, limit)
     local sofar, chunk, csize;
     if limit = -1 then
         csize := 20000;

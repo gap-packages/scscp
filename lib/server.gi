@@ -29,8 +29,7 @@ if VERSION <> "4.dev" then
     CALL_WITH_CATCH := CallFuncList;
 fi;
 
-InstallGlobalFunction( RunSCSCPserver,
-function( server, port )
+InstallGlobalFunction( RunSCSCPserver, function( server, port )
 
 local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 

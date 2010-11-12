@@ -11,7 +11,8 @@ DeclareRepresentation( "IsSCSCPconnectionRep",
                        IsPositionalObjectRep,
                        [ 1, 2 ] );
                        
-SCSCPconnectionsFamily := NewFamily( "SCSCPconnectionsFamily(...)", IsSCSCPconnection );
+SCSCPconnectionsFamily := NewFamily( "SCSCPconnectionsFamily(...)", 
+                            IsSCSCPconnection );
                        
 SCSCPconnectionDefaultType := NewType( SCSCPconnectionsFamily, 
                                IsSCSCPconnectionRep and IsSCSCPconnection);
@@ -53,8 +54,7 @@ function( connection )
 end);
 
 
-InstallGlobalFunction( NewSCSCPconnection,
-function( hostname, port )
+InstallGlobalFunction( NewSCSCPconnection, function( hostname, port )
 local tcpstream, session_id, pos1, pid;
 tcpstream:=InputOutputTCPStream( hostname, port );
 session_id := StartSCSCPsession( tcpstream );
@@ -62,8 +62,7 @@ return Objectify( SCSCPconnectionDefaultType, [ tcpstream, session_id ] );
 end);
 
 
-InstallGlobalFunction( CloseSCSCPconnection,
-function( connection )
+InstallGlobalFunction( CloseSCSCPconnection, function( connection )
 CloseStream( connection![1]);
 end);
 

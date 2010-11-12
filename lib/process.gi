@@ -113,8 +113,7 @@ end);
 # The function sends the request to the SCSCP server, and
 # returns the InputOutputTCPStream for waiting the result
 #
-InstallGlobalFunction( NewProcess,
-function( arg )
+InstallGlobalFunction( NewProcess, function( arg )
 
 local tcpstream, session_id, omtext, localstream, output_option, debug_option, 
       cdname, attribs, ns, pos1, pos2, pid, token, multisession;
@@ -215,8 +214,7 @@ end);
 # The function waits for the process completion, 
 # then collects the result and closes the stream
 #
-InstallGlobalFunction( CompleteProcess,
-function( process )
+InstallGlobalFunction( CompleteProcess, function( process )
 local tcpstream, result, output_option;
 
 if ValueOption( "output") <> fail then
@@ -260,8 +258,7 @@ end);
 # this function as a nameplace for further implementing a proper interrupt
 # mechanism.
 #
-InstallGlobalFunction( TerminateProcess,
-function( process )
+InstallGlobalFunction( TerminateProcess, function( process )
 # THIS WORKS ONLY LOCALLY
 if process![1]![2]="localhost" then
   IO_kill( process![2], IO.SIGINT );
@@ -323,8 +320,7 @@ end;
 #
 # SynchronizeProcesses( <list of processes> )
 # SynchronizeProcesses( <process1>, ..., <processN> )
-InstallGlobalFunction( SynchronizeProcesses,
-function( arg )
+InstallGlobalFunction( SynchronizeProcesses, function( arg )
 if Length(arg)=2 then
   return SynchronizeProcesses2( arg[1], arg[2] );
 else
@@ -385,8 +381,7 @@ end;
 # FirstProcess( <list of processes> )
 # FirstProcess( <process1>, ..., <processN> )
 #
-InstallGlobalFunction( FirstProcess,
-function( arg )
+InstallGlobalFunction( FirstProcess, function( arg )
 if Length(arg)=2 then
   return FirstProcess2( arg[1], arg[2] );
 else
@@ -470,8 +465,7 @@ end;
 # FirstTrueProcess( <list of processes> )
 # FirstTrueProcess( <process1>, ..., <processN> )
 #
-InstallGlobalFunction( FirstTrueProcess,
-function( arg )
+InstallGlobalFunction( FirstTrueProcess, function( arg )
 if Length(arg)=2 then
   return FirstTrueProcess2( arg[1], arg[2] );
 else

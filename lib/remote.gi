@@ -25,8 +25,7 @@ RemoteObjectDefaultType :=
 ##  RemoteObject should contain all information that is necessary 
 ##  to retrieve it from the remote system
 ##        
-InstallGlobalFunction( RemoteObject,
-function( identifier, hostname, port )
+InstallGlobalFunction( RemoteObject, function( identifier, hostname, port )
 local pos;
 if IsString(identifier) and IsString(hostname) and IsPosInt(port) then
 pos := PositionNthOccurrence( identifier, '/', 3);

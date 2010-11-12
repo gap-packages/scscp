@@ -12,8 +12,7 @@
 # InstallSCSCPprocedure( procname, procfunc 
 #                        [, description ] [, narg1 [, narg2 ] [, signature ] ])
 #
-InstallGlobalFunction( InstallSCSCPprocedure,
-function( arg )
+InstallGlobalFunction( InstallSCSCPprocedure, function( arg )
 local procname, procfunc, procdesc, minarg, maxarg, signature, 
       nodesc, nonarg, nosig, pos, SCSCPprocTable, x, userinput, answer, inforcemode;
 
