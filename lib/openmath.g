@@ -7,7 +7,7 @@
 ##
 #############################################################################
 
-if VERSION <> "4.dev" then
+if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
 	CALL_WITH_CATCH := CallFuncList;
 fi;
 

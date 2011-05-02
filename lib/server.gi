@@ -25,7 +25,7 @@ InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing,
 # The 1st argument may also be 'true' to listen to all network interfaces
 # or 'false' to bind the server strictly to "localhost".
 #
-if VERSION <> "4.dev" then
+if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
     CALL_WITH_CATCH := CallFuncList;
 fi;
 
