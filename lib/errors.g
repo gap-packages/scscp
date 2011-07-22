@@ -7,7 +7,7 @@
 ##
 #############################################################################
 
-if VERSION = "4.dev" then
+if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
 
 MakeReadWriteGlobal( "ErrorInner" );
 UnbindGlobal( "ErrorInner" );

@@ -152,7 +152,7 @@ else
                     if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
                     callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
                     if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
-                    if VERSION = "4.dev" then
+                    if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
                         if not callresult[1] then
                             disconnect:=true;
                             break;         
@@ -164,11 +164,11 @@ else
                     callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
                     rt2 := Runtime();
                     Info(InfoSCSCP, 1, "Evaluation completed");
-                    
-                    # Print( "Evaluation result: ", callresult, "\n");
-            
+
                     # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                    if VERSION <> "4.dev" then callresult := [ true, callresult ]; fi;
+                    if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
+                    	callresult := [ true, callresult ];
+                    fi;
 
                     objrec := callresult[2]; # can be record, fail or list of strings
 
@@ -269,7 +269,9 @@ else
                                                       errormessage[3] ] );
                                           
                         # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                        if VERSION <> "4.dev" then responseresult := [ true, responseresult ]; fi;
+                        if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then 
+                            responseresult := [ true, responseresult ]; 
+                        fi;
                                           
                         if responseresult[1] then
                             Info(InfoSCSCP, 1, "procedure_terminated message sent, closing connection ...");
@@ -328,7 +330,9 @@ else
                     responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );
 
                     # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                    if VERSION <> "4.dev" then responseresult := [ true, responseresult ]; fi;
+                    if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then 
+                        responseresult := [ true, responseresult ]; 
+                    fi;
                                         
                     if not responseresult[1] then
                         Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");               
