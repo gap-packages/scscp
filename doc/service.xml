@@ -1,45 +1,8 @@
 <Chapter Label="Service">
 <Heading>Service functions</Heading>
 
-<Section Label="Doctools">
-<Heading>Tools for making documentation</Heading>
-
-<ManSection>
-   <Func Name="SCSCPBuildManual" 
-          Arg="" 
-         Comm="requires GAPDoc, UNIX or Linux and TeX;" />
-   <Description>
-      This function is used to build the manual in PDF and HTML
-      formats and also in the plain text format for the online help.
-      To build the PDF version, a recent and fairly complete &TeX; 
-      distribution is recommended.
-      <P/>
-      Since the &SCSCP; manual is distributed together with the package,
-      it is not necessary for the user to use this function, which is
-      normally used only by developers.
-   </Description>
-</ManSection>
-
-
-<ManSection>
-   <Func Name="SCSCPBuildManualHTML" 
-          Arg=""
-	     Comm="requires only GAPDoc" />
-   <Description>
-      This function is used to build the manual only in HTML format.
-      This does not require &TeX; installation and works in any operating
-      system.
-      <P/>
-      Since the &SCSCP; manual is distributed together with the package,
-      it is not necessary for the user to use this function, which is
-      normally used only by developers.
-   </Description>
-</ManSection>
-
-</Section>
-
-<Section Label="Other">
-<Heading>Other commands</Heading>
+<Section Label="Pinging">
+<Heading>Pinging &SCSCP; servers</Heading>
 
 <ManSection>
    <Func Name="PingSCSCPservice"
@@ -100,6 +63,10 @@ min/avg/max = [ 0, 13/50, 2 ]
 ]]>
 </Example>
 
+</Section>
+
+<Section Label="InfoClassesForSCSCP">
+<Heading>Info classes for &SCSCP;</Heading>
 
 <ManSection>
    <InfoClass Name="InfoSCSCP"
@@ -264,6 +231,10 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 ]]>
 </Example>
 
+</Section>
+
+<Section Label="OtherSCSCPUtilities">
+<Heading>Other &SCSCP; Utilities</Heading>
 
 <ManSection>
     <Func Name="DateISO8601"
