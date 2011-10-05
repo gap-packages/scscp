@@ -3,8 +3,6 @@
 #W remote.gi                The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 

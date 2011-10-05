@@ -1,4 +1,3 @@
-# $Id$
 LoadPackage( "scscp" );
 scscpdir := DirectoriesPackageLibrary( "scscp", "" );
 Print("Looking for SCSCP server already running at port 26133 ... \n");

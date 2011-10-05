@@ -4,8 +4,6 @@
 #W gapd.sh                  The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 ## gapscscp.sh [-h host] [-a] [-l] [-u] [-p port] [-t]
 ##
 ## The following options may be used to overwrite the default method to

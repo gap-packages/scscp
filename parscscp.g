@@ -3,8 +3,6 @@
 #W parscscp.g               The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 for i in [26133..26134] do

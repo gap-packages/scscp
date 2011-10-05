@@ -4,8 +4,6 @@
 # which is not included in the package release and collected here
 # for easier release maintenance.
 #
-# $Id$
-#
 #############################################################################
 
 #############################################################################

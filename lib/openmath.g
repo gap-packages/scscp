@@ -3,8 +3,6 @@
 #W openmath.g               The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then

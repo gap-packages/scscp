@@ -1,5 +1,3 @@
-<!-- $Id$ -->
-
 <Chapter Label="ClientFunctionality">
 <Heading>Client's functionality</Heading>    
 
@@ -493,7 +491,10 @@ first service.
 
 <Example>
 <![CDATA[
-gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );< remote object TEMPVarSCSCP@localhost:26133 >gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )
+gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
+< remote object TEMPVarSCSCP@localhost:26133 >
+gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );
+rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )
 ]]>
 </Example>
 

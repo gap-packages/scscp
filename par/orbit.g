@@ -3,8 +3,6 @@
 #W orbit.g                  The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 ParOrbit:=function( G, n, services )

@@ -3,8 +3,6 @@
 #W config.g                 The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 ## This is a sample configuration file for the GAP package SCSCP. 
 ##
 #############################################################################

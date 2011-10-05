@@ -3,8 +3,6 @@
 #W read.g                   The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 # read the actual code. 

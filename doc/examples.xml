@@ -1,5 +1,3 @@
-<!-- $Id$ -->
-
 <Chapter Label="Examples">
 <Heading>Examples of &SCSCP; usage</Heading>    
 
@@ -118,7 +116,9 @@ GAP Small Groups library:
 IdGroup512ByCode := function( code )
 local G, F, H;
 G := PcGroupCode( code, 512 );
-F := PqStandardPresentation( G );H := PcGroupFpGroup( F );return IdStandardPresented512Group( H );
+F := PqStandardPresentation( G );
+H := PcGroupFpGroup( F );
+return IdStandardPresented512Group( H );
 end;
 ]]>
 </Example>

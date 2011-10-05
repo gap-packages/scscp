@@ -3,8 +3,6 @@
 #W process.gd               The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 DeclareCategory( "IsProcess", IsObject );

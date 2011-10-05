@@ -1,4 +1,4 @@
-# $Id$
+###########################################################################
 #
 # This is a GAP demonstration file
 # To run a demonstration enter the following:

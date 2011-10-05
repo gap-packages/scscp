@@ -3,8 +3,6 @@
 # This file demonstrates how remote objects may be treated 
 # in a uniform way with local objects
 #
-# $Id$
-#
 #############################################################################
  
 

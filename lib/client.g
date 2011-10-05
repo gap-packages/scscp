@@ -3,8 +3,6 @@
 #W client.g                 The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 

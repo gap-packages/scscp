@@ -1,5 +1,3 @@
-# $Id$
-
 TestFactorial:=function( server, port, username, nrsessions, sessionlength )
 # This is a test to experiment with various patterns of clients requests.
 # Usage example: TestFactorial( "localhost", 26133, "user1_", 10, 20 );

@@ -1,4 +1,4 @@
-gap> START_TEST("$Id$");
+gap> START_TEST("scscp");
 gap> SetInfoLevel(InfoSCSCP,0);
 gap> PingSCSCPservice( "localhost", 26133 );
 true

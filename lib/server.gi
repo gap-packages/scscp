@@ -3,8 +3,6 @@
 #W server.g                 The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id$
-##
 #############################################################################
 
 # additional procedures to turn tracing on/off

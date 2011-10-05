@@ -1,5 +1,3 @@
-# $Id$
-
 IdGroupWS := function( G )
 # this is the client's counterpart for the SCSCP service for the 
 # indentification of groups in the GAP Small Groups Library.

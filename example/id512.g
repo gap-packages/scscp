@@ -1,5 +1,3 @@
-# $Id$
-
 IdGroup512:=function( G )
 # this is the client's counterpart for the SCSCP service for the 
 # identification of groups of order 512 using the ANUPQ package. 

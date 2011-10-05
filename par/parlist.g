@@ -3,8 +3,6 @@
 #W parlist.g                The SCSCP package             Alexander Konovalov
 #W                                                               Steve Linton
 ##
-#H $Id: orbit.g 2299 2009-01-13 12:26:59Z alexk $
-##
 #############################################################################
 
 SCSCPprocesses:=[];
