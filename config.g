@@ -1,13 +1,13 @@
-#############################################################################
+###########################################################################
 ##
-#W config.g                 The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W config.g                 The SCSCP package           Alexander Konovalov
+#W                                                             Steve Linton
 ##
 ## This is a sample configuration file for the GAP package SCSCP. 
 ##
-#############################################################################
+###########################################################################
 
-#############################################################################
+###########################################################################
 #
 # General parameters
 #
@@ -24,10 +24,10 @@ SetInfoLevel(InfoMasterWorker,2);
 # Uncomment the next line, if you need to change it.
 # SuppressOpenMathReferences := true;
 
-#############################################################################
+###########################################################################
 #
-# Default parameters for the server mode (note that they will be overwritten 
-# if the server is started using scscp/gapscscp.sh script
+# Default parameters for the server mode (note that they will be 
+# overwritten if the server is started using scscp/gapscscp.sh script
 #
 
 # setting the default hostname to be used in the server mode. May be:
