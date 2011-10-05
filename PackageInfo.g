@@ -14,6 +14,7 @@ Date := "05/10/2011",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
 ##  <!ENTITY VERSION "2.0.0">
 ##  <!ENTITY RELEASEDATE "05 October 2011">
+##  <!ENTITY RELEASEYEAR "2011">
 ##  <#/GAPDoc>
 
 PackageWWWHome := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/",
