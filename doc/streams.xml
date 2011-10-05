@@ -12,78 +12,27 @@ for streams in &GAP;. It is assumed that all existing code using streams
 should work with this kind of streams as well (please let us know, if you
 will notice that this is not the case!). We installed methods for
 input-output TCP streams to support the following operations:
-<C>ViewObj</C>,
-<C>PrintObj</C>,
-<C>ReadByte</C>,
-<C>ReadLine</C>,
-<C>ReadAll</C>,
-<C>WriteByte</C>,
-<C>WriteLine</C>,
-<C>WriteAll</C>,
-<C>IsEndOfStream</C>,
-<C>CloseStream</C>,
-<C>FileDescriptorOfStream</C>,
-<C>UNIXSelect</C>.
+<Ref BookName="ref" Oper="ViewObj"/>,
+<Ref BookName="ref" Oper="PrintObj"/>,
+<Ref BookName="ref" Oper="ReadByte"/>,
+<Ref BookName="ref" Oper="ReadLine"/>,
+<Ref BookName="ref" Oper="ReadAll"/>,
+<Ref BookName="ref" Oper="WriteByte"/>,
+<Ref BookName="ref" Oper="WriteLine"/>,
+<Ref BookName="ref" Oper="WriteAll"/>,
+<Ref BookName="ref" Oper="IsEndOfStream"/>,
+<Ref BookName="ref" Oper="CloseStream"/>,
+<Ref BookName="ref" Oper="FileDescriptorOfStream"/>,
+<Ref BookName="ref" Oper="UNIXSelect"/>.
 <P/>
 
 
 <Section Label="Streams">
 <Heading>Input-output TCP streams</Heading>
 
-<ManSection>
-   <Filt Name="IsInputOutputTCPStream" />   
-   <Description>
-     <C>IsInputOutputTCPStream</C> is a subcategory of
-     <C>IsInputOutputStream</C>. Streams in the category
-     <C>IsInputOutputTCPStream</C> are created with the
-     help of the function
-     <Ref Func="InputOutputTCPStream" Label="for client" /> with
-     one or two arguments dependently on whether they will be
-     used in the client or server mode. Examples of their creation
-     and usage will be given in subsequent sections.
-   </Description>
-</ManSection>
-
-<ManSection>
-   <Filt Name="IsInputOutputTCPStreamRep" />
-   <Description>
-     This is the representation that is used for streams in the category 
-     <C>IsInputOutputTCPStream</C>.
-   </Description>
-</ManSection>
- 
-<ManSection>
-   <Func Name="InputOutputTCPStream"  
-        Label="for server"
-          Arg="socket_descriptor" />        
-   <Returns>
-     stream   
-   </Returns>	 
-   <Description>
-     Returns a stream in the category <C>IsInputOutputTCPStream</C> 
-     for the given socket descriptor that will be used to accept 
-     incoming connections. An example demonstrating this will be 
-     given after the next section.
-     <P/>
-     However, the service provider much likely will create such stream 
-     automatically inside the function <Ref Func="RunSCSCPserver"/>
-     rather then manually.    
-   </Description>
-</ManSection>
-
-<ManSection>
-   <Func Name="InputOutputTCPStream" 
-        Label="for client"
-          Arg="hostname port" />
-   <Returns>
-     stream
-   </Returns>	 
-   <Description>
-     Returns a stream in the category <C>IsInputOutputTCPStream</C> 
-     that will be used by the client for communication with the 
-     specified server and port.
-   </Description>
-</ManSection>
+<#Include Label="IsInputOutputTCPStream">
+<#Include Label="IsInputOutputTCPStreamRep">
+<#Include Label="InputOutputTCPStream"> 
 
 </Section>
 
@@ -91,12 +40,12 @@ input-output TCP streams to support the following operations:
 <Section Label="StreamsExample">
 <Heading>Example of client-server communication via input-output TCP streams</Heading>
 
-The following example demonstrates an interaction between client and
-server using input-output TCP stream, and shows how such streams are
-created in the function <Ref Func="RunSCSCPserver"/>. It uses
-some functions from the &IO; package, see the &IO; manual for their
-description. Now we will show step by step what is happens on server and 
-client (of course, if you will try this example, the numbers denoting 
+The following example demonstrates the low-level interaction between client
+and server using input-output TCP stream, and shows how such streams are
+created in the function <Ref Func="RunSCSCPserver"/>. It uses some
+functions from the &IO; package (see the &IO; manual for their
+description). We will show step by step what is happens on server and
+client (of course, if you will try this example, the numbers denoting
 descriptors may be different).
 <P/>
 
