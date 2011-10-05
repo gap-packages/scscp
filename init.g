@@ -1,9 +1,9 @@
-#############################################################################
+###########################################################################
 ##
-#W init.g                   The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W init.g                   The SCSCP package           Alexander Konovalov
+#W                                                             Steve Linton
 ##
-#############################################################################
+###########################################################################
 
 # read the function declarations
 ReadPackage("scscp/lib/openmath.gd");
@@ -40,5 +40,9 @@ ReadPackage("scscp/lib/client.g");
 ReadPackage("scscp/lib/openmath.g");
 ReadPackage("scscp/lib/webservice.g");
 ReadPackage("scscp/lib/special.g");
-ReadPackage("scscp/lib/buildman.g");
 ReadPackage("scscp/par/parlist.g");
+
+###########################################################################
+##
+#E
+##
