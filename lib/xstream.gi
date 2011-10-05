@@ -5,16 +5,6 @@
 ##
 #############################################################################
 
-
-DeclareRepresentation( "IsInputOutputTCPStreamRep", 
-                       IsPositionalObjectRep,
-                       [ ] );
-
-
-InputOutputTCPStreamDefaultType :=
-  NewType( StreamsFamily, 
-           IsInputOutputTCPStreamRep and IsInputOutputTCPStream);
-
            
 #############################################################################
 ##
