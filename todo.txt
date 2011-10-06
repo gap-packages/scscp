@@ -1,14 +1,14 @@
-#############################################################################
+###########################################################################
 ##
-#W todo.g                   The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W todo.txt                 The SCSCP package           Alexander Konovalov
+#W                                                             Steve Linton
 ##
-#############################################################################
+###########################################################################
 
 
-#############################################################################
-1.Early development notes (in case of discrepancies, rather trust the manual)
-#############################################################################
+###########################################################################
+1.Early development notes (in case of discrepancies, trust the manual)
+###########################################################################
 
 The GAP package "SCSCP" has two main components:
 
@@ -88,9 +88,9 @@ other specified conditions to prevent forgotten jobs from infinite running.
   - analyze the returned result and continues in case of "procedure_completed" 
     or leave the loop in case of "procedure_terminated"
 
-#############################################################################
+###########################################################################
 2.RELEASE HOW-TO
-#############################################################################
+###########################################################################
 
 * replace version number in PackageInfo.g and doc/manual.xml
 
@@ -130,9 +130,9 @@ http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm
 
 * update the web-page: modify version and links.
 
-#############################################################################
+###########################################################################
 3.TODO
-#############################################################################
+###########################################################################
 
 * Think about authentication using private/public keys or another method
 
@@ -146,7 +146,8 @@ http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm
 
 * Check more carefully examples and demo files, esp. upper/lowercasing etc.
 
-* Implement verification of arguments for procedures with non-trivial signatures 
+* Implement verification of arguments for procedures with non-trivial 
+  signatures 
 
 * Revise TerminateProcess, redo interrupts and check handling of other 
   processing instructions
@@ -172,12 +173,14 @@ http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm
   and they lose nothing, since there are always idle servers by that point.  
 
 * Possible idea: if a list of procedure names is given, they are applied
-  recursively, e.g. EvaluateBySCSCP( [ "WS_Factorial", "WS_Phi" ], [ 10 ], ... );
+  recursively, e.g. 
+  EvaluateBySCSCP( [ "WS_Factorial", "WS_Phi" ], [ 10 ], ... );
 
-* An idea we might consider in the future: change the structure of OMsymRecord 
-to cd.symbol.method, cd.symbol.role etc, then transient CD record could me 
-merged with OMsymRecord. Storing cd.symbol.role may be useful, for example,
-GetAllowedHeads then will be able to select only OMA.
+* An idea we might consider in the future: change the structure of 
+OMsymRecord to cd.symbol.method, cd.symbol.role etc, then transient 
+CD record could me merged with OMsymRecord. Storing cd.symbol.role 
+may be useful, for example, GetAllowedHeads then will be able to 
+select only OMA.
 
 * INTERRUPTS:
 
@@ -191,22 +194,24 @@ server's window.
 
 Another possible scenarios:
 
-1) Multi-user service: the SCSCP server accepts A:1 incoming request and starts another
-process B:2. The client communicates with B:2, and then sends to A:1 request to interrupt
-the service B:2. Then A:1 performs (in GAP) either "IO_kill(<pid>,15);" or
-Exec("kill -s SIGUSR2 <pid>");
+1) Multi-user service: the SCSCP server accepts A:1 incoming request and 
+starts another process B:2. The client communicates with B:2, and then 
+sends to A:1 request to interrupt the service B:2. Then A:1 performs 
+(in GAP) either "IO_kill(<pid>,15);" or Exec("kill -s SIGUSR2 <pid>");
 
-2) Single-user service: We start two parallel services, A:1 is the production service, and B:1
-is used to interrupt (and restart somehow?) the service A:1
+2) Single-user service: We start two parallel services, A:1 is the 
+production service, and B:1 is used to interrupt (and restart somehow?) 
+the service A:1
 
 3) Remote user executes (in GAP) Exec("ssh <hostname> kill -s SIGUSR2 <pid>");"
 (need have enough credentials to login into remote machine).
 
-(3) Works remotely. However, the user must be an owner of the process, since only the super-user
-may send signals to other users' processes, and there are other possible issues as well.
+(3) Works remotely. However, the user must be an owner of the process, 
+since only the super-user may send signals to other users' processes, 
+and there are other possible issues as well.
 
-(1) and (2) require some care of a register of users and their respective pid
-so the request like
+(1) and (2) require some care of a register of users and their respective 
+pid so the request like
 
     <OMS cd="scscp1" name="interrupt_computation" />
     <OMSTR>call_identifier</OMSTR>

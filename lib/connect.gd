@@ -11,3 +11,8 @@ DeclareCategoryCollections( "IsSCSCPconnection" );
 DeclareGlobalFunction ( "NewSCSCPconnection" );
 
 DeclareGlobalFunction ( "CloseSCSCPconnection" );
+
+###########################################################################
+##
+#E 
+##

@@ -13,165 +13,10 @@ if the server CAS did not communicate it).
 <Section Label="Client">
 <Heading>Sending request and getting result</Heading>
 
-<ManSection>
-    <Filt Name="IsProcess" />
-    <Description>
-    This is the category of processes.
-    Processes in this category are created 
-    using the function <Ref Func="NewProcess" />.
-    </Description>
-</ManSection>
-
-
-<ManSection>
-   <Func Name="NewProcess" 
-          Arg="command listargs server port"
-         Comm="" />
-   <Returns>
-     object in the category <C>IsProcess</C>
-   </Returns>	 
-   <Description>
-     <A>command</A> and <C>server</C> are strings, <A>listargs</A>
-     is a list of &GAP; objects and <C>port</C> is an integer.
-     Calls the &SCSCP; procedure with the name <A>command</A> 
-     and the list of arguments <A>listargs</A> at the server and port
-     given by <C>server</C> and <C>port</C>. Returns an object in
-     the category <C>IsProcess</C> for the subsequent
-     waiting the result from its underlying stream.
-     <P/>
-     It accepts the following options:
-     <List>
-     <Item> 
-     <C>output:="object"</C> is used to specify that the server must
-        return the actual object evaluated as a result of the procedure call.
-        This is the default action requested by the client if the 
-        <C>output</C> option is omitted.
-     </Item>
-     <Item>
-     <C>output:="cookie"</C>
-         is used to specify that the result of the 
-         procedure call should be stored on the server, and the
-         server should return a remote object (see <Ref Sect="Remote" /> )
-         pointing to that result (that is, a cookie);
-     </Item>
-     <Item>
-     <C>output:="nothing"</C> is used to specify that the server is supposed to reply 
-         with a <C>procedure_completed</C> message carrying no
-         object just to signal that the call was completed successfully
-         (for the compatibility, this will be evaluated to a <C>"procedure completed"</C>
-         string on the client's side);
-     </Item>
-     <Item>
-     <C>cd:="cdname"</C> is used to specify that the &OpenMath; symbol corresponding
-         to the first argument <A>command</A> should be looked up in the particular content
-         dictionary <C>cdname</C>. Otherwise, it will be looked for in the default
-         content dictionary (<C>scscp_transient_1</C> for the &GAP; &SCSCP; server);
-     </Item>
-     <Item>
-     <C>debuglevel:=N</C> is used to obtain additional information attributes together 
-         with the result. The &GAP; &SCSCP; server does the following: 
-         if <C>N=1</C>, it will report about the CPU time in milliseconds
-         required to compute the result; if <C>N=2</C> it will additionally report about
-         the amount of memory used by &GAP; in bytes will be returned
-         (using the output of <Ref Func="MemoryUsageByGAPinKbytes" /> converted to bytes);
-         if <C>N=3</C> it will additionally report the amount of memory in bytes used by 
-         the resulting object and its subobjects (using the output of 
-         <Ref BookName="ref" Oper="MemoryUsage" />).
-     </Item>
-     </List>
-     See <Ref Func="CompleteProcess" /> and <Ref Func="EvaluateBySCSCP" /> for examples.
-   </Description>
-</ManSection>
-
-<ManSection>
-   <Func Name="CompleteProcess" 
-          Arg="process"
-         Comm="" />
-   <Returns>
-     record with components <C>object</C> and <C>attributes</C> 
-   </Returns>	 
-   <Description>
-     The function waits, if necessary, until the underlying stream of the process 
-     will contain some data, then reads the appropriate &OpenMath; object from this stream
-     and closes it.
-     <P/>
-     It has the option <C>output</C> which may have two values:
-     <List>
-     <Item> 
-     <C>output:="cookie"</C> has the same meaning as for the <Ref Func="NewProcess" />
-     </Item>
-     <Item>
-     <C>output:="tree"</C> is used to specify that the result obtained from the
-         server should be returned as an XML parsed tree without its evaluation.
-     </Item>
-     </List>
-   </Description>
-</ManSection>
-
-In the following example we demonstrate combination of the two previous
-functions to send request and get result, calling the procedure <C>WS_Factorial</C>, 
-installed in the previous chapter: 
-
-<Example>
-<![CDATA[
-gap> s := NewProcess( "WS_Factorial", [10], "localhost", 26133 );                  
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-< process at localhost:26133 pid=6543 >
-gap> x := CompleteProcess(s);
-rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:6543" ] ] )
-]]>
-</Example>
-
-See more examples in the description of the function <Ref Func="EvaluateBySCSCP" />,
-which combines the two previous functions by sending request and getting result in one call.
-
-<ManSection>
-   <Func Name="EvaluateBySCSCP" 
-          Arg="command listargs server port"
-         Comm="" />
-   <Returns>
-     record with components <C>object</C> and <C>attributes</C> 
-   </Returns>	 
-   <Description>
-     <A>command</A> and <C>server</C> are strings, <A>listargs</A>
-     is a list of &GAP; objects and <C>port</C> is an integer.
-     Calls the SCSCP procedure with the name <A>command</A> 
-     and the list of arguments <A>listargs</A> at the server and port
-     given by <C>server</C> and <C>port</C>.
-     <P/>
-     Since <Ref Func="EvaluateBySCSCP" /> combines <Ref Func="NewProcess" /> 
-     and <Ref Func="CompleteProcess" />, it accepts all options which may be
-     used by that functions ( <C>output</C>, <C>cd</C> and 
-     <C>debuglevel</C>  ) with the same meanings.
-
-<Example>
-<![CDATA[
-gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-#I  Waiting for reply ...
-rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
-     object := 3628800 )
-gap> SetInfoLevel(InfoSCSCP,0);
-gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="cookie" ); 
-rec( attributes := [ [ "call_id", "localhost:26133:2442:jNQG6rml" ] ], 
-  object := < remote object TEMPVarSCSCP@localhost:26133 > )
-gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="nothing" );
-rec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ], 
-  object := "procedure completed" )
-]]>
-</Example>
-
-   </Description>
-</ManSection>
-
+<#Include Label="IsProcess"/>
+<#Include Label="NewProcess"/>
+<#Include Label="CompleteProcess"/>
+<#Include Label="EvaluateBySCSCP"/>
 
 Now we demonstrate the procedure <C>GroupIdentificationService</C>,
 also given in the previous chapter:
@@ -232,21 +77,8 @@ gap> IdGroupWS(G);
 ]]>
 </Example>
 
-<ManSection>
-   <Func Name="TerminateProcess" 
-          Arg="process"
-         Comm="" />
-   <Description>
-        The function is supposed to send an <Q>out-of-band</Q>
-        interrupt signal to the server.
-        Current implementation works only when the server is running as
-        <Q>localhost</Q> by sending a <C>SIGINT</C> to the server 
-        using its PID contained in the <A>process</A>. It will do nothing
-        if the server is running remotely, as the &SCSCP; specification 
-        allows the server to ignore interrupt messages. Remote interrupts
-        will be introduced in one of the next versions of the package.
-   </Description>
-</ManSection>
+<#Include Label="TerminateProcess"/>
+
 
 </Section>
 
@@ -340,34 +172,7 @@ closed. Such remote objects may be accessed later, for example, by:
 <Item>another &SCSCP; servers which obtained a reference to such object as an argument of a procedure call.</Item>
 </List>
 
-<ManSection>
-    <Func Name="StoreAsRemoteObjectPersistently" 
-           Arg="obj server port"
-          Comm="" />
-    <Func Name="StoreAsRemoteObject" 
-           Arg="obj server port"
-          Comm="" />
-    <Returns>
-      remote object
-    </Returns>	 
-    <Description>
-      Returns the remote object corresponding to the object created at
-      <A>server</A><C>:</C><A>port</A> from the &OpenMath; representation
-      of the first argument <A>obj</A>. The second form is just a synonym.
-    </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Waiting for reply ...
-< remote object TEMPVarSCSCP@localhost:26133 >
-]]>
-</Example>
+<#Include Label="StoreAsRemoteObject"/>
 
 Internally, the remote object carries all the information which is required 
 to get access to the original object: its identifier, server and port:
@@ -411,83 +216,16 @@ rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26133:6726" ] ]
 ]]>
 </Example>
 
+<#Include Label="IsRemoteObject"/>
+<#Include Label="RemoteObjectsFamily"/>
+<#Include Label="RetrieveRemoteObject"/>
+<#Include Label="UnbindRemoteObject"/>
 
-<ManSection>
-    <Filt Name="IsRemoteObject" />
-    <Description>
-    This is the category of remote objects.
-    </Description>
-</ManSection>
-
-
-<ManSection>
-    <Fam Name="RemoteObjectsFamily" />
-    <Description>
-    This is the familty of remote objects.
-    </Description>
-</ManSection>
-
-
-<ManSection>
-    <Func Name="RetrieveRemoteObject" 
-           Arg="remoteobject"
-          Comm="" />
-    <Returns>
-      object
-    </Returns>	 
-    <Description>
-      This function retrieves the remote object from the remote service
-      in the &OpenMath; format and constructs it locally. Note, however,
-      that for a complex mathematical object its default &OpenMath; 
-      representation may not contain all information about it which was 
-      accumulated during its lifetime on the &SCSCP; server.
-    </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> RetrieveRemoteObject(s);
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Waiting for reply ...
-Group([ (1,2,3), (1,2) ])
-]]>
-</Example>
-
-<ManSection>
-    <Func Name="UnbindRemoteObject" 
-           Arg="remoteobject"
-          Comm="" />
-    <Returns>
-      <K>true</K> or <K>false</K>
-    </Returns>	 
-    <Description>
-       Removes any value currently bound to the global variable 
-       determined by <A>remoteobject</A> at the &SCSCP; server, 
-       and returns <K>true</K> or <K>false</K> dependently on 
-       whether this action was successful or not. 
-    </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> UnbindRemoteObject(s);
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Waiting for reply ...
-true
-]]>
-</Example>
-
-Finally, we show an example when first we create a group on the service running on 
-port 26133, and then identify it on the service running on port 26134. Instead
-of transmitting the group to the client and then sending it as an argument to
-the second service, the latter service directly retrieves the group from the
-first service.
+Finally, we show an example when first we create a group on the service
+running on port 26133, and then identify it on the service running on port
+26134. Instead of transmitting the group to the client and then sending it
+as an argument to the second service, the latter service directly retrieves
+the group from the first service.
 
 <Example>
 <![CDATA[

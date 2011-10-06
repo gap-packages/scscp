@@ -1,12 +1,12 @@
-#############################################################################
+###########################################################################
 ##
-#W client.g                 The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W client.g                The SCSCP package            Alexander Konovalov
+#W                                                             Steve Linton
 ##
-#############################################################################
+###########################################################################
 
 
-#############################################################################
+###########################################################################
 #
 # PingSCSCPservice( server, port )
 #
@@ -26,7 +26,7 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # PingStatistic( server, port, nr )
 #
@@ -73,6 +73,10 @@ fi;
 end);
 
 
+###########################################################################
+#
+# StartSCSCPsession( stream )
+#
 InstallGlobalFunction( StartSCSCPsession,
 function( stream )
 local initmessage, session_id, pos1, pos2, server_scscp_version, suggested_versions;
@@ -113,7 +117,7 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # EvaluateBySCSCP( command, listargs, <connection | server, port> : 
 #                  output:=object/coookie/nothing/tree, 
@@ -141,8 +145,10 @@ else
   output_option := "object";  
 fi;
 
-if not output_option in [ "object", "cookie", "nothing", "tree", "deferred" ] then
-	Error( "output must be one of ", [ "object", "cookie", "nothing", "tree", "deferred" ], "\n" );
+if not output_option in 
+           [ "object", "cookie", "nothing", "tree", "deferred" ] then
+	Error( "output must be one of ", 
+	       [ "object", "cookie", "nothing", "tree", "deferred" ], "\n" );
 fi;
 
 if ValueOption("cd") <> fail then
@@ -178,3 +184,7 @@ return result;
 
 end);
 
+###########################################################################
+##
+#E 
+##

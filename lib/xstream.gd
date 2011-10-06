@@ -12,17 +12,17 @@
 ##
 ##  <#GAPDoc Label="IsInputOutputTCPStream">
 ##  <ManSection>
-##     <Filt Name="IsInputOutputTCPStream" />   
-##     <Description>
-##       <C>IsInputOutputTCPStream</C> is a subcategory of
-##       <C>IsInputOutputStream</C>. Streams in the category
-##       <C>IsInputOutputTCPStream</C> are created with the
-##       help of the function
-##       <Ref Func="InputOutputTCPStream" Label="for client" /> with
-##       one or two arguments dependently on whether they will be
-##       used in the client or server mode. Examples of their creation
-##       and usage will be given in subsequent sections.
-##     </Description>
+##  <Filt Name="IsInputOutputTCPStream" />   
+##  <Description>
+##  <Ref Filt="IsInputOutputTCPStream"/> is a subcategory of
+##  <Ref BookName="ref" Filt="IsInputOutputStream"/>. 
+##  Streams in the category <Ref Filt="IsInputOutputTCPStream"/> 
+##  are created with the help of the function
+##  <Ref Func="InputOutputTCPStream" Label="for client" /> with
+##  one or two arguments dependently on whether they will be
+##  used in the client or server mode. Examples of their creation
+##  and usage will be given in subsequent sections.
+##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>
 ##
@@ -36,11 +36,11 @@ DeclareCategory( "IsInputOutputTCPStream", IsInputOutputStream );
 ##  <#GAPDoc Label="IsInputOutputTCPStreamRep">
 ##  
 ##  <ManSection>
-##    <Filt Name="IsInputOutputTCPStreamRep" />
-##    <Description>
-##      This is the representation that is used for streams in the  
-##      category <C>IsInputOutputTCPStream</C>.
-##    </Description>
+##  <Filt Name="IsInputOutputTCPStreamRep" />
+##  <Description>
+##  This is the representation used for streams in the  
+##  category <Ref Filt="IsInputOutputTCPStream"/>.
+##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>
 ##
@@ -87,4 +87,34 @@ InputOutputTCPStreamDefaultType :=
 ##
 DeclareGlobalFunction ( "InputOutputTCPStream" );
 
+
+###########################################################################
+##
+#F  SCSCPwait
+##
+##  <#GAPDoc Label="SCSCPwait">
+##  
+##  <ManSection>
+##      <Func Name="SCSCPwait" Arg="stream [timeout]" />
+##      <Returns>
+##        nothing
+##      </Returns>	 
+##      <Description>
+##      This function may be used by the &SCSCP; client to wait
+##      (using <Ref BookName="IO" Func="IO_select" />)
+##      until the result of the procedure call will be 
+##      available from <A>stream</A>. By default the timeout is
+##      one hour, to specify another value give it as the optional
+##      second argument in seconds. See the end of this chapter 
+##      for the example.
+##  </Description>
+##  </ManSection>           
+##  <#/GAPDoc>
+##
 DeclareGlobalFunction ( "SCSCPwait" );
+
+
+###########################################################################
+##
+#E 
+##

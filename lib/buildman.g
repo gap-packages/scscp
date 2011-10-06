@@ -48,7 +48,14 @@ end;
 
 SCSCPMANUALFILES:=[ 
 "../PackageInfo.g",
-"../lib/xstream.gd"
+"../lib/openmath.gd",
+"../lib/process.gd",
+"../lib/remote.gd",
+"../lib/scscp.gd",
+"../lib/utils.g",
+"../lib/xstream.gd",
+"../par/parlist.g",
+"../tracing/tracing.g",
 ];
 
 ###########################################################################

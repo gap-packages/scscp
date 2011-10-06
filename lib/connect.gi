@@ -1,9 +1,9 @@
-#############################################################################
+###########################################################################
 ##
-#W process.gi               The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W process.gi              The SCSCP package            Alexander Konovalov
+#W                                                             Steve Linton
 ##
-#############################################################################
+###########################################################################
 
 DeclareRepresentation( "IsSCSCPconnectionRep", 
                        IsPositionalObjectRep,
@@ -16,7 +16,7 @@ SCSCPconnectionDefaultType := NewType( SCSCPconnectionsFamily,
                                IsSCSCPconnectionRep and IsSCSCPconnection);
 
 
-#############################################################################
+###########################################################################
 ##
 #M  ViewObj( <SCSCPconnection> )
 ##
@@ -34,7 +34,7 @@ function( connection )
 end);
 
 
-#############################################################################
+###########################################################################
 ##
 #M  PrintObj( <process> )
 ##
@@ -64,3 +64,8 @@ InstallGlobalFunction( CloseSCSCPconnection, function( connection )
 CloseStream( connection![1]);
 end);
 
+
+###########################################################################
+##
+#E 
+##

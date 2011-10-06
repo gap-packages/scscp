@@ -7,6 +7,27 @@
 
 SCSCPprocesses:=[];
 
+###########################################################################
+##
+#F  SCSCPreset
+##
+##  <#GAPDoc Label="SCSCPreset">
+##  
+##  <ManSection>
+##  <Func Name="SCSCPreset" Arg=""/>
+##  <Returns>
+##    nothing
+##  </Returns>          
+##  <Description>
+##  If an error occurs during a call of <Ref Func="ParQuickWithSCSCP" />
+##  and <Ref Func="ParListWithSCSCP" />, some of parallel requests may
+##  be still running at the remaining services, making them inaccessible
+##  for further procedure calls. <Ref Func="SCSCPreset" /> resets them
+##  by closing all open streams to &SCSCP; servers.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
+##
 SCSCPreset:=function()
 local proc;
 for proc in SCSCPprocesses do

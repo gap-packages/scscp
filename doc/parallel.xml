@@ -8,166 +8,37 @@ Using procedure calls explained in the previous section, the user can
 create several requests to multiple services to execute them in parallel, 
 or to wait until the fastest result will be available.
 
-<ManSection>
-   <Func Name="SynchronizeProcesses" 
-          Arg="process1 process2 ... processN"
-         Comm="" />  
-   <Func Name="SynchronizeProcesses" 
-          Arg="proclist"
-        Label="for list of processes"
-         Comm="" />
-   <Returns>
-     list of records with components <C>object</C> and <C>attributes</C> 
-   </Returns>         
-   <Description>
-        The function collects results of from each process given in the argument,
-        and returns the list, <M>i</M>-th entry of which is the result obtained
-        from the <M>i</M>-th process. The function accepts both one argument that is a list of 
-        processes, and arbitrary number of arguments, each of them being a process.
-   </Description>
-</ManSection>
-
-<Example>
-<![CDATA[
-gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-< process at localhost:26133 pid=2064 >
-gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-< process at localhost:26134 pid=1975 >
-gap> SynchronizeProcesses(a,b);
-#I  Process number 1 is ready
-#I  Closed 1st process, waiting for 2nd ...
-[ rec( attributes := [ [ "call_id", "localhost:26133:2064:yCWBGYFO" ] ], 
-      object := 3628800 ), 
-  rec( attributes := [ [ "call_id", "localhost:26134:1975:yAAWvGTL" ] ], 
-      object := 2432902008176640000 ) ]
-
-]]>
-</Example>
-
+<#Include Label="SynchronizeProcesses">
+<#Include Label="FirstProcess">
 
 <ManSection>
-   <Func Name="FirstProcess" 
-          Arg="process1 process2 ... processN"
-         Comm="" /> 
-   <Func Name="FirstProcess" 
-          Arg="proclist"
-        Label="for list of processes"
-         Comm="" />
-   <Returns>
-     records with components <C>object</C> and <C>attributes</C> 
-   </Returns>         
-   <Description>
-        The function waits for the result from each process given in the argument,
-        and returns the result coming first, terminating all remaining processes at 
-        the same time. The function accepts both one argument that is a list of 
-        processes, and arbitrary number of arguments, each of them being a process.
-   </Description>
+<Var Name="SCSCPservers" />
+<Description>
+<Ref Var="SCSCPservers" /> is
+a list of hosts and ports to search for &SCSCP; services 
+(which may be not only represented by &GAP; services, but also
+by another &SCSCP;-compliant systems). 
+<P/>
+It is used by parallel skeletons <Ref Func="ParQuickWithSCSCP" />
+and <Ref Func="ParListWithSCSCP" />.
+<P/>
+The initial value of this variable is specified in the file 
+<File>scscp/configpar.g</File> and may be reassigned later.
+</Description>
 </ManSection>
 
-
-<Example>
-<![CDATA[
-gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-< process at localhost:26133 pid=2064 >
-gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-< process at localhost:26134 pid=1975 >
-gap>  FirstProcess(a,b); 
-#I  Process number 1 is ready
-rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ], 
-  object := 3628800 )
-]]>
-</Example>
-
-
-<ManSection>
-   <Var Name="SCSCPservers" />
-   <Description>
-   <Ref Var="SCSCPservers" /> is
-   a list of hosts and ports to search for &SCSCP; services 
-   (which may be not only represented by &GAP; services, but also
-   by another &SCSCP;-compliant systems). 
-   <P/>
-   It is used by parallel skeletons <Ref Func="ParQuickWithSCSCP" />
-   and <Ref Func="ParListWithSCSCP" />.
-   <P/>
-   The initial value of this variable is specified in the file 
-   <File>scscp/configpar.g</File> and may be reassigned later.
-   </Description>
-</ManSection>
-
-
-<ManSection>
-    <Func Name="ParQuickWithSCSCP" 
-           Arg="commands listargs" />
-    <Returns>
-        record with components <C>object</C> and <C>attributes</C> 
-    </Returns>	 
-    <Description>
-        This function is constructed using the <Ref Func="FirstProcess"/>.
-        It is useful when it is not known which partcular method is
-        more efficient, because it allows to call in parallel several procedures
-        (given by the list of their names <A>commands</A>) 
-        with the same list of arguments <A>listargs</A> (having
-        the same meaning as in <Ref Func="EvaluateBySCSCP"/>)
-        and obtain the result of that procedure call which will be computed faster.
-        <P/>  
-    </Description>
-</ManSection>
-
-In the example below we call two factorisation methods from the &GAP; package 
-<Package>FactInt</Package> to factorise <M>2^{150}+1</M>. The example is selected
-in such a way that the runtime of these two methods is approximately the same, 
-so you should expect results from both methods in some random order from repeated calls.
-
-<Example>
-<![CDATA[
-gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message 
-#I  Request sent ...
-#I  Process number 2 is ready
-rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-      13334701, 1182468601 ], 
- attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
-]]>
-</Example>
+<#Include Label="ParQuickWithSCSCP">
+<#Include Label="FirstTrueProcess">
 
 </Section>
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 <Section Label="MasterWorker">
 <Heading>MasterWorker skeleton</Heading>
 
-In this section we will present more general framework to run parallel computations,
-which has a number of useful features:
+In this section we will present more general framework to run parallel 
+computations, which has a number of useful features:
 <List>
 <Item>
 it is implemented purely in &GAP;;
@@ -197,123 +68,9 @@ search for &SCSCP; services (which may be not only represented by
 &GAP; services, but also by another &SCSCP;-compliant systems). 
 See comments in this file for further instructions.
 
-
-<ManSection>
-   <Func Name="ParListWithSCSCP" 
-          Arg="listargs procname"
-         Comm="" />
-   <Returns>
-    list
-   </Returns>         
-   <Description>
-<Ref Func="ParListWithSCSCP" /> implements
-the well-known master-worker skeleton: we have a master (&SCSCP; client) and
-a number of workers (&SCSCP; servers) which obtain pieces of work from the client,
-perform the required job and report back with the result, waiting for the next job.
-<P/>
-It returns the list of the same length as <A>listargs</A>, <M>i</M>-th element of
-which is the result of calling the procedure <A>procname</A> with the argument
-<A>listargs[i]</A>.
-<P/>
-It accepts two options which should be given as non-negative integers:
-<C>timeout</C> which specifies in minutes how long the client must wait for the result
-(if not given, the default value is one hour) and <C>recallfrequency</C>
-which specifies the number of iterations after which the search for new
-services will be performed (if not given the default value is zero meaning 
-no such search at all). There is also a boolean option <C>noretry</C> which,
-if set to <K>true</K>, means that no retrying calls will be performed if the 
-timeout is exceeded and an incomplete resut may be returned.
-<Example>
-<![CDATA[
-gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
-#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 2 ] )
-#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 3 ] )
-#I  [ "localhost", 26133 ] --> master : [ 2, 1 ]
-#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 4 ] )
-#I  [ "localhost", 26134 ] --> master : [ 6, 1 ]
-#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 5 ] )
-#I  [ "localhost", 26133 ] --> master : [ 24, 12 ]
-#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 6 ] )
-#I  [ "localhost", 26133 ] --> master : [ 720, 763 ]
-#I  [ "localhost", 26134 ] --> master : [ 120, 34 ]
-[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
-]]>
-</Example>
-   </Description>
-</ManSection>
-
-
-<ManSection>
-   <Func Name="SCSCPreset" 
-          Arg=""/>
-   <Returns>
-    nothing
-   </Returns>          
-   <Description>
-   If an error occurs during a call of <Ref Func="ParQuickWithSCSCP" />
-   and <Ref Func="ParListWithSCSCP" />, some of parallel requests may
-   be still running at the remaining services, making them inaccessible
-   for further procedure calls. <Ref Func="SCSCPreset" /> resets them
-   by closing all open streams to &SCSCP; servers.
-   </Description>
-</ManSection>
-
-<ManSection>
-   <Func Name="SCSCPLogTracesToGlobal" 
-          Arg="testname"
-         Comm="" />
-   <Func Name="SCSCPLogTracesToGlobal" 
-          Arg=""
-        Label="to stop tracing"
-         Comm="" />         
-   <Description>
-    To analyse the performance of parallel &SCSCP; framework, we make use of the
-    &EdenTV; program <Cite Key="EdenTV" /> developed initially to visualize the
-    performance of parallel programs written in functional programming language
-    Eden, and now distributed under the GNU Public License and available from
-    <URL>http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV</URL>.
-    <P/>
-    Called with the string containing the name of the test, this functions turns
-    on writing information about key activity events into trace files in current 
-    directories for the client and servers listed <Ref Var="SCSCPservers" />.
-    The trace file will have the name of the format <A>testname</A><C>.client.tr</C>
-    for the client and <A>testname</A><C>.&lt;hostname>.&lt;port>.tr</C> for the server.
-    After the test these files should be collected from remote servers and 
-    concatenated (e.g. using <File>cat</File>) together with the standard preamble from 
-    the file <File>scscp/tracing/stdhead.txt</File> (we recommend to put after the
-    preamble first all traces from servers and then the client's traces to have 
-    nicer diagrams). The resulting file then may be opened with &EdenTV;.
-    <P/>
-    In the following example we use a dual core MacBook laptop to generate trace 
-    files for two tests and then show their corresponding trace diagrams:
-<Log>
-<![CDATA[
-SCSCPLogTracesToGlobal("quillen100");
-ParListWithSCSCP( List( [1..100], i->[512,i]), "QuillenSeriesByIdGroup" );
-SCSCPLogTracesToGlobal();
-SCSCPLogTracesToGlobal( "euler" );
-ParListWithSCSCP( [1..1000], "WS_Phi" );
-SCSCPLogTracesToGlobal();
-]]>
-</Log>
-<Alt Only="LaTeX">\centerline{\resizebox{110mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
-<Alt Only="HTML">&lt;img src="img/quillen.jpg" align="left" /></Alt>
-<Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{110mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
-<Alt Only="HTML">&lt;img src="img/euler.jpg" align="left" /></Alt>
-<Alt Only="Text">/See diagrams in HTML and PDF versions of the manual/</Alt>
-     The diagrams (made on an dual core MacBook laptop), 
-     shows that in the first case parallelising is efficient and master
-     successfully distributes load to workers, while in the second case a single computation 
-     is just too short, so most of the time is spent on communication. To parallelize
-     the Euler's function example efficiently, tasks must rather be grouped in chunks, which should
-     be enough large to reduce the communication overload, but enough small to ensure
-     that tasks are evenly distributed.
-     <P/>
-     Of course, tracing can be used to investigate communication between a client
-     and a single server in a non-parallel context as well. For this purpose,
-     <Ref Var="SCSCPservers" /> must be modified to contain only one server.   
-   </Description>
-</ManSection>
+<#Include Label="ParListWithSCSCP">
+<#Include Label="SCSCPreset">
+<#Include Label="SCSCPLogTracesToGlobal">
 
 <Ref Func="ParListWithSCSCP" /> can be easily modified to have parallel versions 
 of other list operations like 
@@ -323,8 +80,8 @@ of other list operations like
 <Ref BookName="ref" Func="Number" />,
 <Ref BookName="ref" Func="Filtered" />,
 and also to have the skeleton in which the queue may be modified during
-the computation (for example, to compute orbits). We plan to provide such tools
-in one of the next versions of the package.
+the computation (for example, to compute orbits). 
+We plan to provide such tools in one of the next versions of the package.
 
 </Section>
 

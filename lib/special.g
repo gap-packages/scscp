@@ -1,18 +1,19 @@
-#############################################################################
+###########################################################################
 ##
-#W special.g                The SCSCP package             Alexander Konovalov
-#W                                                               Steve Linton
+#W special.g                The SCSCP package           Alexander Konovalov
+#W                                                             Steve Linton
 ##
-#############################################################################
+###########################################################################
 
 
-#############################################################################
+###########################################################################
 #
 # GetAllowedHeads( server, port )
 #
 InstallGlobalFunction( GetAllowedHeads, function( server, port )
 local r, i, res;
-r := EvaluateBySCSCP( "get_allowed_heads", [], server, port : output:="tree" ).object;
+r := EvaluateBySCSCP( "get_allowed_heads", 
+                      [ ], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 
@@ -31,13 +32,14 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # GetServiceDescription( server, port )
 #
 InstallGlobalFunction( GetServiceDescription, function( server, port )
 local r;
-r := EvaluateBySCSCP( "get_service_description", [], server, port : output:="tree" ).object;
+r := EvaluateBySCSCP( "get_service_description", 
+                      [ ], server, port : output:="tree" ).object;
 r := First( r.content, s -> s.name="OMA");
 r := First( r.content, s -> s.name="OMA");
 r := Filtered( r.content, OMIsNotDummyLeaf ); 
@@ -51,14 +53,15 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # GetSignature( cd, name, server, port )
 #
 InstallGlobalFunction( GetSignature, function( cd, name, server, port )
 local r, ra, re;
 r := EvaluateBySCSCP( "get_signature",
-  [ OMPlainString( Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>") ) ], 
+  [ OMPlainString( 
+      Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>") ) ], 
   server, port : return_tree ).object;
 r := First( r.content, s -> s.name="OMA");
 ra := First( r.content, s -> s.name="OMA");
@@ -84,16 +87,17 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # GetTransientCD( cdname, server, port )
 #
 InstallGlobalFunction( GetTransientCD, function( cdname, server, port )
 local r, rcd, re, i, j, res, t, defs, d;
 r := EvaluateBySCSCP( "get_transient_cd",
-  [ OMPlainString( Concatenation( 
-    "<OMA><OMS name=\"CDName\" cd=\"meta\"/><OMSTR>", cdname, "</OMSTR></OMA>" ) ) ], 
-    server, port : return_tree ).object;
+  [ OMPlainString( 
+      Concatenation( "<OMA><OMS name=\"CDName\" cd=\"meta\"/><OMSTR>", 
+                     cdname, "</OMSTR></OMA>" ) ) ], 
+  server, port : return_tree ).object;
 r := First( r.content, s -> s.name="OMA");
 rcd := First( r.content, s -> s.name="CD");
 if rcd = fail then
@@ -138,7 +142,8 @@ else
 	  elif r[i].name = "Description" then
 		res.Description := r[i].content[1].content;	
 	  else
-		Error("unhandled element in the retrieved content dictionary ", cdname, "\n" );	
+		Error("unhandled element in the retrieved content dictionary ", 
+		      cdname, "\n" );	
       fi;
     od;  
     res.CDDefinitions := defs;
@@ -150,7 +155,7 @@ fi;
 end);
 
 
-#############################################################################
+###########################################################################
 #
 # IsAllowedHead( cd, name, server, port )
 #
@@ -159,3 +164,8 @@ return EvaluateBySCSCP( "is_allowed_head",
   [ OMPlainString( Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>") ) ], 
   server, port ).object;
 end);
+
+###########################################################################
+##
+#E 
+##
