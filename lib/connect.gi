@@ -52,6 +52,10 @@ function( connection )
 end);
 
 
+###########################################################################
+##
+##  NewSCSCPconnection
+##
 InstallGlobalFunction( NewSCSCPconnection, function( hostname, port )
 local tcpstream, session_id, pos1, pid;
 tcpstream:=InputOutputTCPStream( hostname, port );
@@ -60,6 +64,10 @@ return Objectify( SCSCPconnectionDefaultType, [ tcpstream, session_id ] );
 end);
 
 
+###########################################################################
+##
+##  CloseSCSCPconnection
+##
 InstallGlobalFunction( CloseSCSCPconnection, function( connection )
 CloseStream( connection![1]);
 end);

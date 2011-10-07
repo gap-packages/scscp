@@ -3,19 +3,55 @@
 
 Sending and getting requests to the &SCSCP; server(s),
 the client operates with processes. Process is an abstraction 
-which encapsulates an <C>InputOutputTCPStream</C>
-(see <Ref Filt="IsInputOutputTCPStream" />) from a client to the 
-server and the process ID of the CAS running as a server (deduced
-from the connection initiation message; may be unassigned,
-if the server CAS did not communicate it).
+which in other words may be also called a remote task. It encapsulates
+an input/output TCP stream (see <Ref Filt="IsInputOutputTCPStream" />) 
+from the client to the server and the process ID of the CAS running 
+as a server (deduced from the connection initiation message; may be 
+unassigned, if the server CAS did not communicate it).
+<P/>
+There are two ways to create processes. One of them is to specify
+the hostname and port where the &SCSCP; server is running; in this 
+case a new input/output TCP stream will be created. Another way is 
+first to establish the connection with the &SCSCP; server using
+<Ref Func="NewSCSCPconnection" /> and then keep it alive across
+multiple remote procedure calls, thus saving time on the DNS lookup 
+and connection initiation. This may give a good speedup in computations
+with an intensive message exchange. Note that as long as such connection
+is open, other &SCSCP; clients will not be able to get through, so
+if several clients are interchanging with the &SCSCP; server at the 
+same time, they should not block each other with long-lasting connections.
 
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+<Section Label="SCSCP Connections">
+<Heading>&SCSCP; connections</Heading>
+
+<#Include Label="IsSCSCPconnection"/>
+<#Include Label="NewSCSCPconnection"/>
+<#Include Label="CloseSCSCPconnection"/>
+
+</Section>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 <Section Label="Client">
-<Heading>Sending request and getting result</Heading>
+<Heading>Processes</Heading>
 
 <#Include Label="IsProcess"/>
 <#Include Label="NewProcess"/>
 <#Include Label="CompleteProcess"/>
+<#Include Label="TerminateProcess"/>
+
+</Section>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
+<Section Label="All-in-one">
+<Heading>All-in-one: sending request and getting result</Heading>
+
 <#Include Label="EvaluateBySCSCP"/>
 
 Now we demonstrate the procedure <C>GroupIdentificationService</C>,
@@ -77,11 +113,10 @@ gap> IdGroupWS(G);
 ]]>
 </Example>
 
-<#Include Label="TerminateProcess"/>
-
-
 </Section>
 
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
 <Section Label="Remote">
 <Heading>Remote objects</Heading>
@@ -101,12 +136,12 @@ There are two types of remote object which differ by their lifetime:
 <Item>persistent remote objects which stay alive across multiple sessions.</Item>
 </List>
 
-First we show the example of the temporary remote object in a session. The procedure
-<C>PointImages</C> returns the set of images of a point <M>i</M> under the 
-generators of the group <M>G</M>. First we create the symmetric group 
-<M>S_3</M> on the client and store it remotely on the server (call 1),
-then we compute set of images for <M>i=1,2</M> (calls 2,3) and finally 
-demonstrate that we may retrieve the group from the server (call 4):
+First we show the example of the temporary remote object in a session. The
+procedure <C>PointImages</C> returns the set of images of a point <M>i</M>
+under the generators of the group <M>G</M>. First we create the symmetric
+group <M>S_3</M> on the client and store it remotely on the server 
+(call 1), then we compute set of images for <M>i=1,2</M> (calls 2,3) and 
+finally demonstrate that we may retrieve the group from the server (call 4):
 
 <Example>
 <![CDATA[

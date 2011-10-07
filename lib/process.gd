@@ -5,6 +5,7 @@
 ##
 ###########################################################################
 
+
 ###########################################################################
 ##
 #C  IsProcess
@@ -33,15 +34,24 @@ DeclareCategoryCollections( "IsProcess" );
 ##  
 ##  <ManSection>
 ##  <Func Name="NewProcess" Arg="command listargs server port"/>
+##  <Func Name="NewProcess" Arg="command listargs connection"
+##        Label="for SCSCP connection" />
 ##  <Returns>
 ##    object in the category <C>IsProcess</C>
-##</Returns>	 
-##<Description>
-##     <A>command</A> and <C>server</C> are strings, <A>listargs</A>
-##     is a list of &GAP; objects and <C>port</C> is an integer.
+##  </Returns>	 
+##  <Description>
+##     In the first form, <A>command</A> and <C>server</C> are strings, 
+##     <A>listargs</A> is a list of &GAP; objects and <C>port</C> is an 
+##     integer.
+##     <P/>
+##     In the second form, an &SCSCP; connection in the category 
+##     <Ref Func="NewSCSCPconnection" /> is used instead of 
+##     <C>server</C> and <C>port</C>.
+##     <P/>
 ##     Calls the &SCSCP; procedure with the name <A>command</A> 
 ##     and the list of arguments <A>listargs</A> at the server and port
-##     given by <C>server</C> and <C>port</C>. Returns an object in
+##     given by <A>server</A> and <A>port</A> or encapsulated in the
+##     <A>connection</A>. Returns an object in
 ##     the category <C>IsProcess</C> for the subsequent
 ##     waiting the result from its underlying stream.
 ##     <P/>
@@ -86,6 +96,7 @@ DeclareCategoryCollections( "IsProcess" );
 ##         in bytes used by the resulting object and its subobjects (using 
 ##         the output of <Ref BookName="ref" Oper="MemoryUsage" />).
 ##     </Item>
+##     <!--TODO: document "deferred" and "tree" options -->
 ##     </List>
 ##     See <Ref Func="CompleteProcess" /> and 
 ##     <Ref Func="EvaluateBySCSCP" /> for examples.
@@ -284,10 +295,45 @@ DeclareGlobalFunction ( "FirstProcess" );
 ##  <Func Name="FirstTrueProcess" Arg="process1 process2 ... processN"/>
 ##  <Func Name="FirstTrueProcess" Arg="proclist" Label="for list of processes"/>
 ##  <Returns>
-##    TODO: document FirstTrueProcess
+##    list of records
 ##  </Returns>  
 ##  <Description>
-##    TODO: document FirstTrueProcess
+##  The function waits for the result from each process given in the argument,
+##  and stops waiting as soon as the first <K>true</K> is returned, abandoning
+##  all remaining processes. It retuns a list containing a records with 
+##  components <C>object</C> and <C>attributes</C> at the position corresponding
+##  to the process that returned <K>true</K>. If none of the processes 
+##  returned true, it will return a complete list of procedure call results.
+##  <P/>
+##  The function accepts both one argument that is a list of 
+##  processes, and arbitrary number of arguments, each of them being a process.
+##  <P/>
+##  In the first example, the second call returns <K>true</K>:
+##  <Example>
+##  <![CDATA[
+##  gap> a:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );
+##  < process at localhost:26134 pid=42554 >
+##  gap> b:=NewProcess( "IsPrimeInt", [2^521-1], "localhost", 26133 );
+##  < process at localhost:26133 pid=42448 >
+##  gap> FirstTrueProcess(a,b); 
+##  [ , rec( attributes := [ [ "call_id", "localhost:26133:42448:Lz1DL0ON" ] ], 
+##        object := true ) ]
+##  ]]>
+##  </Example>
+##  In the next example both calls return <K>false</K>:
+##  <Example>
+##  <![CDATA[
+##  gap> a:=NewProcess( "IsPrimeInt", [2^520-1], "localhost", 26133 );
+##  < process at localhost:26133 pid=42448 >
+##  gap> b:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );
+##  < process at localhost:26134 pid=42554 >
+##  gap> FirstTrueProcess(a,b); 
+##  [ rec( attributes := [ [ "call_id", "localhost:26133:42448:nvsk8PQp" ] ], 
+##        object := false ), 
+##    rec( attributes := [ [ "call_id", "localhost:26134:42554:JnEYuXL8" ] ], 
+##        object := false ) ]
+##  ]]>
+##  </Example>
 ##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>

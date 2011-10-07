@@ -31,10 +31,10 @@ InstallGlobalFunction( RunSCSCPserver, function( server, port )
 
 local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
      stream, objrec, pos, call_id_value, atp, callinfo, output, 
-     return_cookie, return_nothing, return_deferred, cookie, omtext, localstream, callresult, responseresult,
-     errormessage, str, session_id, welcome_string, session_cookies,
-     client_scscp_version, pos1, pos2, rt1, rt2, debuglevel, servername, hostname, 
-     todo, token;
+     return_cookie, return_nothing, return_deferred, cookie, omtext, 
+     localstream, callresult, responseresult, errormessage, str, session_id, 
+     welcome_string, session_cookies, client_scscp_version, pos1, pos2, 
+     rt1, rt2, debuglevel, servername, hostname, todo, token;
 
 Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
 
@@ -104,7 +104,8 @@ else
         # session_cookies := [];
         repeat # until disconnect: this loop is a signle SCSCP session
             # We accept connections from everywhere
-            Info(InfoSCSCP, 1, "Waiting for new client connection at ", server, ":", port, " ..." );
+            Info(InfoSCSCP, 1, "Waiting for new client connection at ", 
+                               server, ":", port, " ..." );
             addr := IO_MakeIPAddressPort( "0.0.0.0", 0 );
             if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
             socket_descriptor := IO_accept( socket, addr );
@@ -127,7 +128,8 @@ else
             pos1 := PositionNthOccurrence(client_scscp_version,'\"',1);
             pos2 := PositionNthOccurrence(client_scscp_version,'\"',2);
             if pos1 = fail or pos2 = fail then
-                Info(InfoSCSCP, 1, "Rejecting the client because of improper message ", client_scscp_version );           
+                Info(InfoSCSCP, 1, "Rejecting the client because of improper message ", 
+                                   client_scscp_version );           
                 CloseStream( stream );
                 continue;
             else   
@@ -148,7 +150,8 @@ else
                     Info(InfoSCSCP, 1, "Waiting for OpenMath object ...");
                     # currently the timeout is 3600 seconds = 1 hour
                     if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
-                    callresult:=CALL_WITH_CATCH( IO_Select, [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
+                    callresult:=CALL_WITH_CATCH( IO_Select, 
+                                  [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
                     if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
                     if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
                         if not callresult[1] then
@@ -179,7 +182,8 @@ else
                     # to convert it to the standard objrec format. This happens
                     # when error message is returned
                     if not IsRecord(objrec) then
-                        objrec := rec( object := objrec, attributes := OMParseXmlObj(OMTempVars.OMATTR) );
+                        objrec := rec( object := objrec, 
+                                   attributes := OMParseXmlObj(OMTempVars.OMATTR) );
                     fi;
                     
                     pos := PositionProperty( objrec.attributes, atp -> atp[1]="call_id" );

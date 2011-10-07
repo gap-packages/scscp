@@ -105,7 +105,7 @@ end);
 #############################################################################
 #
 # NewProcess( command, listargs, <connection | server, port> : 
-#                               output:=object/coookie/nothing/deferred, 
+#                               output:=object/tree/coookie/nothing/deferred, 
 #                                             cd:="cdname", debuglevel:=N );
 #
 # The function sends the request to the SCSCP server, and
@@ -142,7 +142,7 @@ fi;
 
 if Length(arg)=3 then
     tcpstream  := arg[3]![1]; # connection's stream 
-    session_id := arg[3]![2];# connection's session_id
+    session_id := arg[3]![2]; # connection's session_id
     multisession := true;
 else
     tcpstream  := InputOutputTCPStream( arg[3], arg[4] );
@@ -207,7 +207,7 @@ end);
 
 #############################################################################
 #
-# CompleteProcess( <process> : return_cookie/return_tree );
+# CompleteProcess( <process> : output:=cookie/tree );
 #
 # The function waits for the process completion, 
 # then collects the result and closes the stream
@@ -215,7 +215,7 @@ end);
 InstallGlobalFunction( CompleteProcess, function( process )
 local tcpstream, result, output_option;
 
-if ValueOption( "output") <> fail then
+if ValueOption( "output" ) <> fail then
   output_option := ValueOption( "output");
 else
   output_option := "object";  
@@ -234,9 +234,11 @@ else
 fi;    
 
 if result = fail then
-    Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", tcpstream![2], ":", tcpstream![3][1], ", returning fail" );
+    Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", 
+                        tcpstream![2], ":", tcpstream![3][1], ", returning fail" );
 else
-    Info( InfoSCSCP, 2, "Got back: object ", result.object, " with attributes ", result.attributes );
+    Info( InfoSCSCP, 2, "Got back: object ", result.object, 
+                        " with attributes ", result.attributes );
 fi; 
 if not process![3] then # we are in single call session
   CloseStream(tcpstream); 
@@ -249,12 +251,6 @@ end);
 #############################################################################
 #
 # TerminateProcess( <process> )
-#
-# The function is supposed to send the interrupt signal to the server.
-# Now it just closes the stream on the client side, but the server will
-# recognize this only when the computation will be completed. We introduce
-# this function as a nameplace for further implementing a proper interrupt
-# mechanism.
 #
 InstallGlobalFunction( TerminateProcess, function( process )
 # THIS WORKS ONLY LOCALLY
@@ -411,7 +407,7 @@ while Length(waitinglist) > 0 do
       # TerminateProcess( processes[i] );
       CloseStream( processes[i]![1]);
     od;
-    return true;
+    return result;
   fi;    
 od;
 return result;
@@ -435,7 +431,7 @@ if descriptors[1]<>fail then # 1st process is ready
   if result[1].object = true then
     Info( InfoSCSCP, 1, "Process number 1 returned true, closing process number 2");
     CloseStream( b![1] );
-    return true;
+    return result;
   fi;
   Info( InfoSCSCP, 1, "Closed 1st process, waiting for 2nd ...");  
   result[2] := CompleteProcess( b );
@@ -447,7 +443,7 @@ elif descriptors[2]<>fail then # 2nd process is ready
     Info( InfoSCSCP, 1, "Process number 2 returned true, closing process number 1");
     CloseStream( a![1] );
     # TerminateProcess( a );
-    return true;
+    return result;
   fi;  
   Info( InfoSCSCP, 1, "Closed 2nd process, waiting for 1st ...");  
   result[1] := CompleteProcess( a );  

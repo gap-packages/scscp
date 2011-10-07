@@ -143,6 +143,11 @@ gap> CloseStream( serverstream );
 ]]>
 </Example>
 
+In this way one can organise remote communication between two copies of 
+&GAP; in various ways. In subsequent chapters we explain how it is 
+implemented using &SCSCP; to ensure compatibility not only with &GAP; 
+but with any other &SCSCP;-compliant system. 
+
 </Section>
 
 </Chapter>

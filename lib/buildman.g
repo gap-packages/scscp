@@ -48,6 +48,7 @@ end;
 
 SCSCPMANUALFILES:=[ 
 "../PackageInfo.g",
+"../lib/connect.gd",
 "../lib/openmath.gd",
 "../lib/process.gd",
 "../lib/remote.gd",

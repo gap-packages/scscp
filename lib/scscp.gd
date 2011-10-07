@@ -28,7 +28,8 @@
 ##  <C>SetInfoLevel(InfoSCSCP, k)</C>. 
 ##  In the following examples we demonstrate various degrees of output 
 ##  details using Info messages.
-##
+##  <P/>
+##  Default Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133); 
@@ -40,7 +41,8 @@
 ##  rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:38" ] ] )
 ##  ]]>
 ##  </Example>
-##  
+##  <P/>
+##  Minimal Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,0);                              
@@ -48,7 +50,8 @@
 ##  rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:41" ] ] )
 ##  ]]>
 ##  </Example>
-##  
+##  <P/>
+##  Verbose Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,3);
@@ -141,7 +144,8 @@ DeclareInfoClass("InfoSCSCP");
 ##  <C>SetInfoLevel(InfoMasterWorker, k)</C>. 
 ##  In the following examples we demonstrate various degrees of output 
 ##  details using Info messages.
-##
+##  <P/>
+##  Default Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,0);       
@@ -155,7 +159,8 @@ DeclareInfoClass("InfoSCSCP");
 ##  [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 ##  ]]>
 ##  </Example>
-##  
+##  <P/>
+##  Minimal Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,0);       
@@ -164,7 +169,8 @@ DeclareInfoClass("InfoSCSCP");
 ##  [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 ##  ]]>
 ##  </Example>
-##  
+##  <P/>
+##  Verbose Info level:
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoMasterWorker,5);                                       
@@ -527,15 +533,24 @@ DeclareGlobalFunction( "StartSCSCPsession" );
 ##  
 ##  <ManSection>
 ##  <Func Name="EvaluateBySCSCP" Arg="command listargs server port"/>
+##  <Func Name="EvaluateBySCSCP" Arg="command listargs connection"
+##        Label="for SCSCP connection" />
 ##  <Returns>
 ##    record with components <C>object</C> and <C>attributes</C> 
 ##  </Returns>	 
 ##  <Description>
-##  <A>command</A> and <C>server</C> are strings, <A>listargs</A>
-##  is a list of &GAP; objects and <C>port</C> is an integer.
+##  In the first form, <A>command</A> and <C>server</C> are strings, 
+##  <A>listargs</A> is a list of &GAP; objects and <C>port</C> is an 
+##  integer.
+##  <P/>
+##  In the second form, an &SCSCP; connection in the category 
+##  <Ref Func="NewSCSCPconnection" /> is used instead of 
+##  <C>server</C> and <C>port</C>.
+##  <P/>
 ##  Calls the SCSCP procedure with the name <A>command</A> 
 ##  and the list of arguments <A>listargs</A> at the server and port
-##  given by <C>server</C> and <C>port</C>.
+##  given by <C>server</C> and <C>port</C> or encapsulated in the
+##  <A>connection</A>.
 ##  <P/>
 ##  Since <Ref Func="EvaluateBySCSCP" /> combines <Ref Func="NewProcess" /> 
 ##  and <Ref Func="CompleteProcess" />, it accepts all options which may be

@@ -76,6 +76,13 @@ gap> res;
 Also note the usage of <Ref Func="SCSCPwait" /> to wait
 until the result of the computation will be available from 
 <C>stream</C>.
+<P/>
+
+In this example we assumed that there is an &SCSCP; server running 
+at <C>localhost</C>, port 26133. In the next chapter we will explain
+how to configure and run a &GAP; &SCSCP; server and how to interrogate
+it from a &GAP; client to learn about its functionality. After that,
+we will proceed with the &SCSCP; client functionality for the end-user.
 
 </Section>
 
