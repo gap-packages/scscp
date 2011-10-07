@@ -118,6 +118,149 @@ gap> IdGroupWS(G);
 
 <!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
 
+<Section Label="BinaryVsXML">
+<Heading>Switching between Binary and XML &OpenMath; Encodings</Heading>
+
+The &OpenMath; package supports both binary and XML encodings for &OpenMath;.
+To switch between them, use the global variable <C>IN_SCSCP_BINARY_MODE</C>.
+When the package is loaded, it is initially set to <K>false</K>. Set it
+to <K>true</K> to switch to binary. You can do it at any time between
+message exchange in the same &SCSCP; session.
+<P/>
+For example, let us create a vector over <M>GF(3)</M>:
+<Example>
+<![CDATA[
+gap> SetInfoLevel(InfoSCSCP,3);
+gap> x := [ Z(3)^0, Z(3), 0*Z(3) ];
+[ Z(3)^0, Z(3), 0*Z(3) ]
+]]>
+</Example>
+The XML &OpenMath; encoding of such objects is quite bulky:
+<Example>
+<![CDATA[
+"<OMOBJ> <OMA> <OMS cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name\
+=\"power\"/> <OMA> <OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</\
+OMI> </OMA> <OMI>0</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA\
+> <OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>\
+1</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfi\
+eld1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </\
+OMA> </OMOBJ>"
+gap> Length( OMString(x) );
+452
+]]>
+</Example>
+We call the &SCSCP; procedure <C>Identity</C> just to test how this object
+may be sent back and forth. The total length of the procedure call message
+is 969 symbols:
+<Example>
+<![CDATA[
+gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message
+#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+6133:42448" scscp_versions="1.0 1.1 1.2 1.3" ?>
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
+#I  Composing procedure_call message: 
+<?scscp start ?>
+<OMOBJ>
+	<OMATTR>
+		<OMATP>
+			<OMS cd="scscp1" name="call_id"/>
+			<OMSTR>localhost:26133:42448:IOs9ZkBU</OMSTR>
+			<OMS cd="scscp1" name="option_return_object"/>
+			<OMSTR></OMSTR>
+		</OMATP>
+		<OMA>
+			<OMS cd="scscp1" name="procedure_call"/>
+			<OMA>
+				<OMS cd="scscp_transient_1" name="Identity"/>
+				<OMA>
+					<OMS cd="list1" name="list"/>
+					<OMA>
+						<OMS cd="arith1" name="power"/>
+						<OMA>
+							<OMS cd="finfield1" name="primitive_element"/>
+							<OMI>3</OMI>
+						</OMA>
+						<OMI>0</OMI>
+					</OMA>
+					<OMA>
+						<OMS cd="arith1" name="power"/>
+						<OMA>
+							<OMS cd="finfield1" name="primitive_element"/>
+							<OMI>3</OMI>
+						</OMA>
+						<OMI>1</OMI>
+					</OMA>
+					<OMA>
+						<OMS cd="arith1" name="times"/>
+						<OMA>
+							<OMS cd="finfield1" name="primitive_element"/>
+							<OMI>3</OMI>
+						</OMA>
+						<OMI>0</OMI>
+					</OMA>
+				</OMA>
+			</OMA>
+		</OMA>
+	</OMATTR>
+</OMOBJ>
+<?scscp end ?>
+#I  Total length 969 characters 
+...
+rec( attributes := [ [ "call_id", "localhost:26133:42448:IOs9ZkBU" ] ], 
+  object := [ Z(3)^0, Z(3), 0*Z(3) ] )
+  ]]>
+</Example>
+Now we switch to binary mode:
+<Example>
+<![CDATA[
+gap> IN_SCSCP_BINARY_MODE:=true;
+true
+gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
+#I  Creating a socket ...
+#I  Connecting to a remote socket via TCP/IP ...
+#I  Got connection initiation message
+#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+6133:42448" scscp_versions="1.0 1.1 1.2 1.3" ?>
+#I  Requesting version 1.3 from the server ...
+#I  Server confirmed version 1.3 to the client ...
+#I  Composing procedure_call message: 
+3C3F7363736370207374617274203F3E0A18121408060773637363703163616C6C5F6964061E6C\
+6F63616C686F73743A32363133333A34323434383A3256675A5562755A0806147363736370316F\
+7074696F6E5F72657475726E5F6F626A6563740600151008060E73637363703170726F63656475\
+72655F63616C6C1008110873637363705F7472616E7369656E745F314964656E74697479100805\
+046C697374316C69737410080605617269746831706F7765721008091166696E6669656C643170\
+72696D69746976655F656C656D656E7401031101001110080605617269746831706F7765721008\
+091166696E6669656C64317072696D69746976655F656C656D656E740103110101111008060561\
+726974683174696D65731008091166696E6669656C64317072696D69746976655F656C656D656E\
+7401031101001111111113193C3F736373637020656E64203F3E0A
+#I  Total length 339 bytes 
+#I  Request sent ...
+#I  Waiting for reply ...
+#I  <?scscp start ?>
+#I  Got back: object [ Z(3)^0, Z(3), 0*Z(3) ] with attributes 
+[ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ]
+rec( attributes := [ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ], 
+  object := [ Z(3)^0, Z(3), 0*Z(3) ] )
+gap>
+]]>
+</Example>
+As we can see, the size of the message is almost three times shorter, and
+this is not the limit. Switching to binary &OpenMath; encoding in 
+combination with pickling and unpickling from &IO; package (see in the last
+Chapter) and special methods for pickling compressed vectors implemented
+in the <Package>Cvec</Package> available in &GAP;&nbsp;4.5 allow to 
+dramatically reduce the overhead for vectors and matrices over finite
+fields, making a roundtrip up to a thousand times faster. 
+
+</Section>
+
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+
 <Section Label="Remote">
 <Heading>Remote objects</Heading>
 
