@@ -36,7 +36,7 @@ local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor,
      welcome_string, session_cookies, client_scscp_version, pos1, pos2, 
      rt1, rt2, debuglevel, servername, hostname, todo, token;
 
-Append( SCSCPserviceDescription, Concatenation( " started on ", CurrentTimestamp() ) );
+Append( SCSCPserviceDescription, Concatenation( " on ", CurrentTimestamp() ) );
 
 # forbid opportunity to send plain GAP code to the server
 Unbind(OMsymRecord.cas);

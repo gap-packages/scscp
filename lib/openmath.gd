@@ -46,23 +46,33 @@
 ##  gap> InstallSCSCPprocedure("WS_Factorial", Factorial );
 ##  gap> InstallSCSCPprocedure("GroupIdentificationService", IdGroup );
 ##  gap> InstallSCSCPprocedure("GroupByIdNumber", SmallGroup );
+##  gap> InstallSCSCPprocedure( "Length", Length, 1, 1 );
 ##  gap> test:=Filename( Directory( Concatenation(
 ##  >         GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), 
 ##  >         "omdemo.om" );;
 ##  gap> stream:=InputTextFile(test);;
-##  gap> OMGetObjectWithAttributes(stream);     
-##  rec( object := 1, attributes := [  ] )
+##  gap> OMGetObjectWithAttributes(stream); 
+##  rec( 
+##    attributes := [ [ "option_return_object", "" ], [ "call_id", "5rc6rtG62" ] ]
+##      , object := 6 )
 ##  gap> OMGetObjectWithAttributes(stream);
-##  rec( object := "Primes@localhost:26133", 
-##    attributes := [ [ "call_id", "call_identifier" ] ] )
+##  rec( attributes := [  ], object := 1 )
 ##  gap> OMGetObjectWithAttributes(stream);
-##  rec( object := 120, attributes := [  ] )
+##  rec( attributes := [  ], object := 120 )
 ##  gap> OMGetObjectWithAttributes(stream);
-##  rec( object := [ 24, 12 ], 
+##  rec( 
 ##    attributes := [ [ "call_id", "alexk_9053" ], [ "option_runtime", 300000 ], 
 ##        [ "option_min_memory", 40964 ], [ "option_max_memory", 134217728 ], 
-##        [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ] )
-##  gap> CloseStream( str );
+##        [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ],
+##    object := [ 24, 12 ] )
+##  gap> OMGetObjectWithAttributes(stream);
+##  rec( 
+##    attributes := [ [ "call_id", "alexk_9053" ], [ "option_return_cookie", "" ] 
+##       ], object := <pc group of size 24 with 4 generators> )
+##  gap> OMGetObjectWithAttributes(stream);
+##  rec( attributes := [ [ "call_id", "alexk_9053" ], [ "info_runtime", 1234 ], 
+##        [ "info_memory", 134217728 ] ], object := [ 24, 12 ] )
+##  gap> CloseStream( stream );
 ##  ]]>
 ##  </Example>
 ##  </Description>
@@ -131,7 +141,7 @@ DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 ##  			<OMS cd="scscp1" name="procedure_call"/>
 ##  			<OMA>
 ##  				<OMS cd="scscp_transient_1" name="WS_Factorial"/>
-##  				<OMI> 5</OMI>
+##  				<OMI>5</OMI>
 ##  			</OMA>
 ##  		</OMA>
 ##  	</OMATTR>
@@ -155,7 +165,7 @@ DeclareGlobalFunction( "OMPutProcedureCall" );
 ##  <ManSection>
 ##  <Func Name="OMPutProcedureCompleted" Arg="stream objrec"/>
 ##  <Returns>
-##    nothing
+##    <K>true</K>
 ##  </Returns>	 
 ##  <Description>
 ##  Takes a stream <A>stream</A>, and a record 
@@ -168,7 +178,8 @@ DeclareGlobalFunction( "OMPutProcedureCall" );
 ##  gap> t:="";; stream:=OutputTextString(t,true);;
 ##  gap> OMPutProcedureCompleted( stream, 
 ##  >      rec(object:=120, 
-##  >      attributes:=[ [ "call_id", "user007" ] ] ));
+##  >      attributes:=[ [ "call_id", "user007" ] ] ) );
+##  true
 ##  gap> Print(t);
 ##  <?scscp start ?>
 ##  <OMOBJ>
@@ -179,7 +190,7 @@ DeclareGlobalFunction( "OMPutProcedureCall" );
 ##  		</OMATP>
 ##  		<OMA>
 ##  			<OMS cd="scscp1" name="procedure_completed"/>
-##  			<OMI> 120</OMI>
+##  			<OMI>120</OMI>
 ##  		</OMA>
 ##  	</OMATTR>
 ##  </OMOBJ>

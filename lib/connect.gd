@@ -46,8 +46,16 @@ DeclareCategoryCollections( "IsSCSCPconnection" );
 ##  <Ref Func="CloseSCSCPconnection"/>.
 ##  <Example>
 ##  <![CDATA[
+##  gap> SetInfoLevel( InfoSCSCP, 2 );
 ##  gap> s:=NewSCSCPconnection("localhost",26133);
-##  < connection to localhost:26133 session_id=localhost:26133:41400 >
+##  #I  Creating a socket ...
+##  #I  Connecting to a remote socket via TCP/IP ...
+##  #I  Got connection initiation message
+##  #I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+##  6133:52918" scscp_versions="1.0 1.1 1.2 1.3" ?>
+##  #I  Requesting version 1.3 from the server ...
+##  #I  Server confirmed version 1.3 to the client ...
+##  < connection to localhost:26133 session_id=localhost:26133:52918 >
 ##  gap> CloseSCSCPconnection(s);
 ##  ]]>
 ##  </Example>
@@ -76,8 +84,9 @@ DeclareGlobalFunction ( "NewSCSCPconnection" );
 ##  input/output TCP stream of <A>s</A>.
 ##  <Example>
 ##  <![CDATA[
+##  gap> SetInfoLevel( InfoSCSCP, 0 );
 ##  gap> s:=NewSCSCPconnection("localhost",26133);
-##  < connection to localhost:26133 session_id=localhost:26133:41400 >
+##  < connection to localhost:26133 session_id=localhost:26133:52918 >
 ##  gap> CloseSCSCPconnection(s);
 ##  ]]>
 ##  </Example>

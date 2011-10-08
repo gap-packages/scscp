@@ -32,13 +32,23 @@
 ##  Default Info level:
 ##  <Example>
 ##  <![CDATA[
+##  gap> SetInfoLevel(InfoSCSCP,2);                              
 ##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133); 
 ##  #I  Creating a socket ...
 ##  #I  Connecting to a remote socket via TCP/IP ...
-##  #I  Got connection initiation message 
+##  #I  Got connection initiation message
+##  #I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+##  6133:286" scscp_versions="1.0 1.1 1.2 1.3" ?>
+##  #I  Requesting version 1.3 from the server ...
+##  #I  Server confirmed version 1.3 to the client ...
 ##  #I  Request sent ...
 ##  #I  Waiting for reply ...
-##  rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:38" ] ] )
+##  #I  <?scscp start ?>
+##  #I  <?scscp end ?>
+##  #I  Got back: object 3628800 with attributes 
+##  [ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ]
+##  rec( attributes := [ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ], 
+##    object := 3628800 )
 ##  ]]>
 ##  </Example>
 ##  <P/>
@@ -47,7 +57,8 @@
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,0);                              
 ##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
-##  rec( object := "3628800", attributes := [ [ "call_id", "localhost:26133:41" ] ] )
+##  rec( attributes := [ [ "call_id", "localhost:26133:286:jzjsp6th" ] ], 
+##    object := 3628800 )
 ##  ]]>
 ##  </Example>
 ##  <P/>
@@ -55,45 +66,35 @@
 ##  <Example>
 ##  <![CDATA[
 ##  gap> SetInfoLevel(InfoSCSCP,3);
-##  gap> G:=SymmetricGroup(4);;
-##  gap> gens:=GeneratorsOfGroup(G);  
-##  [ (1,2,3,4), (1,2) ]
-##  gap> EvaluateBySCSCP( "GroupIdentificationService",[gens],"localhost",26133);
+##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 ##  #I  Creating a socket ...
 ##  #I  Connecting to a remote socket via TCP/IP ...
 ##  #I  Got connection initiation message
-##  #I Composing procedure_call message: 
+##  #I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
+##  6133:286" scscp_versions="1.0 1.1 1.2 1.3" ?>
+##  #I  Requesting version 1.3 from the server ...
+##  #I  Server confirmed version 1.3 to the client ...
+##  #I  Composing procedure_call message: 
 ##  <?scscp start ?>
 ##  <OMOBJ>
-##      <OMATTR>
+##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
-##  			<OMSTR>localhost:26133:1212</OMSTR>
+##  			<OMSTR>localhost:26133:286:Jok6cQAf</OMSTR>
+##  			<OMS cd="scscp1" name="option_return_object"/>
+##  			<OMSTR></OMSTR>
 ##  		</OMATP>
 ##  		<OMA>
 ##  			<OMS cd="scscp1" name="procedure_call"/>
 ##  			<OMA>
-##  				<OMS cd="scscp_transient_1" name="GroupIdentificationService"/>
-##  				<OMA>
-##  					<OMS cd="list1" name="list"/>
-##  					<OMA>
-##  						<OMS cd="permut1" name="permutation"/>
-##  						<OMI> 2</OMI>
-##  						<OMI> 3</OMI>
-##  						<OMI> 4</OMI>
-##  						<OMI> 1</OMI>
-##  					</OMA>
-##  					<OMA>
-##  						<OMS cd="permut1" name="permutation"/>
-##  						<OMI> 2</OMI>
-##  						<OMI> 1</OMI>
-##  					</OMA>
-##  				</OMA>
+##  				<OMS cd="scscp_transient_1" name="WS_Factorial"/>
+##  				<OMI>10</OMI>
 ##  			</OMA>
 ##  		</OMA>
 ##  	</OMATTR>
 ##  </OMOBJ>
 ##  <?scscp end ?>
+##  #I  Total length 396 characters 
 ##  #I  Request sent ...
 ##  #I  Waiting for reply ...
 ##  #I  <?scscp start ?>
@@ -102,21 +103,20 @@
 ##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
-##  			<OMSTR>localhost:26133:1212</OMSTR>
+##  			<OMSTR>localhost:26133:286:Jok6cQAf</OMSTR>
 ##  		</OMATP>
 ##  		<OMA>
 ##  			<OMS cd="scscp1" name="procedure_completed"/>
-##  			<OMA>
-##  				<OMS cd="list1" name="list"/>
-##  				<OMI> 24</OMI>
-##  				<OMI> 12</OMI>
-##  			</OMA>
+##  			<OMI>3628800</OMI>
 ##  		</OMA>
 ##  	</OMATTR>
 ##  </OMOBJ>
 ##  #I  <?scscp end ?>
-##  #I  Got back: object [ 24, 12 ] with attributes [ [ "call_id", "localhost:26133:1212" ] ]
-##  rec( object := [ 24, 12 ], attributes := [ [ "call_id", "localhost:26133:1212" ] ] )
+##  #I  Got back: object 3628800 with attributes 
+##  [ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ]
+##  rec( attributes := [ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ], 
+##    object := 3628800 )
+##  gap> SetInfoLevel(InfoSCSCP,0);
 ##  ]]>
 ##  </Example>
 ##  </Description>
@@ -148,7 +148,6 @@ DeclareInfoClass("InfoSCSCP");
 ##  Default Info level:
 ##  <Example>
 ##  <![CDATA[
-##  gap> SetInfoLevel(InfoSCSCP,0);       
 ##  gap> SetInfoLevel(InfoMasterWorker,2);
 ##  gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 ##  #I  1/5:master --> localhost:26133
@@ -186,6 +185,7 @@ DeclareInfoClass("InfoSCSCP");
 ##  #I  localhost:26134 --> 4/5:master : [ 120, 34 ]
 ##  #I  localhost:26133 --> 5/5:master : [ 720, 763 ]
 ##  [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
+##  gap> SetInfoLevel(InfoMasterWorker,2);
 ##  ]]>
 ##  </Example>
 ##  </Description>
@@ -282,14 +282,14 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 ##    content dictionaries, and the third is a record whose components 
 ##    are names of content dictionaries, containing lists of names of 
 ##    allowed symbols from these dictionaries,for example: 
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  signature := rec( CDgroups := [ "scscp" ],
 ##                CDs := [ "arith1", "linalg1" ],
 ##                Symbols := rec( polyd1 := [ "DMP", "term", "SDMP" ],
 ##                                polyu := [ "poly_u_rep", "term" ] ) );
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  </Item>
 ##  </List>
 ##  
@@ -297,12 +297,12 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 ##  that takes an integers and returns its factorial, using only mandatory
 ##  arguments of <Ref Func="InstallSCSCPprocedure" />:
 ##  
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  gap> InstallSCSCPprocedure( "WS_Factorial", Factorial );
 ##  InstallSCSCPprocedure : procedure WS_Factorial installed. 
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  
 ##  In the following example we install the procedure that will accept a list
 ##  of permutations and return the number in the &GAP; Small Groups library
@@ -310,7 +310,7 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 ##  validity of arguments, availability of <C>IdGroup</C> for groups of given 
 ##  order etc.)
 ##  
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  gap> IdGroupByGenerators:=function( permlist )
 ##  > return IdGroup( Group( permlist ) );
@@ -319,20 +319,20 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 ##  gap> InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );
 ##  InstallSCSCPprocedure : procedure GroupIdentificationService installed. 
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  
 ##  After installation, the procedure may be reinstalled, if necessary:
 ##  
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  gap> InstallSCSCPprocedure( "WS_Factorial", Factorial );
 ##  WS_Factorial is already installed. Do you want to reinstall it [y/n]? y
 ##  InstallSCSCPprocedure : procedure WS_Factorial reinstalled. 
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  
 ##  Finally, some examples of various combinations of optional arguments:
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  InstallSCSCPprocedure( "WS_Phi", Phi, 
 ##                         "Euler's totient function, see ?Phi in GAP", 1, 1 );
@@ -341,7 +341,7 @@ DeclareGlobalFunction( "SCSCP_GET_SIGNATURE" );
 ##  InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );
 ##  InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  Note that it is quite acceptable to overstate the signature of the
 ##  procedure and use only mandatory arguments in a call to <Ref
 ##  Func="InstallSCSCPprocedure" />, which will be installed then as a
@@ -397,13 +397,13 @@ DeclareGlobalFunction( "InstallSCSCPprocedure" );
 ##           the hardware has several network interfaces). 
 ##       </Item>
 ##       </List>
-##  <Example>
+##  <Log>
 ##  <![CDATA[
 ##  gap> RunSCSCPserver( "localhost", 26133 );
 ##  Ready to accept TCP/IP connections at localhost:26133 ...
 ##  Waiting for new client connection at localhost:26133 ...
 ##  ]]>
-##  </Example>
+##  </Log>
 ##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>
@@ -429,16 +429,11 @@ DeclareGlobalFunction( "RunSCSCPserver" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> PingSCSCPservice("localhost",26133);
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
-##  #I  Got connection initiation message
 ##  true
-##  gap> PingSCSCPservice("localhost",26134);                     
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
+##  gap> PingSCSCPservice("localhost",26140);                     
 ##  Error: rec(
-##    number := 61,
-##    message := "Connection refused" )
+##    message := "Connection refused",
+##    number := 61 )
 ##  fail
 ##  ]]>
 ##  </Example>
@@ -467,16 +462,9 @@ DeclareGlobalFunction( "PingSCSCPservice" );
 ##  information.
 ##  <Example>
 ##  <![CDATA[
-##  gap> PingStatistic("localhost",26133,5);
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message nr 1
-##  ...
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
-##  #I  Got connection initiation message nr 5
-##  100 packets transmitted, 100 received, 0% packet loss, time 26ms
-##  min/avg/max = [ 0, 13/50, 2 ]
+##  gap> PingStatistic("localhost",26133,1000);
+##  1000 packets transmitted, 1000 received, 0% packet loss, time 208ms
+##  min/avg/max = [ 0, 26/125, 6 ]
 ##  ]]>
 ##  </Example>
 ##  </Description>
@@ -504,16 +492,10 @@ DeclareGlobalFunction( "PingStatistic" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> s := InputOutputTCPStream("localhost",26133);
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
 ##  < input/output TCP stream to localhost:26133 >
 ##  gap> StartSCSCPsession(s);
-##  #I  Got connection initiation message
-##  #I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\
-##  6133:5541" scscp_versions="1.0 1.1 1.2 1.3" ?>
-##  #I  Requesting version 1.3 from the server ...
-##  #I  Server confirmed version 1.3 to the client ...
 ##  "localhost:26133:5541"
+##  gap> CloseStream( s );
 ##  ]]>
 ##  </Example>
 ##  After the call to <Ref Func="StartSCSCPsession"/> the &SCSCP; server is
@@ -567,11 +549,11 @@ DeclareGlobalFunction( "StartSCSCPsession" );
 ##  #I  Request sent ...
 ##  #I  Waiting for reply ...
 ##  rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
-##       object := 3628800 )
+##    object := 3628800 )
 ##  gap> SetInfoLevel(InfoSCSCP,0);
 ##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="cookie" ); 
 ##  rec( attributes := [ [ "call_id", "localhost:26133:2442:jNQG6rml" ] ], 
-##    object := < remote object TEMPVarSCSCP@localhost:26133 > )
+##    object := < remote object scscp://localhost:26133/TEMPVarSCSCP5KZIeiKD > )
 ##  gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="nothing" );
 ##  rec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ], 
 ##    object := "procedure completed" )
@@ -612,18 +594,9 @@ DeclareGlobalFunction( "EvaluateBySCSCP" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
-##  #I  Got connection initiation message 
-##  #I  Request sent ...
-##  #I  Creating a socket ...
-##  #I  Connecting to a remote socket via TCP/IP ...
-##  #I  Got connection initiation message 
-##  #I  Request sent ...
-##  #I  Process number 2 is ready
-##  rec( object := [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 8101, 63901, 268501, 
-##        13334701, 1182468601 ], 
-##   attributes := [ [ "call_id", "localhost:26134:6731" ] ] )
+##  rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
+##    object := [ [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 63901 ],
+##        [ 2175126601, 15767865236223301 ] ] )
 ##  ]]>
 ##  </Example>
 ##  </Description>
@@ -748,9 +721,10 @@ DeclareGlobalFunction( "GetAllowedHeads" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetServiceDescription( "localhost", 26133 );
-##  rec( service_name := "GAP SCSCP service", 
-##    version := "GAP 4.4.12 + SCSCP 1.1 started on Tue 30 Mar 2010 00:35:38 BST", 
-##    description := "Started with scscp/example/myserver.g from SCSCP 1.2" )
+##  rec(
+##    description := "Started with the demo file scscp/example/myserver.g \
+##    on Sat  8 Oct 2011 17:24:13 BST", service_name := "GAP SCSCP service",
+##    version := "GAP 4.4.12 + SCSCP 2.0.0" )
 ##  ]]>
 ##  </Example>    
 ##  </Description>
@@ -788,9 +762,9 @@ DeclareGlobalFunction( "GetServiceDescription" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);
-##  rec( symbol := rec( name := "WS_Factorial", cd := "scscp_transient_1" ),
-##       minarg := 1, maxarg := 1,
-##       symbolargs := rec( name := "symbol_set_all", cd := "scscp2" ) )
+##  rec( maxarg := 1, minarg := 1,
+##    symbol := rec( cd := "scscp_transient_1", name := "WS_Factorial" ),
+##    symbolargs := rec( cd := "scscp2", name := "symbol_set_all" ) )
 ##  ]]>
 ##  </Example>    
 ##  </Description>
@@ -826,24 +800,19 @@ DeclareGlobalFunction( "GetSignature" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
-##  rec( 
-##    Description := "This is a transient CD for the GAP SCSCP service", 
-##    CDName := "scscp_transient_1", 
-##    CDReviewDate := "2010-03-30", 
-##    CDDate := "2010-03-30", 
-##    CDVersion := "0", 
-##    CDRevision := "0", 
-##    CDStatus := "private", 
+##  rec( CDDate := "2011-10-08", 
 ##    CDDefinitions := 
-##      [ rec( Name := "WS_Factorial", 
-##             Description := "See ?Factorial in GAP" ), 
-##        rec( Name := "WS_Phi", 
-##             Description := "Euler's totient function, see ?Phi in GAP" ), 
-##    ...
-##        rec( Name := "SCSCPStartTracing", 
-##            Description := "To turn on tracing using given filename on the server" ), 
-##        rec( Name := "SCSCPStopTracing", 
-##             Description := "To turn off tracing on the server" ) ] )
+##      [ rec( Description := "Size is currently undocumented.", Name := "Size" ),
+##        rec( Description := "Length is currently undocumented.", 
+##            Name := "Length" ), 
+##        rec( Description := "NrConjugacyClasses is currently undocumented.", 
+##            Name := "NrConjugacyClasses" ), 
+##  ...
+##        rec( Description := "MatrixGroup is currently undocumented.", 
+##            Name := "MatrixGroup" ) ], CDName := "scscp_transient_1", 
+##    CDReviewDate := "2011-10-08", CDRevision := "0", CDStatus := "private", 
+##    CDVersion := "0", 
+##    Description := "This is a transient CD for the GAP SCSCP service" )
 ##  ]]>
 ##  </Example>    
 ##  </Description>
@@ -878,9 +847,9 @@ DeclareGlobalFunction( "GetTransientCD" );
 ##  &OpenMath; errors to reject requests later.
 ##  <Example>
 ##  <![CDATA[
-##  gap> IsAllowedHead( "permgp1", "group", "localhost", 26133 );                            
+##  gap> IsAllowedHead( "permgp1", "group", "localhost", 26133 );
 ##  true
-##  gap> IsAllowedHead( "nums1", "pi", "localhost", 26133 );          
+##  gap> IsAllowedHead( "nums1", "pi", "localhost", 26133 );
 ##  false
 ##  ]]>
 ##  </Example>  
