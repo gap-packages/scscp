@@ -5,7 +5,7 @@
 ##
 ###########################################################################
 
-# read the function declarations
+# read function declarations
 ReadPackage("scscp/lib/openmath.gd");
 ReadPackage("scscp/lib/xstream.gd");
 ReadPackage("scscp/lib/connect.gd");
