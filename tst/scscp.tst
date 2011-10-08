@@ -1,8 +1,8 @@
-gap> START_TEST("scscp");
+gap> START_TEST( "scscp.tst" );
 gap> SetInfoLevel(InfoSCSCP,0);
-gap> PingSCSCPservice( "localhost", 26133 );
-true
 gap> server := "localhost";;
+gap> PingSCSCPservice( server, 26133 );
+true
 gap> EvaluateBySCSCP( "WS_Factorial", [10], server, 26133).object;
 3628800
 gap> EvaluateBySCSCP( "WS_IdGroup", [ SymmetricGroup(3) ], server, 26133 ).object;
@@ -20,4 +20,4 @@ gap> RetrieveRemoteObject( S1 );
 Group([ (1,2,3), (1,2) ])
 gap> UnbindRemoteObject( S1 );
 true
-gap> STOP_TEST( "scscp.tst", 10000 );
+gap> STOP_TEST( "scscp.tst", 10000000 );

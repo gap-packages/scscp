@@ -1,25 +1,11 @@
 <!-- OpenMath objects -->
 
 <?scscp start ?>
-<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_id"></OMS><OMSTR>georgiana</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="SCSCP_transient_1" name="WS_Factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
+<OMOBJ><OMATTR><OMATP><OMS cd="scscp1" name="option_return_object"></OMS><OMSTR></OMSTR><OMS cd="scscp1" name="call_id"></OMS><OMSTR>5rc6rtG62</OMSTR></OMATP><OMA><OMS cd="scscp1" name="procedure_call"></OMS><OMA><OMS cd="scscp_transient_1" name="WS_Factorial"></OMS><OMI>3</OMI></OMA></OMA></OMATTR></OMOBJ>
 <?scscp end ?>
 
 <?scscp start ?>
 <OMOBJ><OMI>1</OMI></OMOBJ>
-<?scscp end ?>
-
-<!-- OpenMath reference -->
-
-<?scscp start ?>
-<OMOBJ>
-     <OMATTR>
-         <OMATP>
-            <OMS cd="scscp1" name="call_id" />
-            <OMSTR>call_identifier</OMSTR>
-         </OMATP>
-         <OMR xref="Primes@localhost:26133" />
-     </OMATTR>
-</OMOBJ>
 <?scscp end ?>
 
 <!-- procedure call -->
@@ -60,7 +46,7 @@
             <OMA>
                 <OMS cd="scscp_transient_1" name="GroupIdentificationService" />
                 <OMA>
-                    <OMS cd="group1" name="Group"/>
+                    <OMS cd="group1" name="group_by_generators"/>
                     <OMA>
                         <OMS cd="permut1" name="permutation"/>
                         <OMI> 2</OMI> <OMI> 3</OMI>
