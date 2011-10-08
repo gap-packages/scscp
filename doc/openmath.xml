@@ -50,13 +50,8 @@ with the number of the procedure call.
 <Example>
 <![CDATA[
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
 < input/output TCP stream to localhost:26133 >
 gap> sid := StartSCSCPsession( stream );
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
 "localhost:26133:5541"
 gap> res:=[];
 [  ]

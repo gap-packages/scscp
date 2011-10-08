@@ -13,7 +13,7 @@ and enter <C>gap myserver.g</C>. After this you will see some information
 messages and finally the server will start to wait for the connection. The
 final part of the startup screen may look as follows:
 
-<Example>
+<Log>
 <![CDATA[
 #I  Installed SCSCP procedure Factorial
 #I  Installed SCSCP procedure WS_Factorial
@@ -25,7 +25,7 @@ final part of the startup screen may look as follows:
 #I  Ready to accept TCP/IP connections at localhost:26133 ...
 #I  Waiting for new client connection at localhost:26133 ...
 ]]>
-</Example>
+</Log>
 
 See further self-explanatory comments in the file 
 <File>scscp/example/myserver.g</File>.
@@ -49,20 +49,20 @@ of creation of your own &SCSCP; service.
 The &GAP; Small Group Library does not provide identification for
 groups of order 512 using the function <C>IdGroup</C>:
 
-<Example>
+<Log>
 <![CDATA[
 gap> IdGroup( DihedralGroup( 256 ) );
 [ 256, 539 ]
 gap> IdGroup(DihedralGroup(512)); 
-Error, the group identification for groups of size 
-512 is not available called from
-<function>( <arguments> ) called from read-eval-loop
-Entering break read-eval-print loop ...
+Error, the group identification for groups of size 512 is not available 
+called from
+<function "unknown">( <arguments> )
+ called from read-eval loop at line 71 of *stdin*
 you can 'quit;' to quit to outer loop, or
 you can 'return;' to continue
 brk> 
 ]]>
-</Example>
+</Log>
 
 However, the &GAP; package &ANUPQ; <Cite Key="ANUPQ"/> has a function
 <C>IdStandardPresented512Group</C> that does this work as demonstrated
@@ -112,7 +112,7 @@ First we create a function which accepts the integer number that is the code for
 pcgs of a group of order 512 and returns the number of this group in the
 GAP Small Groups library:
 
-<Example>
+<Log>
 <![CDATA[
 IdGroup512ByCode := function( code )
 local G, F, H;
@@ -122,17 +122,17 @@ H := PcGroupFpGroup( F );
 return IdStandardPresented512Group( H );
 end;
 ]]>
-</Example>
+</Log>
 
 After such function was created on the server, we need to make it
 <Q>visible</Q> as an &SCSCP; procedure:
 
-<Example>
+<Log>
 <![CDATA[
 gap> InstallSCSCPprocedure("IdGroup512", IdGroup512ByCode );
 InstallSCSCPprocedure : procedure IdGroup512 installed. 
 ]]>
-</Example>
+</Log>
 
 Note that this function assumes that the argument is a valid code
 for some group of order 512, and we wish the client to make it
@@ -143,16 +143,16 @@ an error message will appear.
 
 <Example>
 <![CDATA[
-IdGroup512:=function( G )
-local code, result;
-if Size( G ) <> 512 then
-  Error( "G must be a group of order 512 \n" );
-fi;
-code := CodePcGroup( G );
-result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ], 
-                           "localhost", 26133 );
-return result.object;
-end;
+gap> IdGroup512 := function( G )
+>    local code, result;
+>    if Size( G ) <> 512 then
+>      Error( "G must be a group of order 512 \n" );
+>    fi;
+>    code := CodePcGroup( G );
+>    result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ], 
+>                               "localhost", 26133 );
+>    return result.object;
+> end;;
 ]]>
 </Example>
 
@@ -163,11 +163,6 @@ those groups where it works:
 <Example>
 <![CDATA[
 gap> IdGroup512(DihedralGroup(512));
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Request sent ...
-#I  Waiting for reply ...
 [ 512, 2042 ]
 ]]>
 </Example>
