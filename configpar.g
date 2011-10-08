@@ -7,12 +7,19 @@
 #
 # 2) SCSCPservers is a proper GAP list, so you can use GAP
 #    language constructions to generate it for a range
-#    of port numbers, for example, for the beowulf cluster
-#    with hostnames from bwlf01 to bwlf32 you may use: 
+#    of port numbers, for example, for specify SCSCP servers
+#    at the the beowulf cluster with hostnames from bwlf01 to 
+#    bwlf16 and 4 cores per node you may use: 
 # 
-#    List([1..32],i->[ Concatenation("bwlf",
-#      Concatenation( List([1..2-Length(String(i))], i->"0") ),
-#                     String(i)),26133]);
+#    nrnodes:=16;
+#    nrcores:=4;
+#    SCSCPservers := Cartesian ( 
+#      List( [1..nrnodes], i-> 
+#        Concatenation(
+#          "bwlf", 
+#          Concatenation( List([1..2-Length(String(i))], i->"0") ),
+#          String(i) ) ), 
+#      [26133 .. 26133+nrcores-1] );
 #
 # 3) It is better to arrange services in this list in a way
 #    that faster services and services with shorter latency
@@ -22,8 +29,8 @@
 #    the number of services.
 #
 SCSCPservers:= List( [26133..26134], i-> [ "localhost",  i ] );
-# Concatenation( 
-# List( [26133..26140], i-> [ "ladybank01", i ] ),
-# List( [26133..26140], i-> [ "ladybank02", i ] ), 
-# List( [26133..26140], i-> [ "ladybank03", i ] )
-# );
+
+###########################################################################
+##
+#E
+##
