@@ -50,10 +50,10 @@ SCSCPserverPort := 26133;
 # designated procedure EvaluateOpenMathCode to evaluate 
 # arbitrary OpenMath code.
 # 
-# If you run a public service it is recommended to set this 
-# parameter to 'true'
+# If you run a public service it is strongly recommended to set 
+# this parameter to 'true'
 #
-SCSCPserverAcceptsOnlyTransientCD := false;
+SCSCPserverAcceptsOnlyTransientCD := true;
 
 # The server may have a backlog of SCSCPqueueLength connections:
 # if the client will try to connect while the server is busy, it
@@ -70,12 +70,11 @@ SCSCPserviceName:="GAP SCSCP service";
 # which may combine packages versions, timestamp when
 # the server was started, and other information
 SCSCPserviceVersion:= Concatenation( 
-	"GAP ", VERSION, 
+	"GAP ", GAPInfo.Version, 
 	" + SCSCP ", GAPInfo.PackagesInfo.scscp[1].Version );
 
 # setting the default description, which may include, for example, 
 # functions exposed, description of resources, contact details of 
 # service provider, and any other useful information
-SCSCPserviceDescription:= Concatenation( 
-	"Started with scscp/example/myserver.g from SCSCP ", 
-	GAPInfo.PackagesInfo.scscp[1].Version );
+SCSCPserviceDescription:= 
+  "Started with the configuration file scscp/example/myserver.g ";
