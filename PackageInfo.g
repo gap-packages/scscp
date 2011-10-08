@@ -10,10 +10,10 @@ SetPackageInfo( rec(
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
 Version := "2.0.0",
-Date := "05/10/2011",
+Date := "09/10/2011",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
 ##  <!ENTITY VERSION "2.0.0">
-##  <!ENTITY RELEASEDATE "05 October 2011">
+##  <!ENTITY RELEASEDATE "09 October 2011">
 ##  <!ENTITY RELEASEYEAR "2011">
 ##  <#/GAPDoc>
 
@@ -90,7 +90,7 @@ Dependencies := rec(
 
 AvailabilityTest := ReturnTrue,
 Autoload := false,
-TestFile := "tst/testall.g",
+TestFile := "tst/offline.tst",
 
 Keywords := [ "SCSCP", "software composability", "interface", 
               "parallel computing", "OpenMath" ]
