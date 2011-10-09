@@ -88,7 +88,6 @@ main:="manual.xml";
 bookname:="scscp";
 MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname );  
 GAPDocManualLab( "scscp" );; 
-ExtractManualExamples( "scscp", main, SCSCPMANUALFILES);
 end;
 
 
