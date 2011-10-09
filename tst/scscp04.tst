@@ -1,4 +1,4 @@
-# from paragraph [ 4, 1, 1, 4 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/scscp.gd", 492 ]
+# from paragraph [ 4, 1, 1, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 492 ]
 
 
 gap> s := InputOutputTCPStream("localhost",26133);
@@ -8,7 +8,7 @@ gap> StartSCSCPsession(s);
 gap> CloseStream( s );
 
 
-# from paragraph [ 4, 1, 2, 4 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/openmath.gd", 112 ]
+# from paragraph [ 4, 1, 2, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/openmath.gd", 112 ]
 
 
 gap> t:="";; stream:=OutputTextString(t,true);;
@@ -49,7 +49,7 @@ gap> Print(t);
 <?scscp end ?>
 
 
-# from paragraph [ 4, 1, 4, 6 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/openmath.gd", 44 ]
+# from paragraph [ 4, 1, 4, 6 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/openmath.gd", 44 ]
 
 
 gap> InstallSCSCPprocedure("WS_Factorial", Factorial );
@@ -84,7 +84,7 @@ rec( attributes := [ [ "call_id", "alexk_9053" ], [ "info_runtime", 1234 ],
 gap> CloseStream( stream );
 
 
-# from paragraph [ 4, 2, 1, 4 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/openmath.gd", 176 ]
+# from paragraph [ 4, 2, 1, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/openmath.gd", 176 ]
 
 
 gap> t:="";; stream:=OutputTextString(t,true);;
@@ -109,7 +109,7 @@ gap> Print(t);
 <?scscp end ?>
 
 
-# from paragraph [ 4, 3, 0, 4 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/openmath.xml", 50 ]
+# from paragraph [ 4, 3, 0, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/openmath.xml", 50 ]
 
 
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
