@@ -45,25 +45,6 @@ end;
 
 #############################################################################
 #
-# IdGroup512ByCode( <pcgs code of the group> )
-# 
-# The function accepts the integer number that is the code for pcgs of 
-# a group of order 512 and returns the number of this group in the
-# GAP Small Groups library. It is assumed that the client will make sure
-# that the code really corresponds to the group of order 512, since this
-# can not be checked from the code itself.
-#
-IdGroup512ByCode:=function( code )
-local G, F, H;
-G := PcGroupCode( code, 512 );
-F := PqStandardPresentation( G );
-H := PcGroupFpGroup( F );
-return IdStandardPresented512Group( H );
-end;
-
-
-#############################################################################
-#
 #  QuillenSeriesByIdGroup( [ ord, nr] )
 #  
 # Let G:=SmallGroup( ord, nr ) be a p-group of order p^n. It was proved in 
@@ -132,8 +113,31 @@ InstallSCSCPprocedure( "IsPrimeInt", IsPrimeInt, 1, 1 );
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 
 	"Accepts a list of permutations and returns IdGroup of the group they generate", 1, infinity );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
-InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 
-	"Identification of groups of order 512 using the ANUPQ package", 1, 1 );
+
+
+###########################################################################
+#
+# IdGroup512ByCode( <pcgs code of the group> )
+# 
+# The function accepts the integer number that is the code for pcgs of 
+# a group of order 512 and returns the number of this group in the
+# GAP Small Groups library. It is assumed that the client will make sure
+# that the code really corresponds to the group of order 512, since this
+# can not be checked from the code itself.
+#
+# This function requires ANUPQ package for IdStandardPresented512Group.
+#
+if ARCH_IS_UNIX() then
+  IdGroup512ByCode:=function( code )
+  local G, F, H;
+  G := PcGroupCode( code, 512 );
+  F := PqStandardPresentation( G );
+  H := PcGroupFpGroup( F );
+  return IdStandardPresented512Group( H );
+  end;
+  InstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 
+	  "Identification of groups of order 512 using the ANUPQ package", 1, 1 );
+fi;
 	
 InstallSCSCPprocedure( "MatrixGroup", Group );
 
