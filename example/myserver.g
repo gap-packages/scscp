@@ -123,6 +123,7 @@ InstallSCSCPprocedure( "addition", SCSCPadditionService, "to add two integers", 
 InstallSCSCPprocedure( "WS_Phi", Phi, "Euler's totient function, see ?Phi in GAP", 1, 1 );
 InstallSCSCPprocedure( "Length", Length, 1, 1 );
 InstallSCSCPprocedure( "Size", Size, 1, 1 );
+InstallSCSCPprocedure( "Determinant", Determinant );
 InstallSCSCPprocedure( "NrConjugacyClasses", NrConjugacyClasses, 1, 1 );
 InstallSCSCPprocedure( "SylowSubgroup", SylowSubgroup, 2, 2 );
 InstallSCSCPprocedure( "IsPrimeInt", IsPrimeInt, 1, 1 );
