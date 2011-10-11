@@ -49,7 +49,11 @@ SCSCPserverMode := true;
 SCSCPserverAddress := server;
 SCSCPserverPort := port;
 socket := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
-IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
+if ARCH_IS_UNIX() then
+  # on Windows, the following line allows to run more than one server 
+  # at the same port, and the earlier started server will get the request.
+  IO_setsockopt( socket, IO.SOL_SOCKET,IO.SO_REUSEADDR, "xxxx" );
+fi;
 if server = true then
     bindaddr := "\000\000\000\000";
     server := "0.0.0.0";
