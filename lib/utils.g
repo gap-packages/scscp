@@ -259,6 +259,40 @@ return r;
 end);
 
 
+##########################################################################
+##
+##  SwitchSCSCPmodeToBinary
+##
+##  <#GAPDoc Label="SwitchSCSCPmodeToBinary">
+##  <ManSection>
+##  <Func Name="SwitchSCSCPmodeToBinary" Arg=""/>
+##  <Func Name="SwitchSCSCPmodeToXML" Arg=""/>
+##  <Returns>
+##    nothing
+##  </Returns>	 
+##  <Description>
+##  The &OpenMath; package supports both binary and XML encodings for 
+##  &OpenMath;. To switch between them, use 
+##  <Ref Func="SwitchSCSCPmodeToBinary"/> and
+##  <Ref Func="SwitchSCSCPmodeToXML"/>.
+##  When the package is loaded, the mode is initially set to XML.
+##  On the clients's side, you can change the mode back and forth as 
+##  many times as you wish during the same &SCSCP; session. The server
+##  will autodetect the mode and will response in the same format, so
+##  one does not need to set the mode on the server's side.
+##  </Description>
+##  </ManSection>
+##  <#/GAPDoc>
+##
+BindGlobal( "SwitchSCSCPmodeToBinary", function( str )
+IN_SCSCP_BINARY_MODE := true;
+end);
+
+BindGlobal( "SwitchSCSCPmodeToXML", function( str )
+IN_SCSCP_BINARY_MODE := false;
+end);
+
+
 ###########################################################################
 ##
 #E 

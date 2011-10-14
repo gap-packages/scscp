@@ -109,12 +109,8 @@ gap> IdGroupWS(G);
 <Section Label="BinaryVsXML">
 <Heading>Switching between Binary and XML &OpenMath; Encodings</Heading>
 
-The &OpenMath; package supports both binary and XML encodings for &OpenMath;.
-To switch between them, use the global variable <C>IN_SCSCP_BINARY_MODE</C>.
-When the package is loaded, it is initially set to <K>false</K>. Set it
-to <K>true</K> to switch to binary. You can do it at any time between
-message exchange in the same &SCSCP; session.
-<P/>
+<#Include Label="SwitchSCSCPmodeToBinary"/>
+
 For example, let us create a vector over <M>GF(3)</M>:
 <Example>
 <![CDATA[
@@ -206,8 +202,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:42448:IOs9ZkBU" ] ],
 Now we switch to binary mode:
 <Log>
 <![CDATA[
-gap> IN_SCSCP_BINARY_MODE:=true;
-true
+gap> SwitchSCSCPmodeToBinary();
 gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
