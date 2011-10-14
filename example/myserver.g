@@ -226,6 +226,29 @@ InstallSCSCPprocedure( "IO_UnpickleStringAndPickleItBack", IO_UnpickleStringAndP
 	"To test how pickling format from IO package may be used for data transmitting (see ?IO_Pickle, ?IO_Unpickle)", 1, 1 );
 
 
+############################################################################                           
+#
+# Setting up the service for parallel computation 
+# of minimal distance of a linear code
+#
+SCSCPMINDISTG:=fail;
+SCSCPMINDISTF:=fail;
+SCSCPMINDISTzero:=fail;
+
+InstallSCSCPprocedure("ResetMinimumDistanceService",
+function( G, F, zero )
+SCSCPMINDISTG:=IO_UnpickleFromString(G);
+SCSCPMINDISTF:=F;
+SCSCPMINDISTzero:=IO_UnpickleFromString(zero);
+return true;
+end);
+
+InstallSCSCPprocedure(
+  "AClosestVectorCombinationsMatFFEVecFFE",
+  i -> WeightVecFFE( AClosestVectorCombinationsMatFFEVecFFE( 
+         SCSCPMINDISTG, SCSCPMINDISTF, SCSCPMINDISTzero, i, 1) ) );
+                           
+                           
 #############################################################################
 #
 # some private code which may be missing in your installation
@@ -242,6 +265,7 @@ if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].Installation
 	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/rewrite.g") );
 	InstallSCSCPprocedure( "RewritabilityWorker", RewritabilityWorker );
 fi;
+
 
 #############################################################################
 #
