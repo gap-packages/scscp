@@ -96,19 +96,27 @@ DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 ##    nothing
 ##  </Returns>	 
 ##  <Description>
-##  <!-- TODO: document option cd and debuglevel -->
 ##  Takes a stream <A>stream</A>, the string <A>proc&uscore;name</A> and a
 ##  record <A>objrec</A>, and writes to <A>stream</A> an &OpenMath; object
 ##  <C>procedure&uscore;call</C> for the procedure <A>proc&uscore;name</A> with
 ##  arguments given by the list <C>objrec.object</C> and procedure call options
 ##  (which should be encoded as &OpenMath; attributes) given in the list
-##  <C>objrec.attributes</C>. This function accepts the option
-##  <C>cd:="cdname"</C> to specify the name of the content dictionary if the
-##  procedure is actually a standard &OpenMath; symbol note that the server may
-##  reject such a call if it accepts only calls of procedures from the
-##  transient content dictionary, see <Ref Func="InstallSCSCPprocedure"/> for
-##  explanation). If the <C>cdname</C> is not specified,
-##  <C>scscp_transient_1</C> content dictionary will be assumed by default.
+##  <C>objrec.attributes</C>. 
+##  <P/>
+##  This function accepts options <C>cd</C> and <C>debuglevel</C>.
+##  <P/>
+##  <C>cd:="cdname"</C> may be used to specify the name of the content 
+##  dictionary if the procedure is actually a standard &OpenMath; symbol.
+##  Note that the server may reject such a call if it accepts only calls 
+##  of procedures from the transient content dictionary, see 
+##  <Ref Func="InstallSCSCPprocedure"/> for explanation). If the <C>cdname</C> 
+##  is not specified, <C>scscp_transient_1</C> content dictionary will be 
+##  assumed by default.
+##  The value of the <C>debuglevel</C> option is an integer. If it is non-zero,
+##  the <C>procedure&uscore;completed</C> message will carry on also some
+##  additional information about the call, for example, runtime and memory 
+##  used.
+##  <!-- TODO: document debuglevel option in more details>
 ##  <Example>
 ##  <![CDATA[
 ##  gap> t:="";; stream:=OutputTextString(t,true);;
