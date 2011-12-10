@@ -1,3 +1,5 @@
+# EvaluateBySCSCP( "ChangeInfoLevel", [4], "localhost", 26133 );
+
 loadPackage "SCSCP"; loadPackage "OpenMath";
 GAP = newConnection "127.0.0.1"
 openMath 6 * 7

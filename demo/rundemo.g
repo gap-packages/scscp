@@ -49,4 +49,4 @@ BindGlobal( "Demonstration", function( file )
     InputLogTo();
 end );
 
-Demonstration("sicsa2011.g");
+Demonstration("paris2011.g");
