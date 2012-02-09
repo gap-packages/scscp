@@ -284,11 +284,11 @@ end);
 ##  </ManSection>
 ##  <#/GAPDoc>
 ##
-BindGlobal( "SwitchSCSCPmodeToBinary", function( str )
+BindGlobal( "SwitchSCSCPmodeToBinary", function( )
 IN_SCSCP_BINARY_MODE := true;
 end);
 
-BindGlobal( "SwitchSCSCPmodeToXML", function( str )
+BindGlobal( "SwitchSCSCPmodeToXML", function( )
 IN_SCSCP_BINARY_MODE := false;
 end);
 
