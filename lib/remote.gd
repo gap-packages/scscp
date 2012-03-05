@@ -32,7 +32,7 @@ DeclareCategory( "IsRemoteObject", IsObject );
 ##  <ManSection>
 ##  <Fam Name="RemoteObjectsFamily" />
 ##  <Description>
-##  This is the familty of remote objects.
+##  This is the family of remote objects.
 ##  </Description>
 ##  </ManSection>
 ##  <#/GAPDoc>
