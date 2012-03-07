@@ -89,13 +89,11 @@ int:=EvaluateBySCSCP("IndefiniteIntegration",[sin,varx],
 #
 sin:=OMPlainString("<OMA><OMS cd=\"transc1\" name=\"sin\"/><OMV name=\"x\"/></OMA>");
 varx:=OMPlainString("<OMV name=\"x\"/>");
-range:=OMPlainString("<OMA><OMS cd=\"interval1\" name=\"interval\"/><OMI>0</OMI><OMS cd=\"nums1\" name=\"pi\"/></OMA>");
+range:=[0..1];
 res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
   mapleserver, mapleport : cd:="scscp_transient_maple" );
-# ERROR: the next example doesn't work since the response contains sin(1)
-# which GAP is unable to parse. Does it make sense to change Maple's 
-# DefiniteIntegration in a way that it will always return the numerical value?
-range:=[0..1];
+# write OpenMath representation for integration range containing nums1.pi
+range:=OMPlainString("<OMA><OMS cd=\"interval1\" name=\"interval\"/><OMI>0</OMI><OMS cd=\"nums1\" name=\"pi\"/></OMA>");
 res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
   mapleserver, mapleport : cd:="scscp_transient_maple" );
 
@@ -113,41 +111,16 @@ x2m1:=OMPlainString( "<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMA>\
 <OMI>-1</OMI></OMA>");
 res:=EvaluateBySCSCP("Solve",[x2m1],
   mapleserver, mapleport : cd:="scscp_transient_maple" );
-# Now the same with 2*x^2-2 
+# Now the same with 2*x^2-2 to show how to write terms like 2*x^2
 2x2m2:=OMPlainString( "<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMA>\
 <OMS cd=\"arith1\" name=\"times\"/><OMI>2</OMI><OMA>\
 <OMS cd=\"arith1\" name=\"power\"/><OMV name=\"x\"/><OMI>2</OMI></OMA>\
 </OMA><OMI>-2</OMI></OMA>");
 res:=EvaluateBySCSCP("Solve",[2x2m2],
   mapleserver, mapleport : cd:="scscp_transient_maple" ); 
-# Now the same with x^2-2 (observe the result expressed in terms of roots of unity)
-x2m2:=OMPlainString( "<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMA>\
-<OMS cd=\"arith1\" name=\"power\"/><OMV name=\"x\"/><OMI>2</OMI></OMA>\
-<OMI>-2</OMI></OMA>");
-res:=EvaluateBySCSCP("Solve",[x2m2],
-  mapleserver, mapleport : cd:="scscp_transient_maple" );
-# ERROR: however, x^3-2 does not work:
-x3m2:=OMPlainString( "<OMA><OMS cd=\"arith1\" name=\"plus\"/><OMA>\
-<OMS cd=\"arith1\" name=\"power\"/><OMV name=\"x\"/><OMI>3</OMI></OMA>\
-<OMI>-2</OMI></OMA>");
-res:=EvaluateBySCSCP("Solve",[x2m2],
-  mapleserver, mapleport : cd:="scscp_transient_maple" );
-#I Received message: 
-#<OMOBJ><OMATTR><OMATP><OMS cd='scscp1' name='call_id'/><OMSTR>138.251.209.14:53245:0wngLrok</OMSTR\
-#><OMS cd='scscp1' name='info_memory'/><OMI>2759336</OMI><OMS cd='scscp1' name='info_runtime'/><OMI\
-#>77</OMI></OMATP><OMA><OMS cd='scscp1' name='procedure_completed'/><OMA><OMS cd='arith1' name='pow\
-#er'/><OMI>2</OMI><OMA><OMS cd='arith1' name='divide'/><OMI>1</OMI><OMI>3</OMI></OMA></OMA></OMA></\
-#OMATTR></OMOBJ>
-##I  <?scscp end ?>
-#Error, ^ cannot be used here to compute roots (use `RootInt' instead?) called from
-#x[1] ^ x[2] called from
-#...
-# The reason is that GAP can't compute cubic root from 2. I can switch to
-# floating point computations here, but the server returning to me floats
-# would be probably more generic and useful for other systems too...
 
-# Now let's create a helper function which will take a polynomial and
-# print it using arith1 CD for the compatibility with Maple OpenMath-parsing
+# Now let's create a helper function which will take a polynomial and print 
+# it using arith1 CD for the compatibility with Maple OpenMath-parsing
 # capabilities
 
 OMPlainStringByUnivariatePol:=function( f )
@@ -186,17 +159,49 @@ return EvaluateBySCSCP("Solve",[OMPlainStringByUnivariatePol(f)],
   mapleserver, mapleport : cd:="scscp_transient_maple" ).object;
 end;  
 
-# Now find a solution (possibly non-unique) of the equation
+# Now solve x^2-2 (observe the result expressed in terms of roots of unity)
+x:=Indeterminate(Rationals,"x");
+f:=x^2-2;
+res := SolveWithMaple( f );
+List( res, z -> Value(f,z) );
 
+# Another equation
+f:=6*x-2*x^2-100*x^3;
+res := SolveWithMaple( f );
+List( res, z -> Value(f,z) );
+
+# ERROR: however, x^3-2 does not work:
+#   f:=x^3-2;
+#   res := SolveWithMaple( f );
+#   Error, ^ cannot be used here to compute roots (use `RootInt' instead?)
+# The reason is that GAP can't compute cubic root from 2. I can switch to
+# floating point computations here, but the service returning to me floats
+# would be probably more generic and useful for other systems too...
+
+# WARNING: The result in the next example contains Sqrt(60001) which GAP 
+# to a cyclotomic number. Verifying the result takes ages ...
 x:=Indeterminate(Rationals,"x");
 f:=6*x-2*x^2-10000*x^3;
-r := SolveWithMaple( f );
-Value( f, r );
+res := SolveWithMaple( f );
+List( res, z -> Value(f,z) );
 
-# ERROR: f:=1+16*x-2*x^2-5*x^3 produces 
-# <OMA><OMS cd='complex1' name='complex_cartesian'/><OMI>60</OMI></OMA>
-# but complex_cartesian must have two arguments, so this is an error
-# in Maple generating OpenMath code.
+# ERROR: the next example does not work:
+# f:=1+16*x-2*x^2-5*x^3;
+# res := SolveWithMaple( f );
+# GAP receives Sqrt(255543) and its evaluation results in the error:
+# Error, This computation requires a cyclotomic field of degree 1022172, 
+# larger than the current limit of 1000000 in
+#  return factor * (- E( 4 )) * (2 * EB( n ) + 1); called from 
+# Sqrt( x[1] ) called from
+
+# Another equation that GAP does not parse:
+# f:=x^4-x^3-x^2+x+1;
+# res := SolveWithMaple( f );
+# List( res, z -> Value(f,z) );
+
+# The errors and warnings above show that for GAP client it's better to use
+# Maple service returning floats or evaluate the result using floating-point
+# computations.
 
 ############################################################################
 
