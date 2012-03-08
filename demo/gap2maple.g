@@ -80,8 +80,7 @@ res.object.content[2].content[2].content[3].content;
 int:=EvaluateBySCSCP("IndefiniteIntegration",[sin,varx],
   mapleserver, mapleport : cd:="scscp_transient_maple", output:="cookie" );;
 # results in an error:
-# Error, cannot lock repository, /usr/local/apache-tomcat-6.0.32/webapps/map\
-# lenet/WEB-INF/scscpdata//scscp-store.mla
+# Error, OpenMath reference: only href is supported !
 
 ############################################################################
 #
