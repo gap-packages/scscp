@@ -3,8 +3,14 @@ mapleserver := "place31.placementtester.com";
 mapleport := 26133;
 
 GetAllowedHeads( mapleserver, mapleport );
+# as on March 15, 2012:
+# rec( scscp_transient_maple := [ "DefiniteIntegration", "Differentiate", 
+#      "IndefiniteIntegration", "IntegerFactorization", 
+#      "MaximizeLinearFunction", "MinimizeLinearFunction", 
+#      "NumberOfIntegerPartitions", "NumericalSolve", "PolynomialExpansion", 
+#      "Solve", "UnivariateRootFinding" ] )
 
-SetInfoLevel(InfoSCSCP,4);
+SetInfoLevel(InfoSCSCP,0);
 
 ############################################################################
 #
@@ -24,21 +30,20 @@ EvaluateBySCSCP("IntegerFactorization",[10^42+1],
 # now the argument is a prime
 EvaluateBySCSCP("IntegerFactorization",[848654483879497562821],
   mapleserver, mapleport : cd:="scscp_transient_maple" );
-# ERROR: Maple fails at the next call, while GAP does it in a moment:
+# WARNING: Maple fails at the next call, while GAP is aware of known 
+# factorisations of Fermat primes and does it in a moment:
 # gap> FactorsInt(2^256 + 1);  
 # [ 1238926361552897, 93461639715357977769163558199606896584051237541638188580280321 ]
 # When Maple returns an error, GAP hangs, and the only remedy is to terminate it.
 # - at least after the error message GAP should be able to proceed
 # - why does Maple give up on this input?
-EvaluateBySCSCP("IntegerFactorization",[2^256+1],
-mapleserver, mapleport : cd:="scscp_transient_maple" );
     
 ############################################################################
 #
 # UnivariateRootFinding
 #
 # First we need a helper function taking a polynomial and calling the
-# procedure with a list of its arguments
+# procedure with a list of its coefficients
 UnivariateRootFindingWithMaple:=function( f )
 return EvaluateBySCSCP( "UnivariateRootFinding",
   [ CoefficientsOfUnivariatePolynomial(f) ], 
@@ -63,6 +68,20 @@ List( res, z -> Value(f,z) );
 
 ############################################################################
 #
+# DefiniteIntegration
+#
+sin:=OMPlainString("<OMA><OMS cd=\"transc1\" name=\"sin\"/><OMV name=\"x\"/></OMA>");
+varx:=OMPlainString("<OMV name=\"x\"/>");
+range:=[0..1];
+res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
+  mapleserver, mapleport : cd:="scscp_transient_maple" );
+# write OpenMath representation for integration range containing nums1.pi
+range:=OMPlainString("<OMA><OMS cd=\"interval1\" name=\"interval\"/><OMI>0</OMI><OMS cd=\"nums1\" name=\"pi\"/></OMA>");
+res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
+  mapleserver, mapleport : cd:="scscp_transient_maple" );
+  
+############################################################################
+#
 # IndefiniteIntegration
 #
 # In this example, we form valide Maple input from OpenMath symbols for 
@@ -80,21 +99,8 @@ res.object.content[2].content[2].content[3].content;
 int:=EvaluateBySCSCP("IndefiniteIntegration",[sin,varx],
   mapleserver, mapleport : cd:="scscp_transient_maple", output:="cookie" );;
 # results in an error:
-# Error, OpenMath reference: only href is supported !
-
-############################################################################
-#
-# DefiniteIntegration
-#
-sin:=OMPlainString("<OMA><OMS cd=\"transc1\" name=\"sin\"/><OMV name=\"x\"/></OMA>");
-varx:=OMPlainString("<OMV name=\"x\"/>");
-range:=[0..1];
-res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
-  mapleserver, mapleport : cd:="scscp_transient_maple" );
-# write OpenMath representation for integration range containing nums1.pi
-range:=OMPlainString("<OMA><OMS cd=\"interval1\" name=\"interval\"/><OMI>0</OMI><OMS cd=\"nums1\" name=\"pi\"/></OMA>");
-res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
-  mapleserver, mapleport : cd:="scscp_transient_maple" );
+# Error, Can not parse the reference 
+# http://place31.placementtester.com:26133/8dvpw7bJmV2012-03-1508:16:39
 
 ############################################################################
 #
@@ -147,7 +153,8 @@ for i in [ 2 .. Length(c) ] do
   fi;  
 od;
 s:=Concatenation( s );
-return OMPlainString( Concatenation( "<OMA><OMS cd=\"arith1\" name=\"plus\"/>", s, "</OMA>" ) );
+return OMPlainString( Concatenation( 
+  "<OMA><OMS cd=\"arith1\" name=\"plus\"/>", s, "</OMA>" ) );
 fi;
 end;
 
@@ -157,6 +164,11 @@ SolveWithMaple:=function( f )
 return EvaluateBySCSCP("Solve",[OMPlainStringByUnivariatePol(f)],
   mapleserver, mapleport : cd:="scscp_transient_maple" ).object;
 end;  
+
+NumericalSolveWithMaple:=function( f )
+return EvaluateBySCSCP("NumericalSolve",[OMPlainStringByUnivariatePol(f)],
+  mapleserver, mapleport : cd:="scscp_transient_maple" ).object;
+end; 
 
 # Now solve x^2-2 (observe the result expressed in terms of roots of unity)
 x:=Indeterminate(Rationals,"x");
@@ -177,11 +189,20 @@ List( res, z -> Value(f,z) );
 # floating point computations here, but the service returning to me floats
 # would be probably more generic and useful for other systems too...
 
+f:=x^3-2;
+res := NumericalSolveWithMaple( f );
+List( res, z -> Value(f,z) );
+
 # WARNING: The result in the next example contains Sqrt(60001) which GAP 
 # to a cyclotomic number. Verifying the result takes ages ...
 x:=Indeterminate(Rationals,"x");
 f:=6*x-2*x^2-10000*x^3;
 res := SolveWithMaple( f );
+List( res, z -> Value(f,z) );
+
+# so we take numerical solve again ...
+f:=6*x-2*x^2-10000*x^3;
+res := NumericalSolveWithMaple( f );
 List( res, z -> Value(f,z) );
 
 # ERROR: the next example does not work:
