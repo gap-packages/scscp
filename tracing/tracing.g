@@ -279,9 +279,9 @@ end);
 ##  SCSCPLogTracesToGlobal();
 ##  ]]>
 ##  </Log>
-##  <Alt Only="LaTeX">\centerline{\resizebox{110mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
+##  <Alt Only="LaTeX">\centerline{\resizebox{150mm}{!}{\includegraphics{img/quillen.pdf}}}</Alt>
 ##  <Alt Only="HTML">&lt;img src="img/quillen.jpg" align="left" /></Alt>
-##  <Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{110mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
+##  <Alt Only="LaTeX">\vspace{10pt}\centerline{\resizebox{150mm}{!}{\includegraphics{img/euler.pdf}}}</Alt>
 ##  <Alt Only="HTML">&lt;img src="img/euler.jpg" align="left" /></Alt>
 ##  <Alt Only="Text">/See diagrams in HTML and PDF versions of the manual/</Alt>
 ##  The diagrams (made on an dual core MacBook laptop), shows that in the first

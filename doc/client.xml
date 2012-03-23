@@ -150,47 +150,47 @@ gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 #I  Composing procedure_call message: 
 <?scscp start ?>
 <OMOBJ>
-	<OMATTR>
-		<OMATP>
-			<OMS cd="scscp1" name="call_id"/>
-			<OMSTR>localhost:26133:42448:IOs9ZkBU</OMSTR>
-			<OMS cd="scscp1" name="option_return_object"/>
-			<OMSTR></OMSTR>
-		</OMATP>
-		<OMA>
-			<OMS cd="scscp1" name="procedure_call"/>
-			<OMA>
-				<OMS cd="scscp_transient_1" name="Identity"/>
-				<OMA>
-					<OMS cd="list1" name="list"/>
-					<OMA>
-						<OMS cd="arith1" name="power"/>
-						<OMA>
-							<OMS cd="finfield1" name="primitive_element"/>
-							<OMI>3</OMI>
-						</OMA>
-						<OMI>0</OMI>
-					</OMA>
-					<OMA>
-						<OMS cd="arith1" name="power"/>
-						<OMA>
-							<OMS cd="finfield1" name="primitive_element"/>
-							<OMI>3</OMI>
-						</OMA>
-						<OMI>1</OMI>
-					</OMA>
-					<OMA>
-						<OMS cd="arith1" name="times"/>
-						<OMA>
-							<OMS cd="finfield1" name="primitive_element"/>
-							<OMI>3</OMI>
-						</OMA>
-						<OMI>0</OMI>
-					</OMA>
-				</OMA>
-			</OMA>
-		</OMA>
-	</OMATTR>
+  <OMATTR>
+    <OMATP>
+      <OMS cd="scscp1" name="call_id"/>
+      <OMSTR>localhost:26133:42448:IOs9ZkBU</OMSTR>
+      <OMS cd="scscp1" name="option_return_object"/>
+      <OMSTR></OMSTR>
+    </OMATP>
+    <OMA>
+      <OMS cd="scscp1" name="procedure_call"/>
+      <OMA>
+        <OMS cd="scscp_transient_1" name="Identity"/>
+          <OMA>
+            <OMS cd="list1" name="list"/>
+            <OMA>
+            <OMS cd="arith1" name="power"/>
+            <OMA>
+              <OMS cd="finfield1" name="primitive_element"/>
+              <OMI>3</OMI>
+            </OMA>
+            <OMI>0</OMI>
+          </OMA>
+          <OMA>
+            <OMS cd="arith1" name="power"/>
+            <OMA>
+              <OMS cd="finfield1" name="primitive_element"/>
+              <OMI>3</OMI>
+            </OMA>
+            <OMI>1</OMI>
+          </OMA>
+          <OMA>
+            <OMS cd="arith1" name="times"/>
+            <OMA>
+              <OMS cd="finfield1" name="primitive_element"/>
+              <OMI>3</OMI>
+            </OMA>
+            <OMI>0</OMI>
+          </OMA>
+        </OMA>
+      </OMA>
+    </OMA>
+  </OMATTR>
 </OMOBJ>
 <?scscp end ?>
 #I  Total length 969 characters 
