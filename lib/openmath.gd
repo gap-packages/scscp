@@ -116,7 +116,7 @@ DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 ##  the <C>procedure&uscore;completed</C> message will carry on also some
 ##  additional information about the call, for example, runtime and memory 
 ##  used.
-##  <!-- TODO: document debuglevel option in more details>
+##  <!-- TODO: document debuglevel option in more details -->
 ##  <Example>
 ##  <![CDATA[
 ##  gap> t:="";; stream:=OutputTextString(t,true);;

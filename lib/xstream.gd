@@ -95,18 +95,18 @@ DeclareGlobalFunction ( "InputOutputTCPStream" );
 ##  <#GAPDoc Label="SCSCPwait">
 ##  
 ##  <ManSection>
-##      <Func Name="SCSCPwait" Arg="stream [timeout]" />
-##      <Returns>
-##        nothing
-##      </Returns>	 
-##      <Description>
-##      This function may be used by the &SCSCP; client to wait
-##      (using <Ref BookName="IO" Func="IO_select" />)
-##      until the result of the procedure call will be 
-##      available from <A>stream</A>. By default the timeout is
-##      one hour, to specify another value give it as the optional
-##      second argument in seconds. See the end of this chapter 
-##      for the example.
+##  <Func Name="SCSCPwait" Arg="stream [timeout]"/>
+##  <Returns>
+##    nothing
+##  </Returns>	 
+##  <Description>
+##  This function may be used by the &SCSCP; client to wait
+##  (using <Ref BookName="IO" Func="IO_select" />)
+##  until the result of the procedure call will be 
+##  available from <A>stream</A>. By default the timeout is
+##  one hour, to specify another value give it as the optional
+##  second argument in seconds. See the end of this chapter 
+##  for the example.
 ##  </Description>
 ##  </ManSection>           
 ##  <#/GAPDoc>

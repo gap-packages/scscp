@@ -40,6 +40,19 @@ fi;
 
 #############################################################################
 #
+# Karatsuba multiplication of polynomials
+#
+ReadPackage("scscp", "example/karatsuba.g");
+
+KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
+return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
+end;
+
+InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString, 
+	"See Examples chapter in the SCSCP package manual", 2, 2 );
+
+#############################################################################
+#
 # Some debugging tricks that we should not include in the public service
 #
 #############################################################################

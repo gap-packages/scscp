@@ -68,7 +68,7 @@ gap> res;
 [ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
 ]]>
 </Example>
-Also note the usage of <Ref Func="SCSCPwait" /> to wait
+Also note the usage of <Ref Func="SCSCPwait"/> to wait
 until the result of the computation will be available from 
 <C>stream</C>.
 <P/>

@@ -97,9 +97,10 @@ of this we parallelize only the top-level function.
 
 For our experiments with parallelising Karatsuba multiplication for
 polynomials with integer coefficients we used the multi-core workstation, 
-on which we started one &SCSCP; client and two &SCSCP; servers. 
-After reading the file <File>scscp/example/karatsuba.g</File>, the following
-function was created on the server
+on which we started one &SCSCP; client and two &SCSCP; servers. To use
+it, modify the server configuration file adding to it the command to
+read the file <File>scscp/example/karatsuba.g</File>, then define there
+the following function
 
 <Log>
 <![CDATA[
@@ -110,8 +111,8 @@ end;;
 ]]>
 </Log>
 
-and then was made available as an &SCSCP; procedure under the 
-name <C>WS_Karatsuba</C> by the command
+and finally add the following lines to made it available as an &SCSCP; 
+procedure under the name <C>WS_Karatsuba</C>:
 
 <Log>
 <![CDATA[
@@ -119,6 +120,10 @@ InstallSCSCPprocedure( "WS_Karatsuba",
                        KaratsubaPolynomialMultiplicationExtRepByString);
 ]]>
 </Log>
+
+(we do not include it into the default <File>scscp/example/myserver.g</File>
+since the code contains a call to <Ref BookName="ref" Func="EvalString"/>).
+<P/>
 
 This function provides a "bridge" between the client's function 
 <C>KaratsubaPolynomialMultiplicationWS</C> and the server's function 

@@ -1,4 +1,4 @@
-# from paragraph [ 9, 1, 1, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 429 ]
+# from paragraph [ 9, 1, 1, 4 ][ "../lib/scscp.gd", 429 ]
 
 
 gap> PingSCSCPservice("localhost",26133);
@@ -10,7 +10,7 @@ Error: rec(
 fail
 
 
-# from paragraph [ 9, 1, 2, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 463 ]
+# from paragraph [ 9, 1, 2, 4 ][ "../lib/scscp.gd", 463 ]
 
 
 gap> PingStatistic("localhost",26133,1000);
@@ -18,7 +18,7 @@ gap> PingStatistic("localhost",26133,1000);
 min/avg/max = [ 0, 26/125, 6 ]
 
 
-# from paragraph [ 9, 2, 1, 5 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 33 ]
+# from paragraph [ 9, 2, 1, 5 ][ "../lib/scscp.gd", 33 ]
 
 
 gap> SetInfoLevel(InfoSCSCP,2);                              
@@ -40,7 +40,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ],
   object := 3628800 )
 
 
-# from paragraph [ 9, 2, 1, 8 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 56 ]
+# from paragraph [ 9, 2, 1, 8 ][ "../lib/scscp.gd", 56 ]
 
 
 gap> SetInfoLevel(InfoSCSCP,0);                              
@@ -49,7 +49,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:286:jzjsp6th" ] ],
   object := 3628800 )
 
 
-# from paragraph [ 9, 2, 1, 11 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 66 ]
+# from paragraph [ 9, 2, 1, 11 ][ "../lib/scscp.gd", 66 ]
 
 
 gap> SetInfoLevel(InfoSCSCP,3);
@@ -106,7 +106,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ],
 gap> SetInfoLevel(InfoSCSCP,0);
 
 
-# from paragraph [ 9, 2, 2, 5 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 149 ]
+# from paragraph [ 9, 2, 2, 5 ][ "../lib/scscp.gd", 149 ]
 
 
 gap> SetInfoLevel(InfoMasterWorker,2);
@@ -119,7 +119,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 
-# from paragraph [ 9, 2, 2, 8 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 163 ]
+# from paragraph [ 9, 2, 2, 8 ][ "../lib/scscp.gd", 163 ]
 
 
 gap> SetInfoLevel(InfoSCSCP,0);       
@@ -128,7 +128,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 
-# from paragraph [ 9, 2, 2, 11 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/scscp.gd", 173 ]
+# from paragraph [ 9, 2, 2, 11 ][ "../lib/scscp.gd", 173 ]
 
 
 gap> SetInfoLevel(InfoMasterWorker,5);                                       
@@ -147,14 +147,14 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 gap> SetInfoLevel(InfoMasterWorker,2);
 
 
-# from paragraph [ 9, 3, 6, 5 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/utils.g", 202 ]
+# from paragraph [ 9, 3, 6, 5 ][ "../lib/utils.g", 202 ]
 
 
 gap> f := IO_PickleToString( GF( 125 ) );
 "FFIEINTG\>15INTG\>13FAIL"
 
 
-# from paragraph [ 9, 3, 7, 4 ][ "/Users/alexk/gap4r5/pkg/scscp/doc/../lib/utils.g", 239 ]
+# from paragraph [ 9, 3, 7, 4 ][ "../lib/utils.g", 239 ]
 
 
 gap> IO_UnpickleFromString( f );                    

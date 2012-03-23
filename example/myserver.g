@@ -19,7 +19,6 @@ LoadPackage("factint");
 LoadPackage("anupq");
 LoadPackage("monoid");
 LoadPackage("cvec");
-ReadPackage("scscp/example/karatsuba.g");
 
 #############################################################################
 #
@@ -191,14 +190,6 @@ InstallSCSCPprocedure("WS_ConwayPolynomial", ConwayPolynomial, "See ?ConwayPolyn
 
 InstallSCSCPprocedure( "PointImages", PointImages, 
 	"1st argument is a permutation group G, 2nd is an integer n. Returns the set of images of n under generators of G", 2, 2 );
-
-KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
-return String( KaratsubaPolynomialMultiplicationExtRep( EvalString(s1), EvalString(s2) ) );
-end;
-
-InstallSCSCPprocedure("WS_Karatsuba", KaratsubaPolynomialMultiplicationExtRepByString, 
-	"See Examples chapter in the SCSCP package manual", 2, 2 );
-
 
 #############################################################################
 #
