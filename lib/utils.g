@@ -91,7 +91,7 @@ end);
 ##  <Log>
 ##  <![CDATA[
 ##  gap> Hostname();
-##  "scscp.symbolic-computation.co.uk"
+##  "scscp.symbolic-computing.co.uk"
 ##  ]]>
 ##  </Log>     
 ##  </Description>
@@ -164,7 +164,7 @@ end);
 ##  <Log>
 ##  <![CDATA[
 ##  gap> LastReceivedCallID();
-##  "scscp.symbolic-computation.co.uk:26133:77372:choDZBgA"
+##  "scscp.symbolic-computing.co.uk:26133:77372:choDZBgA"
 ##  ]]>
 ##  </Log> 
 ##  </Description>

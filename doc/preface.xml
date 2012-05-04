@@ -16,7 +16,7 @@ or <URL>http://www.imcce.fr/Equipes/ASD/trip/scscp/</URL>
 providing an &SCSCP; API. Such communication will go into seamless manner 
 for the &GAP; user, since all conversions from &GAP; to &OpenMath; and
 vice versa will be performed in the background. See the SCIEnce project
-homepage <URL>http://www.symbolic-computation.org/</URL> for the details
+homepage <URL>http://www.symbolic-computing.org/</URL> for the details
 about computer algebra systems and other sotware supporting &SCSCP;
 <P/>
 
@@ -105,7 +105,7 @@ several instances of the &GAP; system, but the same behaviour is expected
 from any &SCSCP;-compliant application: the set of supported &OpenMath;
 symbols clearly will be different, but the rules of communication are
 precisely specified in the &SCSCP; specification <Cite Key="SCSCP"/>. See
-the homepage of the SCIEnce project <URL>http://www.symbolic-computation.org/</URL>
+the homepage of the SCIEnce project <URL>http://www.symbolic-computing.org/</URL>
 for the information about &SCSCP;-compliant computer algebra systems
 and other tools developed in the project.
 

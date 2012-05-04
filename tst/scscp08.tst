@@ -1,4 +1,4 @@
-# from paragraph [ 8, 1, 1, 6 ][ "../lib/process.gd", 203 ]
+# from paragraph [ 8, 1, 1, 6 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/process.gd", 203 ]
 
 
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
@@ -12,7 +12,7 @@ gap> SynchronizeProcesses(a,b);
       object := 2432902008176640000 ) ]
 
 
-# from paragraph [ 8, 1, 2, 6 ][ "../lib/process.gd", 240 ]
+# from paragraph [ 8, 1, 2, 6 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/process.gd", 240 ]
 
 
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
@@ -24,7 +24,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
   object := 3628800 )
 
 
-# from paragraph [ 8, 1, 4, 5 ][ "../lib/scscp.gd", 594 ]
+# from paragraph [ 8, 1, 4, 5 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/scscp.gd", 594 ]
 
 
 gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
@@ -33,7 +33,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
       [ 2175126601, 15767865236223301 ] ] )
 
 
-# from paragraph [ 8, 1, 5, 8 ][ "../lib/process.gd", 282 ]
+# from paragraph [ 8, 1, 5, 8 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/process.gd", 282 ]
 
 
 gap> a:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );
@@ -45,7 +45,7 @@ gap> FirstTrueProcess(a,b);
       object := true ) ]
 
 
-# from paragraph [ 8, 1, 5, 10 ][ "../lib/process.gd", 294 ]
+# from paragraph [ 8, 1, 5, 10 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/process.gd", 294 ]
 
 
 gap> a:=NewProcess( "IsPrimeInt", [2^520-1], "localhost", 26133 );
@@ -59,7 +59,7 @@ gap> FirstTrueProcess(a,b);
       object := false ) ]
 
 
-# from paragraph [ 8, 2, 1, 6 ][ "../lib/scscp.gd", 639 ]
+# from paragraph [ 8, 2, 1, 6 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/../lib/scscp.gd", 639 ]
 
 
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
@@ -76,7 +76,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 
-# from paragraph [ 8, 3, 0, 13 ][ "parallel.xml", 176 ]
+# from paragraph [ 8, 3, 0, 13 ][ "/Users/alexk/CVSREPS/GAPDEV/pkg/scscp/doc/parallel.xml", 176 ]
 
 
 gap> ReadPackage("scscp/example/karatsuba.g");

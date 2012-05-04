@@ -391,7 +391,7 @@ DeclareGlobalFunction( "InstallSCSCPprocedure" );
 ##       </Item>
 ##       <Item>
 ##           when <A>servertype</A> is a string, for example,
-##           <File>"scscp.symbolic-computation.org"</File>, the server will 
+##           <File>"scscp.symbolic-computing.org"</File>, the server will 
 ##           be accessible only by specified server name (this may be useful
 ##           to manage accessibility if, for example,
 ##           the hardware has several network interfaces). 
