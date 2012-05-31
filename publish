@@ -54,7 +54,9 @@ cd $PKGNAME
 scp -p PackageInfo.g alexk@shell.cs.st-and.ac.uk:~/public_html/$PKGNAME/
 scp -p README alexk@shell.cs.st-and.ac.uk:~/public_html/$PKGNAME/ 
 cd doc
-scp -p * alexk@shell.cs.st-and.ac.uk:~/public_html/$PKGNAME/doc   
+scp -p * alexk@shell.cs.st-and.ac.uk:~/public_html/$PKGNAME/doc 
+cd img
+scp -p * alexk@shell.cs.st-and.ac.uk:~/public_html/$PKGNAME/doc/img
 else
   echo "Don't publish, bye."
 fi

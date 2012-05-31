@@ -23,7 +23,7 @@ ArchiveURL := Concatenation( ~.PackageWWWHome, "scscp-", ~.Version ),
 ArchiveFormats := ".tar.gz",
 
 #TextFiles := ["init.g", ......],
-BinaryFiles := ["demo/maple2gap.mw", ......],
+BinaryFiles := ["demo/maple2gap.mw"],
 
 Persons := [
   rec(
