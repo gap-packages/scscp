@@ -5,41 +5,27 @@
 # servers in advance. Also, some of the test files show technical details 
 # like random call identfiers - these discrepancies are safe to ignore.
 #
+
+TestMyPackage := function( pkgname )
+local pkgdir, testfiles, ff, fn;
+LoadPackage( pkgname );
+pkgdir := DirectoriesPackageLibrary( pkgname, "tst" );
+
+# Arrange testfiles as required
+testfiles := [ "scscp04.tst", "scscp05.tst", "scscp06.tst", "scscp07.tst", 
+               "scscp08.tst", "scscp09.tst", "scscp.tst", "offline.tst" ];
+
+for ff in testfiles do
+  fn := Filename( pkgdir, ff );
+  Print("#I  Testing ", fn, "\n");
+  Test( fn, rec(compareFunction := "uptowhitespace") );
+od;  
+end;
+
 LoadPackage( "scscp" );
-scscpdir := DirectoriesPackageLibrary( "scscp", "tst" );
 ports:=[ 26133 .. 26134 ];
-
 if ForAll( ports, i -> PingSCSCPservice( "localhost", i ) ) then
-
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp04.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp04.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp05.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp05.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp06.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp06.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp07.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp07.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp08.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp08.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp09.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp09.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "scscp.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "scscp.tst" ) );
-Print("*****************************************************\n" );        
-Print("*** TESTING ", Filename( scscpdir, "offline.tst" ), "\n" );
-ReadTest( Filename( scscpdir, "offline.tst" ) );
-Print("*** TESTING FINISHED\n");
-Print("*****************************************************\n" );        
-
+  TestMyPackage( "scscp" );
 else
-
-Print("Not all required SCSCP servers available - test terminated.\n");
-
+  Print("Not all required SCSCP servers available - test terminated.\n");
 fi;

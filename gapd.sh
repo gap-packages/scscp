@@ -59,7 +59,7 @@ GAP="../../bin/gap.sh -b -r"
 ##  reading your appropriately modified private copies of that files).
 ##  The path may be relative (to start from this directory) or absolute. 
 ##
-SCSCP_CONFIG="../example/myserver.g"
+SCSCP_CONFIG="example/myserver.g"
 ##
 ##
 ###########################################################################
