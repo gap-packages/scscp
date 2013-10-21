@@ -29,7 +29,7 @@ end;
 # The summatory Liouville's function L(x) is the sum
 # of values of LiouvilleFunction(n) for all n from [ 1 .. x ].
 #
-# G. Pólya in 1919 conjectured that L(x)<=0 for all x >=2.
+# G. PÃ³lya in 1919 conjectured that L(x)<=0 for all x >=2.
 #
 # C.B.Haselgrove in 1958 proved that this conjecture is false
 # and there are infinitely many integers x with L(x)>0, but
@@ -44,7 +44,7 @@ end;
 # The smallest counterexample is n = 906150257, reported in
 # [ M. Tanaka, A Numerical Investigation on Cumulative Sum of the 
 # Liouville Function. Tokyo Journal of Mathematics 3, (1980) 187-189 ]
-# The Pólya conjecture fails to hold for most values of n in the region 
+# The PÃ³lya conjecture fails to hold for most values of n in the region 
 # of 906150257 <= n <= 906488079. In this region, the function reaches 
 # a maximum value of 829 at n = 906316571.
 #
