@@ -93,7 +93,7 @@ fi;
 if ValueOption("recallfrequency")=fail then
   recallfreq:=0; # no need in initial and perodic pinging services
 else
-  recallfreq:=ValueOption("recallfreq");
+  recallfreq:=ValueOption("recallfrequency");
 fi;
 
 infomw:=InfoLevel(InfoMasterWorker);
