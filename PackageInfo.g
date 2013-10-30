@@ -9,12 +9,12 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.1.2",
-Date := "31/05/2012",
+Version := "2.1.3",
+Date := "30/10/2013",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.1.2">
-##  <!ENTITY RELEASEDATE "31 May 2012">
-##  <!ENTITY RELEASEYEAR "2012">
+##  <!ENTITY VERSION "2.1.3">
+##  <!ENTITY RELEASEDATE "30 October 2013">
+##  <!ENTITY RELEASEYEAR "2013">
 ##  <#/GAPDoc>
 
 PackageWWWHome := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/",
