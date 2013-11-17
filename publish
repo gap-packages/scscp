@@ -2,7 +2,7 @@
 #############################################################################
 
 export PKGNAME="scscp"
-export PKGVERSION="2.1.3"
+export PKGVERSION="2.1.4"
 export TOOLPATH="/Users/alexk/HGREPS/gap/dev/DistributionUpdate/dist45"
 
 cp ${TOOLPATH}/classifyfiles.py ../

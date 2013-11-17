@@ -40,6 +40,9 @@
 # directory 'doc'
 +doc/*
 # directory 'example'
+-example/orbits.g
+-example/private.g
+-example/rewrite.g
 -example/rings.g
 +example/*
 # directory 'lib'
