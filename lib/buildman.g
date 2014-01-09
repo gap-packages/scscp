@@ -64,42 +64,10 @@ path:=Concatenation(
                GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");
 main:="manual.xml";
 bookname:="scscp";
-MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname );  
+MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname, "../../.." );  
 CopyHTMLStyleFiles( path );
 GAPDocManualLab( "scscp" );; 
 ExtractMyManualExamples( "scscp", main, SCSCPMANUALFILES);
-end;
-
-
-###########################################################################
-##
-##  SCSCPBuildManualForGAP44()
-##
-SCSCPBuildManualForGAP44 := function()
-local path, main, files, bookname;
-path:=Concatenation(
-               GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");
-main:="manual.xml";
-bookname:="scscp";
-MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname );  
-GAPDocManualLab( "scscp" );; 
-end;
-
-
-###########################################################################
-##
-##  SCSCPBuildManualHTML()
-##
-SCSCPBuildManualHTML := function()
-local path, main, files, str, r, h;
-path:=Concatenation(
-               GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");
-main:="manual.xml";
-str:=ComposedXMLString( path, main, SCSCPMANUALFILES );
-r:=ParseTreeXMLString( str );
-CheckAndCleanGapDocTree( r );
-h:=GAPDoc2HTML( r, path );
-GAPDoc2HTMLPrintHTMLFiles( h, path );
 end;
 
 
