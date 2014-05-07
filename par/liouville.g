@@ -1,3 +1,5 @@
+LoadPackage("scscp");
+
 #############################################################################
 #
 # We store the list of 3432 primes less than 32000, extending the 
@@ -99,65 +101,19 @@ ParSummatoryLiouvilleFunction := function( x, chunksize )
 # of speedup there will be slowdown.
 #
 local intervals, r1, r2, t1, t2, result;
-t1:=UNIX_Realtime();
-intervals := [];
-r1:=1;
-r2:=Minimum( chunksize, x );
-while r2 < x do
-  Add( intervals, [ r1, r2 ] );
-  r1:=r1+chunksize;
-  r2:=r2+chunksize;
-od;
-Add( intervals, [ r1, x ] );
-result := Sum( ParList( intervals, PartialSummatoryLiouvilleFunction ) );
-t2:=UNIX_Realtime();
-return rec( value:=result, realtime := t2-t1 );
+if x < chunksize then
+  intervals := [ [ 1, x ] ];
+else
+  intervals := [];
+  r2:=x;
+  r1:=x-chunksize+1;
+  while r1 > 1 do
+    Add( intervals, [ r1, r2 ] );
+    r1:=r1-chunksize;
+    r2:=r2-chunksize;
+  od;
+  Add( intervals, [ 1, r2 ] );
+fi;
+result := Sum( ParListWithSCSCP( intervals, "PartialSummatoryLiouvilleFunction" ) );
+return result ;
 end;
-
-
-ParInstallTOPCGlobalFunction( "ParSummatoryLiouvilleFunctionTOPC",
-#
-# This is the version of the previous function which uses another
-# functionality provided by the ParGAP package which enable to see
-# the data exchange between the master and slaves and the progress 
-# of computation.
-#
-# The meaning of arguments is the same as in the previous function.
-# Longer chunksizes (exact values depend on machine's configuration)
-# may cause ParGAP crashes with wrong reports about a dead slave
-# because of variations of complexity of computation for different
-# intervals. To avoid this, we set the variable slaveTaskTimeFactors
-# defined in ParGAP, to 1000; this means that we allow the new task to 
-# require up to 1000 times longer than the longest task so far; you may 
-# adjust this parameter if this will be not enough. (before caching
-# primes up to 32000, we had an example when 100 was not enough with 
-# chunksize 10000 while computing the partial sum somewhere in the 15th 
-# million);
-#
-function( x, chunksize )
-local intervals, r1, r2, result, t1, t2;
-t1:=UNIX_Realtime();
-intervals := [];
-r1:=1;
-r2:=Minimum( chunksize, x );
-while r2 < x do
-  Add( intervals, [ r1, r2 ] );
-  r1:=r1+chunksize;
-  r2:=r2+chunksize;
-od;
-Add( intervals, [ r1, x ] );
-result := [];
-slaveTaskTimeFactor:=1000;
-MasterSlave( TaskInputIterator( intervals ), PartialSummatoryLiouvilleFunction,
-                
-		function( input, output )
-		  Add( result, output );
-                  return NO_ACTION; 
-		end,
-                
-		Error );
-
-result := Sum( result );
-t2:=UNIX_Realtime();
-return rec( value:=result, realtime := t2-t1 );
-end );
