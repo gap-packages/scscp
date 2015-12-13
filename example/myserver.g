@@ -107,6 +107,7 @@ InstallSCSCPprocedure( "Determinant", Determinant );
 InstallSCSCPprocedure( "NrConjugacyClasses", NrConjugacyClasses, 1, 1 );
 InstallSCSCPprocedure( "SylowSubgroup", SylowSubgroup, 2, 2 );
 InstallSCSCPprocedure( "IsPrimeInt", IsPrimeInt, 1, 1 );
+InstallSCSCPprocedure( "NrSmallGroups", NrSmallGroups, 1, 1 );
 
 # Group identification in the GAP small group library
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 
