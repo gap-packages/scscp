@@ -19,6 +19,7 @@ LoadPackage("factint");
 LoadPackage("anupq");
 LoadPackage("monoid");
 LoadPackage("cvec");
+LoadPackage("cubefree");
 
 #############################################################################
 #
@@ -108,6 +109,8 @@ InstallSCSCPprocedure( "NrConjugacyClasses", NrConjugacyClasses, 1, 1 );
 InstallSCSCPprocedure( "SylowSubgroup", SylowSubgroup, 2, 2 );
 InstallSCSCPprocedure( "IsPrimeInt", IsPrimeInt, 1, 1 );
 InstallSCSCPprocedure( "NrSmallGroups", NrSmallGroups, 1, 1 );
+InstallSCSCPprocedure( "NumberCFGroups", NumberCFGroups, 1, 2 );
+InstallSCSCPprocedure( "NumberCFSolvableGroups", NumberCFSolvableGroups, 1, 2 );
 
 # Group identification in the GAP small group library
 InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators, 
