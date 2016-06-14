@@ -69,6 +69,12 @@ README_URL :=
 PackageInfoURL := 
   Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 
+SourceRepository := rec( 
+  Type := "git", 
+  URL := "https://github.com/gap-packages/scscp"
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+
 PackageDoc := rec(
   BookName := "SCSCP",
   ArchiveURLSubset := ["doc"],
