@@ -9,35 +9,35 @@
                            The SCSCP Package
                            -----------------
 
-The GAP package SCSCP implements the Symbolic Computation Software 
-Composability protocol for the computational algebra system GAP in 
+The GAP package SCSCP implements the Symbolic Computation Software
+Composability Protocol for the computational algebra system GAP in
 accordance with:
 
-* SCSCP specification: 
+* SCSCP specification:
     http://www.symbolic-computing.org/scscp
-* OpenMath content dictionary scscp1: 
+* OpenMath content dictionary scscp1:
     http://www.win.tue.nl/SCIEnce/cds/scscp1.html
-* OpenMath content dictionary scscp2:   
-    http://www.win.tue.nl/SCIEnce/cds/scscp2.html 
+* OpenMath content dictionary scscp2:
+    http://www.win.tue.nl/SCIEnce/cds/scscp2.html
 
-Package's documentation is available in the 'scscp/doc' directory or 
-online at
+The package's documentation is available in the 'scscp/doc' directory
+or online at
 
-    http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm 
-    
-To run the demo, open two terminal windows. Then in the 1st window do
+    https://alexk.host.cs.st-andrews.ac.uk/scscp/
+
+To run the demo, open two terminal windows. In the first window,
+start the server with
 
     cd <path>/scscp/example
     gap myserver.g
-    
-to start the server, and after this start the demo in the 2nd window 
-with
+
+and then in the second window start the demo with
 
     cd <path>/scscp/demo
     gap rundemo.g
 
-In the GAP session that will be started, press any key to run the next
-command, except pressing 'q' to stop the demo.
+In the GAP session started by the demo, press any key other than 'q'
+to run the next command, and press 'q' to stop the demo.
 
 
 Alexander Konovalov, Steve Linton                        November 2013
