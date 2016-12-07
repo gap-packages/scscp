@@ -43,7 +43,7 @@ fi;
 # forbid opportunity to send plain GAP code to the server
 Unbind(OMsymRecord.cas);
      
-ReadPackage("scscp/lib/errors.g"); # to patch ErrorInner in the server mode
+ReadPackage("scscp", "lib/errors.g"); # to patch ErrorInner in the server mode
 
 SCSCPserverMode := true;
 SCSCPserverAddress := server;

@@ -23,7 +23,7 @@ IdGroup(SymmetricGroup(3));
 EvaluateBySCSCP( "GroupIdentificationService", 
                  [ [ (1,2,3), (2,3) ] ], server, 26133 ); 
 IdGroup( Group( (1,2,3), (2,3) ) );
-ReadPackage("scscp/example/id512.g");
+ReadPackage("scscp", "example/id512.g");
 G := DihedralGroup( IsPermGroup, 512 );
 IdGroup512( G );
 SetInfoLevel( InfoSCSCP, 0 );

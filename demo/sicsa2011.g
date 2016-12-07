@@ -13,7 +13,7 @@ EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ],
 SetInfoLevel( InfoSCSCP, 3 );
 EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ], 
                  demoserver, port ).object;
-ReadPackage("scscp/example/id512.g");
+ReadPackage("scscp", "example/id512.g");
 G := DihedralGroup( IsPermGroup, 512 );
 IdGroup512( G );
 SetInfoLevel( InfoSCSCP, 0 );
@@ -69,7 +69,7 @@ x = IO_UnpickleFromString( EvaluateBySCSCP( "IO_UnpickleStringAndPickleItBack",
 time;    
 
 IN_SCSCP_BINARY_MODE:=false;
-ReadPackage("scscp/example/overload.g");
+ReadPackage("scscp", "example/overload.g");
 a := StoreAsRemoteObject( 6, laptop, port );
 b := StoreAsRemoteObject( 7, laptop, port );
 c := a*b;

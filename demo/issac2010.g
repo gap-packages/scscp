@@ -12,7 +12,7 @@ EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ],
 SetInfoLevel( InfoSCSCP, 3 );
 EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ], 
                  steve, port ).object;
-ReadPackage("scscp/example/id512.g");
+ReadPackage("scscp", "example/id512.g");
 G := DihedralGroup( IsPermGroup, 512 );
 IdGroup512( G );
 SetInfoLevel( InfoSCSCP, 0 );

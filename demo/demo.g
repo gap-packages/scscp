@@ -63,7 +63,7 @@ OMPutProcedureCall( stream,
 s:=OMGetObjectWithAttributes( stream );
 CloseStream( stream );
 
-ReadPackage("scscp/example/idperm.g");
+ReadPackage("scscp", "example/idperm.g");
 IdGroupWS(SymmetricGroup(3));
 IdGroupWS(SymmetricGroup(4));
 IdGroupWS(SymmetricGroup(5));
