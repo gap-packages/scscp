@@ -1,4 +1,4 @@
-ReadPackage("laguna/lib/parunits.g");
+ReadPackage("laguna", "lib/parunits.g");
 
 SCSCPLogTracesToGlobal("quillen16");
 ParListWithSCSCP(List([1..16], i->[512,i]),"QuillenSeriesByIdGroup");

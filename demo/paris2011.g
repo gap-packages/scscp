@@ -12,13 +12,13 @@ EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ],
 SetInfoLevel( InfoSCSCP, 3 );
 EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ], 
                  server, port ).object;
-ReadPackage("scscp/example/id512.g");
+ReadPackage("scscp", "example/id512.g");
 G := DihedralGroup( IsPermGroup, 512 );
 IdGroup512( G );
 SetInfoLevel( InfoSCSCP, 0 );
 IdGroup512( G );
 
-ReadPackage("scscp/example/overload.g");
+ReadPackage("scscp", "example/overload.g");
 a := StoreAsRemoteObject( 6, server, port );
 b := StoreAsRemoteObject( 7, server, port );
 c := a*b;
