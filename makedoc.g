@@ -7,8 +7,7 @@
 
 ExtractMyManualExamples:=function( pkgname, main, files )
 local path, tst, i, s, name, output, ch, a;
-path:=Directory( 
-        Concatenation(PackageInfo(pkgname)[1].InstallationPath, "/doc") );
+path:=Directory( "doc" );
 Print("Extracting manual examples for ", pkgname, " package ...\n" );
 tst:=ExtractExamples( path, main, files, "Chapter" );
 Print(Length(tst), " chapters detected\n");
@@ -20,10 +19,7 @@ for i in [ 1 .. Length(tst) ] do
       # works for <100 chapters
       s:=Concatenation("0",s); 
     fi;
-    name := Filename( 
-              Directory( 
-                Concatenation( PackageInfo(pkgname)[1].InstallationPath, 
-                               "/tst" ) ), 
+    name := Filename( Directory( "tst" ), 
                 Concatenation( LowercaseString(pkgname), s, ".tst" ) );
     output := OutputTextFile( name, false ); # to empty the file first
     SetPrintFormattingStatus( output, false ); # to avoid line breaks
@@ -60,11 +56,10 @@ SCSCPMANUALFILES:=[
 ##
 SCSCPBuildManual := function()
 local path, main, files, bookname;
-path:=Concatenation(
-               GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/doc/");
+path:="doc";
 main:="manual.xml";
 bookname:="scscp";
-MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname, "../../.." );  
+MakeGAPDocDoc( path, main, SCSCPMANUALFILES, bookname, "../../..", "MathJax" );  
 CopyHTMLStyleFiles( path );
 GAPDocManualLab( "scscp" );; 
 ExtractMyManualExamples( "scscp", main, SCSCPMANUALFILES);
