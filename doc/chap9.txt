@@ -1,0 +1,343 @@
+  
+  [1X9 [33X[0;0YService functions[133X[101X
+  
+  
+  [1X9.1 [33X[0;0YPinging [5XSCSCP[105X[101X[1X servers[133X[101X
+  
+  [1X9.1-1 PingSCSCPservice[101X
+  
+  [29X[2XPingSCSCPservice[102X( [3Xhostname[103X, [3Xportnumber[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfail[109X[133X
+  
+  [33X[0;0YThis  function  returns [9Xtrue[109X if the client can establish connection with the
+  SCSCP server at [3Xhostname[103X:[3Xportnumber[103X. Otherwise, it returns [9Xfail[109X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XPingSCSCPservice("localhost",26133);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XPingSCSCPservice("localhost",26140);                     [127X[104X
+    [4X[28XError: rec([128X[104X
+    [4X[28X  message := "Connection refused",[128X[104X
+    [4X[28X  number := 61 )[128X[104X
+    [4X[28Xfail[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-2 PingStatistic[101X
+  
+  [29X[2XPingStatistic[102X( [3Xhostname[103X, [3Xportnumber[103X, [3Xn[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YThe  function  is  similar  to  the UNIX [10Xping[110X. It tries [3Xn[103X times to establish
+  connection  with  the SCSCP server at [3Xhostname[103X:[3Xportnumber[103X, and then displays
+  statistical information.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XPingStatistic("localhost",26133,1000);[127X[104X
+    [4X[28X1000 packets transmitted, 1000 received, 0% packet loss, time 208ms[128X[104X
+    [4X[28Xmin/avg/max = [ 0, 26/125, 6 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.2 [33X[0;0YInfo classes for [5XSCSCP[105X[101X[1X[133X[101X
+  
+  [1X9.2-1 InfoSCSCP[101X
+  
+  [29X[2XInfoSCSCP[102X[32X info class
+  
+  [33X[0;0Y[2XInfoSCSCP[102X  is  a  special  Info  class  for the [5XSCSCP[105X package. The amount of
+  information  to  be  displayed  can  be  specified  by  the  user by setting
+  InfoLevel for this class from 0 to 4, and the default value of InfoLevel for
+  the  package  is  specified in the file [11Xscscp/config.g[111X. The higher the level
+  is,  the  more  information will be displayed. To change the InfoLevel to [10Xk[110X,
+  use  the  command  [10XSetInfoLevel(InfoSCSCP,  k)[110X. In the following examples we
+  demonstrate various degrees of output details using Info messages.[133X
+  
+  [33X[0;0YDefault Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,2);                              [127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133); [127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\[128X[104X
+    [4X[28X6133:286" scscp_versions="1.0 1.1 1.2 1.3" ?>[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X#I  Request sent ...[128X[104X
+    [4X[28X#I  Waiting for reply ...[128X[104X
+    [4X[28X#I  <?scscp start ?>[128X[104X
+    [4X[28X#I  <?scscp end ?>[128X[104X
+    [4X[28X#I  Got back: object 3628800 with attributes [128X[104X
+    [4X[28X[ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ][128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ], [128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMinimal Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,0);                              [127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:286:jzjsp6th" ] ], [128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YVerbose Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,3);[127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);[127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\[128X[104X
+    [4X[28X6133:286" scscp_versions="1.0 1.1 1.2 1.3" ?>[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X#I  Composing procedure_call message: [128X[104X
+    [4X[28X<?scscp start ?>[128X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X	<OMATTR>[128X[104X
+    [4X[28X		<OMATP>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
+    [4X[28X			<OMSTR>localhost:26133:286:Jok6cQAf</OMSTR>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_return_object"/>[128X[104X
+    [4X[28X			<OMSTR></OMSTR>[128X[104X
+    [4X[28X		</OMATP>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="procedure_call"/>[128X[104X
+    [4X[28X			<OMA>[128X[104X
+    [4X[28X				<OMS cd="scscp_transient_1" name="WS_Factorial"/>[128X[104X
+    [4X[28X				<OMI>10</OMI>[128X[104X
+    [4X[28X			</OMA>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X	</OMATTR>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X<?scscp end ?>[128X[104X
+    [4X[28X#I  Total length 396 characters [128X[104X
+    [4X[28X#I  Request sent ...[128X[104X
+    [4X[28X#I  Waiting for reply ...[128X[104X
+    [4X[28X#I  <?scscp start ?>[128X[104X
+    [4X[28X#I Received message: [128X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X	<OMATTR>[128X[104X
+    [4X[28X		<OMATP>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
+    [4X[28X			<OMSTR>localhost:26133:286:Jok6cQAf</OMSTR>[128X[104X
+    [4X[28X		</OMATP>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="procedure_completed"/>[128X[104X
+    [4X[28X			<OMI>3628800</OMI>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X	</OMATTR>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X#I  <?scscp end ?>[128X[104X
+    [4X[28X#I  Got back: object 3628800 with attributes [128X[104X
+    [4X[28X[ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ][128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ], [128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,0);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-2 InfoMasterWorker[101X
+  
+  [29X[2XInfoMasterWorker[102X[32X info class
+  
+  [33X[0;0Y[10XInfoMasterWorker[110X  is  a  special  Info  class for the Master-Worker skeleton
+  [2XParListWithSCSCP[102X  ([14X8.2-1[114X).  The amount of information to be displayed can be
+  specified  by  the user by setting InfoLevel for this class from 0 to 5, and
+  the  default  value  of  InfoLevel  for the package is specified in the file
+  [11Xscscp/config.g[111X.  The  higher  the  level  is,  the  more information will be
+  displayed.    To    change   the   InfoLevel   to   [10Xk[110X,   use   the   command
+  [10XSetInfoLevel(InfoMasterWorker,  k)[110X. In the following examples we demonstrate
+  various degrees of output details using Info messages.[133X
+  
+  [33X[0;0YDefault Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoMasterWorker,2);[127X[104X
+    [4X[25Xgap>[125X [27XParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );[127X[104X
+    [4X[28X#I  1/5:master --> localhost:26133[128X[104X
+    [4X[28X#I  2/5:master --> localhost:26134[128X[104X
+    [4X[28X#I  3/5:master --> localhost:26133[128X[104X
+    [4X[28X#I  4/5:master --> localhost:26134[128X[104X
+    [4X[28X#I  5/5:master --> localhost:26133[128X[104X
+    [4X[28X[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMinimal Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,0);       [127X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoMasterWorker,0);[127X[104X
+    [4X[25Xgap>[125X [27XParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );[127X[104X
+    [4X[28X[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YVerbose Info level:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoMasterWorker,5);                                       [127X[104X
+    [4X[25Xgap>[125X [27XParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );[127X[104X
+    [4X[28X#I  1/5:master --> localhost:26133 : SymmetricGroup( [ 1 .. 2 ] )[128X[104X
+    [4X[28X#I  2/5:master --> localhost:26134 : SymmetricGroup( [ 1 .. 3 ] )[128X[104X
+    [4X[28X#I  localhost:26133 --> 1/5:master : [ 2, 1 ][128X[104X
+    [4X[28X#I  3/5:master --> localhost:26133 : SymmetricGroup( [ 1 .. 4 ] )[128X[104X
+    [4X[28X#I  localhost:26134 --> 2/5:master : [ 6, 1 ][128X[104X
+    [4X[28X#I  4/5:master --> localhost:26134 : SymmetricGroup( [ 1 .. 5 ] )[128X[104X
+    [4X[28X#I  localhost:26133 --> 3/5:master : [ 24, 12 ][128X[104X
+    [4X[28X#I  5/5:master --> localhost:26133 : SymmetricGroup( [ 1 .. 6 ] )[128X[104X
+    [4X[28X#I  localhost:26134 --> 4/5:master : [ 120, 34 ][128X[104X
+    [4X[28X#I  localhost:26133 --> 5/5:master : [ 720, 763 ][128X[104X
+    [4X[28X[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ][128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoMasterWorker,2);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.3 [33X[0;0YOther [5XSCSCP[105X[101X[1X Utilities[133X[101X
+  
+  [1X9.3-1 DateISO8601[101X
+  
+  [29X[2XDateISO8601[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring[133X
+  
+  [33X[0;0YReturns  the  current  date  in  the  ISO-8601 YYYY-MM-DD format. This is an
+  internal  function  of  the  package  which  is  used by the [5XSCSCP[105X server to
+  generate  the transient content dictionary, accordingly to the definition of
+  the [5XOpenMath[105X symbol [10Xmeta.CDDate[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XDateISO8601();[127X[104X
+    [4X[28X"2011-10-05"[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-2 CurrentTimestamp[101X
+  
+  [29X[2XCurrentTimestamp[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring[133X
+  
+  [33X[0;0YReturns  the result of the call to [11Xdate[111X. This is an internal function of the
+  package which is used to add the timestamp to the [5XSCSCP[105X service description.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XCurrentTimestamp();[127X[104X
+    [4X[28X"Tue 30 Mar 2010 11:19:38 BST"[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-3 Hostname[101X
+  
+  [29X[2XHostname[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring[133X
+  
+  [33X[0;0YReturns the result of the call to [11Xhostname[111X. This function may be used in the
+  configuration file [11Xscscp/config.g[111X to specify that the default hostname which
+  will  be  used  by  the  [5XSCSCP[105X  server  will be detected automatically using
+  [11Xhostname[111X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XHostname();[127X[104X
+    [4X[28X"scscp.symbolic-computing.co.uk"[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-4 MemoryUsageByGAPinKbytes[101X
+  
+  [29X[2XMemoryUsageByGAPinKbytes[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Yinteger[133X
+  
+  [33X[0;0YReturns  the  current volume of the memory used by [5XGAP[105X in kylobytes. This is
+  equivalent  to  calling [11Xps -p <PID> -o vsz[111X, where [10X<PID>[110X is the process ID of
+  the  [5XGAP[105X  process. This is an internal function of the package which is used
+  by  the [5XSCSCP[105X server to report its memory usage in the [10Xinfo_memory[110X attribute
+  when   being   called   with   the   option  [10Xdebuglevel=2[110X  (see  options  in
+  [2XEvaluateBySCSCP[102X ([14X6.3-1[114X) and [2XNewProcess[102X ([14X6.2-2[114X)).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XMemoryUsageByGAPinKbytes();[127X[104X
+    [4X[28X649848[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-5 LastReceivedCallID[101X
+  
+  [29X[2XLastReceivedCallID[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring[133X
+  
+  [33X[0;0YReturns  the call ID contained in the most recently received message. It may
+  contain  some  useful  debugging information; in particular, the call ID for
+  the  [5XGAP[105X  [5XSCSCP[105X client and server contains colon-separated server name, port
+  number, process ID and a random string.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XLastReceivedCallID();[127X[104X
+    [4X[28X"scscp.symbolic-computing.co.uk:26133:77372:choDZBgA"[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-6 IO_PickleToString[101X
+  
+  [29X[2XIO_PickleToString[102X( [3Xobj[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring containing "pickled" object[133X
+  
+  [33X[0;0YThis  function  "pickles" or "serialises" the object [3Xobj[103X using the operation
+  [2XIO_Pickle[102X  ([14XIO:  IO_Pickle[114X)  from the [5XIO[105X package, and writes it to a string,
+  from  which  it could be later restored using [2XIO_UnpickleFromString[102X ([14X9.3-7[114X).
+  This provides a way to design [5XSCSCP[105X procedures which transmit [5XGAP[105X objects in
+  the  "pickled"  format  as [5XOpenMath[105X strings, which may be useful for objects
+  which  may  be  "pickled"  by  the  [5XIO[105X  package  but can not be converted to
+  [5XOpenMath[105X or for which the "pickled" representation is more compact or can be
+  encoded/decoded much faster.[133X
+  
+  [33X[0;0YSee  [2XIO_Pickle[102X  ([14XIO:  IO_Pickle[114X)  and [2XIO_Unpickle[102X ([14XIO: IO_Unpickle[114X) for more
+  details.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xf := IO_PickleToString( GF( 125 ) );[127X[104X
+    [4X[28X"FFIEINTG\>15INTG\>13FAIL"[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-7 IO_UnpickleFromString[101X
+  
+  [29X[2XIO_UnpickleFromString[102X( [3Xs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Y"unpickled" GAP object[133X
+  
+  [33X[0;0YThis  function "unpickles" the string [3Xs[103X which was created using the function
+  [2XIO_PickleToString[102X ([14X9.3-6[114X), using the operation [2XIO_Unpickle[102X ([14XIO: IO_Unpickle[114X)
+  from  the  [5XIO[105X  package.  See  [2XIO_PickleToString[102X ([14X9.3-6[114X) for more details and
+  suggestions about its usage.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIO_UnpickleFromString( f );                    [127X[104X
+    [4X[28XGF(5^3)[128X[104X
+    [4X[25Xgap>[125X [27Xf = IO_UnpickleFromString( IO_PickleToString( f ) ); [127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  

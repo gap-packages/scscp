@@ -1,0 +1,345 @@
+  
+  [1X5 [33X[0;0YRunning SCSCP server[133X[101X
+  
+  
+  [1X5.1 [33X[0;0YInstallation of [5XSCSCP[105X[101X[1X procedures[133X[101X
+  
+  [33X[0;0YThere may various ways to run [5XSCSCP[105X server, for example:[133X
+  
+  [30X    [33X[0;6Yallowing generic services like evaluation of arbitrary [5XOpenMath[105X code;[133X
+  
+  [30X    [33X[0;6Yoffering  highly  specialized procedures like identification of groups
+        of order 512;[133X
+  
+  [30X    [33X[0;6Yproviding access to a database of mathematical objects.[133X
+  
+  [33X[0;0YEach  of  these  use  cases  requires  certain  control  over  the  level of
+  functionality  exposed to the client. To achieve this, before starting [5XSCSCP[105X
+  service its provider must call the function [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X) to
+  make required procedures [21Xvisible[121X for the client.[133X
+  
+  [33X[0;0YAdditionally,  the  service  can  be  made  made accessible only for clients
+  running  on  the  same  computer,  or  accessible  only through a particular
+  network  interface,  or  generally accessible. This customization is made at
+  the  stage  of  starting  the  [5XSCSCP[105X server with the function [2XRunSCSCPserver[102X
+  ([14X5.2-1[114X).[133X
+  
+  [1X5.1-1 InstallSCSCPprocedure[101X
+  
+  [29X[2XInstallSCSCPprocedure[102X( [3Xprocname[103X, [3Xprocfunc[103X[, [3Xdescription[103X][, [3Xnarg1[103X[, [3Xnarg2[103X][, [3Xsignature[103X]] ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YFor  a  string [3Xprocname[103X and a function [3Xprocfunc[103X, [2XInstallSCSCPprocedure[102X makes
+  the [3Xprocfunc[103X available as SCSCP procedure under the name [3Xprocname[103X, adding it
+  to  the  transient  [5XOpenMath[105X  content dictionary [10Xscscp_transient_1[110X that will
+  exist during the service lifetime.[133X
+  
+  [33X[0;0YThe  second  argument  [3Xprocfunc[103X may be either a standard or user-defined [5XGAP[105X
+  function (procedure, operation, etc.).[133X
+  
+  [33X[0;0YThe  rest  of  arguments  are  optional  and  may  be  used  in  a number of
+  combinations:[133X
+  
+  [30X    [33X[0;6Y[3Xdescription[103X  is a string with the description of the procedure. It may
+        be  used  by  the help system. If it is omitted, the procedure will be
+        reported as undocumented.[133X
+  
+  [30X    [33X[0;6Y[3Xnarg1[103X  is  a  non-negative  integer,  specifying the minimal number of
+        arguments, and [3Xnarg2[103X is a non-negative integer or infinity, specifying
+        the  maximal number of arguments. If [3Xnarg2[103X is omitted then the maximal
+        number  of arguments will be set to [3Xnarg1[103X. If both [3Xnarg1[103X and [3Xnarg2[103X are
+        omitted  then  the minimal number of arguments will be set to zero and
+        their maximal number will be set to infinity.[133X
+  
+  [30X    [33X[0;6Y[3Xsignature[103X  is  the signature record of the procedure. If the [3Xsignature[103X
+        is  given,  then  the number of arguments must be explicitly specified
+        (by  [3Xnarg1[103X  with  or  without  [3Xnarg2[103X)  at  least  to zero and infinity
+        respectively (to ensure proper matching of arguments). Note that it is
+        completely acceptable for a symbol from a transient content dictionary
+        to  overstate the set of symbols which may occur in its children using
+        the  [10Xscscp2.symbol_set_all[110X symbol, and to use standard [5XOpenMath[105X errors
+        to  reject  requests  later  at  the  stage  of  their evaluation. For
+        example,   using   such   approach,   we  will  define  the  procedure
+        [10XWS_Factorial[110X  accepting  not only immediate [10X<OMI>[110X objects but anything
+        which could be evaluated to an integer.[133X
+  
+        [33X[0;6Y.  The  signature  must be either a list of records, where [22Xi[122X-th record
+        corresponds  to  the [22Xi[122X-th argument, or a record itself meaning that it
+        specifies  the  signature  for  all  arguments. In the latter case the
+        record may be [10Xrec( )[110X corresponding to the [10Xscscp2.symbol_set_all[110X symbol
+        (this will be assumed by default if the signature will be omitted).[133X
+  
+        [33X[0;6YIf  more  detailed  description  of  allowed  arguments is needed, the
+        signature  record  (one  for all arguments or a specific one) may have
+        components [10XCDgroups[110X, [10XCDs[110X and [10XSymbols[110X. The first two are lists of names
+        of  content  dictionary groups and content dictionaries, and the third
+        is  a  record  whose  components  are  names  of content dictionaries,
+        containing   lists   of   names   of   allowed   symbols   from  these
+        dictionaries,for example:[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[28X[128X[104X
+          [4X[28Xsignature := rec( CDgroups := [ "scscp" ],[128X[104X
+          [4X[28X              CDs := [ "arith1", "linalg1" ],[128X[104X
+          [4X[28X              Symbols := rec( polyd1 := [ "DMP", "term", "SDMP" ],[128X[104X
+          [4X[28X                              polyu := [ "poly_u_rep", "term" ] ) );[128X[104X
+          [4X[28X[128X[104X
+        [4X[32X[104X
+  
+  [33X[0;0YIn  the  following example we define the function [10XWS_Factorial[110X that takes an
+  integers  and  returns  its  factorial,  using  only  mandatory arguments of
+  [2XInstallSCSCPprocedure[102X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure( "WS_Factorial", Factorial );[127X[104X
+    [4X[28XInstallSCSCPprocedure : procedure WS_Factorial installed. [128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn the following example we install the procedure that will accept a list of
+  permutations  and  return  the number in the [5XGAP[105X Small Groups library of the
+  group they generate (for the sake of simplicity we omit tests of validity of
+  arguments, availability of [10XIdGroup[110X for groups of given order etc.)[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIdGroupByGenerators:=function( permlist )[127X[104X
+    [4X[25X>[125X [27Xreturn IdGroup( Group( permlist ) );[127X[104X
+    [4X[25X>[125X [27Xend;[127X[104X
+    [4X[28Xfunction( permlist ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators );[127X[104X
+    [4X[28XInstallSCSCPprocedure : procedure GroupIdentificationService installed. [128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter installation, the procedure may be reinstalled, if necessary:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure( "WS_Factorial", Factorial );[127X[104X
+    [4X[28XWS_Factorial is already installed. Do you want to reinstall it [y/n]? y[128X[104X
+    [4X[28XInstallSCSCPprocedure : procedure WS_Factorial reinstalled. [128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFinally, some examples of various combinations of optional arguments:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28XInstallSCSCPprocedure( "WS_Phi", Phi, [128X[104X
+    [4X[28X                       "Euler's totient function, see ?Phi in GAP", 1, 1 );[128X[104X
+    [4X[28XInstallSCSCPprocedure( "GroupIdentificationService", [128X[104X
+    [4X[28X                       IdGroupByGenerators, 1, infinity, rec() );[128X[104X
+    [4X[28XInstallSCSCPprocedure( "IdGroup512ByCode", IdGroup512ByCode, 1 );[128X[104X
+    [4X[28XInstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote that it is quite acceptable to overstate the signature of the procedure
+  and  use  only mandatory arguments in a call to [2XInstallSCSCPprocedure[102X, which
+  will  be  installed  then as a procedure that can accept arbitrary number of
+  arguments encoded without any restrictions on [5XOpenMath[105X symbols used, because
+  anyway  the  [5XGAP[105X  system will return an error in case of the wrong number or
+  type  of  arguments, though it might be a good practice to give a way to the
+  client  to  get  more precise procedure description a priori, that is before
+  sending  request.  See  [14X5.3[114X  about  utilities for obtaining such information
+  about the [5XSCSCP[105X service.[133X
+  
+  [33X[0;0YSome more examples of installation of SCSCP procedures are given in the file
+  [11Xscscp/example/myserver.g[111X.[133X
+  
+  [1X5.1-2 OMsymRecord[101X
+  
+  [29X[2XOMsymRecord[102X[32X global variable
+  
+  [33X[0;0YThis  is the global record from the [5XOpenMath[105X package used for the conversion
+  from  [5XOpenMath[105X to [5XGAP[105X. It is extended in the [5XSCSCP[105X package by adding support
+  for   symbols  from  [10Xscscp1[110X  and  [10Xscscp2[110X  content  dictionaries  ([FHKLLRa],
+  [FHKLR]).  Additionally, [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X) adds to this record a
+  component  corresponding to the appropriate transient content dictionary (by
+  default,  [10Xscscp_transient_1[110X) defining mappings between [5XOpenMath[105X symbols from
+  this content dictionary and installed [5XSCSCP[105X procedures.[133X
+  
+  
+  [1X5.2 [33X[0;0YStarting SCSCP server[133X[101X
+  
+  [1X5.2-1 RunSCSCPserver[101X
+  
+  [29X[2XRunSCSCPserver[102X( [3Xservertype[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YWill  start  the  [5XSCSCP[105X  server at port given by the integer [3Xport[103X. The first
+  parameter [3Xservertype[103X is either [9Xtrue[109X, [9Xfalse[109X or a string containing the server
+  hostname:[133X
+  
+  [30X    [33X[0;6Ywhen  [3Xservertype[103X  is  [9Xtrue[109X,  the server will be started in a [21Xuniversal[121X
+        mode and will accept all incoming connections;[133X
+  
+  [30X    [33X[0;6Ywhen  [3Xservertype[103X is [9Xfalse[109X, the server will be started at [11Xlocalhost[111X and
+        will not accept any incoming connections from outside;[133X
+  
+  [30X    [33X[0;6Ywhen      [3Xservertype[103X      is      a      string,      for     example,
+        [11X"scscp.symbolic-computing.org"[111X,  the server will be accessible only by
+        specified  server name (this may be useful to manage accessibility if,
+        for example, the hardware has several network interfaces).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XRunSCSCPserver( "localhost", 26133 );[127X[104X
+    [4X[28XReady to accept TCP/IP connections at localhost:26133 ...[128X[104X
+    [4X[28XWaiting for new client connection at localhost:26133 ...[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YActually, there is more than one way to run [5XGAP[105X [5XSCSCP[105X server:[133X
+  
+  [30X    [33X[0;6Yfrom the [5XGAP[105X session as shown in the example above;[133X
+  
+  [30X    [33X[0;6Ystarting  [5XGAP[105X  as  [10Xgap  myserver.g[110X,  where  [11Xmyserver.g[111X  is  the server
+        configuration   file   with   the   last   command   being   the  call
+        [2XRunSCSCPserver[102X,  which  may  take its arguments from the configuration
+        file [11Xscscp/config.g[111X (an example of such configuration file is given in
+        [11Xscscp/example/myserver.g[111X );[133X
+  
+  [30X    [33X[0;6Ystart  [5XGAP[105X  as  a daemon using the script [11Xgapd.sh[111X which is supplied in
+        the  root  directory  of  the  package  (for  the  description  of all
+        available   options   see  comments  in  [11Xgapd.sh[111X)  and  may  overwrite
+        parameters from [11Xscscp/config.g[111X.[133X
+  
+  [33X[0;0YSee Section [14X2.2[114X about configuring files [11Xconfig.g[111X and [11Xgapd.sh[111X.[133X
+  
+  
+  [1X5.3 [33X[0;0YProcedures to get information about the [5XSCSCP[105X[101X[1X server[133X[101X
+  
+  [1X5.3-1 GetServiceDescription[101X
+  
+  [29X[2XGetServiceDescription[102X( [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord[133X
+  
+  [33X[0;0YReturns  the  record with three components containing strings with the name,
+  version  and description of the service as specified by the service provider
+  in the [11Xscscp/config.g[111X (for details about configuration files, see [14X2.2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XGetServiceDescription( "localhost", 26133 );[127X[104X
+    [4X[28Xrec([128X[104X
+    [4X[28X  description := "Started with the demo file scscp/example/myserver.g \[128X[104X
+    [4X[28X  on Sat  8 Oct 2011 17:24:13 BST", service_name := "GAP SCSCP service",[128X[104X
+    [4X[28X  version := "GAP 4.4.12 + SCSCP 2.0.0" )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-2 GetAllowedHeads[101X
+  
+  [29X[2XGetAllowedHeads[102X( [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord[133X
+  
+  [33X[0;0YReturns  the  record  with components corresponding to content dictionaries.
+  Each  component is a list of names of symbols from the corresponding content
+  dictionary  which  are  allowed  to  appear as a [21Xhead[121X symbol (i.e. the first
+  child of the outermost [10X<OMA>[110X) in an [5XSCSCP[105X procedure call to the [5XSCSCP[105X server
+  running at [3Xserver[103X[10X:[110X[3Xport[103X.[133X
+  
+  [33X[0;0YNote  that  it  is acceptable (although not quite desirable) for a server to
+  [21Xoverstate[121X  the set of symbols it accepts and use standard [5XOpenMath[105X errors to
+  reject requests later.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XGetAllowedHeads("localhost",26133);[127X[104X
+    [4X[28Xrec( scscp_transient_1 := [ "GroupIdentificationService", [128X[104X
+    [4X[28X      "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "PointImages", [128X[104X
+    [4X[28X      "QuillenSeriesByIdGroup", "SCSCPStartTracing", "SCSCPStopTracing", [128X[104X
+    [4X[28X      "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", "WS_FactorsECM", [128X[104X
+    [4X[28X      "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", "WS_FactorsTD", [128X[104X
+    [4X[28X      "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-3 IsAllowedHead[101X
+  
+  [29X[2XIsAllowedHead[102X( [3Xcd[103X, [3Xsymbol[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YChecks  whether  the [5XOpenMath[105X symbol [3Xcd[103X[10X.[110X[3Xsymbol[103X, which may be a symbol from a
+  standard  or  transient [5XOpenMath[105X content dictionary, is allowed to appear as
+  [21Xhead[121X  symbol  (i.e.  the  first  child  of  the  outermost [10X<OMA>[110X in an [5XSCSCP[105X
+  procedure  call to the [5XSCSCP[105X server running at [3Xserver[103X[10X:[110X[3Xport[103X. This enables the
+  client  to  check  whether a particular symbol is allowed without requesting
+  the full list of symbols.[133X
+  
+  [33X[0;0YAlso,  it is acceptable (although not necessarily desirable) for a server to
+  [21Xoverstate[121X  the set of symbols it accepts and use standard [5XOpenMath[105X errors to
+  reject requests later.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIsAllowedHead( "permgp1", "group", "localhost", 26133 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsAllowedHead( "nums1", "pi", "localhost", 26133 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-4 GetTransientCD[101X
+  
+  [29X[2XGetTransientCD[102X( [3Xtransient_cd[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord[133X
+  
+  [33X[0;0YReturns a record with the transient content dictionary [3Xtransient_cd[103X from the
+  [5XSCSCP[105X  server  running  at  [3Xserver[103X[10X:[110X[3Xport[103X.  Names of components of this record
+  correspond to symbols from the [10Xmeta[110X content dictionary.[133X
+  
+  [33X[0;0YBy  default,  the name of the transient content dictionary for the [5XGAP[105X [5XSCSCP[105X
+  server  is  [10Xscscp_transient_1[110X.  Other  systems  may  use  transient  content
+  dictionaries  with  another  names,  which,  however, must always begin with
+  [10Xscscp_transient_[110X  and  may  be  guessed  from  the output of [2XGetAllowedHeads[102X
+  ([14X5.3-2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XGetTransientCD( "scscp_transient_1", "localhost", 26133 );[127X[104X
+    [4X[28Xrec( CDDate := "2011-10-08", [128X[104X
+    [4X[28X  CDDefinitions := [128X[104X
+    [4X[28X    [ rec( Description := "Size is currently undocumented.", Name := "Size" ),[128X[104X
+    [4X[28X      rec( Description := "Length is currently undocumented.", [128X[104X
+    [4X[28X          Name := "Length" ), [128X[104X
+    [4X[28X      rec( Description := "NrConjugacyClasses is currently undocumented.", [128X[104X
+    [4X[28X          Name := "NrConjugacyClasses" ), [128X[104X
+    [4X[28X...[128X[104X
+    [4X[28X      rec( Description := "MatrixGroup is currently undocumented.", [128X[104X
+    [4X[28X          Name := "MatrixGroup" ) ], CDName := "scscp_transient_1", [128X[104X
+    [4X[28X  CDReviewDate := "2011-10-08", CDRevision := "0", CDStatus := "private", [128X[104X
+    [4X[28X  CDVersion := "0", [128X[104X
+    [4X[28X  Description := "This is a transient CD for the GAP SCSCP service" )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-5 GetSignature[101X
+  
+  [29X[2XGetSignature[102X( [3Xtransientcd[103X, [3Xsymbol[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord[133X
+  
+  [33X[0;0YReturns   a   record   with   the   signature   of   the   [5XOpenMath[105X   symbol
+  [3Xtransientcd[103X[10X.[110X[3Xsymbol[103X from a transient [5XOpenMath[105X content dictionary. This record
+  contains  components corresponding to the [5XOpenMath[105X symbol whose signature is
+  described,  the  minimal and maximal number of its children (that is, of its
+  arguments),  and  symbols  which may be used in the [5XOpenMath[105X encoding of its
+  children.  Note  that it is acceptable for a symbol from a transient content
+  dictionary  to  overstate the set of symbols which may occur in its children
+  using  the [10Xscscp2.symbol_set_all[110X symbol, and use standard [5XOpenMath[105X errors to
+  reject  requests  later, like in the example below: using such approach, the
+  procedure [10XWS_Factorial[110X is defined to accept not only immediate [10X<OMI>[110X objects
+  but anything which could be evaluated to an integer.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XGetSignature("scscp_transient_1","WS_Factorial","localhost",26133);[127X[104X
+    [4X[28Xrec( maxarg := 1, minarg := 1,[128X[104X
+    [4X[28X  symbol := rec( cd := "scscp_transient_1", name := "WS_Factorial" ),[128X[104X
+    [4X[28X  symbolargs := rec( cd := "scscp2", name := "symbol_set_all" ) )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  

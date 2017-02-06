@@ -1,1 +1,187 @@
-Placeholder
+  
+  
+                                     [1X[5XSCSCP[105X[101X
+  
+  
+              [1XSymbolic Computation Software Composability Protocol[101X
+  
+  
+                                 Version 2.2.0
+  
+  
+                                6 February 2017
+  
+  
+                              Alexander Konovalov
+  
+                                  Steve Linton
+  
+  
+  
+  Alexander Konovalov
+      Email:    [7Xmailto:alexk at mcs dot st-andrews dot ac dot uk[107X
+      Homepage: [7Xhttp://www.cs.st-andrews.ac.uk/~alexk/[107X
+      Address:  [33X[0;14YSchool of Computer Science[133X
+                [33X[0;14YUniversity of St Andrews[133X
+                [33X[0;14YJack Cole Building, North Haugh,[133X
+                [33X[0;14YSt Andrews, Fife, KY16 9SX, Scotland[133X
+  
+  
+  Steve Linton
+      Email:    [7Xmailto:sal at cs dot st-andrews dot ac dot uk[107X
+      Homepage: [7Xhttp://www.cs.st-andrews.ac.uk/~sal/[107X
+      Address:  [33X[0;14YSchool of Computer Science[133X
+                [33X[0;14YUniversity of St Andrews[133X
+                [33X[0;14YJack Cole Building, North Haugh,[133X
+                [33X[0;14YSt Andrews, Fife, KY16 9SX, Scotland[133X
+  
+  
+  
+  -------------------------------------------------------
+  [1XAbstract[101X
+  [33X[0;0YThe   [5XGAP[105X   package  [5XSCSCP[105X  implements  the  Symbolic  Computation  Software
+  Composability  protocol  ([7Xhttp://www.symbolic-computing.org/scscp[107X)  for  the
+  computational algebra system [5XGAP[105X.[133X
+  
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0Y© 2007-2017 by Alexander Konovalov and Steve Linton[133X
+  
+  [33X[0;0Y[5XSCSCP[105X  is  free software; you can redistribute it and/or modify it under the
+  terms  of  the  GNU General Public License as published by the Free Software
+  Foundation;  either  version 2 of the License, or (at your option) any later
+  version.      For      details,      see      the     FSF's     own     site
+  [7Xhttp://www.gnu.org/licenses/gpl.html[107X.[133X
+  
+  [33X[0;0YIf you obtained [5XSCSCP[105X, we would be grateful for a short notification sent to
+  one of the authors.[133X
+  
+  [33X[0;0YIf  you  publish  a  result  which  was partially obtained with the usage of
+  [5XSCSCP[105X, please cite it in the following form:[133X
+  
+  [33X[0;0YA.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
+  Composability          Protocol,         Version         2.2.0;[113X         2017
+  ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
+  
+  
+  -------------------------------------------------------
+  [1XAcknowledgements[101X
+  [33X[0;0YThe  project  026133  "SCIEnce  -  Symbolic  Computation  Infrastructure for
+  Europe"  ([7Xhttp://www.symbolic-computing.org/[107X)  is  supported  by  the EU FP6
+  Programme.[133X
+  
+  
+  -------------------------------------------------------
+  [1XColophon[101X
+  [33X[0;0YVersions history:[133X
+  
+  [30X    [33X[0;6YVersion 0.1 - first half of 2007;[133X
+  
+  [30X    [33X[0;6YVersion 0.2 - December 2007;[133X
+  
+  [30X    [33X[0;6YVersion 0.3 - May 2008;[133X
+  
+  [30X    [33X[0;6YVersion 0.4 - August 2008;[133X
+  
+  [30X    [33X[0;6YVersion 1.0 - March 2009;[133X
+  
+  [30X    [33X[0;6YVersion 1.1 - May 2009;[133X
+  
+  [30X    [33X[0;6YVersion 1.2 - March 2010.[133X
+  
+  [30X    [33X[0;6YVersion 2.0 - October 2011.[133X
+  
+  [30X    [33X[0;6YVersion 2.1 - March 2012.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (scscp)[101X
+  
+  1 [33X[0;0YPreface[133X
+  2 [33X[0;0YInstallation[133X
+    2.1 [33X[0;0YInstallation and system requirements[133X
+    2.2 [33X[0;0YConfiguration files[133X
+  3 [33X[0;0YUsing streams[133X
+    3.1 [33X[0;0YInput-output TCP streams[133X
+      3.1-1 IsInputOutputTCPStream
+      3.1-2 IsInputOutputTCPStreamRep
+      3.1-3 InputOutputTCPStream
+    3.2 [33X[0;0YExample of client-server communication via input-output TCP streams[133X
+  4 [33X[0;0YMessage exchange by [5XSCSCP[105X[133X
+    4.1 [33X[0;0YCommunication with the [5XSCSCP[105X server[133X
+      4.1-1 StartSCSCPsession
+      4.1-2 OMPutProcedureCall
+      4.1-3 SCSCPwait
+      4.1-4 OMGetObjectWithAttributes
+    4.2 [33X[0;0YCommunication with the [5XSCSCP[105X client[133X
+      4.2-1 OMPutProcedureCompleted
+      4.2-2 OMPutProcedureTerminated
+    4.3 [33X[0;0YExample: [5XSCSCP[105X session[133X
+  5 [33X[0;0YRunning SCSCP server[133X
+    5.1 [33X[0;0YInstallation of [5XSCSCP[105X procedures[133X
+      5.1-1 InstallSCSCPprocedure
+      5.1-2 OMsymRecord
+    5.2 [33X[0;0YStarting SCSCP server[133X
+      5.2-1 RunSCSCPserver
+    5.3 [33X[0;0YProcedures to get information about the [5XSCSCP[105X server[133X
+      5.3-1 GetServiceDescription
+      5.3-2 GetAllowedHeads
+      5.3-3 IsAllowedHead
+      5.3-4 GetTransientCD
+      5.3-5 GetSignature
+  6 [33X[0;0YClient's functionality[133X
+    6.1 [33X[0;0Y[5XSCSCP[105X connections[133X
+      6.1-1 IsSCSCPconnection
+      6.1-2 NewSCSCPconnection
+      6.1-3 CloseSCSCPconnection
+    6.2 [33X[0;0YProcesses[133X
+      6.2-1 IsProcess
+      6.2-2 NewProcess
+      6.2-3 CompleteProcess
+      6.2-4 TerminateProcess
+    6.3 [33X[0;0YAll-in-one tool: sending request and getting result[133X
+      6.3-1 EvaluateBySCSCP
+    6.4 [33X[0;0YSwitching between Binary and XML [5XOpenMath[105X Encodings[133X
+      6.4-1 SwitchSCSCPmodeToBinary
+    6.5 [33X[0;0YRemote objects[133X
+      6.5-1 StoreAsRemoteObjectPersistently
+      6.5-2 IsRemoteObject
+      6.5-3 RemoteObjectsFamily
+      6.5-4 RetrieveRemoteObject
+      6.5-5 UnbindRemoteObject
+  7 [33X[0;0YExamples of [5XSCSCP[105X usage[133X
+    7.1 [33X[0;0YProviding services with the SCSCP package[133X
+    7.2 [33X[0;0YIdentifying groups of order 512[133X
+  8 [33X[0;0YParallel computing with [5XSCSCP[105X[133X
+    8.1 [33X[0;0YManaging multiple requests[133X
+      8.1-1 SynchronizeProcesses
+      8.1-2 FirstProcess
+      8.1-3 SCSCPservers
+      8.1-4 ParQuickWithSCSCP
+      8.1-5 FirstTrueProcess
+    8.2 [33X[0;0YMasterWorker skeleton[133X
+      8.2-1 ParListWithSCSCP
+      8.2-2 SCSCPreset
+      8.2-3 SCSCPLogTracesToGlobal
+    8.3 [33X[0;0YExample: parallelising Karatsuba multiplication for polynomials[133X
+  9 [33X[0;0YService functions[133X
+    9.1 [33X[0;0YPinging [5XSCSCP[105X servers[133X
+      9.1-1 PingSCSCPservice
+      9.1-2 PingStatistic
+    9.2 [33X[0;0YInfo classes for [5XSCSCP[105X[133X
+      9.2-1 InfoSCSCP
+      9.2-2 InfoMasterWorker
+    9.3 [33X[0;0YOther [5XSCSCP[105X Utilities[133X
+      9.3-1 DateISO8601
+      9.3-2 CurrentTimestamp
+      9.3-3 Hostname
+      9.3-4 MemoryUsageByGAPinKbytes
+      9.3-5 LastReceivedCallID
+      9.3-6 IO_PickleToString
+      9.3-7 IO_UnpickleFromString
+  
+  
+  [32X

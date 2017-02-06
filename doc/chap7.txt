@@ -1,0 +1,160 @@
+  
+  [1X7 [33X[0;0YExamples of [5XSCSCP[105X[101X[1X usage[133X[101X
+  
+  [33X[0;0YIn  this  chapter we are going to demonstrate some examples of communication
+  between client and server using the SCSCP.[133X
+  
+  
+  [1X7.1 [33X[0;0YProviding services with the SCSCP package[133X[101X
+  
+  [33X[0;0YYou   can   try  to  run  the  SCSCP  server  with  the  configuration  file
+  [11Xscscp/example/myserver.g[111X.  To  do  this,  go to that directory and enter [10Xgap
+  myserver.g[110X.  After  this  you will see some information messages and finally
+  the  server  will  start  to  wait for the connection. The final part of the
+  startup screen may look as follows:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28X#I  Installed SCSCP procedure Factorial[128X[104X
+    [4X[28X#I  Installed SCSCP procedure WS_Factorial[128X[104X
+    [4X[28X#I  Installed SCSCP procedure GroupIdentificationService[128X[104X
+    [4X[28X#I  Installed SCSCP procedure IdGroup512ByCode[128X[104X
+    [4X[28X#I  Installed SCSCP procedure WS_IdGroup[128X[104X
+    [4X[28X#I  Installed SCSCP procedure WS_Karatsuba[128X[104X
+    [4X[28X#I  Installed SCSCP procedure EvaluateOpenMathCode[128X[104X
+    [4X[28X#I  Ready to accept TCP/IP connections at localhost:26133 ...[128X[104X
+    [4X[28X#I  Waiting for new client connection at localhost:26133 ...[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSee  further self-explanatory comments in the file [11Xscscp/example/myserver.g[111X.
+  There  also  some  test  files  in  the  directory  [11Xscscp/tst/[111X supplied with
+  detailed  comments.  First,  you  may  use  demonstration files, preliminary
+  turning on the demonstration mode as it is explained in these files, or just
+  executing   step   by   step   each   command   from   [11Xscscp/tst/demo.g[111X  and
+  [11Xscscp/tst/omdemo.g[111X.  Then  you  can  try  to  use  files  [11Xscscp/tst/id512.g[111X,
+  [11Xscscp/tst/idperm.g[111X   and  [11Xscscp/tst/factor.g[111X  for  further  tests  of  [5XSCSCP[105X
+  services.[133X
+  
+  
+  [1X7.2 [33X[0;0YIdentifying groups of order 512[133X[101X
+  
+  [33X[0;0YWe  will  give  an example guiding you through all steps of creation of your
+  own [5XSCSCP[105X service.[133X
+  
+  [33X[0;0YThe  [5XGAP[105X  Small  Group Library does not provide identification for groups of
+  order 512 using the function [10XIdGroup[110X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIdGroup( DihedralGroup( 256 ) );[127X[104X
+    [4X[28X[ 256, 539 ][128X[104X
+    [4X[25Xgap>[125X [27XIdGroup(DihedralGroup(512)); [127X[104X
+    [4X[28XError, the group identification for groups of size 512 is not available [128X[104X
+    [4X[28Xcalled from[128X[104X
+    [4X[28X<function "unknown">( <arguments> )[128X[104X
+    [4X[28X called from read-eval loop at line 71 of *stdin*[128X[104X
+    [4X[28Xyou can 'quit;' to quit to outer loop, or[128X[104X
+    [4X[28Xyou can 'return;' to continue[128X[104X
+    [4X[26Xbrk>[126X [27X[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YHowever,     the    [5XGAP[105X    package    [5XANUPQ[105X    [GNO]    has    a    function
+  [10XIdStandardPresented512Group[110X that does this work as demonstrated below:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("anupq");[127X[104X
+    [4X[28X-------------------------------------------------------------[128X[104X
+    [4X[28XLoading ANUPQ 3.0 (ANU p-Quotient package)[128X[104X
+    [4X[28XC code by  Eamonn O'Brien <obrien@math.auckland.ac.nz>[128X[104X
+    [4X[28X           (ANU pq binary version: 1.8)[128X[104X
+    [4X[28XGAP code by Werner Nickel <nickel@mathematik.tu-darmstadt.de>[128X[104X
+    [4X[28X        and   Greg Gamble  <gregg@math.rwth-aachen.de>[128X[104X
+    [4X[28X[128X[104X
+    [4X[28X            For help, type: ?ANUPQ[128X[104X
+    [4X[28X-------------------------------------------------------------[128X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XG := DihedralGroup( 512 );            [127X[104X
+    [4X[28X<pc group of size 512 with 9 generators>[128X[104X
+    [4X[25Xgap>[125X [27XF := PqStandardPresentation( G );[127X[104X
+    [4X[28X<fp group on the generators [ f1, f2, f3, f4, f5, f6, f7, f8, f9 ]>[128X[104X
+    [4X[25Xgap>[125X [27XH := PcGroupFpGroup( F );[127X[104X
+    [4X[28X<pc group of size 512 with 9 generators>[128X[104X
+    [4X[25Xgap>[125X [27XIdStandardPresented512Group( H );[127X[104X
+    [4X[28X[ 512, 2042 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  package [5XANUPQ[105X requires [5XUNIX[105X environment and it is natural to provide an
+  identification  service  for  groups  of  order 512 to make it available for
+  other platforms.[133X
+  
+  [33X[0;0YNow  we  need  to decide how the client will transmit a group to the server.
+  Can we encode this group in [5XOpenMath[105X? But there is no content dictionary for
+  PcGroups. Should we convert it to a permutation representation to be able to
+  use existing content dictionaries? But then the resulting [5XOpenMath[105X code will
+  be  not compact. However, the [5XSCSCP[105X protocol provides enough freedom for the
+  user  to  select  its  own  data  representation,  and  since we are linking
+  together two copies of the same system, we may use the [13Xpcgs code[113X to pass the
+  data to the server (see [2XCodePcGroup[102X ([14XReference: CodePcGroup[114X).[133X
+  
+  [33X[0;0YFirst we create a function which accepts the integer number that is the code
+  for pcgs of a group of order 512 and returns the number of this group in the
+  GAP Small Groups library:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28XIdGroup512ByCode := function( code )[128X[104X
+    [4X[28Xlocal G, F, H;[128X[104X
+    [4X[28XG := PcGroupCode( code, 512 );[128X[104X
+    [4X[28XF := PqStandardPresentation( G );[128X[104X
+    [4X[28XH := PcGroupFpGroup( F );[128X[104X
+    [4X[28Xreturn IdStandardPresented512Group( H );[128X[104X
+    [4X[28Xend;[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter such function was created on the server, we need to make it [21Xvisible[121X as
+  an [5XSCSCP[105X procedure:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure("IdGroup512", IdGroup512ByCode );[127X[104X
+    [4X[28XInstallSCSCPprocedure : procedure IdGroup512 installed. [128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  that  this function assumes that the argument is a valid code for some
+  group  of order 512, and we wish the client to make it sure that this is the
+  case.  To  do  this,  and  also for the client's convenience, we provide the
+  client's  counterpart for this service. Here the group must be a pc-group of
+  order 512, otherwise an error message will appear.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIdGroup512 := function( G )[127X[104X
+    [4X[25X>[125X [27X   local code, result;[127X[104X
+    [4X[25X>[125X [27X   if Size( G ) <> 512 then[127X[104X
+    [4X[25X>[125X [27X     Error( "G must be a group of order 512 \n" );[127X[104X
+    [4X[25X>[125X [27X   fi;[127X[104X
+    [4X[25X>[125X [27X   code := CodePcGroup( G );[127X[104X
+    [4X[25X>[125X [27X   result := EvaluateBySCSCP( "IdGroup512ByCode", [ code ], [127X[104X
+    [4X[25X>[125X [27X                              "localhost", 26133 );[127X[104X
+    [4X[25X>[125X [27X   return result.object;[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow  the  client  can  call  the  function  [10XIdGroup512[110X, and the procedure of
+  getting  result is as much straightforward as using [10XIdGroup[110X for those groups
+  where it works:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIdGroup512(DihedralGroup(512));[127X[104X
+    [4X[28X[ 512, 2042 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  

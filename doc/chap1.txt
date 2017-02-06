@@ -1,0 +1,109 @@
+  
+  [1X1 [33X[0;0YPreface[133X[101X
+  
+  [33X[0;0YThe   [5XGAP[105X   package  [5XSCSCP[105X  implements  the  Symbolic  Computation  Software
+  Composability  protocol [FHKLLRb]. This protocol specifies an [5XOpenMath[105X-based
+  remote  procedure call framework, in which all messages (procedure calls and
+  returns  of results of successful computation or error messages) are encoded
+  in  [5XOpenMath[105X  using  content  dictionaries  [5Xscscp1[105X  and  [5Xscscp2[105X  ([FHKLLRa],
+  [FHKLR]).  Using  the [5XSCSCP[105X package, [5XGAP[105X can communicate locally or remotely
+  with any other [5XOpenMath[105X-enabled [5XSCSCP[105X-compliant application which may be not
+  only  another  computer  algebra system but also another instance of the [5XGAP[105X
+  system  or  even,  for  example,  an  external Java or C/C++ application via
+  libraries                     [7Xhttp://java.symcomp.org/[107X                    or
+  [7Xhttp://www.imcce.fr/Equipes/ASD/trip/scscp/[107X  providing  an  [5XSCSCP[105X  API. Such
+  communication  will  go  into  seamless  manner  for the [5XGAP[105X user, since all
+  conversions  from  [5XGAP[105X  to  [5XOpenMath[105X and vice versa will be performed in the
+  background.        See        the       SCIEnce       project       homepage
+  [7Xhttp://www.symbolic-computing.org/[107X  for  the  details about computer algebra
+  systems and other sotware supporting [5XSCSCP[105X[133X
+  
+  [33X[0;0YThe [5XSCSCP[105X package for [5XGAP[105X has two main components:[133X
+  
+  [30X    [33X[0;6YSCSCP server;[133X
+  
+  [30X    [33X[0;6YSCSCP client.[133X
+  
+  [33X[0;0YThere are several ways to start [5XGAP[105X [5XSCSCP[105X server:[133X
+  
+  [30X    [33X[0;6Ycall [2XRunSCSCPserver[102X ([14X5.2-1[114X) from the [5XGAP[105X session specifying the server
+        name and the port number from the [5XGAP[105X session;[133X
+  
+  [30X    [33X[0;6Ystart   [5XGAP[105X   as  [10Xgap  myserver.g[110X,  where  [11Xmyserver.g[111X  is  the  server
+        configuration   file   with   the  last  command  being  the  call  of
+        [2XRunSCSCPserver[102X ([14X5.2-1[114X) (an example of such configuration file is given
+        in [11Xscscp/example/myserver.g[111X );[133X
+  
+  [30X    [33X[0;6Ystart  [5XGAP[105X  as  a daemon using the script [11Xgapd.sh[111X which is supplied in
+        the  root  directory  of  the  package  (for  the  description  of all
+        available options see comments in [11Xgapd.sh[111X).[133X
+  
+  [33X[0;0YDuring  startup  the server installs all procedures that it will provide and
+  loads  their  lookup  mechanisms, and then begins to listen to the specified
+  port.  The recommended port number is 26133 which has been assigned to SCSCP
+  by  the  Internet  Assigned  Numbers  Authority (IANA) in November 2007, see
+  [7Xhttp://www.iana.org/assignments/port-numbers[107X.[133X
+  
+  [33X[0;0YWhen   the   server   accepts  a  connection  from  client,  it  starts  the
+  "accept-evaluate-return" loop:[133X
+  
+  [30X    [33X[0;6Yaccepts the [10X"procedure_call";[110X message;[133X
+  
+  [30X    [33X[0;6Yperforms lookup of the appropriate GAP function;[133X
+  
+  [30X    [33X[0;6Yevaluates the result (or produces a side-effect);[133X
+  
+  [30X    [33X[0;6Yreturns  the result in the [10X"procedure_completed"[110X message or returns an
+        error in the [10X"procedure_terminated"[110X message.[133X
+  
+  [33X[0;0YThe  server  works in a "multi-user" mode. When one client is connected, the
+  server is busy for other clients. As soon as the computation is finished and
+  the  client  is disconnected, the server is waiting for the next connection,
+  and  normally  it  never  stops  until  it will be terminated by the service
+  provider.  The  server  maintain  a queue of five incoming connections (this
+  parameter  can be easily modified), and on each iteration evaluates the next
+  request from the queue.[133X
+  
+  [33X[0;0YThere  is  an [5XSCSCP[105X server accessible at [11Xchrystal.mcs.st-andrews.ac.uk[111X, port
+  26133.  It  is  running  under  development versions of the [5XGAP[105X system and a
+  selection of currently distributed packages. The reader is encouraged to try
+  to   use  examples  from  the  manual  to  access  this  service,  replacing
+  [11X"localhost"[111X  by  its  address, where appropriate. Please report to Alexander
+  Konovalov  if  you  will  discover  any  bugs  or  if  the  server seems not
+  available.[133X
+  
+  [33X[0;0YThe SCSCP client:[133X
+  
+  [30X    [33X[0;6Yestablishes  connection  with  the  specified  server at the specified
+        port;[133X
+  
+  [30X    [33X[0;6Ysends the [10X"procedure_call"[110X message to the server;[133X
+  
+  [30X    [33X[0;6Ywaits  for  the  result  of  the  computation or returns to pick it up
+        later;[133X
+  
+  [30X    [33X[0;6Yfetches    the    response,    extracting    the   result   from   the
+        [10X"procedure_completed"[110X  message  or entering the break loop in the case
+        of the [10X"procedure_terminated"[110X message.[133X
+  
+  [33X[0;0YOn  the  top of this functionality we built a set of instructions for simple
+  parallel  computations  framework  using the [5XSCSCP[105X protocol, which allows to
+  send  several  procedure  calls  in parallel and then collect all results or
+  pick  up  the  first  available  result,  and  implements  the master-worker
+  skeleton. These tools are presented in the Chapter [14X8[114X.[133X
+  
+  [33X[0;0YThe  package  also implements a new kind of [5XGAP[105X input-output streams, namely
+  input-output  TCP  streams  (see  Chapter [14X3[114X), based on the functionality for
+  TCP/IP  protocol  usage  provided  by  the  [5XGAP[105X package [5XIO[105X. Such streams may
+  constitute  an  independent  interest for adapting streams-using [5XGAP[105X code to
+  use streams across the network.[133X
+  
+  [33X[0;0YFinally,  the  manual  describes how the communication by [5XSCSCP[105X goes between
+  several instances of the [5XGAP[105X system, but the same behaviour is expected from
+  any  [5XSCSCP[105X-compliant  application:  the  set  of  supported [5XOpenMath[105X symbols
+  clearly  will  be  different,  but  the rules of communication are precisely
+  specified  in  the  [5XSCSCP[105X  specification  [FHKLLRb]. See the homepage of the
+  SCIEnce project [7Xhttp://www.symbolic-computing.org/[107X for the information about
+  [5XSCSCP[105X-compliant  computer  algebra  systems and other tools developed in the
+  project.[133X
+  

@@ -1,0 +1,370 @@
+  
+  [1X8 [33X[0;0YParallel computing with [5XSCSCP[105X[101X[1X[133X[101X
+  
+  
+  [1X8.1 [33X[0;0YManaging multiple requests[133X[101X
+  
+  [33X[0;0YUsing procedure calls explained in the previous section, the user can create
+  several  requests  to  multiple  services to execute them in parallel, or to
+  wait until the fastest result will be available.[133X
+  
+  [1X8.1-1 SynchronizeProcesses[101X
+  
+  [29X[2XSynchronizeProcesses[102X( [3Xprocess1[103X, [3Xprocess2[103X, [3X...[103X, [3XprocessN[103X ) [32X function
+  [29X[2XSynchronizeProcesses[102X( [3Xproclist[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ylist of records with components [10Xobject[110X and [10Xattributes[110X[133X
+  
+  [33X[0;0YThe  function  collects  results of from each process given in the argument,
+  and  returns  the  list, [22Xi[122X-th entry of which is the result obtained from the
+  [22Xi[122X-th  process.  The  function  accepts  both  one argument that is a list of
+  processes, and arbitrary number of arguments, each of them being a process.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xa:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );[127X[104X
+    [4X[28X< process at localhost:26133 pid=2064 >[128X[104X
+    [4X[25Xgap>[125X [27Xb:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );[127X[104X
+    [4X[28X< process at localhost:26134 pid=1975 >[128X[104X
+    [4X[25Xgap>[125X [27XSynchronizeProcesses(a,b);[127X[104X
+    [4X[28X[ rec( attributes := [ [ "call_id", "localhost:26133:2064:yCWBGYFO" ] ], [128X[104X
+    [4X[28X      object := 3628800 ), [128X[104X
+    [4X[28X  rec( attributes := [ [ "call_id", "localhost:26134:1975:yAAWvGTL" ] ], [128X[104X
+    [4X[28X      object := 2432902008176640000 ) ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-2 FirstProcess[101X
+  
+  [29X[2XFirstProcess[102X( [3Xprocess1[103X, [3Xprocess2[103X, [3X...[103X, [3XprocessN[103X ) [32X function
+  [29X[2XFirstProcess[102X( [3Xproclist[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecords with components [10Xobject[110X and [10Xattributes[110X[133X
+  
+  [33X[0;0YThe  function  waits for the result from each process given in the argument,
+  and  returns the result coming first, terminating all remaining processes at
+  the  same  time.  The  function  accepts both one argument that is a list of
+  processes, and arbitrary number of arguments, each of them being a process.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xa:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );[127X[104X
+    [4X[28X< process at localhost:26133 pid=2064 >[128X[104X
+    [4X[25Xgap>[125X [27Xb:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );[127X[104X
+    [4X[28X< process at localhost:26134 pid=1975 >[128X[104X
+    [4X[25Xgap>[125X [27X FirstProcess(a,b); [127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ], [128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-3 SCSCPservers[101X
+  
+  [29X[2XSCSCPservers[102X[32X global variable
+  
+  [33X[0;0Y[2XSCSCPservers[102X  is  a  list  of  hosts  and ports to search for [5XSCSCP[105X services
+  (which  may  be  not  only  represented by [5XGAP[105X services, but also by another
+  [5XSCSCP[105X-compliant systems).[133X
+  
+  [33X[0;0YIt   is   used   by   parallel   skeletons   [2XParQuickWithSCSCP[102X  ([14X8.1-4[114X)  and
+  [2XParListWithSCSCP[102X ([14X8.2-1[114X).[133X
+  
+  [33X[0;0YThe   initial   value   of   this   variable   is   specified  in  the  file
+  [11Xscscp/configpar.g[111X and may be reassigned later.[133X
+  
+  [1X8.1-4 ParQuickWithSCSCP[101X
+  
+  [29X[2XParQuickWithSCSCP[102X( [3Xcommands[103X, [3Xlistargs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
+  
+  [33X[0;0YThis  function  is  constructed using the [2XFirstProcess[102X ([14X8.1-2[114X). It is useful
+  when  it  is  not known which partcular method is more efficient, because it
+  allows  to  call  in parallel several procedures (given by the list of their
+  names  [3Xcommands[103X)  with  the same list of arguments [3Xlistargs[103X (having the same
+  meaning  as  in  [2XEvaluateBySCSCP[102X  ([14X6.3-1[114X))  and  obtain  the  result of that
+  procedure call which will be computed faster.[133X
+  
+  [33X[0;0YIn  the example below we call two factorisation methods from the [5XGAP[105X package
+  [5XFactInt[105X to factorise [22X2^150+1[122X. The example is selected in such a way that the
+  runtime of these two methods is approximately the same, so you should expect
+  results from both methods in some random order from repeated calls.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],[128X[104X
+    [4X[28X  object := [ [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 63901 ],[128X[104X
+    [4X[28X      [ 2175126601, 15767865236223301 ] ] )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-5 FirstTrueProcess[101X
+  
+  [29X[2XFirstTrueProcess[102X( [3Xprocess1[103X, [3Xprocess2[103X, [3X...[103X, [3XprocessN[103X ) [32X function
+  [29X[2XFirstTrueProcess[102X( [3Xproclist[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ylist of records[133X
+  
+  [33X[0;0YThe  function  waits for the result from each process given in the argument,
+  and  stops  waiting  as  soon  as the first [9Xtrue[109X is returned, abandoning all
+  remaining  processes.  It retuns a list containing a records with components
+  [10Xobject[110X  and  [10Xattributes[110X  at  the  position corresponding to the process that
+  returned  [9Xtrue[109X.  If  none  of  the processes returned true, it will return a
+  complete list of procedure call results.[133X
+  
+  [33X[0;0YThe  function  accepts  both  one  argument that is a list of processes, and
+  arbitrary number of arguments, each of them being a process.[133X
+  
+  [33X[0;0YIn the first example, the second call returns [9Xtrue[109X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xa:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );[127X[104X
+    [4X[28X< process at localhost:26134 pid=42554 >[128X[104X
+    [4X[25Xgap>[125X [27Xb:=NewProcess( "IsPrimeInt", [2^521-1], "localhost", 26133 );[127X[104X
+    [4X[28X< process at localhost:26133 pid=42448 >[128X[104X
+    [4X[25Xgap>[125X [27XFirstTrueProcess(a,b); [127X[104X
+    [4X[28X[ , rec( attributes := [ [ "call_id", "localhost:26133:42448:Lz1DL0ON" ] ], [128X[104X
+    [4X[28X      object := true ) ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn the next example both calls return [9Xfalse[109X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xa:=NewProcess( "IsPrimeInt", [2^520-1], "localhost", 26133 );[127X[104X
+    [4X[28X< process at localhost:26133 pid=42448 >[128X[104X
+    [4X[25Xgap>[125X [27Xb:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );[127X[104X
+    [4X[28X< process at localhost:26134 pid=42554 >[128X[104X
+    [4X[25Xgap>[125X [27XFirstTrueProcess(a,b); [127X[104X
+    [4X[28X[ rec( attributes := [ [ "call_id", "localhost:26133:42448:nvsk8PQp" ] ], [128X[104X
+    [4X[28X      object := false ), [128X[104X
+    [4X[28X  rec( attributes := [ [ "call_id", "localhost:26134:42554:JnEYuXL8" ] ], [128X[104X
+    [4X[28X      object := false ) ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X8.2 [33X[0;0YMasterWorker skeleton[133X[101X
+  
+  [33X[0;0YIn  this  section  we  will  present  more general framework to run parallel
+  computations, which has a number of useful features:[133X
+  
+  [30X    [33X[0;6Yit is implemented purely in [5XGAP[105X;[133X
+  
+  [30X    [33X[0;6Ythe client (i.e. master, which orchestrates the computation) will work
+        in UNIX/Linux, Mac OS X and MS Windows;[133X
+  
+  [30X    [33X[0;6Yit may orchestrate both [5XGAP[105X and non-[5XGAP[105X [5XSCSCP[105X servers;[133X
+  
+  [30X    [33X[0;6Yif  one  of  servers  (i.e.  workers)  will be lost, it will retry the
+        computation on another available server;[133X
+  
+  [30X    [33X[0;6Yit  allows  to  add  dynamically new workers during the computation on
+        hostnames  and  ports from a range perviously declared in [2XSCSCPservers[102X
+        ([14X8.1-3[114X).[133X
+  
+  [33X[0;0YTo  configure  this  functionality,  the  file [11Xscscp/configpar.g[111X assigns the
+  global  variable  [10XSCSCPservers[110X  which specifies a list of hosts and ports to
+  search  for  [5XSCSCP[105X  services  (which  may  be  not  only  represented by [5XGAP[105X
+  services, but also by another [5XSCSCP[105X-compliant systems). See comments in this
+  file for further instructions.[133X
+  
+  [1X8.2-1 ParListWithSCSCP[101X
+  
+  [29X[2XParListWithSCSCP[102X( [3Xlistargs[103X, [3Xprocname[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ylist[133X
+  
+  [33X[0;0Y[2XParListWithSCSCP[102X implements the well-known master-worker skeleton: we have a
+  master  ([5XSCSCP[105X  client) and a number of workers ([5XSCSCP[105X servers) which obtain
+  pieces  of  work  from  the client, perform the required job and report back
+  with the result, waiting for the next job.[133X
+  
+  [33X[0;0YIt returns the list of the same length as [3Xlistargs[103X, [22Xi[122X-th element of which is
+  the result of calling the procedure [3Xprocname[103X with the argument [3Xlistargs[i][103X.[133X
+  
+  [33X[0;0YIt  accepts  two  options  which  should  be given as non-negative integers:
+  [10Xtimeout[110X  which  specifies  in  minutes how long the client must wait for the
+  result  (if  not  given,  the default value is one hour) and [10Xrecallfrequency[110X
+  which  specifies  the  number  of  iterations after which the search for new
+  services  will  be performed (if not given the default value is zero meaning
+  no such search at all). There is also a boolean option [10Xnoretry[110X which, if set
+  to  [9Xtrue[109X,  means  that no retrying calls will be performed if the timeout is
+  exceeded and an incomplete resut may be returned.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );[127X[104X
+    [4X[28X#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 2 ] )[128X[104X
+    [4X[28X#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 3 ] )[128X[104X
+    [4X[28X#I  [ "localhost", 26133 ] --> master : [ 2, 1 ][128X[104X
+    [4X[28X#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 4 ] )[128X[104X
+    [4X[28X#I  [ "localhost", 26134 ] --> master : [ 6, 1 ][128X[104X
+    [4X[28X#I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 5 ] )[128X[104X
+    [4X[28X#I  [ "localhost", 26133 ] --> master : [ 24, 12 ][128X[104X
+    [4X[28X#I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 6 ] )[128X[104X
+    [4X[28X#I  [ "localhost", 26133 ] --> master : [ 720, 763 ][128X[104X
+    [4X[28X#I  [ "localhost", 26134 ] --> master : [ 120, 34 ][128X[104X
+    [4X[28X[ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X8.2-2 SCSCPreset[101X
+  
+  [29X[2XSCSCPreset[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YIf   an  error  occurs  during  a  call  of  [2XParQuickWithSCSCP[102X  ([14X8.1-4[114X)  and
+  [2XParListWithSCSCP[102X  ([14X8.2-1[114X), some of parallel requests may be still running at
+  the  remaining  services,  making  them  inaccessible  for further procedure
+  calls. [2XSCSCPreset[102X resets them by closing all open streams to [5XSCSCP[105X servers.[133X
+  
+  [1X8.2-3 SCSCPLogTracesToGlobal[101X
+  
+  [29X[2XSCSCPLogTracesToGlobal[102X( [3Xtestname[103X ) [32X function
+  [29X[2XSCSCPLogTracesToGlobal[102X(  ) [32X function
+  
+  [33X[0;0YTo  analyse  the performance of parallel [5XSCSCP[105X framework, we make use of the
+  [5XEdenTV[105X  program  [BL07]  developed initially to visualize the performance of
+  parallel  programs  written in functional programming language Eden, and now
+  distributed    under   the   GNU   Public   License   and   available   from
+  [7Xhttp://www.mathematik.uni-marburg.de/~eden/?content=EdenTV[107X.[133X
+  
+  [33X[0;0YCalled with the string containing the name of the test, this functions turns
+  on writing information about key activity events into trace files in current
+  directories  for  the  client  and  servers listed [2XSCSCPservers[102X ([14X8.1-3[114X). The
+  trace  file  will  have  the  name  of the format [3Xtestname[103X[10X.client.tr[110X for the
+  client  and  [3Xtestname[103X[10X.<hostname>.<port>.tr[110X  for  the  server. After the test
+  these  files  should be collected from remote servers and concatenated (e.g.
+  using   [11Xcat[111X)   together   with   the   standard   preamble   from  the  file
+  [11Xscscp/tracing/stdhead.txt[111X  (we recommend to put after the preamble first all
+  traces  from  servers  and then the client's traces to have nicer diagrams).
+  The resulting file then may be opened with [5XEdenTV[105X.[133X
+  
+  [33X[0;0YIn the following example we use a dual core MacBook laptop to generate trace
+  files for two tests and then show their corresponding trace diagrams:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28XSCSCPLogTracesToGlobal("quillen100");[128X[104X
+    [4X[28XParListWithSCSCP( List( [1..100], i->[512,i]), "QuillenSeriesByIdGroup" );[128X[104X
+    [4X[28XSCSCPLogTracesToGlobal();[128X[104X
+    [4X[28XSCSCPLogTracesToGlobal( "euler" );[128X[104X
+    [4X[28XParListWithSCSCP( [1..1000], "WS_Phi" );[128X[104X
+    [4X[28XSCSCPLogTracesToGlobal();[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y/See  diagrams in HTML and PDF versions of the manual/ The diagrams (made on
+  an  dual core MacBook laptop), shows that in the first case parallelising is
+  efficient  and master successfully distributes load to workers, while in the
+  second  case  a single computation is just too short, so most of the time is
+  spent   on  communication.  To  parallelize  the  Euler's  function  example
+  efficiently,  tasks must rather be grouped in chunks, which should be enough
+  large  to reduce the communication overload, but enough small to ensure that
+  tasks are evenly distributed.[133X
+  
+  [33X[0;0YOf course, tracing can be used to investigate communication between a client
+  and  a  single  server  in a non-parallel context as well. For this purpose,
+  [2XSCSCPservers[102X ([14X8.1-3[114X) must be modified to contain only one server.[133X
+  
+  [33X[0;0Y[2XParListWithSCSCP[102X ([14X8.2-1[114X) can be easily modified to have parallel versions of
+  other  list  operations  like [2XForAll[102X ([14XReference: ForAll[114X), [2XForAny[102X ([14XReference:
+  ForAny[114X),  [2XFirst[102X  ([14XReference:  First[114X),  [2XNumber[102X  ([14XReference: Number[114X), [2XFiltered[102X
+  ([14XReference:  Filtered[114X), and also to have the skeleton in which the queue may
+  be modified during the computation (for example, to compute orbits). We plan
+  to provide such tools in one of the next versions of the package.[133X
+  
+  
+  [1X8.3 [33X[0;0YExample: parallelising Karatsuba multiplication for polynomials[133X[101X
+  
+  [33X[0;0YThe   file  [11Xscscp/example/karatsuba.g[111X  contains  an  implementation  of  the
+  Karatsuba  multiplication  algorithm  for polynomials. This algorithm can be
+  easily  parallelized since each recursive step creates three recursive calls
+  of  the  same  function  for other polynomials. [13XWe will not parallelize each[113X
+  recursive  call,  since this will create enormous data flow. Instead of this
+  we  parallelize  only  the  top-level  function.  For  our  experiments with
+  parallelising   Karatsuba   multiplication   for  polynomials  with  integer
+  coefficients  we  used  the  multi-core workstation, on which we started one
+  [5XSCSCP[105X   client  and  two  [5XSCSCP[105X  servers.  To  use  it,  modify  the  server
+  configuration   file   adding   to   it   the   command  to  read  the  file
+  [11Xscscp/example/karatsuba.g[111X, then define there the following function[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28XKaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)[128X[104X
+    [4X[28X    return String( KaratsubaPolynomialMultiplicationExtRep( [128X[104X
+    [4X[28X                   EvalString(s1), EvalString(s2) ) );[128X[104X
+    [4X[28Xend;;[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yand  finally  add  the  following  lines  to  made  it available as an [5XSCSCP[105X
+  procedure under the name [10XWS_Karatsuba[110X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28XInstallSCSCPprocedure( "WS_Karatsuba", [128X[104X
+    [4X[28X                       KaratsubaPolynomialMultiplicationExtRepByString);[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y(we  do  not  include it into the default [11Xscscp/example/myserver.g[111X since the
+  code contains a call to [2XEvalString[102X ([14XReference: EvalString[114X)).[133X
+  
+  [33X[0;0YThis   function   provides   a   "bridge"   between  the  client's  function
+  [10XKaratsubaPolynomialMultiplicationWS[110X     and     the     server's    function
+  [10XKaratsubaPolynomialMultiplicationExtRep[110X,  which  performs the actual work on
+  the  server.  [10XWS_Karatsuba[110X  converts  its  string  arguments  into  internal
+  representation  of univariate polynomials (basically, lists of integers) and
+  then  converts  the result back into string (since such data exchange format
+  was  chosen). We are going to parallelize the following part of the client's
+  code:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28X...[128X[104X
+    [4X[28Xu := KaratsubaPolynomialMultiplicationExtRep(f1,g1);[128X[104X
+    [4X[28Xv := KaratsubaPolynomialMultiplicationExtRep(f0,g0);[128X[104X
+    [4X[28Xw := KaratsubaPolynomialMultiplicationExtRep([128X[104X
+    [4X[28X       PlusLaurentPolynomialsExtRep(f1,f0),[128X[104X
+    [4X[28X       PlusLaurentPolynomialsExtRep(g1,g0) );[128X[104X
+    [4X[28X...[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yand this can be done straightforwardly - we replace two first calls by calls
+  of  the  appropriate  [5XSCSCP[105X  services, then perform the 3rd call locally and
+  then collect the results from the two remote calls:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[28X...[128X[104X
+    [4X[28Xu := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   [128X[104X
+    [4X[28Xv := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   [128X[104X
+    [4X[28Xw := KaratsubaPolynomialMultiplicationExtRep([128X[104X
+    [4X[28X       PlusLaurentPolynomialsExtRep(f1,f0),[128X[104X
+    [4X[28X       PlusLaurentPolynomialsExtRep(g1,g0) );[128X[104X
+    [4X[28Xwsresult:=SynchronizeProcesses2( u,v );[128X[104X
+    [4X[28Xu := EvalString( wsresult[1].object );[128X[104X
+    [4X[28Xv := EvalString( wsresult[2].object );[128X[104X
+    [4X[28X...[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  obtain  almost  double  speedup  on  three  cores  on randomly generated
+  polynomials of degree 32000:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XReadPackage("scscp/example/karatsuba.g");[127X[104X
+    [4X[25Xgap>[125X [27Xfam:=FamilyObj(1);;[127X[104X
+    [4X[25Xgap>[125X [27Xf:=LaurentPolynomialByCoefficients( fam, [127X[104X
+    [4X[25X>[125X [27X        List([1..32000],i->Random(Integers)), 0, 1 );;[127X[104X
+    [4X[25Xgap>[125X [27Xg:=LaurentPolynomialByCoefficients( fam, [127X[104X
+    [4X[25X>[125X [27X        List([1..32000],i->Random(Integers)), 0, 1 );;[127X[104X
+    [4X[25Xgap>[125X [27Xt2:=KaratsubaPolynomialMultiplication(f,g);;time;[127X[104X
+    [4X[28X5892[128X[104X
+    [4X[25Xgap>[125X [27Xt3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;[127X[104X
+    [4X[28X2974[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  

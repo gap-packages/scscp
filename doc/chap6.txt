@@ -1,0 +1,642 @@
+  
+  [1X6 [33X[0;0YClient's functionality[133X[101X
+  
+  [33X[0;0YSending  and  getting  requests  to the [5XSCSCP[105X server(s), the client operates
+  with  processes.  Process is an abstraction which in other words may be also
+  called  a  remote  task.  It  encapsulates  an  input/output TCP stream (see
+  [2XIsInputOutputTCPStream[102X  ([14X3.1-1[114X))  from  the  client  to  the  server and the
+  process  ID  of  the  CAS  running  as a server (deduced from the connection
+  initiation message; may be unassigned, if the server CAS did not communicate
+  it).[133X
+  
+  [33X[0;0YThere  are  two  ways  to  create  processes.  One of them is to specify the
+  hostname  and  port  where  the  [5XSCSCP[105X server is running; in this case a new
+  input/output  TCP  stream will be created. Another way is first to establish
+  the  connection  with  the [5XSCSCP[105X server using [2XNewSCSCPconnection[102X ([14X6.1-2[114X) and
+  then  keep it alive across multiple remote procedure calls, thus saving time
+  on the DNS lookup and connection initiation. This may give a good speedup in
+  computations  with  an intensive message exchange. Note that as long as such
+  connection  is open, other [5XSCSCP[105X clients will not be able to get through, so
+  if several clients are interchanging with the [5XSCSCP[105X server at the same time,
+  they should not block each other with long-lasting connections.[133X
+  
+  
+  [1X6.1 [33X[0;0Y[5XSCSCP[105X[101X[1X connections[133X[101X
+  
+  [1X6.1-1 IsSCSCPconnection[101X
+  
+  [29X[2XIsSCSCPconnection[102X[32X filter
+  
+  [33X[0;0YThis  is  the  category  of  [5XSCSCP[105X connections. Objects in this category are
+  created using the function [2XNewSCSCPconnection[102X ([14X6.1-2[114X).[133X
+  
+  [1X6.1-2 NewSCSCPconnection[101X
+  
+  [29X[2XNewSCSCPconnection[102X( [3Xhostname[103X, [3Xport[103X ) [32X function
+  
+  [33X[0;0YFor a string [3Xhostname[103X and an integer [3Xport[103X, creates an object in the category
+  [2XIsSCSCPconnection[102X   ([14X6.1-1[114X).  This  object  will  encapsulate  two  objects:
+  [10Xtcpstream[110X,  which  is  the  input/output  TCP  stream  to [10X[3Xhostname[103X[10X:[3Xport[103X[10X[110X, and
+  [10Xsession_id[110X,  which  is  the  result  of calling [2XStartSCSCPsession[102X ([14X4.1-1[114X) on
+  [10Xtcpstream[110X.  The  connection  will  be  kept  alive  across  multiple  remote
+  procedure calls until it will be closed with [2XCloseSCSCPconnection[102X ([14X6.1-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel( InfoSCSCP, 2 );[127X[104X
+    [4X[25Xgap>[125X [27Xs:=NewSCSCPconnection("localhost",26133);[127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\[128X[104X
+    [4X[28X6133:52918" scscp_versions="1.0 1.1 1.2 1.3" ?>[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X< connection to localhost:26133 session_id=localhost:26133:52918 >[128X[104X
+    [4X[25Xgap>[125X [27XCloseSCSCPconnection(s);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X6.1-3 CloseSCSCPconnection[101X
+  
+  [29X[2XCloseSCSCPconnection[102X( [3Xs[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YCloses  [5XSCSCP[105X  connection  [3Xs[103X,  which  must  be  an  object  in  the category
+  [2XIsSCSCPconnection[102X ([14X6.1-1[114X). Internally, it just calls [2XCloseStream[102X ([14XReference:
+  CloseStream[114X) on the underlying input/output TCP stream of [3Xs[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel( InfoSCSCP, 0 );[127X[104X
+    [4X[25Xgap>[125X [27Xs:=NewSCSCPconnection("localhost",26133);[127X[104X
+    [4X[28X< connection to localhost:26133 session_id=localhost:26133:52918 >[128X[104X
+    [4X[25Xgap>[125X [27XCloseSCSCPconnection(s);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X6.2 [33X[0;0YProcesses[133X[101X
+  
+  [1X6.2-1 IsProcess[101X
+  
+  [29X[2XIsProcess[102X[32X filter
+  
+  [33X[0;0YThis  is  the  category of processes. Processes in this category are created
+  using the function [2XNewProcess[102X ([14X6.2-2[114X).[133X
+  
+  [1X6.2-2 NewProcess[101X
+  
+  [29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yobject in the category [10XIsProcess[110X[133X
+  
+  [33X[0;0YIn the first form, [3Xcommand[103X and [10Xserver[110X are strings, [3Xlistargs[103X is a list of [5XGAP[105X
+  objects and [10Xport[110X is an integer.[133X
+  
+  [33X[0;0YIn  the  second form, an [5XSCSCP[105X connection in the category [2XNewSCSCPconnection[102X
+  ([14X6.1-2[114X) is used instead of [10Xserver[110X and [10Xport[110X.[133X
+  
+  [33X[0;0YCalls  the  [5XSCSCP[105X  procedure with the name [3Xcommand[103X and the list of arguments
+  [3Xlistargs[103X  at the server and port given by [3Xserver[103X and [3Xport[103X or encapsulated in
+  the  [3Xconnection[103X.  Returns  an  object  in  the  category  [10XIsProcess[110X  for the
+  subsequent waiting the result from its underlying stream.[133X
+  
+  [33X[0;0YIt accepts the following options:[133X
+  
+  [30X    [33X[0;6Y[10Xoutput:="object"[110X  is  used  to specify that the server must return the
+        actual object evaluated as a result of the procedure call. This is the
+        default  action  requested  by  the  client  if  the  [10Xoutput[110X option is
+        omitted.[133X
+  
+  [30X    [33X[0;6Y[10Xoutput:="cookie"[110X  is  used to specify that the result of the procedure
+        call  should  be  stored on the server, and the server should return a
+        remote object (see [14X6.5[114X ) pointing to that result (that is, a cookie);[133X
+  
+  [30X    [33X[0;6Y[10Xoutput:="nothing"[110X  is  used  to specify that the server is supposed to
+        reply  with  a  [10Xprocedure_completed[110X message carrying no object just to
+        signal   that   the   call   was   completed   successfully  (for  the
+        compatibility,  this  will  be  evaluated  to  a [10X"procedure completed"[110X
+        string on the client's side);[133X
+  
+  [30X    [33X[0;6Y[10Xcd:="cdname"[110X is used to specify that the [5XOpenMath[105X symbol corresponding
+        to  the  first  argument [3Xcommand[103X should be looked up in the particular
+        content  dictionary  [10Xcdname[110X.  Otherwise,  it will be looked for in the
+        default  content  dictionary  ([10Xscscp_transient_1[110X  for  the  [5XGAP[105X  [5XSCSCP[105X
+        server);[133X
+  
+  [30X    [33X[0;6Y[10Xdebuglevel:=N[110X  is  used  to  obtain  additional information attributes
+        together  with the result. The [5XGAP[105X [5XSCSCP[105X server does the following: if
+        [10XN=1[110X,  it  will  report  about the CPU time in milliseconds required to
+        compute  the  result;  if  [10XN=2[110X  it  will additionally report about the
+        amount  of  memory  used  by  [5XGAP[105X in bytes will be returned (using the
+        output of [2XMemoryUsageByGAPinKbytes[102X ([14X9.3-4[114X) converted to bytes); if [10XN=3[110X
+        it  will additionally report the amount of memory in bytes used by the
+        resulting  object  and its subobjects (using the output of [2XMemoryUsage[102X
+        ([14XReference: MemoryUsage[114X)).[133X
+  
+  [33X[0;0YSee [2XCompleteProcess[102X ([14X6.2-3[114X) and [2XEvaluateBySCSCP[102X ([14X6.3-1[114X) for examples.[133X
+  
+  [1X6.2-3 CompleteProcess[101X
+  
+  [29X[2XCompleteProcess[102X( [3Xprocess[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
+  
+  [33X[0;0YThe function waits, if necessary, until the underlying stream of the process
+  will contain some data, then reads the appropriate [5XOpenMath[105X object from this
+  stream and closes it.[133X
+  
+  [33X[0;0YIt has the option [10Xoutput[110X which may have two values:[133X
+  
+  [30X    [33X[0;6Y[10Xoutput:="cookie"[110X has the same meaning as for the [2XNewProcess[102X ([14X6.2-2[114X)[133X
+  
+  [30X    [33X[0;6Y[10Xoutput:="tree"[110X  is  used  to specify that the result obtained from the
+        server   should  be  returned  as  an  XML  parsed  tree  without  its
+        evaluation.[133X
+  
+  [33X[0;0YIn  the  following  example  we  demonstrate combination of the two previous
+  functions   to   send   request   and  get  result,  calling  the  procedure
+  [10XWS_Factorial[110X, installed in the previous chapter:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xs := NewProcess( "WS_Factorial", [10], "localhost", 26133 );                  [127X[104X
+    [4X[28X< process at localhost:26133 pid=52918 >[128X[104X
+    [4X[25Xgap>[125X [27Xx := CompleteProcess(s);[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],[128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSee  more  examples  in  the  description  of  the  function [2XEvaluateBySCSCP[102X
+  ([14X6.3-1[114X),  which  combines  the two previous functions by sending request and
+  getting result in one call.[133X
+  
+  [1X6.2-4 TerminateProcess[101X
+  
+  [29X[2XTerminateProcess[102X( [3Xprocess[103X ) [32X function
+  
+  [33X[0;0YThe  function  is  supposed  to  send an [21Xout-of-band[121X interrupt signal to the
+  server.  Current  implementation  works  only  when the server is running as
+  [21Xlocalhost[121X  by  sending a [10XSIGINT[110X to the server using its PID contained in the
+  [3Xprocess[103X.  It will do nothing if the server is running remotely, as the [5XSCSCP[105X
+  specification  allows  the  server  to  ignore  interrupt  messages.  Remote
+  interrupts will be introduced in one of the next versions of the package.[133X
+  
+  
+  [1X6.3 [33X[0;0YAll-in-one tool: sending request and getting result[133X[101X
+  
+  [1X6.3-1 EvaluateBySCSCP[101X
+  
+  [29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
+  
+  [33X[0;0YIn the first form, [3Xcommand[103X and [10Xserver[110X are strings, [3Xlistargs[103X is a list of [5XGAP[105X
+  objects and [10Xport[110X is an integer.[133X
+  
+  [33X[0;0YIn  the  second form, an [5XSCSCP[105X connection in the category [2XNewSCSCPconnection[102X
+  ([14X6.1-2[114X) is used instead of [10Xserver[110X and [10Xport[110X.[133X
+  
+  [33X[0;0YCalls  the  SCSCP  procedure with the name [3Xcommand[103X and the list of arguments
+  [3Xlistargs[103X  at the server and port given by [10Xserver[110X and [10Xport[110X or encapsulated in
+  the [3Xconnection[103X.[133X
+  
+  [33X[0;0YSince   [2XEvaluateBySCSCP[102X  combines  [2XNewProcess[102X  ([14X6.2-2[114X)  and  [2XCompleteProcess[102X
+  ([14X6.2-3[114X),  it  accepts  all  options  which  may  be used by that functions (
+  [10Xoutput[110X, [10Xcd[110X and [10Xdebuglevel[110X ) with the same meanings.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);[127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X#I  Request sent ...[128X[104X
+    [4X[28X#I  Waiting for reply ...[128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], [128X[104X
+    [4X[28X  object := 3628800 )[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,0);[127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="cookie" ); [127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2442:jNQG6rml" ] ], [128X[104X
+    [4X[28X  object := < remote object scscp://localhost:26133/TEMPVarSCSCP5KZIeiKD > )[128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133 : output:="nothing" );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ], [128X[104X
+    [4X[28X  object := "procedure completed" )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow  we  demonstrate the procedure [10XGroupIdentificationService[110X, also given in
+  the previous chapter:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XG:=SymmetricGroup(4);[127X[104X
+    [4X[28XSym( [ 1 .. 4 ] )[128X[104X
+    [4X[25Xgap>[125X [27Xgens:=GeneratorsOfGroup(G);[127X[104X
+    [4X[28X[ (1,2,3,4), (1,2) ][128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "GroupIdentificationService", [ gens ],[127X[104X
+    [4X[25X>[125X [27X                    "localhost", 26133 : debuglevel:=3 ); [127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ], [128X[104X
+    [4X[28X      [ "info_runtime", 4 ], [ "info_memory", 2596114432 ], [128X[104X
+    [4X[28X      [ "info_message", "Memory usage for the result is 48 bytes" ] ], [128X[104X
+    [4X[28X  object := [ 24, 12 ] )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YService provider may suggest to the client to use a counterpart function[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIdGroupWS := function( G )[127X[104X
+    [4X[25X>[125X [27X   local H, result;[127X[104X
+    [4X[25X>[125X [27X   if not IsPermGroup(G) then[127X[104X
+    [4X[25X>[125X [27X     H:= Image( IsomorphismPermGroup( G ) );[127X[104X
+    [4X[25X>[125X [27X   else[127X[104X
+    [4X[25X>[125X [27X     H := G;[127X[104X
+    [4X[25X>[125X [27X   fi;  [127X[104X
+    [4X[25X>[125X [27X   result := EvaluateBySCSCP ( "GroupIdentificationService", [127X[104X
+    [4X[25X>[125X [27X               [ GeneratorsOfGroup(H) ], "localhost", 26133 );[127X[104X
+    [4X[25X>[125X [27X   return result.object;[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Ywhich works exactly like [2XIdGroup[102X ([14XReference: IdGroup[114X):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XG:=DihedralGroup(64);[127X[104X
+    [4X[28X<pc group of size 64 with 6 generators>[128X[104X
+    [4X[25Xgap>[125X [27XIdGroupWS(G);[127X[104X
+    [4X[28X[ 64, 52 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X6.4 [33X[0;0YSwitching between Binary and XML [5XOpenMath[105X[101X[1X Encodings[133X[101X
+  
+  [1X6.4-1 SwitchSCSCPmodeToBinary[101X
+  
+  [29X[2XSwitchSCSCPmodeToBinary[102X(  ) [32X function
+  [29X[2XSwitchSCSCPmodeToXML[102X(  ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YThe [5XOpenMath[105X package supports both binary and XML encodings for [5XOpenMath[105X. To
+  switch  between  them, use [2XSwitchSCSCPmodeToBinary[102X and [2XSwitchSCSCPmodeToXML[102X.
+  When  the  package  is  loaded,  the  mode  is  initially set to XML. On the
+  clients's  side, you can change the mode back and forth as many times as you
+  wish  during the same [5XSCSCP[105X session. The server will autodetect the mode and
+  will  response  in  the same format, so one does not need to set the mode on
+  the server's side.[133X
+  
+  [33X[0;0YFor example, let us create a vector over [22XGF(3)[122X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xx := [ Z(3)^0, Z(3), 0*Z(3) ];[127X[104X
+    [4X[28X[ Z(3)^0, Z(3), 0*Z(3) ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe XML [5XOpenMath[105X encoding of such objects is quite bulky:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XOMString( x );[127X[104X
+    [4X[28X"<OMOBJ> <OMA> <OMS cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name\[128X[104X
+    [4X[28X=\"power\"/> <OMA> <OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</\[128X[104X
+    [4X[28XOMI> </OMA> <OMI>0</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA\[128X[104X
+    [4X[25X>[125X [27X<OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>\[127X[104X
+    [4X[28X1</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfi\[128X[104X
+    [4X[28Xeld1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </\[128X[104X
+    [4X[28XOMA> </OMOBJ>"[128X[104X
+    [4X[25Xgap>[125X [27XLength( OMString(x) );[127X[104X
+    [4X[28X452[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  call  the  [5XSCSCP[105X  procedure [10XIdentity[110X just to test how this object may be
+  sent  back  and forth. The total length of the procedure call message is 969
+  symbols:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,3);[127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP("Identity",[x],"localhost",26133);[127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\[128X[104X
+    [4X[28X6133:42448" scscp_versions="1.0 1.1 1.2 1.3" ?>[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X#I  Composing procedure_call message: [128X[104X
+    [4X[28X<?scscp start ?>[128X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X  <OMATTR>[128X[104X
+    [4X[28X    <OMATP>[128X[104X
+    [4X[28X      <OMS cd="scscp1" name="call_id"/>[128X[104X
+    [4X[28X      <OMSTR>localhost:26133:42448:IOs9ZkBU</OMSTR>[128X[104X
+    [4X[28X      <OMS cd="scscp1" name="option_return_object"/>[128X[104X
+    [4X[28X      <OMSTR></OMSTR>[128X[104X
+    [4X[28X    </OMATP>[128X[104X
+    [4X[28X    <OMA>[128X[104X
+    [4X[28X      <OMS cd="scscp1" name="procedure_call"/>[128X[104X
+    [4X[28X      <OMA>[128X[104X
+    [4X[28X        <OMS cd="scscp_transient_1" name="Identity"/>[128X[104X
+    [4X[28X          <OMA>[128X[104X
+    [4X[28X            <OMS cd="list1" name="list"/>[128X[104X
+    [4X[28X            <OMA>[128X[104X
+    [4X[28X            <OMS cd="arith1" name="power"/>[128X[104X
+    [4X[28X            <OMA>[128X[104X
+    [4X[28X              <OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X              <OMI>3</OMI>[128X[104X
+    [4X[28X            </OMA>[128X[104X
+    [4X[28X            <OMI>0</OMI>[128X[104X
+    [4X[28X          </OMA>[128X[104X
+    [4X[28X          <OMA>[128X[104X
+    [4X[28X            <OMS cd="arith1" name="power"/>[128X[104X
+    [4X[28X            <OMA>[128X[104X
+    [4X[28X              <OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X              <OMI>3</OMI>[128X[104X
+    [4X[28X            </OMA>[128X[104X
+    [4X[28X            <OMI>1</OMI>[128X[104X
+    [4X[28X          </OMA>[128X[104X
+    [4X[28X          <OMA>[128X[104X
+    [4X[28X            <OMS cd="arith1" name="times"/>[128X[104X
+    [4X[28X            <OMA>[128X[104X
+    [4X[28X              <OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X              <OMI>3</OMI>[128X[104X
+    [4X[28X            </OMA>[128X[104X
+    [4X[28X            <OMI>0</OMI>[128X[104X
+    [4X[28X          </OMA>[128X[104X
+    [4X[28X        </OMA>[128X[104X
+    [4X[28X      </OMA>[128X[104X
+    [4X[28X    </OMA>[128X[104X
+    [4X[28X  </OMATTR>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X<?scscp end ?>[128X[104X
+    [4X[28X#I  Total length 969 characters [128X[104X
+    [4X[28X...[128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:42448:IOs9ZkBU" ] ], [128X[104X
+    [4X[28X  object := [ Z(3)^0, Z(3), 0*Z(3) ] )[128X[104X
+    [4X[28X  [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow we switch to binary mode:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XSwitchSCSCPmodeToBinary();[127X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP("Identity",[x],"localhost",26133);[127X[104X
+    [4X[28X#I  Creating a socket ...[128X[104X
+    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
+    [4X[28X#I  Got connection initiation message[128X[104X
+    [4X[28X#I  <?scscp service_name="GAP" service_version="4.dev" service_id="localhost:2\[128X[104X
+    [4X[28X6133:42448" scscp_versions="1.0 1.1 1.2 1.3" ?>[128X[104X
+    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
+    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
+    [4X[28X#I  Composing procedure_call message: [128X[104X
+    [4X[28X3C3F7363736370207374617274203F3E0A18121408060773637363703163616C6C5F6964061E6C\[128X[104X
+    [4X[28X6F63616C686F73743A32363133333A34323434383A3256675A5562755A0806147363736370316F\[128X[104X
+    [4X[28X7074696F6E5F72657475726E5F6F626A6563740600151008060E73637363703170726F63656475\[128X[104X
+    [4X[28X72655F63616C6C1008110873637363705F7472616E7369656E745F314964656E74697479100805\[128X[104X
+    [4X[28X046C697374316C69737410080605617269746831706F7765721008091166696E6669656C643170\[128X[104X
+    [4X[28X72696D69746976655F656C656D656E7401031101001110080605617269746831706F7765721008\[128X[104X
+    [4X[28X091166696E6669656C64317072696D69746976655F656C656D656E740103110101111008060561\[128X[104X
+    [4X[28X726974683174696D65731008091166696E6669656C64317072696D69746976655F656C656D656E\[128X[104X
+    [4X[28X7401031101001111111113193C3F736373637020656E64203F3E0A[128X[104X
+    [4X[28X#I  Total length 339 bytes [128X[104X
+    [4X[28X#I  Request sent ...[128X[104X
+    [4X[28X#I  Waiting for reply ...[128X[104X
+    [4X[28X#I  <?scscp start ?>[128X[104X
+    [4X[28X#I  Got back: object [ Z(3)^0, Z(3), 0*Z(3) ] with attributes [128X[104X
+    [4X[28X[ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ][128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ], [128X[104X
+    [4X[28X  object := [ Z(3)^0, Z(3), 0*Z(3) ] )[128X[104X
+    [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,3);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  we  can  see, the size of the message is almost three times shorter, and
+  this  is not the limit. Switching to binary [5XOpenMath[105X encoding in combination
+  with  pickling  and unpickling from [5XIO[105X package (see in the last Chapter) and
+  special  methods  for  pickling  compressed  vectors implemented in the [5XCvec[105X
+  available  in  [5XGAP[105X 4.5 allow to dramatically reduce the overhead for vectors
+  and  matrices  over finite fields, making a roundtrip up to a thousand times
+  faster.[133X
+  
+  
+  [1X6.5 [33X[0;0YRemote objects[133X[101X
+  
+  [33X[0;0YThe  [5XSCSCP[105X  package  introduces  new  kind of objects - [13Xremote objects[113X. They
+  provide an opportunity to manipulate with objects on remote services without
+  their  actual  transmitting  over  the  network.  Remote  objects  store the
+  information  that  allows to access the original object: the server name and
+  the  port  number through which the object can be accessed, and the variable
+  name  under  which it is stored in the remote system. Two remote objects are
+  equal if and only if all these three parameters coincide.[133X
+  
+  [33X[0;0YThere are two types of remote object which differ by their lifetime:[133X
+  
+  [30X    [33X[0;6Ytemporary remote objects which exist only within a single session;[133X
+  
+  [30X    [33X[0;6Ypersistent remote objects which stay alive across multiple sessions.[133X
+  
+  [33X[0;0YFirst  we  show the example of the temporary remote object in a session. The
+  procedure  [10XPointImages[110X  returns  the  set  of  images of a point [22Xi[122X under the
+  generators  of  the  group [22XG[122X. First we create the symmetric group [22XS_3[122X on the
+  client  and store it remotely on the server (call 1), then we compute set of
+  images  for  [22Xi=1,2[122X  (calls 2,3) and finally demonstrate that we may retrieve
+  the group from the server (call 4):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xstream:=InputOutputTCPStream( "localhost", 26133 );[127X[104X
+    [4X[28X< input/output TCP stream to localhost:26133 >[128X[104X
+    [4X[25Xgap>[125X [27XStartSCSCPsession(stream);[127X[104X
+    [4X[28X"localhost:26133:6184"[128X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCall( stream, "store_session", [127X[104X
+    [4X[25X>[125X [27X      rec( object := [ SymmetricGroup(3) ], [127X[104X
+    [4X[25X>[125X [27X       attributes := [ [ "call_id", "1" ], [127X[104X
+    [4X[25X>[125X [27X                       ["option_return_cookie"] ] ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSCSCPwait( stream );[127X[104X
+    [4X[25Xgap>[125X [27XG:=OMGetObjectWithAttributes( stream ).object;[127X[104X
+    [4X[28X< remote object scscp://localhost:26133/TEMPVarSCSCPo3Bc8J75 >[128X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCall( stream, "PointImages", [127X[104X
+    [4X[25X>[125X [27X      rec( object := [ G, 1 ], [127X[104X
+    [4X[25X>[125X [27X       attributes := [ [ "call_id", "2" ] ] ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSCSCPwait( stream );[127X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes( stream );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "2" ] ], object := [ 2 ] )[128X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCall( stream, "PointImages", [127X[104X
+    [4X[25X>[125X [27X      rec( object := [ G, 2 ], [127X[104X
+    [4X[25X>[125X [27X       attributes := [ [ "call_id", "3" ] ] ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSCSCPwait( stream );[127X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes( stream );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "3" ] ], object := [ 1, 3 ] )[128X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCall( stream, "retrieve", [127X[104X
+    [4X[25X>[125X [27X      rec( object := [ G ], [127X[104X
+    [4X[25X>[125X [27X       attributes := [ [ "call_id", "4" ] ] ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSCSCPwait( stream );[127X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes( stream );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "4" ] ], [128X[104X
+    [4X[28X  object := Group([ (1,2,3), (1,2) ]) )[128X[104X
+    [4X[25Xgap>[125X [27XCloseStream(stream);[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter the stream is closed, it is no longer possible to retrieve the group [22XG[122X
+  again or use it as an argument.[133X
+  
+  [33X[0;0YThus,  the  usage  of  remote  objects existing during a session reduces the
+  network  traffic,  since  we pass only references instead of actual [5XOpenMath[105X
+  representation  of  an  object.  Also,  the  remote object on the server may
+  accumulate  certain  information in its properties and attributes, which may
+  not be included in it default [5XOpenMath[105X representation.[133X
+  
+  [33X[0;0YNow  we  show remote objects which remain alive after the session is closed.
+  Such remote objects may be accessed later, for example, by:[133X
+  
+  [30X    [33X[0;6Ysubsequent  procedure  calls  from the same instance of [5XGAP[105X or another
+        system;[133X
+  
+  [30X    [33X[0;6Yother  instances  of  [5XGAP[105X  or another systems (if the identifier of an
+        object is known)[133X
+  
+  [30X    [33X[0;6Yanother  [5XSCSCP[105X servers which obtained a reference to such object as an
+        argument of a procedure call.[133X
+  
+  [1X6.5-1 StoreAsRemoteObjectPersistently[101X
+  
+  [29X[2XStoreAsRemoteObjectPersistently[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [29X[2XStoreAsRemoteObject[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yremote object[133X
+  
+  [33X[0;0YReturns the remote object corresponding to the object created at [3Xserver[103X[10X:[110X[3Xport[103X
+  from  the [5XOpenMath[105X representation of the first argument [3Xobj[103X. The second form
+  is just a synonym.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xs:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );[127X[104X
+    [4X[28X< remote object scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3 >[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YInternally,  the remote object carries all the information which is required
+  to get access to the original object: its identifier, server and port:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xs![1]; [127X[104X
+    [4X[28X"TEMPVarSCSCPLvIUUtL3"[128X[104X
+    [4X[25Xgap>[125X [27Xs![2];[127X[104X
+    [4X[28X"localhost"[128X[104X
+    [4X[25Xgap>[125X [27Xs![3];[127X[104X
+    [4X[28X26133[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWhen  the  remote object is printed in the [5XOpenMath[105X format, we use symbols [10X@[110X
+  and [10X:[110X to combine these parameters in the [5XOpenMath[105X reference:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XOMPrint(s);[127X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X      <OMR href="scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3" />[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  allows substitution of remote object as arguments into procedure calls
+  in the same manner like we do this with usual objects:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  [127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],[128X[104X
+    [4X[28XLine 183 : [128X[104X
+    [4X[28X  object := [ 6, 1 ] )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X6.5-2 IsRemoteObject[101X
+  
+  [29X[2XIsRemoteObject[102X[32X filter
+  
+  [33X[0;0YThis is the category of remote objects.[133X
+  
+  [1X6.5-3 RemoteObjectsFamily[101X
+  
+  [29X[2XRemoteObjectsFamily[102X[32X family
+  
+  [33X[0;0YThis is the family of remote objects.[133X
+  
+  [1X6.5-4 RetrieveRemoteObject[101X
+  
+  [29X[2XRetrieveRemoteObject[102X( [3Xremoteobject[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yobject[133X
+  
+  [33X[0;0YThis  function  retrieves  the  remote object from the remote service in the
+  [5XOpenMath[105X format and constructs it locally. Note, however, that for a complex
+  mathematical  object its default [5XOpenMath[105X representation may not contain all
+  information  about it which was accumulated during its lifetime on the [5XSCSCP[105X
+  server.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XRetrieveRemoteObject(s);[127X[104X
+    [4X[28XGroup([ (1,2,3), (1,2) ])[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X6.5-5 UnbindRemoteObject[101X
+  
+  [29X[2XUnbindRemoteObject[102X( [3Xremoteobject[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YRemoves  any  value  currently  bound  to  the global variable determined by
+  [3Xremoteobject[103X  at  the [5XSCSCP[105X server, and returns [9Xtrue[109X or [9Xfalse[109X dependently on
+  whether this action was successful or not.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XUnbindRemoteObject(s);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFinally,  we  show  an  example  when first we create a group on the service
+  running  on  port 26133, and then identify it on the service running on port
+  26134:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xs:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );[127X[104X
+    [4X[28X< remote object scscp://localhost:26133/TEMPVarSCSCPNqc8Bkan >[128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );[127X[104X
+    [4X[28Xrec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YInstead  of  transmitting  the group to the client and then sending it as an
+  argument  to  the  second service, the latter service directly retrieves the
+  group from the first service:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XEvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : output:="cookie" );[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ], [128X[104X
+    [4X[28X  object := < remote object scscp://localhost:26133/TEMPVarSCSCPS9SVe9PZ > )[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  

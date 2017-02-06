@@ -1,0 +1,274 @@
+  
+  [1X4 [33X[0;0YMessage exchange by [5XSCSCP[105X[101X[1X[133X[101X
+  
+  [33X[0;0YTo ensure the message exchange as required by [5XSCSCP[105X specification, the [5XSCSCP[105X
+  package extends the global record [10XOMsymRecord[110X from the [5XOpenMath[105X package with
+  new  entries  to  support [5Xscscp1[105X and [5Xscscp2[105X content dictionaries ([FHKLLRa],
+  [FHKLR]),  and also service-dependent transient private content dictionaries
+  (see  Chapter  [14X5[114X  for details about transient content dictionaries). It also
+  overwrites   some  [5XOpenMath[105X  functions  by  their  extended  (but  backwards
+  compatible)  versions,  and adds some new [5XOpenMath[105X-related functions to send
+  and receive [5XSCSCP[105X messages, documented below.[133X
+  
+  [33X[0;0YNote  that  functions  documented in this chapter belong to the middle-level
+  interface,  and  the  user  may  find  it  more  convenient to use functions
+  developed on top of them and explained in next chapters.[133X
+  
+  
+  [1X4.1 [33X[0;0YCommunication with the [5XSCSCP[105X[101X[1X server[133X[101X
+  
+  [1X4.1-1 StartSCSCPsession[101X
+  
+  [29X[2XStartSCSCPsession[102X( [3Xstream[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ystring[133X
+  
+  [33X[0;0YInitialises  [5XSCSCP[105X  session and negotiates with the server about the version
+  of  the  protocol. Returns the string with the [10Xservice_id[110X (which may be used
+  later  as  a  part of the call identifier) or causes an error message if can
+  not perform these tasks.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xs := InputOutputTCPStream("localhost",26133);[127X[104X
+    [4X[28X< input/output TCP stream to localhost:26133 >[128X[104X
+    [4X[25Xgap>[125X [27XStartSCSCPsession(s);[127X[104X
+    [4X[28X"localhost:26133:5541"[128X[104X
+    [4X[25Xgap>[125X [27XCloseStream( s );[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter  the  call  to  [2XStartSCSCPsession[102X  the [5XSCSCP[105X server is ready to accept
+  procedure calls.[133X
+  
+  [1X4.1-2 OMPutProcedureCall[101X
+  
+  [29X[2XOMPutProcedureCall[102X( [3Xstream[103X, [3Xproc_name[103X, [3Xobjrec[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YTakes  a stream [3Xstream[103X, the string [3Xproc_name[103X and a record [3Xobjrec[103X, and writes
+  to [3Xstream[103X an [5XOpenMath[105X object [10Xprocedure_call[110X for the procedure [3Xproc_name[103X with
+  arguments  given by the list [10Xobjrec.object[110X and procedure call options (which
+  should   be   encoded   as   [5XOpenMath[105X   attributes)   given   in   the  list
+  [10Xobjrec.attributes[110X.[133X
+  
+  [33X[0;0YThis function accepts options [10Xcd[110X and [10Xdebuglevel[110X.[133X
+  
+  [33X[0;0Y[10Xcd:="cdname"[110X  may  be  used to specify the name of the content dictionary if
+  the  procedure  is actually a standard [5XOpenMath[105X symbol. Note that the server
+  may  reject  such  a  call  if  it accepts only calls of procedures from the
+  transient   content   dictionary,   see  [2XInstallSCSCPprocedure[102X  ([14X5.1-1[114X)  for
+  explanation).  If  the  [10Xcdname[110X  is  not specified, [10Xscscp_transient_1[110X content
+  dictionary will be assumed by default. The value of the [10Xdebuglevel[110X option is
+  an integer. If it is non-zero, the [10Xprocedure_completed[110X message will carry on
+  also  some  additional  information about the call, for example, runtime and
+  memory used.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xt:="";; stream:=OutputTextString(t,true);;[127X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ], [127X[104X
+    [4X[25X>[125X [27X     attributes:=[ [ "call_id", "user007" ], [127X[104X
+    [4X[25X>[125X [27X                   ["option_runtime",1000],[127X[104X
+    [4X[25X>[125X [27X                   ["option_min_memory",1024], [127X[104X
+    [4X[25X>[125X [27X                   ["option_max_memory",2048],[127X[104X
+    [4X[25X>[125X [27X                   ["option_debuglevel",1], [127X[104X
+    [4X[25X>[125X [27X                   ["option_return_object"] ] ) );;[127X[104X
+    [4X[25Xgap>[125X [27XPrint(t);[127X[104X
+    [4X[28X<?scscp start ?>[128X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X	<OMATTR>[128X[104X
+    [4X[28X		<OMATP>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
+    [4X[28X			<OMSTR>user007</OMSTR>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_runtime"/>[128X[104X
+    [4X[28X			<OMI>1000</OMI>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_min_memory"/>[128X[104X
+    [4X[28X			<OMI>1024</OMI>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_max_memory"/>[128X[104X
+    [4X[28X			<OMI>2048</OMI>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_debuglevel"/>[128X[104X
+    [4X[28X			<OMI>1</OMI>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="option_return_object"/>[128X[104X
+    [4X[28X			<OMSTR></OMSTR>[128X[104X
+    [4X[28X		</OMATP>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="procedure_call"/>[128X[104X
+    [4X[28X			<OMA>[128X[104X
+    [4X[28X				<OMS cd="scscp_transient_1" name="WS_Factorial"/>[128X[104X
+    [4X[28X				<OMI>5</OMI>[128X[104X
+    [4X[28X			</OMA>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X	</OMATTR>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X<?scscp end ?>[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-3 SCSCPwait[101X
+  
+  [29X[2XSCSCPwait[102X( [3Xstream[103X[, [3Xtimeout[103X] ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YThis  function may be used by the [5XSCSCP[105X client to wait (using [2XIO_select[102X ([14XIO:
+  IO_select[114X))  until  the  result of the procedure call will be available from
+  [3Xstream[103X. By default the timeout is one hour, to specify another value give it
+  as  the optional second argument in seconds. See the end of this chapter for
+  the example.[133X
+  
+  [1X4.1-4 OMGetObjectWithAttributes[101X
+  
+  [29X[2XOMGetObjectWithAttributes[102X( [3Xstream[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X, or [9Xfail[109X[133X
+  
+  [33X[0;0YThis  function  is  similar  to  the  function [10XOMGetObject[110X from the [5XOpenMath[105X
+  package,  and  the main difference is that it is able to understand [5XOpenMath[105X
+  attribution  pairs. It retrieves exactly one [5XOpenMath[105X object from the stream
+  [3Xstream[103X, and stores it in the [10Xobject[110X component of the returned record. If the
+  [5XOpenMath[105X  object has no attributes, the [10Xattributes[110X component of the returned
+  record   will   be   an   empty   list,  otherwise  it  will  contain  pairs
+  [10X[attribute_name,attribute_value][110X,  where  [10Xattribute_name[110X  is  a  string, and
+  [10Xattribute_value[110X  is a [5XGAP[105X object, whose type is determined by the kind of an
+  attribute.  Only  attributes, defined by the SCSCP are allowed, otherwise an
+  error message will be displayed.[133X
+  
+  [33X[0;0YIf the procedure was not successful, the function returns [9Xfail[109X instead of an
+  error  message  like  the function [2XOMGetObject[102X ([14XOpenMath: OMGetObject[114X) does.
+  Returning  [9Xfail[109X  is  useful  when  [10XOMGetObjectWithAttributes[110X  is used inside
+  accept-evaluate-return loop.[133X
+  
+  [33X[0;0YAs  an example, the file [11Xscscp/tst/omdemo.om[111X contains some [5XOpenMath[105X objects,
+  including those from the SCSCP Specification [FHKLLRb]. We can retrieve them
+  from  this  file,  preliminary  installing  some  SCSCP procedures using the
+  function [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure("WS_Factorial", Factorial );[127X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure("GroupIdentificationService", IdGroup );[127X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure("GroupByIdNumber", SmallGroup );[127X[104X
+    [4X[25Xgap>[125X [27XInstallSCSCPprocedure( "Length", Length, 1, 1 );[127X[104X
+    [4X[25Xgap>[125X [27Xtest:=Filename( Directory( Concatenation([127X[104X
+    [4X[25X>[125X [27X        GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/tst/" ) ), [127X[104X
+    [4X[25X>[125X [27X        "omdemo.om" );;[127X[104X
+    [4X[25Xgap>[125X [27Xstream:=InputTextFile(test);;[127X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream); [127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  attributes := [ [ "option_return_object", "" ], [ "call_id", "5rc6rtG62" ] ][128X[104X
+    [4X[28X    , object := 6 )[128X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream);[127X[104X
+    [4X[28Xrec( attributes := [  ], object := 1 )[128X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream);[127X[104X
+    [4X[28Xrec( attributes := [  ], object := 120 )[128X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream);[127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  attributes := [ [ "call_id", "alexk_9053" ], [ "option_runtime", 300000 ], [128X[104X
+    [4X[28X      [ "option_min_memory", 40964 ], [ "option_max_memory", 134217728 ], [128X[104X
+    [4X[28X      [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ],[128X[104X
+    [4X[28X  object := [ 24, 12 ] )[128X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream);[127X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  attributes := [ [ "call_id", "alexk_9053" ], [ "option_return_cookie", "" ] [128X[104X
+    [4X[28X     ], object := <pc group of size 24 with 4 generators> )[128X[104X
+    [4X[25Xgap>[125X [27XOMGetObjectWithAttributes(stream);[127X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "alexk_9053" ], [ "info_runtime", 1234 ], [128X[104X
+    [4X[28X      [ "info_memory", 134217728 ] ], object := [ 24, 12 ] )[128X[104X
+    [4X[25Xgap>[125X [27XCloseStream( stream );[127X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.2 [33X[0;0YCommunication with the [5XSCSCP[105X[101X[1X client[133X[101X
+  
+  [1X4.2-1 OMPutProcedureCompleted[101X
+  
+  [29X[2XOMPutProcedureCompleted[102X( [3Xstream[103X, [3Xobjrec[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X[133X
+  
+  [33X[0;0YTakes a stream [3Xstream[103X, and a record [3Xobjrec[103X, and writes to [3Xstream[103X an [5XOpenMath[105X
+  object   [10Xprocedure_completed[110X   with   the  result  being  [10Xobjrec.object[110X  and
+  information   messages   (as   [5XOpenMath[105X   attributes)   given  in  the  list
+  [10Xobjrec.attributes[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xt:="";; stream:=OutputTextString(t,true);;[127X[104X
+    [4X[25Xgap>[125X [27XOMPutProcedureCompleted( stream, [127X[104X
+    [4X[25X>[125X [27X     rec(object:=120, [127X[104X
+    [4X[25X>[125X [27X     attributes:=[ [ "call_id", "user007" ] ] ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XPrint(t);[127X[104X
+    [4X[28X<?scscp start ?>[128X[104X
+    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X	<OMATTR>[128X[104X
+    [4X[28X		<OMATP>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
+    [4X[28X			<OMSTR>user007</OMSTR>[128X[104X
+    [4X[28X		</OMATP>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="scscp1" name="procedure_completed"/>[128X[104X
+    [4X[28X			<OMI>120</OMI>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X	</OMATTR>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
+    [4X[28X<?scscp end ?>[128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-2 OMPutProcedureTerminated[101X
+  
+  [29X[2XOMPutProcedureTerminated[102X( [3Xstream[103X, [3Xobjrec[103X, [3Xerror_cd[103X, [3Xerror_type[103X ) [32X function
+  [6XReturns:[106X  [33X[0;10Ynothing[133X
+  
+  [33X[0;0YTakes  a  stream  [3Xstream[103X,  and  a  record  with an error message [3Xobjrec[103X (for
+  example [10Xrec( attributes := [ [ "call_id", "localhost:26133:87643:gcX33cCf" ]
+  ],[110X  [10Xobject := "localhost:26133 reports : Rational operations: <divisor> must
+  not   be   zero")[110X   and   writes   to   the   [3Xstream[103X   an   [5XOpenMath[105X  object
+  [10Xprocedure_terminated[110X containing an error determined by the symbol [3Xerror_type[103X
+  from   the   content   dictionary   [3Xerror_cd[103X   (for  example,  [10Xerror_memory[110X,
+  [10Xerror_runtime[110X  or  [10Xerror_system_specific[110X  from the [5Xscscp1[105X content dictionary
+  ([FHKLLRa]).[133X
+  
+  [33X[0;0YThis  is the internal function of the package which is used only in the code
+  for the [5XSCSCP[105X server to return the error message to the client.[133X
+  
+  
+  [1X4.3 [33X[0;0YExample: [5XSCSCP[105X[101X[1X session[133X[101X
+  
+  [33X[0;0YIn the following example we start an [5XSCSCP[105X session and perform ten procedure
+  calls  in  a  loop before closing that session. Note that we demonstrate the
+  usage  of the session ID [10Xsid[110X and the function [10XRandomString[110X from the [5XOpenMath[105X
+  package  to  produce some unique call identifier. The call ID is a mandatory
+  attribute for any procedure call, however, it is not nesessarily random; for
+  example, it may be just a string with the number of the procedure call.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27Xstream:=InputOutputTCPStream( "localhost", 26133 );[127X[104X
+    [4X[28X< input/output TCP stream to localhost:26133 >[128X[104X
+    [4X[25Xgap>[125X [27Xsid := StartSCSCPsession( stream );[127X[104X
+    [4X[28X"localhost:26133:5541"[128X[104X
+    [4X[25Xgap>[125X [27Xres:=[];[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27Xfor i in [1..10] do[127X[104X
+    [4X[25X>[125X [27X    OMPutProcedureCall( stream, "WS_Factorial", [127X[104X
+    [4X[25X>[125X [27X      rec( object := [ i ], [127X[104X
+    [4X[25X>[125X [27X       attributes := [ [ "call_id", [127X[104X
+    [4X[25X>[125X [27X         Concatenation( sid, ":", RandomString(8) ) ] ] ) );[127X[104X
+    [4X[25X>[125X [27X    SCSCPwait( stream );[127X[104X
+    [4X[25X>[125X [27X    res[i]:=OMGetObjectWithAttributes( stream ).object;[127X[104X
+    [4X[25X>[125X [27Xod;[127X[104X
+    [4X[25Xgap>[125X [27XCloseStream(stream);[127X[104X
+    [4X[25Xgap>[125X [27Xres;[127X[104X
+    [4X[28X[ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAlso  note  the  usage  of [2XSCSCPwait[102X ([14X4.1-3[114X) to wait until the result of the
+  computation will be available from [10Xstream[110X.[133X
+  
+  [33X[0;0YIn  this  example  we  assumed  that  there  is  an  [5XSCSCP[105X server running at
+  [10Xlocalhost[110X,  port 26133. In the next chapter we will explain how to configure
+  and  run  a  [5XGAP[105X [5XSCSCP[105X server and how to interrogate it from a [5XGAP[105X client to
+  learn  about  its  functionality. After that, we will proceed with the [5XSCSCP[105X
+  client functionality for the end-user.[133X
+  
