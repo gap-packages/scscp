@@ -29,7 +29,7 @@ and &OpenMath; <Cite Key="openmath"/>.
 
 The &SCSCP; package is distributed in standard formats (<File>tar.gz</File>, 
 <File>tar.bz2</File>) and can be obtained from 
-<URL>http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm</URL> or from the &GAP; 
+<URL>https://gap-packages.github.io/scscp/</URL> or from the &GAP; 
 web site (the latter also offers <File>zoo</File>- and <File>win.zip</File>-archives.
 To unpack the <File>zoo</File>-archive the program <File>unzoo</File> is needed,
 which can be obtained from the &GAP; homepage <URL>http://www.gap-system.org/</URL> 

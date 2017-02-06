@@ -9,17 +9,25 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.1.4",
-Date := "17/11/2013",
+Version := "2.2.0",
+Date := "06/02/2017",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.1.4">
-##  <!ENTITY RELEASEDATE "17 November 2013">
-##  <!ENTITY RELEASEYEAR "2013">
+##  <!ENTITY VERSION "2.2.0">
+##  <!ENTITY RELEASEDATE "6 February 2017">
+##  <!ENTITY RELEASEYEAR "2017">
 ##  <#/GAPDoc>
 
-PackageWWWHome := "http://www.cs.st-andrews.ac.uk/~alexk/scscp/",
-
-ArchiveURL := Concatenation( ~.PackageWWWHome, "scscp-", ~.Version ),
+SourceRepository := rec(
+    Type := "git",
+    URL := Concatenation( "https://github.com/gap-packages/", LowercaseString(~.PackageName) ),
+),
+IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
+PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", LowercaseString(~.PackageName) ),
+README_URL      := Concatenation( ~.PackageWWWHome, "/README" ),
+PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
+ArchiveURL      := Concatenation( ~.SourceRepository.URL,
+                                 "/releases/download/v", ~.Version,
+                                 "/", ~.PackageName, "-", ~.Version ),
 ArchiveFormats := ".tar.gz",
 
 #TextFiles := ["init.g", ......],
@@ -31,7 +39,7 @@ Persons := [
     FirstNames    := "Alexander",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "alexk@mcs.st-andrews.ac.uk",
+    Email         := "alexander.konovalov@st-andrews.ac.uk",
     WWWHome       := "http://www.cs.st-andrews.ac.uk/~alexk/",
     PostalAddress := Concatenation( [
                      "School of Computer Science\n",
@@ -64,17 +72,6 @@ AcceptDate := "08/2010",
  
 AbstractHTML := "This package implements the <a href=\"http://www.symbolic-computing.org/scscp\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
 
-README_URL := 
-  Concatenation( ~.PackageWWWHome, "README.md" ),
-PackageInfoURL := 
-  Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-
-SourceRepository := rec( 
-  Type := "git", 
-  URL := "https://github.com/gap-packages/scscp"
-),
-IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-
 PackageDoc := rec(
   BookName := "SCSCP",
   ArchiveURLSubset := ["doc"],
@@ -87,9 +84,9 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">=4.8.2",
-  NeededOtherPackages := [ ["GAPDoc", ">= 1.3"], 
-                           ["openmath", ">= 11.0.0"],
-                           ["IO", ">= 3.0"] ],
+  NeededOtherPackages := [ ["GAPDoc", ">= 1.5"], 
+                           ["openmath", ">= 11.4.0"],
+                           ["IO", ">= 4.4"] ],
   SuggestedOtherPackages := [],
   ExternalConditions := []
 ),

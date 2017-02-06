@@ -76,7 +76,7 @@ for the computational algebra system &GAP;.
   A. Konovalov and S. Linton. 
   <E>SCSCP --- Symbolic Computation Software Composability Protocol, 
   Version &VERSION;;</E> &RELEASEYEAR; 
-  (<URL>http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm</URL>).
+  (<URL>https://gap-packages.github.io/scscp/</URL>).
 </Copyright>
   
 <Acknowledgements>
