@@ -65,7 +65,7 @@ AcceptDate := "08/2010",
 AbstractHTML := "This package implements the <a href=\"http://www.symbolic-computing.org/scscp\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
 
 README_URL := 
-  Concatenation( ~.PackageWWWHome, "README" ),
+  Concatenation( ~.PackageWWWHome, "README.md" ),
 PackageInfoURL := 
   Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 
