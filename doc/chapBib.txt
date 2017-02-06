@@ -2,29 +2,37 @@
   
   [1XReferences[101X
   
-  [[20XBL07[120X]  [16XBerthold,  J.  and  Loogen,  R.[116X, [17XVisualizing Parallel Functional Program Runs --- Case Studies with the Eden Trace
-  Viewer[117X,  in  Parallel  Computing:  Architectures, Algorithms and Applications. Proceedings of the International Conference
-  ParCo 2007, IOS Press, Advances in Parallel Computing, [19X15[119X (2007).
+  [[20XBL07[120X]  [16XBerthold, J. and Loogen, R.[116X, [17XVisualizing Parallel Functional Program
+  Runs  ---  Case  Studies  with the Eden Trace Viewer[117X, in Parallel Computing:
+  Architectures, Algorithms and Applications. Proceedings of the International
+  Conference ParCo 2007, IOS Press, Advances in Parallel Computing, [19X15[119X (2007).
   
-  [[20XCKS[120X]  [16XCostantini,  M.,  Konovalov,  A.  and  Solomon,  A.[116X,  [17XOpenMath  ---  OpenMath  functionality in GAP[117X, {GAP4} package
+  [[20XCKS[120X]  [16XCostantini,  M., Konovalov, A. and Solomon, A.[116X, [17XOpenMath --- OpenMath
+  functionality           in           GAP[117X,           {GAP4}           package
   (\url{http://www.cs.st-andrews.ac.uk/~alexk/openmath.htm}).
   
-  [[20XFHKLLRa[120X] [16XFreundt, S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and Roozemond, D.[116X, [17XOpenMath content dictionary \tt
-  scscp1[117X, (\url{http://www.win.tue.nl/SCIEnce/cds/scscp1.html}).
+  [[20XFHKLLRa[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
+  Roozemond,     D.[116X,     [17XOpenMath     content     dictionary    \tt    scscp1[117X,
+  (\url{http://www.win.tue.nl/SCIEnce/cds/scscp1.html}).
   
-  [[20XFHKLLRb[120X]  [16XFreundt,  S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and Roozemond, D.[116X, [17XSymbolic Computation Software
-  Composability Protocol (SCSCP) specification, Version 1.3, 2009[117X, (\url{http://www.symbolic-computing.org/scscp}).
+  [[20XFHKLLRb[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
+  Roozemond,  D.[116X, [17XSymbolic Computation Software Composability Protocol (SCSCP)
+  specification,                Version               1.3,               2009[117X,
+  (\url{http://www.symbolic-computing.org/scscp}).
   
-  [[20XFHKLR[120X]  [16XFreundt,  S.,  Horn,  P.,  Konovalov,  A.,  Linton, S. and Roozemond, D.[116X, [17XOpenMath content dictionary \tt scscp2[117X,
+  [[20XFHKLR[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Linton, S. and Roozemond, D.[116X,
+  [17XOpenMath           content          dictionary          \tt          scscp2[117X,
   (\url{http://www.win.tue.nl/SCIEnce/cds/scscp2.html}).
   
-  [[20XGNO[120X]    [16XGamble,    G.,    Nickel,    W.    and    O'Brien,    E.[116X,    [17XANUPQ    ---    ANU   p-Quotient[117X,   {GAP4}   package
-  (\url{http://www.math.rwth-aachen.de/~Greg.Gamble/ANUPQ/}).
+  [[20XGNO[120X]  [16XGamble,  G.,  Nickel,  W.  and O'Brien, E.[116X, [17XANUPQ --- ANU p-Quotient[117X,
+  {GAP4} package (\url{http://www.math.rwth-aachen.de/~Greg.Gamble/ANUPQ/}).
   
-  [[20XLN[120X]   [16XL\"ubeck,   F.   and   Neunh\"offer,  M.[116X,  [17XGAPDoc  ---  A  Meta  Package  for  GAP  Documentation[117X,  {GAP4}  package
+  [[20XLN[120X]  [16XL\"ubeck,  F.  and Neunh\"offer, M.[116X, [17XGAPDoc --- A Meta Package for GAP
+  Documentation[117X,                         {GAP4}                        package
   (\url{http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc}).
   
-  [[20XNeu[120X]     [16XNeunh\"offer,    M.[116X,    [17XIO    ---    Bindings    for    low    level    C    library    IO[117X,    {GAP4}    package
+  [[20XNeu[120X]  [16XNeunh\"offer,  M.[116X, [17XIO --- Bindings for low level C library IO[117X, {GAP4}
+  package
   (\url{http://www-groups.mcs.st-and.ac.uk/~neunhoef/Computer/Software/Gap/io.html}).
   
   

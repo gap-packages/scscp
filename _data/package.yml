@@ -29,7 +29,7 @@ needed-pkgs:
       url: "https://gap-packages.github.io/io"
 
 www: https://gap-packages.github.io/scscp
-readme: README
+readme: README.md
 packageinfo: https://gap-packages.github.io/scscp/PackageInfo.g
 
 downloads:
