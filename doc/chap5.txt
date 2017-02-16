@@ -179,10 +179,10 @@
   [30X    [33X[0;6Ywhen  [3Xservertype[103X is [9Xfalse[109X, the server will be started at [11Xlocalhost[111X and
         will not accept any incoming connections from outside;[133X
   
-  [30X    [33X[0;6Ywhen      [3Xservertype[103X      is      a      string,      for     example,
-        [11X"scscp.symbolic-computing.org"[111X,  the server will be accessible only by
-        specified  server name (this may be useful to manage accessibility if,
-        for example, the hardware has several network interfaces).[133X
+  [30X    [33X[0;6Ywhen  [3Xservertype[103X is a string, for example, [11X"scscp.gap-system.org"[111X, the
+        server  will  be accessible only by specified server name (this may be
+        useful  to  manage  accessibility  if,  for  example, the hardware has
+        several network interfaces).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
@@ -224,10 +224,10 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XGetServiceDescription( "localhost", 26133 );[127X[104X
-    [4X[28Xrec([128X[104X
-    [4X[28X  description := "Started with the demo file scscp/example/myserver.g \[128X[104X
-    [4X[28X  on Sat  8 Oct 2011 17:24:13 BST", service_name := "GAP SCSCP service",[128X[104X
-    [4X[28X  version := "GAP 4.4.12 + SCSCP 2.0.0" )[128X[104X
+    [4X[28Xrec( [128X[104X
+    [4X[28X  description := "Started with the configuration file scscp/example/myserver.g\[128X[104X
+    [4X[28X  on Thu 16 Feb 2017 16:03:56 GMT", service_name := "GAP SCSCP service", [128X[104X
+    [4X[28X  version := "GAP 4.8.6 + SCSCP 2.2.1" )[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
@@ -249,12 +249,21 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XGetAllowedHeads("localhost",26133);[127X[104X
-    [4X[28Xrec( scscp_transient_1 := [ "GroupIdentificationService", [128X[104X
-    [4X[28X      "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "PointImages", [128X[104X
-    [4X[28X      "QuillenSeriesByIdGroup", "SCSCPStartTracing", "SCSCPStopTracing", [128X[104X
-    [4X[28X      "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", "WS_FactorsECM", [128X[104X
-    [4X[28X      "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", "WS_FactorsTD", [128X[104X
-    [4X[28X      "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )[128X[104X
+    [4X[28Xrec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE", [128X[104X
+    [4X[28X      "Determinant", "GroupIdentificationService", [128X[104X
+    [4X[28X      "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "Identity", [128X[104X
+    [4X[28X      "IsPrimeInt", "Length", "MathieuGroup", "MatrixGroup", [128X[104X
+    [4X[28X      "NormalizedUnitCFcommutator", "NormalizedUnitCFpower", [128X[104X
+    [4X[28X      "NrConjugacyClasses", "NrSmallGroups", "NumberCFGroups", [128X[104X
+    [4X[28X      "NumberCFSolvableGroups", "PointImages", "QuillenSeriesByIdGroup", [128X[104X
+    [4X[28X      "ResetMinimumDistanceService", "SCSCPStartTracing", "SCSCPStopTracing", [128X[104X
+    [4X[28X      "Size", "SylowSubgroup", "WS_AlternatingGroup", "WS_AutomorphismGroup", [128X[104X
+    [4X[28X      "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", [128X[104X
+    [4X[28X      "WS_FactorsECM", "WS_FactorsMPQS", "WS_FactorsPminus1", [128X[104X
+    [4X[28X      "WS_FactorsPplus1", "WS_FactorsTD", "WS_IdGroup", "WS_LatticeSubgroups",[128X[104X
+    [4X[28X      "WS_Mult", "WS_MultMatrix", "WS_Phi", "WS_PrimitiveGroup", [128X[104X
+    [4X[28X      "WS_SmallGroup", "WS_SymmetricGroup", "WS_TransitiveGroup", "addition" [128X[104X
+    [4X[28X     ] )[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
@@ -278,7 +287,9 @@
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XIsAllowedHead( "permgp1", "group", "localhost", 26133 );[127X[104X
     [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XIsAllowedHead( "nums1", "pi", "localhost", 26133 );[127X[104X
+    [4X[25Xgap>[125X [27XIsAllowedHead( "setname1", "Q", "localhost", 26133 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsAllowedHead( "setname1", "R", "localhost", 26133 );[127X[104X
     [4X[28Xfalse[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
@@ -301,7 +312,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XGetTransientCD( "scscp_transient_1", "localhost", 26133 );[127X[104X
-    [4X[28Xrec( CDDate := "2011-10-08", [128X[104X
+    [4X[28Xrec( CDDate := "2017-02-08", [128X[104X
     [4X[28X  CDDefinitions := [128X[104X
     [4X[28X    [ rec( Description := "Size is currently undocumented.", Name := "Size" ),[128X[104X
     [4X[28X      rec( Description := "Length is currently undocumented.", [128X[104X
@@ -311,7 +322,7 @@
     [4X[28X...[128X[104X
     [4X[28X      rec( Description := "MatrixGroup is currently undocumented.", [128X[104X
     [4X[28X          Name := "MatrixGroup" ) ], CDName := "scscp_transient_1", [128X[104X
-    [4X[28X  CDReviewDate := "2011-10-08", CDRevision := "0", CDStatus := "private", [128X[104X
+    [4X[28X  CDReviewDate := "2017-02-08", CDRevision := "0", CDStatus := "private", [128X[104X
     [4X[28X  CDVersion := "0", [128X[104X
     [4X[28X  Description := "This is a transient CD for the GAP SCSCP service" )[128X[104X
     [4X[28X[128X[104X

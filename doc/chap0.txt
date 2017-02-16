@@ -6,10 +6,10 @@
               [1XSymbolic Computation Software Composability Protocol[101X
   
   
-                                 Version 2.2.0
+                                 Version 2.2.1
   
   
-                                6 February 2017
+                                16 February 2017
   
   
                               Alexander Konovalov
@@ -19,7 +19,7 @@
   
   
   Alexander Konovalov
-      Email:    [7Xmailto:alexk at mcs dot st-andrews dot ac dot uk[107X
+      Email:    [7Xmailto:alexander dot konovalov at st-andrews dot ac dot uk[107X
       Homepage: [7Xhttp://www.cs.st-andrews.ac.uk/~alexk/[107X
       Address:  [33X[0;14YSchool of Computer Science[133X
                 [33X[0;14YUniversity of St Andrews[133X
@@ -61,15 +61,19 @@
   [5XSCSCP[105X, please cite it in the following form:[133X
   
   [33X[0;0YA.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
-  Composability          Protocol,         Version         2.2.0;[113X         2017
+  Composability          Protocol,         Version         2.2.1;[113X         2017
   ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
   
   
   -------------------------------------------------------
   [1XAcknowledgements[101X
-  [33X[0;0YThe  project  026133  "SCIEnce  -  Symbolic  Computation  Infrastructure for
-  Europe"  ([7Xhttp://www.symbolic-computing.org/[107X)  is  supported  by  the EU FP6
-  Programme.[133X
+  [33X[0;0YThe development of the [5XSCSCP[105X package has been supported by:[133X
+  
+  [30X    [33X[0;6YEU  FP6  Programme  project  026133  [21XSCIEnce  -  Symbolic  Computation
+        Infrastructure for Europe[121X (see [7Xhttp://www.symbolic-computing.org/[107X).[133X
+  
+  [30X    [33X[0;6YOpenDreamKit  Horizon  2020  European Research Infrastructures project
+        #676541 (see [7Xhttp://opendreamkit.org/[107X).[133X
   
   
   -------------------------------------------------------
@@ -93,6 +97,8 @@
   [30X    [33X[0;6YVersion 2.0 - October 2011.[133X
   
   [30X    [33X[0;6YVersion 2.1 - March 2012.[133X
+  
+  [30X    [33X[0;6YVersion 2.2 - February 2017.[133X
   
   
   -------------------------------------------------------

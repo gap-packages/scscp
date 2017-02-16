@@ -106,7 +106,7 @@
     [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
     [4X[28X#I  Composing procedure_call message: [128X[104X
     [4X[28X<?scscp start ?>[128X[104X
-    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">[128X[104X
     [4X[28X	<OMATTR>[128X[104X
     [4X[28X		<OMATP>[128X[104X
     [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
@@ -129,7 +129,7 @@
     [4X[28X#I  Waiting for reply ...[128X[104X
     [4X[28X#I  <?scscp start ?>[128X[104X
     [4X[28X#I Received message: [128X[104X
-    [4X[28X<OMOBJ>[128X[104X
+    [4X[28X<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">[128X[104X
     [4X[28X	<OMATTR>[128X[104X
     [4X[28X		<OMATP>[128X[104X
     [4X[28X			<OMS cd="scscp1" name="call_id"/>[128X[104X
@@ -226,7 +226,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XDateISO8601();[127X[104X
-    [4X[28X"2011-10-05"[128X[104X
+    [4X[28X"2017-02-05"[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
@@ -241,7 +241,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XCurrentTimestamp();[127X[104X
-    [4X[28X"Tue 30 Mar 2010 11:19:38 BST"[128X[104X
+    [4X[28X"Tue 30 Jan 2017 11:19:38 BST"[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
@@ -258,7 +258,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XHostname();[127X[104X
-    [4X[28X"scscp.symbolic-computing.co.uk"[128X[104X
+    [4X[28X"scscp.gap-system.org"[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
@@ -294,7 +294,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XLastReceivedCallID();[127X[104X
-    [4X[28X"scscp.symbolic-computing.co.uk:26133:77372:choDZBgA"[128X[104X
+    [4X[28X"scscp.gap-system.org:26133:77372:choDZBgA"[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
