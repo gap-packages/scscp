@@ -17,7 +17,6 @@ LogTo(); # to close log file if it was opened from .gaprc
 LoadPackage("scscp");
 LoadPackage("factint");
 LoadPackage("anupq");
-LoadPackage("monoid");
 LoadPackage("cvec");
 LoadPackage("cubefree");
 
@@ -244,24 +243,6 @@ InstallSCSCPprocedure(
          SCSCPMINDISTG, SCSCPMINDISTF, SCSCPMINDISTzero, i, 1) ) );
                            
                            
-#############################################################################
-#
-# some private code which may be missing in your installation
-# 
-if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") ) then
-	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/private.g") );
-fi;
-
-if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/orbits.g") ) then
-	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/orbits.g") );
-fi;
-
-if IsExistingFile( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/rewrite.g") ) then
-	Read( Concatenation( GAPInfo.PackagesInfo.("scscp")[1].InstallationPath,"/example/rewrite.g") );
-	InstallSCSCPprocedure( "RewritabilityWorker", RewritabilityWorker );
-fi;
-
-
 #############################################################################
 #
 # Finally, we start the SCSCP server. 
