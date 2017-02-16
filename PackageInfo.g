@@ -9,11 +9,11 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.2.0",
-Date := "06/02/2017",
+Version := "2.2.1",
+Date := "16/02/2017",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.2.0">
-##  <!ENTITY RELEASEDATE "6 February 2017">
+##  <!ENTITY VERSION "2.2.1">
+##  <!ENTITY RELEASEDATE "16 February 2017">
 ##  <!ENTITY RELEASEYEAR "2017">
 ##  <#/GAPDoc>
 
@@ -54,7 +54,7 @@ Persons := [
     FirstNames    := "Steve",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "sal@dcs.st-and.ac.uk",
+    Email         := "sal@cs.st-and.ac.uk",
     WWWHome       := "http://www.cs.st-and.ac.uk/~sal/",
     PostalAddress := Concatenation( [
                      "School of Computer Science\n",
@@ -85,7 +85,7 @@ PackageDoc := rec(
 Dependencies := rec(
   GAP := ">=4.8.2",
   NeededOtherPackages := [ ["GAPDoc", ">= 1.5"], 
-                           ["openmath", ">= 11.4.0"],
+                           ["openmath", ">= 11.4.1"],
                            ["IO", ">= 4.4"] ],
   SuggestedOtherPackages := [],
   ExternalConditions := []

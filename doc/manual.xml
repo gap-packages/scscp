@@ -21,7 +21,7 @@
   <Version>Version &VERSION;</Version>
 
   <Author>Alexander Konovalov
-          <Email>alexk at mcs dot st-andrews dot ac dot uk</Email>
+          <Email>alexander dot konovalov at st-andrews dot ac dot uk</Email>
 	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
           <Address>
             School of Computer Science<Br/>
@@ -80,8 +80,14 @@ for the computational algebra system &GAP;.
 </Copyright>
   
 <Acknowledgements>
-The project 026133 "SCIEnce - Symbolic Computation Infrastructure for Europe" 
-(<URL>http://www.symbolic-computing.org/</URL>) is supported by the EU FP6 Programme.
+The development of the &SCSCP; package has been supported by:
+<List>
+  <Item>EU FP6 Programme project 026133
+  <Q>SCIEnce - Symbolic Computation Infrastructure for Europe</Q>
+  (see <URL>http://www.symbolic-computing.org/</URL>).</Item>
+  <Item>OpenDreamKit Horizon 2020 European Research Infrastructures project #676541
+  (see <URL>http://opendreamkit.org/</URL>).</Item>
+</List>
 </Acknowledgements>
 
 <Colophon>
@@ -96,6 +102,7 @@ Versions history:
 <Item>Version 1.2 - March 2010.</Item>
 <Item>Version 2.0 - October 2011.</Item>
 <Item>Version 2.1 - March 2012.</Item>
+<Item>Version 2.2 - February 2017.</Item>
 </List> 
 </Colophon>
 
