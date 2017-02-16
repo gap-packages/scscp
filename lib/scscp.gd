@@ -76,7 +76,7 @@
 ##  #I  Server confirmed version 1.3 to the client ...
 ##  #I  Composing procedure_call message: 
 ##  <?scscp start ?>
-##  <OMOBJ>
+##  <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 ##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
@@ -99,7 +99,7 @@
 ##  #I  Waiting for reply ...
 ##  #I  <?scscp start ?>
 ##  #I Received message: 
-##  <OMOBJ>
+##  <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 ##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
@@ -391,7 +391,7 @@ DeclareGlobalFunction( "InstallSCSCPprocedure" );
 ##       </Item>
 ##       <Item>
 ##           when <A>servertype</A> is a string, for example,
-##           <File>"scscp.symbolic-computing.org"</File>, the server will 
+##           <File>"scscp.gap-system.org"</File>, the server will 
 ##           be accessible only by specified server name (this may be useful
 ##           to manage accessibility if, for example,
 ##           the hardware has several network interfaces). 
@@ -688,12 +688,21 @@ DeclareGlobalFunction( "ParListWithSCSCP" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetAllowedHeads("localhost",26133);
-##  rec( scscp_transient_1 := [ "GroupIdentificationService", 
-##        "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "PointImages", 
-##        "QuillenSeriesByIdGroup", "SCSCPStartTracing", "SCSCPStopTracing", 
-##        "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", "WS_FactorsECM", 
-##        "WS_FactorsMPQS", "WS_FactorsPminus1", "WS_FactorsPplus1", "WS_FactorsTD", 
-##        "WS_IdGroup", "WS_Karatsuba", "WS_Phi" ] )
+##  rec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE", 
+##        "Determinant", "GroupIdentificationService", 
+##        "IO_UnpickleStringAndPickleItBack", "IdGroup512ByCode", "Identity", 
+##        "IsPrimeInt", "Length", "MathieuGroup", "MatrixGroup", 
+##        "NormalizedUnitCFcommutator", "NormalizedUnitCFpower", 
+##        "NrConjugacyClasses", "NrSmallGroups", "NumberCFGroups", 
+##        "NumberCFSolvableGroups", "PointImages", "QuillenSeriesByIdGroup", 
+##        "ResetMinimumDistanceService", "SCSCPStartTracing", "SCSCPStopTracing", 
+##        "Size", "SylowSubgroup", "WS_AlternatingGroup", "WS_AutomorphismGroup", 
+##        "WS_ConwayPolynomial", "WS_Factorial", "WS_FactorsCFRAC", 
+##        "WS_FactorsECM", "WS_FactorsMPQS", "WS_FactorsPminus1", 
+##        "WS_FactorsPplus1", "WS_FactorsTD", "WS_IdGroup", "WS_LatticeSubgroups",
+##        "WS_Mult", "WS_MultMatrix", "WS_Phi", "WS_PrimitiveGroup", 
+##        "WS_SmallGroup", "WS_SymmetricGroup", "WS_TransitiveGroup", "addition" 
+##       ] )
 ##  ]]>
 ##  </Example>    
 ##  </Description>
@@ -721,10 +730,10 @@ DeclareGlobalFunction( "GetAllowedHeads" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetServiceDescription( "localhost", 26133 );
-##  rec(
-##    description := "Started with the demo file scscp/example/myserver.g \
-##    on Sat  8 Oct 2011 17:24:13 BST", service_name := "GAP SCSCP service",
-##    version := "GAP 4.4.12 + SCSCP 2.0.0" )
+##  rec( 
+##    description := "Started with the configuration file scscp/example/myserver.g\
+##    on Thu 16 Feb 2017 16:03:56 GMT", service_name := "GAP SCSCP service", 
+##    version := "GAP 4.8.6 + SCSCP 2.2.1" )
 ##  ]]>
 ##  </Example>    
 ##  </Description>
@@ -800,7 +809,7 @@ DeclareGlobalFunction( "GetSignature" );
 ##  <Example>
 ##  <![CDATA[
 ##  gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
-##  rec( CDDate := "2011-10-08", 
+##  rec( CDDate := "2017-02-08", 
 ##    CDDefinitions := 
 ##      [ rec( Description := "Size is currently undocumented.", Name := "Size" ),
 ##        rec( Description := "Length is currently undocumented.", 
@@ -810,7 +819,7 @@ DeclareGlobalFunction( "GetSignature" );
 ##  ...
 ##        rec( Description := "MatrixGroup is currently undocumented.", 
 ##            Name := "MatrixGroup" ) ], CDName := "scscp_transient_1", 
-##    CDReviewDate := "2011-10-08", CDRevision := "0", CDStatus := "private", 
+##    CDReviewDate := "2017-02-08", CDRevision := "0", CDStatus := "private", 
 ##    CDVersion := "0", 
 ##    Description := "This is a transient CD for the GAP SCSCP service" )
 ##  ]]>
@@ -849,7 +858,9 @@ DeclareGlobalFunction( "GetTransientCD" );
 ##  <![CDATA[
 ##  gap> IsAllowedHead( "permgp1", "group", "localhost", 26133 );
 ##  true
-##  gap> IsAllowedHead( "nums1", "pi", "localhost", 26133 );
+##  gap> IsAllowedHead( "setname1", "Q", "localhost", 26133 );
+##  true
+##  gap> IsAllowedHead( "setname1", "R", "localhost", 26133 );
 ##  false
 ##  ]]>
 ##  </Example>  

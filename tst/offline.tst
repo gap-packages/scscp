@@ -12,7 +12,7 @@ gap> OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ],
 >                    ["option_return_object"] ] ) );;
 gap> Print(t);
 <?scscp start ?>
-<OMOBJ>
+<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 	<OMATTR>
 		<OMATP>
 			<OMS cd="scscp1" name="call_id"/>

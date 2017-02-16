@@ -24,7 +24,7 @@
 ##  <Log>
 ##  <![CDATA[
 ##  gap> DateISO8601();
-##  "2011-10-05"
+##  "2017-02-05"
 ##  ]]>
 ##  </Log>
 ##  </Description>
@@ -57,7 +57,7 @@ end);
 ##  <Log>
 ##  <![CDATA[
 ##  gap> CurrentTimestamp();
-##  "Tue 30 Mar 2010 11:19:38 BST"
+##  "Tue 30 Jan 2017 11:19:38 BST"
 ##  ]]>
 ##  </Log>
 ##  </Description>
@@ -91,7 +91,7 @@ end);
 ##  <Log>
 ##  <![CDATA[
 ##  gap> Hostname();
-##  "scscp.symbolic-computing.co.uk"
+##  "scscp.gap-system.org"
 ##  ]]>
 ##  </Log>     
 ##  </Description>
@@ -164,7 +164,7 @@ end);
 ##  <Log>
 ##  <![CDATA[
 ##  gap> LastReceivedCallID();
-##  "scscp.symbolic-computing.co.uk:26133:77372:choDZBgA"
+##  "scscp.gap-system.org:26133:77372:choDZBgA"
 ##  ]]>
 ##  </Log> 
 ##  </Description>

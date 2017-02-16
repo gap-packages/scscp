@@ -122,15 +122,15 @@ The XML &OpenMath; encoding of such objects is quite bulky:
 <Example>
 <![CDATA[
 gap> OMString( x );
-"<OMOBJ> <OMA> <OMS cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name\
-=\"power\"/> <OMA> <OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</\
-OMI> </OMA> <OMI>0</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA\
-> <OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>\
-1</OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfi\
-eld1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </\
-OMA> </OMOBJ>"
+"<OMOBJ xmlns=\"http://www.openmath.org/OpenMath\" version=\"2.0\"> <OMA> <OMS\
+ cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> \
+<OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0<\
+/OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> <OMS cd=\"finfiel\
+d1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>1</OMI> </OMA> <OMA\
+> <OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfield1\" name=\"primi\
+tive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </OMA> </OMOBJ>"
 gap> Length( OMString(x) );
-452
+507
 ]]>
 </Example>
 We call the &SCSCP; procedure <C>Identity</C> just to test how this object
@@ -149,7 +149,7 @@ gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 #I  Server confirmed version 1.3 to the client ...
 #I  Composing procedure_call message: 
 <?scscp start ?>
-<OMOBJ>
+<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
   <OMATTR>
     <OMATP>
       <OMS cd="scscp1" name="call_id"/>

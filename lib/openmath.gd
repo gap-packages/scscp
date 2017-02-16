@@ -129,7 +129,7 @@ DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 ##  >                    ["option_return_object"] ] ) );;
 ##  gap> Print(t);
 ##  <?scscp start ?>
-##  <OMOBJ>
+##  <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 ##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
@@ -190,7 +190,7 @@ DeclareGlobalFunction( "OMPutProcedureCall" );
 ##  true
 ##  gap> Print(t);
 ##  <?scscp start ?>
-##  <OMOBJ>
+##  <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 ##  	<OMATTR>
 ##  		<OMATP>
 ##  			<OMS cd="scscp1" name="call_id"/>
