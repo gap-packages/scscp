@@ -526,7 +526,9 @@ if IsBound( node.attributes.href ) then
     if SCSCPserverMode then
       # check that the object is on the same server
       if [server,port]=[SCSCPserverAddress,SCSCPserverPort] then
-        if IsBoundGlobal( name ) then
+        if IsBoundGlobal( name ) and
+           Length( name ) > 12 and
+           StartsWith( name, "TEMPVarSCSCP" ) then
           if SCSCP_UNBIND_MODE then
             SCSCP_UNBIND_MODE := false;
           	return name;
