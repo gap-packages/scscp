@@ -154,7 +154,7 @@ SCSCP_CURRENT_SESSION_STREAM := tcpstream;
 
 pos1 := PositionNthOccurrence(session_id,':',2);
 if pos1 <> fail then
-    pid := EvalString( session_id{[ pos1+1 .. Length(session_id) ]} );
+    pid := Int( session_id{[ pos1+1 .. Length(session_id) ]} );
 else
     pid:=0;
 fi;
