@@ -20,14 +20,27 @@ r := Filtered( r.content, OMIsNotDummyLeaf );
 if r[1].attributes.name = "symbol_set" then
   res := rec();
   for i in [ 2.. Length(r) ] do
-    if not IsBound( res.(r[i].attributes.cd ) )then
-      res.( r[i].attributes.cd ) := [];
+    if not IsBound( r[i].attributes.cd ) then
+      # case of <OMA><OMS name="CDName" cd="meta"/><OMSTR>cdname</OMSTR></OMA>
+      if IsBound(r[i].content) and Length(r[i].content)=2 then
+        if r[i].content[1].attributes = rec( cd := "meta", name := "CDName" ) then
+          res.(r[i].content[2].content[1].content) := true;
+        else
+	      Error( "Can not parse OpenMath object (expecting meta.CDName)\n" );
+        fi;
+      else
+	    Error( "Can not parse OpenMath object! (expecting OMA with two children)\n" );
+      fi;
+    else
+      if not IsBound( res.(r[i].attributes.cd ) )then
+        res.( r[i].attributes.cd ) := [];
+      fi;
+      AddSet( res.( r[i].attributes.cd ), r[i].attributes.name );
     fi;
-    AddSet( res.( r[i].attributes.cd ), r[i].attributes.name );
   od;  
   return res;
 else
-	Error( "Can not parse OpenMath object! \n" );
+	Error( "Can not parse OpenMath object (expecting symbol_set)\n" );
 fi;
 end);
 

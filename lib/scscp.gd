@@ -677,10 +677,14 @@ DeclareGlobalFunction( "ParListWithSCSCP" );
 ##  </Returns>	 
 ##  <Description>
 ##  Returns the record with components corresponding to content dictionaries.
-##  Each component is a list of names of symbols from the corresponding content
+##  The name of each component is the name of the content dictionary, and its
+##  the value is either a boolean or a list of strings. In case it's value is
+##  a list, it contains names of symbols from the corresponding content
 ##  dictionary which are allowed to appear as a <Q>head</Q> symbol (i.e. the
 ##  first child of the outermost <C>&lt;OMA></C>) in an &SCSCP; procedure call
-##  to the &SCSCP; server running at <A>server</A><C>:</C><A>port</A>.
+##  to the &SCSCP; server running at <A>server</A><C>:</C><A>port</A>. If it's
+##  value is <K>true</K>, it means the server allows all symbols from the
+##  corresponding content dictionary.
 ##  <P/>
 ##  Note that it is acceptable (although not quite desirable) 
 ##  for a server to <Q>overstate</Q> the set of symbols it accepts 
