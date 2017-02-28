@@ -248,7 +248,7 @@ rec(
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetAllowedHeads</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: record</p>
 
-<p>Returns the record with components corresponding to content dictionaries. Each component is a list of names of symbols from the corresponding content dictionary which are allowed to appear as a "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code>) in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>.</p>
+<p>Returns the record with components corresponding to content dictionaries. The name of each component is the name of the content dictionary, and its the value is either a boolean or a list of strings. In case it's value is a list, it contains names of symbols from the corresponding content dictionary which are allowed to appear as a "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code>) in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. If it's value is <code class="keyw">true</code>, it means the server allows all symbols from the corresponding content dictionary.</p>
 
 <p>Note that it is acceptable (although not quite desirable) for a server to "overstate" the set of symbols it accepts and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later.</p>
 

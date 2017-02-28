@@ -237,10 +237,13 @@
   [6XReturns:[106X  [33X[0;10Yrecord[133X
   
   [33X[0;0YReturns  the  record  with components corresponding to content dictionaries.
-  Each  component is a list of names of symbols from the corresponding content
-  dictionary  which  are  allowed  to  appear as a [21Xhead[121X symbol (i.e. the first
-  child of the outermost [10X<OMA>[110X) in an [5XSCSCP[105X procedure call to the [5XSCSCP[105X server
-  running at [3Xserver[103X[10X:[110X[3Xport[103X.[133X
+  The  name  of  each component is the name of the content dictionary, and its
+  the  value is either a boolean or a list of strings. In case it's value is a
+  list, it contains names of symbols from the corresponding content dictionary
+  which  are  allowed  to appear as a [21Xhead[121X symbol (i.e. the first child of the
+  outermost  [10X<OMA>[110X)  in an [5XSCSCP[105X procedure call to the [5XSCSCP[105X server running at
+  [3Xserver[103X[10X:[110X[3Xport[103X.  If  it's value is [9Xtrue[109X, it means the server allows all symbols
+  from the corresponding content dictionary.[133X
   
   [33X[0;0YNote  that  it  is acceptable (although not quite desirable) for a server to
   [21Xoverstate[121X  the set of symbols it accepts and use standard [5XOpenMath[105X errors to

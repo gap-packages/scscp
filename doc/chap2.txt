@@ -4,19 +4,7 @@
   
   [1X2.1 [33X[0;0YInstallation and system requirements[133X[101X
   
-  [33X[0;0YThe  [5XSCSCP[105X  client  for  [5XGAP[105X  is fully functional under [5XGAP[105X 4.4 and works in
-  UNIX/Linux environments, Mac OS X (UNIX installation) and MS Windows.[133X
-  
-  [33X[0;0YThe [5XSCSCP[105X server for [5XGAP[105X works in UNIX/Linux environments and Mac OS X (UNIX
-  installation),  but  does  not work under MS Windows. It is fully functional
-  with   the   [5XGAP[105X   development  version  and  goes  automatically  into  the
-  compatibility  mode  to  work with [5XGAP[105X 4.4.12 and earlier versions. The only
-  limitation  of  this  compatibility mode is that in the case of an error the
-  break  loop  occurs  on  the server and can not be transmitted to the client
-  (however,  if  the service consumer is the service provider himself/herself,
-  then  this  is not as crucial as it might be in the general case). After the
-  [5XGAP[105X  4.5  release the package will fully be compatible with the official [5XGAP[105X
-  releases.[133X
+  [33X[0;0YBoth [5XSCSCP[105X client and server for [5XGAP[105X work in Linux, OS X and Windows.[133X
   
   [33X[0;0YTo  use the [5XSCSCP[105X package it is necessary to install recent versions of [5XGAP[105X4
   packages [5XIO[105X [Neu], [5XGAPDoc[105X [LN] and [5XOpenMath[105X [CKS].[133X
