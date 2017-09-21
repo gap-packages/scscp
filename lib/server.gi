@@ -93,7 +93,7 @@ if res = fail then
 else
     welcome_string:= Concatenation( 
           "<?scscp service_name=\"GAP\" service_version=\"", 
-          VERSION, "\" service_id=\"", servername, ":", 
+          GAPInfo.Version, "\" service_id=\"", servername, ":", 
           String(port), ":", String(IO_getpid()), 
           "\" scscp_versions=\"1.0 1.1 1.2 1.3\" ?>");
     Print( "#I  Ready to accept TCP/IP connections at ", 
