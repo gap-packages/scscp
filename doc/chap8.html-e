@@ -5,9 +5,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<script type="text/javascript"
-  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 <title>GAP (scscp) - Chapter 8: Parallel computing with SCSCP</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
@@ -18,30 +15,30 @@
 <body class="chap8"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9.html">[Next Chapter]</a>&nbsp;  </div>
 
-<p id="mathjaxlink" class="pcenter"><a href="chap8.html">[MathJax off]</a></p>
+<p id="mathjaxlink" class="pcenter"><a href="chap8_mj.html">[MathJax on]</a></p>
 <p><a id="X7C80E6FA7CB91D28" name="X7C80E6FA7CB91D28"></a></p>
-<div class="ChapSects"><a href="chap8_mj.html#X7C80E6FA7CB91D28">8 <span class="Heading">Parallel computing with <strong class="pkg">SCSCP</strong></span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8_mj.html#X7BB9C05286A1375B">8.1 <span class="Heading">Managing multiple requests</span></a>
+<div class="ChapSects"><a href="chap8.html#X7C80E6FA7CB91D28">8 <span class="Heading">Parallel computing with <strong class="pkg">SCSCP</strong></span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BB9C05286A1375B">8.1 <span class="Heading">Managing multiple requests</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X8249D1A9804C6E08">8.1-1 SynchronizeProcesses</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X7B56C3BB87C0A226">8.1-2 FirstProcess</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X7CDA73307ABE9998">8.1-3 SCSCPservers</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X8783850E81463D0F">8.1-4 ParQuickWithSCSCP</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X796D134181D7D8D9">8.1-5 FirstTrueProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8249D1A9804C6E08">8.1-1 SynchronizeProcesses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B56C3BB87C0A226">8.1-2 FirstProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CDA73307ABE9998">8.1-3 SCSCPservers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8783850E81463D0F">8.1-4 ParQuickWithSCSCP</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X796D134181D7D8D9">8.1-5 FirstTrueProcess</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8_mj.html#X7C1FD82A812DDBD0">8.2 <span class="Heading">MasterWorker skeleton</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7C1FD82A812DDBD0">8.2 <span class="Heading">MasterWorker skeleton</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X788208B57D4C497F">8.2-1 ParListWithSCSCP</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X8689C2B9840D7E3C">8.2-2 SCSCPreset</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8_mj.html#X84ACC8B4800D0E34">8.2-3 SCSCPLogTracesToGlobal</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X788208B57D4C497F">8.2-1 ParListWithSCSCP</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8689C2B9840D7E3C">8.2-2 SCSCPreset</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X84ACC8B4800D0E34">8.2-3 SCSCPLogTracesToGlobal</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8_mj.html#X78C5AEA07F961325">8.3 <span class="Heading">Example: parallelising Karatsuba multiplication for polynomials</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X78C5AEA07F961325">8.3 <span class="Heading">Example: parallelising Karatsuba multiplication for polynomials</span></a>
 </span>
 </div>
 </div>
@@ -62,7 +59,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SynchronizeProcesses</code>( <var class="Arg">proclist</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: list of records with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
-<p>The function collects results of from each process given in the argument, and returns the list, <span class="SimpleMath">\(i\)</span>-th entry of which is the result obtained from the <span class="SimpleMath">\(i\)</span>-th process. The function accepts both one argument that is a list of processes, and arbitrary number of arguments, each of them being a process.</p>
+<p>The function collects results of from each process given in the argument, and returns the list, <span class="SimpleMath">i</span>-th entry of which is the result obtained from the <span class="SimpleMath">i</span>-th process. The function accepts both one argument that is a list of processes, and arbitrary number of arguments, each of them being a process.</p>
 
 
 <div class="example"><pre>
@@ -109,7 +106,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPservers</code></td><td class="tdright">( global variable )</td></tr></table></div>
 <p><code class="func">SCSCPservers</code> is a list of hosts and ports to search for <strong class="pkg">SCSCP</strong> services (which may be not only represented by <strong class="pkg">GAP</strong> services, but also by another <strong class="pkg">SCSCP</strong>-compliant systems).</p>
 
-<p>It is used by parallel skeletons <code class="func">ParQuickWithSCSCP</code> (<a href="chap8_mj.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8_mj.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>).</p>
+<p>It is used by parallel skeletons <code class="func">ParQuickWithSCSCP</code> (<a href="chap8.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>).</p>
 
 <p>The initial value of this variable is specified in the file <code class="file">scscp/configpar.g</code> and may be reassigned later.</p>
 
@@ -120,9 +117,9 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParQuickWithSCSCP</code>( <var class="Arg">commands</var>, <var class="Arg">listargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: record with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
-<p>This function is constructed using the <code class="func">FirstProcess</code> (<a href="chap8_mj.html#X7B56C3BB87C0A226"><span class="RefLink">8.1-2</span></a>). It is useful when it is not known which partcular method is more efficient, because it allows to call in parallel several procedures (given by the list of their names <var class="Arg">commands</var>) with the same list of arguments <var class="Arg">listargs</var> (having the same meaning as in <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>)) and obtain the result of that procedure call which will be computed faster.</p>
+<p>This function is constructed using the <code class="func">FirstProcess</code> (<a href="chap8.html#X7B56C3BB87C0A226"><span class="RefLink">8.1-2</span></a>). It is useful when it is not known which partcular method is more efficient, because it allows to call in parallel several procedures (given by the list of their names <var class="Arg">commands</var>) with the same list of arguments <var class="Arg">listargs</var> (having the same meaning as in <code class="func">EvaluateBySCSCP</code> (<a href="chap6.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>)) and obtain the result of that procedure call which will be computed faster.</p>
 
-<p>In the example below we call two factorisation methods from the <strong class="pkg">GAP</strong> package <strong class="pkg">FactInt</strong> to factorise <span class="SimpleMath">\(2^{150}+1\)</span>. The example is selected in such a way that the runtime of these two methods is approximately the same, so you should expect results from both methods in some random order from repeated calls.</p>
+<p>In the example below we call two factorisation methods from the <strong class="pkg">GAP</strong> package <strong class="pkg">FactInt</strong> to factorise <span class="SimpleMath">2^150+1</span>. The example is selected in such a way that the runtime of these two methods is approximately the same, so you should expect results from both methods in some random order from repeated calls.</p>
 
 
 <div class="example"><pre>
@@ -198,7 +195,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 <li><p>if one of servers (i.e. workers) will be lost, it will retry the computation on another available server;</p>
 
 </li>
-<li><p>it allows to add dynamically new workers during the computation on hostnames and ports from a range perviously declared in <code class="func">SCSCPservers</code> (<a href="chap8_mj.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>).</p>
+<li><p>it allows to add dynamically new workers during the computation on hostnames and ports from a range perviously declared in <code class="func">SCSCPservers</code> (<a href="chap8.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>).</p>
 
 </li>
 </ul>
@@ -213,7 +210,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <p><code class="func">ParListWithSCSCP</code> implements the well-known master-worker skeleton: we have a master (<strong class="pkg">SCSCP</strong> client) and a number of workers (<strong class="pkg">SCSCP</strong> servers) which obtain pieces of work from the client, perform the required job and report back with the result, waiting for the next job.</p>
 
-<p>It returns the list of the same length as <var class="Arg">listargs</var>, <span class="SimpleMath">\(i\)</span>-th element of which is the result of calling the procedure <var class="Arg">procname</var> with the argument <var class="Arg">listargs[i]</var>.</p>
+<p>It returns the list of the same length as <var class="Arg">listargs</var>, <span class="SimpleMath">i</span>-th element of which is the result of calling the procedure <var class="Arg">procname</var> with the argument <var class="Arg">listargs[i]</var>.</p>
 
 <p>It accepts two options which should be given as non-negative integers: <code class="code">timeout</code> which specifies in minutes how long the client must wait for the result (if not given, the default value is one hour) and <code class="code">recallfrequency</code> which specifies the number of iterations after which the search for new services will be performed (if not given the default value is zero meaning no such search at all). There is also a boolean option <code class="code">noretry</code> which, if set to <code class="keyw">true</code>, means that no retrying calls will be performed if the timeout is exceeded and an incomplete resut may be returned.</p>
 
@@ -242,7 +239,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPreset</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>If an error occurs during a call of <code class="func">ParQuickWithSCSCP</code> (<a href="chap8_mj.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8_mj.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>), some of parallel requests may be still running at the remaining services, making them inaccessible for further procedure calls. <code class="func">SCSCPreset</code> resets them by closing all open streams to <strong class="pkg">SCSCP</strong> servers.</p>
+<p>If an error occurs during a call of <code class="func">ParQuickWithSCSCP</code> (<a href="chap8.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>), some of parallel requests may be still running at the remaining services, making them inaccessible for further procedure calls. <code class="func">SCSCPreset</code> resets them by closing all open streams to <strong class="pkg">SCSCP</strong> servers.</p>
 
 <p><a id="X84ACC8B4800D0E34" name="X84ACC8B4800D0E34"></a></p>
 
@@ -250,9 +247,9 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>( <var class="Arg">testname</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
-<p>To analyse the performance of parallel <strong class="pkg">SCSCP</strong> framework, we make use of the <strong class="pkg">EdenTV</strong> program <a href="chapBib_mj.html#biBEdenTV">[BL07]</a> developed initially to visualize the performance of parallel programs written in functional programming language Eden, and now distributed under the GNU Public License and available from <span class="URL"><a href="http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV">http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV</a></span>.</p>
+<p>To analyse the performance of parallel <strong class="pkg">SCSCP</strong> framework, we make use of the <strong class="pkg">EdenTV</strong> program <a href="chapBib.html#biBEdenTV">[BL07]</a> developed initially to visualize the performance of parallel programs written in functional programming language Eden, and now distributed under the GNU Public License and available from <span class="URL"><a href="http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV">http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV</a></span>.</p>
 
-<p>Called with the string containing the name of the test, this functions turns on writing information about key activity events into trace files in current directories for the client and servers listed <code class="func">SCSCPservers</code> (<a href="chap8_mj.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>). The trace file will have the name of the format <var class="Arg">testname</var><code class="code">.client.tr</code> for the client and <var class="Arg">testname</var><code class="code">.&lt;hostname&gt;.&lt;port&gt;.tr</code> for the server. After the test these files should be collected from remote servers and concatenated (e.g. using <code class="file">cat</code>) together with the standard preamble from the file <code class="file">scscp/tracing/stdhead.txt</code> (we recommend to put after the preamble first all traces from servers and then the client's traces to have nicer diagrams). The resulting file then may be opened with <strong class="pkg">EdenTV</strong>.</p>
+<p>Called with the string containing the name of the test, this functions turns on writing information about key activity events into trace files in current directories for the client and servers listed <code class="func">SCSCPservers</code> (<a href="chap8.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>). The trace file will have the name of the format <var class="Arg">testname</var><code class="code">.client.tr</code> for the client and <var class="Arg">testname</var><code class="code">.&lt;hostname&gt;.&lt;port&gt;.tr</code> for the server. After the test these files should be collected from remote servers and concatenated (e.g. using <code class="file">cat</code>) together with the standard preamble from the file <code class="file">scscp/tracing/stdhead.txt</code> (we recommend to put after the preamble first all traces from servers and then the client's traces to have nicer diagrams). The resulting file then may be opened with <strong class="pkg">EdenTV</strong>.</p>
 
 <p>In the following example we use a dual core MacBook laptop to generate trace files for two tests and then show their corresponding trace diagrams:</p>
 
@@ -270,9 +267,9 @@ SCSCPLogTracesToGlobal();
 
 <p><img src="img/quillen.jpg" align="left" /> <img src="img/euler.jpg" align="left" /> The diagrams (made on an dual core MacBook laptop), shows that in the first case parallelising is efficient and master successfully distributes load to workers, while in the second case a single computation is just too short, so most of the time is spent on communication. To parallelize the Euler's function example efficiently, tasks must rather be grouped in chunks, which should be enough large to reduce the communication overload, but enough small to ensure that tasks are evenly distributed.</p>
 
-<p>Of course, tracing can be used to investigate communication between a client and a single server in a non-parallel context as well. For this purpose, <code class="func">SCSCPservers</code> (<a href="chap8_mj.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>) must be modified to contain only one server.</p>
+<p>Of course, tracing can be used to investigate communication between a client and a single server in a non-parallel context as well. For this purpose, <code class="func">SCSCPservers</code> (<a href="chap8.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>) must be modified to contain only one server.</p>
 
-<p><code class="func">ParListWithSCSCP</code> (<a href="chap8_mj.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>) can be easily modified to have parallel versions of other list operations like <code class="func">ForAll</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21_mj.html#X7F06961278166671"><span class="RefLink">Reference: ForAll</span></a>), <code class="func">ForAny</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21_mj.html#X7AF82E747A8BDA75"><span class="RefLink">Reference: ForAny</span></a>), <code class="func">First</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21_mj.html#X82801DFA84E11272"><span class="RefLink">Reference: First</span></a>), <code class="func">Number</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21_mj.html#X8179B13D80E935FC"><span class="RefLink">Reference: Number</span></a>), <code class="func">Filtered</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21_mj.html#X7C86D7F7795125F0"><span class="RefLink">Reference: Filtered</span></a>), and also to have the skeleton in which the queue may be modified during the computation (for example, to compute orbits). We plan to provide such tools in one of the next versions of the package.</p>
+<p><code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>) can be easily modified to have parallel versions of other list operations like <code class="func">ForAll</code> (<a href="../../../doc/ref/chap21.html#X7F06961278166671"><span class="RefLink">Reference: ForAll</span></a>), <code class="func">ForAny</code> (<a href="../../../doc/ref/chap21.html#X7AF82E747A8BDA75"><span class="RefLink">Reference: ForAny</span></a>), <code class="func">First</code> (<a href="../../../doc/ref/chap21.html#X82801DFA84E11272"><span class="RefLink">Reference: First</span></a>), <code class="func">Number</code> (<a href="../../../doc/ref/chap21.html#X8179B13D80E935FC"><span class="RefLink">Reference: Number</span></a>), <code class="func">Filtered</code> (<a href="../../../doc/ref/chap21.html#X7C86D7F7795125F0"><span class="RefLink">Reference: Filtered</span></a>), and also to have the skeleton in which the queue may be modified during the computation (for example, to compute orbits). We plan to provide such tools in one of the next versions of the package.</p>
 
 <p><a id="X78C5AEA07F961325" name="X78C5AEA07F961325"></a></p>
 
@@ -300,7 +297,7 @@ InstallSCSCPprocedure( "WS_Karatsuba",
 
 </pre></div>
 
-<p>(we do not include it into the default <code class="file">scscp/example/myserver.g</code> since the code contains a call to <code class="func">EvalString</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap27_mj.html#X7DE4CCD285440659"><span class="RefLink">Reference: EvalString</span></a>)).</p>
+<p>(we do not include it into the default <code class="file">scscp/example/myserver.g</code> since the code contains a call to <code class="func">EvalString</code> (<a href="../../../doc/ref/chap27.html#X7DE4CCD285440659"><span class="RefLink">Reference: EvalString</span></a>)).</p>
 
 <p>This function provides a "bridge" between the client's function <code class="code">KaratsubaPolynomialMultiplicationWS</code> and the server's function <code class="code">KaratsubaPolynomialMultiplicationExtRep</code>, which performs the actual work on the server. <code class="code">WS_Karatsuba</code> converts its string arguments into internal representation of univariate polynomials (basically, lists of integers) and then converts the result back into string (since such data exchange format was chosen). We are going to parallelize the following part of the client's code:</p>
 
@@ -354,10 +351,10 @@ v := EvalString( wsresult[2].object );
 </pre></div>
 
 
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

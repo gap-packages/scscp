@@ -5,9 +5,6 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<script type="text/javascript"
-  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
 <title>GAP (scscp) - Chapter 6: Client's functionality</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
@@ -18,54 +15,54 @@
 <body class="chap6"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
-<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7.html">[Next Chapter]</a>&nbsp;  </div>
 
-<p id="mathjaxlink" class="pcenter"><a href="chap6.html">[MathJax off]</a></p>
+<p id="mathjaxlink" class="pcenter"><a href="chap6_mj.html">[MathJax on]</a></p>
 <p><a id="X7ED9B9A97F3011B5" name="X7ED9B9A97F3011B5"></a></p>
-<div class="ChapSects"><a href="chap6_mj.html#X7ED9B9A97F3011B5">6 <span class="Heading">Client's functionality</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6_mj.html#X86EE5403828256F2">6.1 <span class="Heading"><strong class="pkg">SCSCP</strong> connections</span></a>
+<div class="ChapSects"><a href="chap6.html#X7ED9B9A97F3011B5">6 <span class="Heading">Client's functionality</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X86EE5403828256F2">6.1 <span class="Heading"><strong class="pkg">SCSCP</strong> connections</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X7B7A635581A56B05">6.1-1 IsSCSCPconnection</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X82AD581386371E0E">6.1-2 NewSCSCPconnection</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X7CFF508878D17C03">6.1-3 CloseSCSCPconnection</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X7B7A635581A56B05">6.1-1 IsSCSCPconnection</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X82AD581386371E0E">6.1-2 NewSCSCPconnection</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X7CFF508878D17C03">6.1-3 CloseSCSCPconnection</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6_mj.html#X7882133B7BDD51BC">6.2 <span class="Heading">Processes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X7882133B7BDD51BC">6.2 <span class="Heading">Processes</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X8036EDF37C8C6DD9">6.2-1 IsProcess</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X8712E82B811A4170">6.2-2 NewProcess</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X796557D67A4CA868">6.2-3 CompleteProcess</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X7F94E72985216677">6.2-4 TerminateProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X8036EDF37C8C6DD9">6.2-1 IsProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X8712E82B811A4170">6.2-2 NewProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X796557D67A4CA868">6.2-3 CompleteProcess</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X7F94E72985216677">6.2-4 TerminateProcess</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6_mj.html#X823C050B7A5A1C56">6.3 <span class="Heading">All-in-one tool: sending request and getting result</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X823C050B7A5A1C56">6.3 <span class="Heading">All-in-one tool: sending request and getting result</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X7C745B2878E0AC41">6.3-1 EvaluateBySCSCP</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X7C745B2878E0AC41">6.3-1 EvaluateBySCSCP</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6_mj.html#X7BD060347F6FA6B8">6.4 <span class="Heading">Switching between Binary and XML <strong class="pkg">OpenMath</strong> Encodings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X7BD060347F6FA6B8">6.4 <span class="Heading">Switching between Binary and XML <strong class="pkg">OpenMath</strong> Encodings</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X78E7904484DED045">6.4-1 SwitchSCSCPmodeToBinary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X78E7904484DED045">6.4-1 SwitchSCSCPmodeToBinary</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6_mj.html#X7C3B6B4C7A0666F8">6.5 <span class="Heading">Remote objects</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X7C3B6B4C7A0666F8">6.5 <span class="Heading">Remote objects</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X82A02E827C33EC1C">6.5-1 StoreAsRemoteObjectPersistently</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X812934747F689ECA">6.5-2 IsRemoteObject</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X871AA6198192A9DD">6.5-3 RemoteObjectsFamily</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X83AD5B7A83C3CD4A">6.5-4 RetrieveRemoteObject</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6_mj.html#X840EF8E87C94CB9B">6.5-5 UnbindRemoteObject</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X82A02E827C33EC1C">6.5-1 StoreAsRemoteObjectPersistently</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X812934747F689ECA">6.5-2 IsRemoteObject</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X871AA6198192A9DD">6.5-3 RemoteObjectsFamily</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X83AD5B7A83C3CD4A">6.5-4 RetrieveRemoteObject</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap6.html#X840EF8E87C94CB9B">6.5-5 UnbindRemoteObject</a></span>
 </div></div>
 </div>
 
 <h3>6 <span class="Heading">Client's functionality</span></h3>
 
-<p>Sending and getting requests to the <strong class="pkg">SCSCP</strong> server(s), the client operates with processes. Process is an abstraction which in other words may be also called a remote task. It encapsulates an input/output TCP stream (see <code class="func">IsInputOutputTCPStream</code> (<a href="chap3_mj.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>)) from the client to the server and the process ID of the CAS running as a server (deduced from the connection initiation message; may be unassigned, if the server CAS did not communicate it).</p>
+<p>Sending and getting requests to the <strong class="pkg">SCSCP</strong> server(s), the client operates with processes. Process is an abstraction which in other words may be also called a remote task. It encapsulates an input/output TCP stream (see <code class="func">IsInputOutputTCPStream</code> (<a href="chap3.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>)) from the client to the server and the process ID of the CAS running as a server (deduced from the connection initiation message; may be unassigned, if the server CAS did not communicate it).</p>
 
-<p>There are two ways to create processes. One of them is to specify the hostname and port where the <strong class="pkg">SCSCP</strong> server is running; in this case a new input/output TCP stream will be created. Another way is first to establish the connection with the <strong class="pkg">SCSCP</strong> server using <code class="func">NewSCSCPconnection</code> (<a href="chap6_mj.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) and then keep it alive across multiple remote procedure calls, thus saving time on the DNS lookup and connection initiation. This may give a good speedup in computations with an intensive message exchange. Note that as long as such connection is open, other <strong class="pkg">SCSCP</strong> clients will not be able to get through, so if several clients are interchanging with the <strong class="pkg">SCSCP</strong> server at the same time, they should not block each other with long-lasting connections.</p>
+<p>There are two ways to create processes. One of them is to specify the hostname and port where the <strong class="pkg">SCSCP</strong> server is running; in this case a new input/output TCP stream will be created. Another way is first to establish the connection with the <strong class="pkg">SCSCP</strong> server using <code class="func">NewSCSCPconnection</code> (<a href="chap6.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) and then keep it alive across multiple remote procedure calls, thus saving time on the DNS lookup and connection initiation. This may give a good speedup in computations with an intensive message exchange. Note that as long as such connection is open, other <strong class="pkg">SCSCP</strong> clients will not be able to get through, so if several clients are interchanging with the <strong class="pkg">SCSCP</strong> server at the same time, they should not block each other with long-lasting connections.</p>
 
 <p><a id="X86EE5403828256F2" name="X86EE5403828256F2"></a></p>
 
@@ -76,14 +73,14 @@
 <h5>6.1-1 IsSCSCPconnection</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSCSCPconnection</code></td><td class="tdright">( filter )</td></tr></table></div>
-<p>This is the category of <strong class="pkg">SCSCP</strong> connections. Objects in this category are created using the function <code class="func">NewSCSCPconnection</code> (<a href="chap6_mj.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>).</p>
+<p>This is the category of <strong class="pkg">SCSCP</strong> connections. Objects in this category are created using the function <code class="func">NewSCSCPconnection</code> (<a href="chap6.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>).</p>
 
 <p><a id="X82AD581386371E0E" name="X82AD581386371E0E"></a></p>
 
 <h5>6.1-2 NewSCSCPconnection</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NewSCSCPconnection</code>( <var class="Arg">hostname</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<p>For a string <var class="Arg">hostname</var> and an integer <var class="Arg">port</var>, creates an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6_mj.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). This object will encapsulate two objects: <code class="code">tcpstream</code>, which is the input/output TCP stream to <code class="code"><var class="Arg">hostname</var>:<var class="Arg">port</var></code>, and <code class="code">session_id</code>, which is the result of calling <code class="func">StartSCSCPsession</code> (<a href="chap4_mj.html#X86D913277AFF2366"><span class="RefLink">4.1-1</span></a>) on <code class="code">tcpstream</code>. The connection will be kept alive across multiple remote procedure calls until it will be closed with <code class="func">CloseSCSCPconnection</code> (<a href="chap6_mj.html#X7CFF508878D17C03"><span class="RefLink">6.1-3</span></a>).</p>
+<p>For a string <var class="Arg">hostname</var> and an integer <var class="Arg">port</var>, creates an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). This object will encapsulate two objects: <code class="code">tcpstream</code>, which is the input/output TCP stream to <code class="code"><var class="Arg">hostname</var>:<var class="Arg">port</var></code>, and <code class="code">session_id</code>, which is the result of calling <code class="func">StartSCSCPsession</code> (<a href="chap4.html#X86D913277AFF2366"><span class="RefLink">4.1-1</span></a>) on <code class="code">tcpstream</code>. The connection will be kept alive across multiple remote procedure calls until it will be closed with <code class="func">CloseSCSCPconnection</code> (<a href="chap6.html#X7CFF508878D17C03"><span class="RefLink">6.1-3</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -109,7 +106,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CloseSCSCPconnection</code>( <var class="Arg">s</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6_mj.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap10_mj.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
+<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="../../../doc/ref/chap10.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
 
 
 <div class="example"><pre>
@@ -130,7 +127,7 @@
 <h5>6.2-1 IsProcess</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsProcess</code></td><td class="tdright">( filter )</td></tr></table></div>
-<p>This is the category of processes. Processes in this category are created using the function <code class="func">NewProcess</code> (<a href="chap6_mj.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>).</p>
+<p>This is the category of processes. Processes in this category are created using the function <code class="func">NewProcess</code> (<a href="chap6.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>).</p>
 
 <p><a id="X8712E82B811A4170" name="X8712E82B811A4170"></a></p>
 
@@ -142,7 +139,7 @@
 
 <p>In the first form, <var class="Arg">command</var> and <code class="code">server</code> are strings, <var class="Arg">listargs</var> is a list of <strong class="pkg">GAP</strong> objects and <code class="code">port</code> is an integer.</p>
 
-<p>In the second form, an <strong class="pkg">SCSCP</strong> connection in the category <code class="func">NewSCSCPconnection</code> (<a href="chap6_mj.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) is used instead of <code class="code">server</code> and <code class="code">port</code>.</p>
+<p>In the second form, an <strong class="pkg">SCSCP</strong> connection in the category <code class="func">NewSCSCPconnection</code> (<a href="chap6.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) is used instead of <code class="code">server</code> and <code class="code">port</code>.</p>
 
 <p>Calls the <strong class="pkg">SCSCP</strong> procedure with the name <var class="Arg">command</var> and the list of arguments <var class="Arg">listargs</var> at the server and port given by <var class="Arg">server</var> and <var class="Arg">port</var> or encapsulated in the <var class="Arg">connection</var>. Returns an object in the category <code class="code">IsProcess</code> for the subsequent waiting the result from its underlying stream.</p>
 
@@ -153,7 +150,7 @@
 <li><p><code class="code">output:="object"</code> is used to specify that the server must return the actual object evaluated as a result of the procedure call. This is the default action requested by the client if the <code class="code">output</code> option is omitted.</p>
 
 </li>
-<li><p><code class="code">output:="cookie"</code> is used to specify that the result of the procedure call should be stored on the server, and the server should return a remote object (see <a href="chap6_mj.html#X7C3B6B4C7A0666F8"><span class="RefLink">6.5</span></a> ) pointing to that result (that is, a cookie);</p>
+<li><p><code class="code">output:="cookie"</code> is used to specify that the result of the procedure call should be stored on the server, and the server should return a remote object (see <a href="chap6.html#X7C3B6B4C7A0666F8"><span class="RefLink">6.5</span></a> ) pointing to that result (that is, a cookie);</p>
 
 </li>
 <li><p><code class="code">output:="nothing"</code> is used to specify that the server is supposed to reply with a <code class="code">procedure_completed</code> message carrying no object just to signal that the call was completed successfully (for the compatibility, this will be evaluated to a <code class="code">"procedure completed"</code> string on the client's side);</p>
@@ -162,11 +159,11 @@
 <li><p><code class="code">cd:="cdname"</code> is used to specify that the <strong class="pkg">OpenMath</strong> symbol corresponding to the first argument <var class="Arg">command</var> should be looked up in the particular content dictionary <code class="code">cdname</code>. Otherwise, it will be looked for in the default content dictionary (<code class="code">scscp_transient_1</code> for the <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server);</p>
 
 </li>
-<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9_mj.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap12_mj.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
+<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="../../../doc/ref/chap12.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
 
 </li>
 </ul>
-<p>See <code class="func">CompleteProcess</code> (<a href="chap6_mj.html#X796557D67A4CA868"><span class="RefLink">6.2-3</span></a>) and <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>) for examples.</p>
+<p>See <code class="func">CompleteProcess</code> (<a href="chap6.html#X796557D67A4CA868"><span class="RefLink">6.2-3</span></a>) and <code class="func">EvaluateBySCSCP</code> (<a href="chap6.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>) for examples.</p>
 
 <p><a id="X796557D67A4CA868" name="X796557D67A4CA868"></a></p>
 
@@ -181,7 +178,7 @@
 
 
 <ul>
-<li><p><code class="code">output:="cookie"</code> has the same meaning as for the <code class="func">NewProcess</code> (<a href="chap6_mj.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>)</p>
+<li><p><code class="code">output:="cookie"</code> has the same meaning as for the <code class="func">NewProcess</code> (<a href="chap6.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>)</p>
 
 </li>
 <li><p><code class="code">output:="tree"</code> is used to specify that the result obtained from the server should be returned as an XML parsed tree without its evaluation.</p>
@@ -201,7 +198,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
 
 </pre></div>
 
-<p>See more examples in the description of the function <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>), which combines the two previous functions by sending request and getting result in one call.</p>
+<p>See more examples in the description of the function <code class="func">EvaluateBySCSCP</code> (<a href="chap6.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>), which combines the two previous functions by sending request and getting result in one call.</p>
 
 <p><a id="X7F94E72985216677" name="X7F94E72985216677"></a></p>
 
@@ -224,11 +221,11 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
 
 <p>In the first form, <var class="Arg">command</var> and <code class="code">server</code> are strings, <var class="Arg">listargs</var> is a list of <strong class="pkg">GAP</strong> objects and <code class="code">port</code> is an integer.</p>
 
-<p>In the second form, an <strong class="pkg">SCSCP</strong> connection in the category <code class="func">NewSCSCPconnection</code> (<a href="chap6_mj.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) is used instead of <code class="code">server</code> and <code class="code">port</code>.</p>
+<p>In the second form, an <strong class="pkg">SCSCP</strong> connection in the category <code class="func">NewSCSCPconnection</code> (<a href="chap6.html#X82AD581386371E0E"><span class="RefLink">6.1-2</span></a>) is used instead of <code class="code">server</code> and <code class="code">port</code>.</p>
 
 <p>Calls the SCSCP procedure with the name <var class="Arg">command</var> and the list of arguments <var class="Arg">listargs</var> at the server and port given by <code class="code">server</code> and <code class="code">port</code> or encapsulated in the <var class="Arg">connection</var>.</p>
 
-<p>Since <code class="func">EvaluateBySCSCP</code> combines <code class="func">NewProcess</code> (<a href="chap6_mj.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>) and <code class="func">CompleteProcess</code> (<a href="chap6_mj.html#X796557D67A4CA868"><span class="RefLink">6.2-3</span></a>), it accepts all options which may be used by that functions ( <code class="code">output</code>, <code class="code">cd</code> and <code class="code">debuglevel</code> ) with the same meanings.</p>
+<p>Since <code class="func">EvaluateBySCSCP</code> combines <code class="func">NewProcess</code> (<a href="chap6.html#X8712E82B811A4170"><span class="RefLink">6.2-2</span></a>) and <code class="func">CompleteProcess</code> (<a href="chap6.html#X796557D67A4CA868"><span class="RefLink">6.2-3</span></a>), it accepts all options which may be used by that functions ( <code class="code">output</code>, <code class="code">cd</code> and <code class="code">debuglevel</code> ) with the same meanings.</p>
 
 
 <div class="example"><pre>
@@ -290,7 +287,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
 
 </pre></div>
 
-<p>which works exactly like <code class="func">IdGroup</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap50_mj.html#X83044B9D7E3BDF35"><span class="RefLink">Reference: IdGroup</span></a>):</p>
+<p>which works exactly like <code class="func">IdGroup</code> (<a href="../../../doc/ref/chap50.html#X83044B9D7E3BDF35"><span class="RefLink">Reference: IdGroup</span></a>):</p>
 
 
 <div class="example"><pre>
@@ -316,7 +313,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
 
 <p>The <strong class="pkg">OpenMath</strong> package supports both binary and XML encodings for <strong class="pkg">OpenMath</strong>. To switch between them, use <code class="func">SwitchSCSCPmodeToBinary</code> and <code class="func">SwitchSCSCPmodeToXML</code>. When the package is loaded, the mode is initially set to XML. On the clients's side, you can change the mode back and forth as many times as you wish during the same <strong class="pkg">SCSCP</strong> session. The server will autodetect the mode and will response in the same format, so one does not need to set the mode on the server's side.</p>
 
-<p>For example, let us create a vector over <span class="SimpleMath">\(GF(3)\)</span>:</p>
+<p>For example, let us create a vector over <span class="SimpleMath">GF(3)</span>:</p>
 
 
 <div class="example"><pre>
@@ -466,7 +463,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ],
 
 </li>
 </ul>
-<p>First we show the example of the temporary remote object in a session. The procedure <code class="code">PointImages</code> returns the set of images of a point <span class="SimpleMath">\(i\)</span> under the generators of the group <span class="SimpleMath">\(G\)</span>. First we create the symmetric group <span class="SimpleMath">\(S_3\)</span> on the client and store it remotely on the server (call 1), then we compute set of images for <span class="SimpleMath">\(i=1,2\)</span> (calls 2,3) and finally demonstrate that we may retrieve the group from the server (call 4):</p>
+<p>First we show the example of the temporary remote object in a session. The procedure <code class="code">PointImages</code> returns the set of images of a point <span class="SimpleMath">i</span> under the generators of the group <span class="SimpleMath">G</span>. First we create the symmetric group <span class="SimpleMath">S_3</span> on the client and store it remotely on the server (call 1), then we compute set of images for <span class="SimpleMath">i=1,2</span> (calls 2,3) and finally demonstrate that we may retrieve the group from the server (call 4):</p>
 
 
 <div class="example"><pre>
@@ -509,7 +506,7 @@ rec( attributes := [ [ "call_id", "4" ] ],
 
 </pre></div>
 
-<p>After the stream is closed, it is no longer possible to retrieve the group <span class="SimpleMath">\(G\)</span> again or use it as an argument.</p>
+<p>After the stream is closed, it is no longer possible to retrieve the group <span class="SimpleMath">G</span> again or use it as an argument.</p>
 
 <p>Thus, the usage of remote objects existing during a session reduces the network traffic, since we pass only references instead of actual <strong class="pkg">OpenMath</strong> representation of an object. Also, the remote object on the server may accumulate certain information in its properties and attributes, which may not be included in it default <strong class="pkg">OpenMath</strong> representation.</p>
 
@@ -655,10 +652,10 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ],
 </pre></div>
 
 
-<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7_mj.html">[Next Chapter]</a>&nbsp;  </div>
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

@@ -2,19 +2,18 @@
   [1X1 [33X[0;0YPreface[133X[101X
   
   [33X[0;0YThe   [5XGAP[105X   package  [5XSCSCP[105X  implements  the  Symbolic  Computation  Software
-  Composability  protocol [FHKLLRb]. This protocol specifies an [5XOpenMath[105X-based
+  Composability  protocol  [FHK+b].  This protocol specifies an [5XOpenMath[105X-based
   remote  procedure call framework, in which all messages (procedure calls and
   returns  of results of successful computation or error messages) are encoded
-  in  [5XOpenMath[105X  using  content  dictionaries  [5Xscscp1[105X  and  [5Xscscp2[105X  ([FHKLLRa],
-  [FHKLR]).  Using  the [5XSCSCP[105X package, [5XGAP[105X can communicate locally or remotely
-  with any other [5XOpenMath[105X-enabled [5XSCSCP[105X-compliant application which may be not
-  only  another  computer  algebra system but also another instance of the [5XGAP[105X
-  system  or  even,  for  example,  an  external Java or C/C++ application via
-  libraries                     [7Xhttp://java.symcomp.org/[107X                    or
-  [7Xhttp://www.imcce.fr/Equipes/ASD/trip/scscp/[107X  providing  an  [5XSCSCP[105X  API. Such
-  communication  will  go  into  seamless  manner  for the [5XGAP[105X user, since all
-  conversions  from  [5XGAP[105X  to  [5XOpenMath[105X and vice versa will be performed in the
-  background.        See        the       SCIEnce       project       homepage
+  in [5XOpenMath[105X using content dictionaries [5Xscscp1[105X and [5Xscscp2[105X ([FHK+a], [FHK+c]).
+  Using  the  [5XSCSCP[105X  package, [5XGAP[105X can communicate locally or remotely with any
+  other  [5XOpenMath[105X-enabled  [5XSCSCP[105X-compliant  application  which may be not only
+  another  computer algebra system but also another instance of the [5XGAP[105X system
+  or  even,  for  example, an external Java or C/C++ application via libraries
+  [7Xhttp://java.symcomp.org/[107X    or   [7Xhttp://www.imcce.fr/Equipes/ASD/trip/scscp/[107X
+  providing  an [5XSCSCP[105X API. Such communication will go into seamless manner for
+  the [5XGAP[105X user, since all conversions from [5XGAP[105X to [5XOpenMath[105X and vice versa will
+  be   performed   in   the  background.  See  the  SCIEnce  project  homepage
   [7Xhttp://www.symbolic-computing.org/[107X  for  the  details about computer algebra
   systems and other sotware supporting [5XSCSCP[105X[133X
   
@@ -101,7 +100,7 @@
   several instances of the [5XGAP[105X system, but the same behaviour is expected from
   any  [5XSCSCP[105X-compliant  application:  the  set  of  supported [5XOpenMath[105X symbols
   clearly  will  be  different,  but  the rules of communication are precisely
-  specified  in  the  [5XSCSCP[105X  specification  [FHKLLRb]. See the homepage of the
+  specified  in  the  [5XSCSCP[105X  specification  [FHK+b].  See  the homepage of the
   SCIEnce project [7Xhttp://www.symbolic-computing.org/[107X for the information about
   [5XSCSCP[105X-compliant  computer  algebra  systems and other tools developed in the
   project.[133X

@@ -11,16 +11,16 @@
   functionality           in           GAP[117X,           {GAP4}           package
   (\url{http://www.cs.st-andrews.ac.uk/~alexk/openmath.htm}).
   
-  [[20XFHKLLRa[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
+  [[20XFHK+a[120X]  [16XFreundt,  S.,  Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
   Roozemond,     D.[116X,     [17XOpenMath     content     dictionary    \tt    scscp1[117X,
   (\url{http://www.win.tue.nl/SCIEnce/cds/scscp1.html}).
   
-  [[20XFHKLLRb[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
+  [[20XFHK+b[120X]  [16XFreundt,  S.,  Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
   Roozemond,  D.[116X, [17XSymbolic Computation Software Composability Protocol (SCSCP)
   specification,                Version               1.3,               2009[117X,
   (\url{http://www.symbolic-computing.org/scscp}).
   
-  [[20XFHKLR[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Linton, S. and Roozemond, D.[116X,
+  [[20XFHK+c[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Linton, S. and Roozemond, D.[116X,
   [17XOpenMath           content          dictionary          \tt          scscp2[117X,
   (\url{http://www.win.tue.nl/SCIEnce/cds/scscp2.html}).
   

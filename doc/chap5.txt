@@ -155,11 +155,11 @@
   
   [33X[0;0YThis  is the global record from the [5XOpenMath[105X package used for the conversion
   from  [5XOpenMath[105X to [5XGAP[105X. It is extended in the [5XSCSCP[105X package by adding support
-  for   symbols  from  [10Xscscp1[110X  and  [10Xscscp2[110X  content  dictionaries  ([FHKLLRa],
-  [FHKLR]).  Additionally, [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X) adds to this record a
-  component  corresponding to the appropriate transient content dictionary (by
-  default,  [10Xscscp_transient_1[110X) defining mappings between [5XOpenMath[105X symbols from
-  this content dictionary and installed [5XSCSCP[105X procedures.[133X
+  for  symbols from [10Xscscp1[110X and [10Xscscp2[110X content dictionaries ([FHK+a], [FHK+c]).
+  Additionally,  [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X) adds to this record a component
+  corresponding  to  the appropriate transient content dictionary (by default,
+  [10Xscscp_transient_1[110X)  defining  mappings  between  [5XOpenMath[105X  symbols from this
+  content dictionary and installed [5XSCSCP[105X procedures.[133X
   
   
   [1X5.2 [33X[0;0YStarting SCSCP server[133X[101X

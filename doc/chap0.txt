@@ -6,10 +6,10 @@
               [1XSymbolic Computation Software Composability Protocol[101X
   
   
-                                 Version 2.2.2
+                                 Version 2.2.3
   
   
-                                28 February 2017
+                               24 September 2017
   
   
                               Alexander Konovalov
@@ -61,7 +61,7 @@
   [5XSCSCP[105X, please cite it in the following form:[133X
   
   [33X[0;0YA.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
-  Composability          Protocol,         Version         2.2.2;[113X         2017
+  Composability          Protocol,         Version         2.2.3;[113X         2017
   ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
   
   

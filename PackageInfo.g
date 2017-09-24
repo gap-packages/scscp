@@ -9,11 +9,11 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.2.2",
-Date := "28/02/2017",
+Version := "2.2.3",
+Date := "24/09/2017",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.2.2">
-##  <!ENTITY RELEASEDATE "28 February 2017">
+##  <!ENTITY VERSION "2.2.3">
+##  <!ENTITY RELEASEDATE "24 September 2017">
 ##  <!ENTITY RELEASEYEAR "2017">
 ##  <#/GAPDoc>
 

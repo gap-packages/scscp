@@ -3,8 +3,8 @@
   
   [33X[0;0YTo ensure the message exchange as required by [5XSCSCP[105X specification, the [5XSCSCP[105X
   package extends the global record [10XOMsymRecord[110X from the [5XOpenMath[105X package with
-  new  entries  to  support [5Xscscp1[105X and [5Xscscp2[105X content dictionaries ([FHKLLRa],
-  [FHKLR]),  and also service-dependent transient private content dictionaries
+  new  entries  to  support  [5Xscscp1[105X  and [5Xscscp2[105X content dictionaries ([FHK+a],
+  [FHK+c]),  and also service-dependent transient private content dictionaries
   (see  Chapter  [14X5[114X  for details about transient content dictionaries). It also
   overwrites   some  [5XOpenMath[105X  functions  by  their  extended  (but  backwards
   compatible)  versions,  and adds some new [5XOpenMath[105X-related functions to send
@@ -137,7 +137,7 @@
   accept-evaluate-return loop.[133X
   
   [33X[0;0YAs  an example, the file [11Xscscp/tst/omdemo.om[111X contains some [5XOpenMath[105X objects,
-  including those from the SCSCP Specification [FHKLLRb]. We can retrieve them
+  including  those  from the SCSCP Specification [FHK+b]. We can retrieve them
   from  this  file,  preliminary  installing  some  SCSCP procedures using the
   function [2XInstallSCSCPprocedure[102X ([14X5.1-1[114X):[133X
   
@@ -226,7 +226,7 @@
   [10Xprocedure_terminated[110X containing an error determined by the symbol [3Xerror_type[103X
   from   the   content   dictionary   [3Xerror_cd[103X   (for  example,  [10Xerror_memory[110X,
   [10Xerror_runtime[110X  or  [10Xerror_system_specific[110X  from the [5Xscscp1[105X content dictionary
-  ([FHKLLRa]).[133X
+  ([FHK+a]).[133X
   
   [33X[0;0YThis  is the internal function of the package which is used only in the code
   for the [5XSCSCP[105X server to return the error message to the client.[133X

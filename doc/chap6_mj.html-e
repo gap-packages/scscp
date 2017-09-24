@@ -109,7 +109,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CloseSCSCPconnection</code>( <var class="Arg">s</var> )</td><td class="tdright">( function )</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6_mj.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap10_mj.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
+<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6_mj.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="../../../doc/ref/chap10_mj.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
 
 
 <div class="example"><pre>
@@ -162,7 +162,7 @@
 <li><p><code class="code">cd:="cdname"</code> is used to specify that the <strong class="pkg">OpenMath</strong> symbol corresponding to the first argument <var class="Arg">command</var> should be looked up in the particular content dictionary <code class="code">cdname</code>. Otherwise, it will be looked for in the default content dictionary (<code class="code">scscp_transient_1</code> for the <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server);</p>
 
 </li>
-<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9_mj.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap12_mj.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
+<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9_mj.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="../../../doc/ref/chap12_mj.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
 
 </li>
 </ul>
@@ -290,7 +290,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
 
 </pre></div>
 
-<p>which works exactly like <code class="func">IdGroup</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap50_mj.html#X83044B9D7E3BDF35"><span class="RefLink">Reference: IdGroup</span></a>):</p>
+<p>which works exactly like <code class="func">IdGroup</code> (<a href="../../../doc/ref/chap50_mj.html#X83044B9D7E3BDF35"><span class="RefLink">Reference: IdGroup</span></a>):</p>
 
 
 <div class="example"><pre>

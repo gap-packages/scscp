@@ -20,8 +20,8 @@
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9.html">[Next Chapter]</a>&nbsp;  </div>
 
 <p id="mathjaxlink" class="pcenter"><a href="chap8_mj.html">[MathJax on]</a></p>
-<p><a id="X859EF4678604393E" name="X859EF4678604393E"></a></p>
-<div class="ChapSects"><a href="chap8.html#X859EF4678604393E">8 <span class="Heading">Parallel computing with <strong class="pkg">SCSCP</strong></span></a>
+<p><a id="X7C80E6FA7CB91D28" name="X7C80E6FA7CB91D28"></a></p>
+<div class="ChapSects"><a href="chap8.html#X7C80E6FA7CB91D28">8 <span class="Heading">Parallel computing with <strong class="pkg">SCSCP</strong></span></a>
 <div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BB9C05286A1375B">8.1 <span class="Heading">Managing multiple requests</span></a>
 </span>
 <div class="ContSSBlock">
@@ -269,7 +269,7 @@ SCSCPLogTracesToGlobal();
 
 <p>Of course, tracing can be used to investigate communication between a client and a single server in a non-parallel context as well. For this purpose, <code class="func">SCSCPservers</code> (<a href="chap8.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>) must be modified to contain only one server.</p>
 
-<p><code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>) can be easily modified to have parallel versions of other list operations like <code class="func">ForAll</code> (<a href="../../../doc/ref/chap21.html#X7F06961278166671"><span class="RefLink">Reference: ForAll</span></a>), <code class="func">ForAny</code> (<a href="../../../doc/ref/chap21.html#X7AF82E747A8BDA75"><span class="RefLink">Reference: ForAny</span></a>), <code class="func">First</code> (<a href="../../../doc/ref/chap21.html#X82801DFA84E11272"><span class="RefLink">Reference: First</span></a>), <code class="func">Number</code> (<a href="../../../doc/ref/chap21.html#X8179B13D80E935FC"><span class="RefLink">Reference: Number</span></a>), <code class="func">Filtered</code> (<a href="../../../doc/ref/chap21.html#X7C86D7F7795125F0"><span class="RefLink">Reference: Filtered</span></a>), and also to have the skeleton in which the queue may be modified during the computation (for example, to compute orbits). We plan to provide such tools in one of the next versions of the package.</p>
+<p><code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>) can be easily modified to have parallel versions of other list operations like <code class="func">ForAll</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21.html#X7F06961278166671"><span class="RefLink">Reference: ForAll</span></a>), <code class="func">ForAny</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21.html#X7AF82E747A8BDA75"><span class="RefLink">Reference: ForAny</span></a>), <code class="func">First</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21.html#X82801DFA84E11272"><span class="RefLink">Reference: First</span></a>), <code class="func">Number</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21.html#X8179B13D80E935FC"><span class="RefLink">Reference: Number</span></a>), <code class="func">Filtered</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap21.html#X7C86D7F7795125F0"><span class="RefLink">Reference: Filtered</span></a>), and also to have the skeleton in which the queue may be modified during the computation (for example, to compute orbits). We plan to provide such tools in one of the next versions of the package.</p>
 
 <p><a id="X78C5AEA07F961325" name="X78C5AEA07F961325"></a></p>
 
@@ -297,7 +297,7 @@ InstallSCSCPprocedure( "WS_Karatsuba",
 
 </pre></div>
 
-<p>(we do not include it into the default <code class="file">scscp/example/myserver.g</code> since the code contains a call to <code class="func">EvalString</code> (<a href="../../../doc/ref/chap27.html#X7DE4CCD285440659"><span class="RefLink">Reference: EvalString</span></a>)).</p>
+<p>(we do not include it into the default <code class="file">scscp/example/myserver.g</code> since the code contains a call to <code class="func">EvalString</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap27.html#X7DE4CCD285440659"><span class="RefLink">Reference: EvalString</span></a>)).</p>
 
 <p>This function provides a "bridge" between the client's function <code class="code">KaratsubaPolynomialMultiplicationWS</code> and the server's function <code class="code">KaratsubaPolynomialMultiplicationExtRep</code>, which performs the actual work on the server. <code class="code">WS_Karatsuba</code> converts its string arguments into internal representation of univariate polynomials (basically, lists of integers) and then converts the result back into string (since such data exchange format was chosen). We are going to parallelize the following part of the client's code:</p>
 
