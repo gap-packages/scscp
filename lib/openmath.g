@@ -292,18 +292,25 @@ end);
 ## This is a counterpart of the OpenMath function OMgetObjectXMLTree
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
-    function ( string )
-    local return_tree, return_deferred, node, attrs, t, obj, pos, name;
-    
+function ( string )
+    local return_tree,
+          return_deferred,
+          node,
+          attrs,
+          t,
+          obj,
+          pos,
+          name;
+
     if ValueOption("return_tree") <> fail then
         return_tree := true;
     else
-        return_tree := false;  
+        return_tree := false;
     fi;
 
     OMTempVars.OMBIND := rec(  );
     OMTempVars.OMREF := rec(  );
-    
+
     # This is the difference from OMgetObjectXMLTree
     OMTempVars.OMATTR := rec(  );
 
@@ -312,139 +319,83 @@ InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
     node.content := Filtered( node.content, OMIsNotDummyLeaf );
 
     # Print( "ParseTreeXMLString( string ) = ", node.content, "\n" );
-    
     attrs := List( Filtered( node.content[1].content, t -> t.name = "OMATP" ), OMParseXmlObj );
-    
+
     if Length(attrs)=1 then
-      attrs:=attrs[1];
+        attrs:=attrs[1];
     fi;
-       
+
     # At this point we already know attributes BEFORE the the real computation is started.
     # This allows us to know in advance which kind of return (object/cookie/tree)
     # is expected, and which runtime and memory limits were specified, if any.
 
-	# Now we will check that this is really procedure_call message and that
-	# the procedure is allowed, that is, it is from scscp{1,2} or scscp_transient_X CD
-	
-	if SCSCPserverMode then
-	
-	    SCSCP_UNBIND_MODE := false;
+    # Now we will check that this is really procedure_call message and that
+    # the procedure is allowed, that is, it is from scscp{1,2} or scscp_transient_X CD
+
+    if SCSCPserverMode then
+        SCSCP_UNBIND_MODE := false;
         SCSCP_STORE_SESSION_MODE := true;
-    
-    	pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
-    	if pos=fail then
-			return rec( object := [ "Message rejected: it must be a proper scscp1.procedure_call" ],
-			            attributes := attrs, is_error:=true );
-		else
-			node.content[1].content[pos].content := 
-				Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
-			if not IsBound( node.content[1].content[pos].content[1] ) or 
-			   not IsBound( node.content[1].content[pos].content[1].attributes ) or
-			   not node.content[1].content[pos].content[1].attributes in 
-			   [ rec( name := "procedure_call", cd := "scscp1" ),
-			     rec( name := "procedure_completed", cd := "scscp1" ),
-			     rec( name := "procedure_terminated", cd := "scscp1") ] 
-			   then
-				return rec( object := [ "Message rejected because it is not a proper scscp1.procedure_call" ],
-			                attributes := attrs, is_error:=true );				
-    		else
-    			node.content[1].content[pos].content[2].content := 
-    				Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
-    			if not IsBound( node.content[1].content[pos].content[2].content[1] ) or
-    			   not IsBound( node.content[1].content[pos].content[2].content[1].attributes ) or
-    			   not IsBound( node.content[1].content[pos].content[2].content[1].attributes.cd ) then
-				return rec( object := [ "Message rejected because it is not properly formatted" ],
-			                attributes := attrs, is_error:=true );		    			   
-    			elif SCSCPserverAcceptsOnlyTransientCD and 
-    			  ( Length( node.content[1].content[pos].content[2].content[1].attributes.cd ) < 5 or 
-    			  not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" ) then
-					return rec( object := [
-    					"Message rejected because the procedure ",
-    					node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
-    					node.content[1].content[pos].content[2].content[1].attributes.name, 
-    					" is not allowed"], 
-			            attributes := attrs, is_error:=true );
-			    else
-			    	# some checks for some particular special procedures might be here
-			    	if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" then
-			    	    name := node.content[1].content[pos].content[2].content[1].attributes.name;
-			    	    if name = "unbind" then
-			    	        SCSCP_UNBIND_MODE := true; 
-			    	    elif name = "store_persistent" then
-                            SCSCP_STORE_SESSION_MODE := false;		    	        
-			    	    fi;
-			    	fi; 
-    			fi;
-			fi;
-		fi;
-	
-	fi;
-	
-	# if the security check is done, we may proceed
-	
-	if ForAny( attrs, t -> t[1]="option_return_deferred" ) then
-		return_deferred := true;
-	else
-		return_deferred := false;	
-	fi;
-	
+
+        pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
+        if pos=fail then
+            return rec( object := [ "Message rejected: it must be a proper scscp1.procedure_call" ],
+                        attributes := attrs, is_error:=true );
+        else
+            node.content[1].content[pos].content :=
+            Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
+            if not IsBound( node.content[1].content[pos].content[1] ) or
+                   not IsBound( node.content[1].content[pos].content[1].attributes ) or
+                       not node.content[1].content[pos].content[1].attributes in
+                           [ rec( name := "procedure_call", cd := "scscp1" ),
+                             rec( name := "procedure_completed", cd := "scscp1" ),
+                             rec( name := "procedure_terminated", cd := "scscp1") ]
+            then
+                return rec( object := [ "Message rejected because it is not a proper scscp1.procedure_call" ],
+                            attributes := attrs, is_error:=true );
+            else
+                node.content[1].content[pos].content[2].content :=
+                Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
+                if not IsBound( node.content[1].content[pos].content[2].content[1] ) or
+                       not IsBound( node.content[1].content[pos].content[2].content[1].attributes ) or
+                           not IsBound( node.content[1].content[pos].content[2].content[1].attributes.cd ) then
+                    return rec( object := [ "Message rejected because it is not properly formatted" ],
+                                attributes := attrs, is_error:=true );
+                elif SCSCPserverAcceptsOnlyTransientCD and
+                     ( Length( node.content[1].content[pos].content[2].content[1].attributes.cd ) < 5 or
+                       not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" ) then
+                    return rec( object := [
+                                            "Message rejected because the procedure ",
+                                            node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
+                                            node.content[1].content[pos].content[2].content[1].attributes.name,
+                                            " is not allowed"],
+                                attributes := attrs, is_error:=true );
+                else
+                    # some checks for some particular special procedures might be here
+                    if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" then
+                        name := node.content[1].content[pos].content[2].content[1].attributes.name;
+                        if name = "unbind" then
+                            SCSCP_UNBIND_MODE := true;
+                        elif name = "store_persistent" then
+                            SCSCP_STORE_SESSION_MODE := false;
+                        fi;
+                    fi;
+                fi;
+            fi;
+        fi;
+    fi;
+    # if the security check is done, we may proceed
+    if ForAny( attrs, t -> t[1]="option_return_deferred" ) then
+        return_deferred := true;
+    else
+        return_deferred := false;
+    fi;
     if return_tree or return_deferred then
         obj := node.content[1];
     else
         obj := OMParseXmlObj( node.content[1] );
     fi;
-    
-    # the next check was is a temporary measure to verify that
-    # attributes were identified properly
-    
-    #if OMTempVars.OMATTR <> rec() then
-    #  if OMParseXmlObj( OMTempVars.OMATTR ) <> attrs then
-    #    Error("Attributes were not properly identified:\n",
-    #    "OMParseXmlObj( OMTempVars.OMATTR ) = ", OMParseXmlObj( OMTempVars.OMATTR ), "\n",
-    #    "attrs = ", attrs );
-    #  fi;
-    #fi;
-
     return rec( object:=obj, attributes:=attrs );
-
 end );
-
-
-#############################################################################
-##
-##  OMObjects.OMATTR( node )
-##
-##  we overwrite the OpenMath function OMObjects.OMATTR with our definition
-##  (if OMObjects.OMATTR will be called from OpenMath, the OMTempWars.OMATTR
-##  will be ignored)
-##
-OMObjects.OMATTR := function ( node )
-OMTempVars.OMATTR:=Filtered( node.content, 
-                    function ( x )
-                    return x.name = "OMATP";
-                    end )[1];                  
-node.content := Filtered( node.content, 
-                    function ( x )
-                    return x.name <> "OMATP";
-                    end );
-return OMParseXmlObj( node.content[1] );
-end;
-
-
-#############################################################################
-##
-##  OMObjects.OMATP( node )
-##
-##  We add OMObjects.OMATP function to the list of functions OMObjects
-##  defined as a global variable in the OpenMath package
-## 
-OMObjects.OMATP := function ( node )
-local i;
-#DisplayXMLStructure(node);
-return List( [1,3..Length(node.content)-1], i -> 
-             [ OMParseXmlObj(node.content[i]), OMParseXmlObj(node.content[i+1]) ] );
-end;
-
 
 #############################################################################
 ##
@@ -452,58 +403,60 @@ end;
 ##
 ##  This overwrites OMObjects.OMR defined in OpenMath package as
 ##  return OMTempVars.OMREF.(node.attributes.href);
-## 
+##
+## FIXME: Move as much as possible of this into the OpenMath package,
+##        maybe a configurable retrieval mechanism for "foreign" objects?
 OMObjects.OMR := function ( node )
-local ref, pos1, pos2, pos3, name, server, port;
-if IsBound( node.attributes.href ) then
-  ref := node.attributes.href;
-  pos1:=PositionSublist( ref, "://" );
-  pos2:=PositionNthOccurrence( ref, ':', 2);
-  if pos1=fail then
-    # reference to an object within the same OpenMath document 
-    if ref[1]=CHAR_INT(35) then
-      return OMTempVars.OMREF.(ref{[2..Length(ref)]});
-    else
-      Error( "OpenMath reference: the first symbol must be ", CHAR_INT(35), "\n" ); 
-    fi;
-  elif pos2=fail then
-    # reference to an object in a file
-    Error("References to files are not implemented yet");
-  else
-    # reference to a remote object
-    if not ref{[1..pos1+2]} = "scscp://" then
-    	Error("Can not parse the reference ", ref, "\n");
-    fi;
-    pos3 := PositionNthOccurrence( ref, '/', 3);
-    server:=ref{[pos1+3..pos2-1]};
-    port:=Int(ref{[pos2+1..pos3-1]});
-    name := ref{[pos3+1..Length(ref)]};
-    if SCSCPserverMode then
-      # check that the object is on the same server
-      if [server,port]=[SCSCPserverAddress,SCSCPserverPort] then
-        if IsBoundGlobal( name ) and
-           Length( name ) > 12 and
-           StartsWith( name, "TEMPVarSCSCP" ) then
-          if SCSCP_UNBIND_MODE then
-            SCSCP_UNBIND_MODE := false;
-          	return name;
-          else
-          	return EvalString( name );
-          fi;	
+    local ref, pos1, pos2, pos3, name, server, port;
+    if IsBound( node.attributes.href ) then
+        ref := node.attributes.href;
+        pos1:=PositionSublist( ref, "://" );
+        pos2:=PositionNthOccurrence( ref, ':', 2);
+        if pos1=fail then
+            # reference to an object within the same OpenMath document
+            if ref[1]=CHAR_INT(35) then
+                return OMTempVars.OMREF.(ref{[2..Length(ref)]});
+            else
+                Error( "OpenMath reference: the first symbol must be ", CHAR_INT(35), "\n" );
+            fi;
+        elif pos2=fail then
+            # reference to an object in a file
+            Error("References to files are not implemented yet");
         else
-          Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
-        fi;    
-      else # for a "foreign" object
-        return EvaluateBySCSCP( "retrieve", [ name ], server, port ).object;
-      fi;    
-    else # in the client's mode
-      return RemoteObject( node.attributes.href, server, port );
+            # reference to a remote object
+            if not ref{[1..pos1+2]} = "scscp://" then
+                Error("Can not parse the reference ", ref, "\n");
+            fi;
+            pos3 := PositionNthOccurrence( ref, '/', 3);
+            server:=ref{[pos1+3..pos2-1]};
+            port:=Int(ref{[pos2+1..pos3-1]});
+            name := ref{[pos3+1..Length(ref)]};
+            if SCSCPserverMode then
+                # check that the object is on the same server
+                if [server,port]=[SCSCPserverAddress,SCSCPserverPort] then
+                    if IsBoundGlobal( name ) and
+                       Length( name ) > 12 and
+                       StartsWith( name, "TEMPVarSCSCP" ) then
+                        if SCSCP_UNBIND_MODE then
+                            SCSCP_UNBIND_MODE := false;
+                            return name;
+                        else
+                            return EvalString( name );
+                        fi;
+                    else
+                        Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
+                    fi;
+                else # for a "foreign" object
+                    return EvaluateBySCSCP( "retrieve", [ name ], server, port ).object;
+                fi;
+            else # in the client's mode
+                return RemoteObject( node.attributes.href, server, port );
+            fi;
+        fi;
+    else
+        Error( "OpenMath reference: only href is supported !\n");
     fi;
-  fi;
-else
-  Error( "OpenMath reference: only href is supported !\n");
-fi;  
-end; 
+end;
 
 
 #############################################################################
