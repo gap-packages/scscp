@@ -90,7 +90,7 @@ gap> IdGroupWS := function( G )
 ]]>
 </Example>
 
-which works exactly like <Ref BookName="ref" Func="IdGroup" />:
+which works exactly like <Ref BookName="smallgrp" Func="IdGroup" />:
 
 <Example>
 <![CDATA[
