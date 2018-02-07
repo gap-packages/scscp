@@ -227,11 +227,11 @@ if IN_SCSCP_TRACING_MODE then SCSCPTraceSuspendThread(); fi;
 IO_Select( [ tcpstream![1] ], [ ], [ ], [ ], 60*60, 0 );
 if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
 if IN_SCSCP_TRACING_MODE then SCSCPTraceReceiveMessage( tcpstream![3][1] ); fi;
-if output_option="tree" then
-    result := OMGetObjectWithAttributes( tcpstream : return_tree );
-else
-    result := OMGetObjectWithAttributes( tcpstream );
-fi;    
+result := OMGetTree(tcpstream);
+
+if output_option <> "tree" then
+    result := OMParseXmlObj( result.content[1] );
+fi;
 
 if result = fail then
     Info( InfoSCSCP, 2, "CompleteProcess failed to get result from ", 

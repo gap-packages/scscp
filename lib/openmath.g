@@ -237,97 +237,52 @@ OMsymRecord.meta := rec(
 ##  [ ["call_id", "user007" ], ["option_runtime", 300000] ]
 ##  This is a counterpart of the function OMGetObject from OpenMath package .
 ##
+## TODO: This should be somehow replaced by OMGetObject from the OpenMath package
 InstallGlobalFunction( OMGetObjectWithAttributes,
 function( stream )
-    local return_tree,
-          fromgap, # string
-          firstbyte,
-          gap_obj,
-          success, # whether PipeOpenMathObject worked
-          readline;
-        
-    if IsClosedStream( stream )  then
-        Error( "closed stream" );
-    elif IsEndOfStream( stream )  then
-        Error( "end of stream" );
-    fi;
-    
-    if ValueOption("return_tree") <> fail then
-        return_tree := true;
-    else
-        return_tree := false;  
+    local ReadUntil, tree;
+
+    ReadUntil := function(stream, string)
+        local readline;
+        repeat
+            readline := ReadLine(stream);
+            if readline = fail then
+                return fail;
+            fi;
+            NormalizeWhitespace( readline );
+            if Length(readline) > 0 then
+                Info( InfoSCSCP, 2, readline );
+            fi;
+        until readline = string;
+        return true;
+    end;
+
+    if IsClosedStream(stream) then
+        Error("<stream> is closed");
+    elif IsEndOfStream(stream) then
+        Error("<stream> is in state end of stream" );
     fi;
 
     # read new line until <?scscp start ?>
-    repeat
-      readline:=ReadLine(stream);
-      if readline=fail then
-        return fail;
-      fi;  
-      NormalizeWhitespace( readline );
-      if Length( readline ) > 0 then 
-        Info( InfoSCSCP, 2, readline );
-      fi;  
-    until readline= "<?scscp start ?>";
+    # TODO: How to switch binary/nonbinary?
+    #       previously this code had this switch:
+    #       IN_SCSCP_BINARY_MODE:=true;
+    #       IN_SCSCP_BINARY_MODE:=false;
+    #       (again state in global variables...)
+    # TODO: Handle attributes, they seem to end up
+    #       in temp vars for some reason, are then
+    #       extracted to attributes in the returned record?
+    # TODO: Need to return fail if ReadUntil fails
 
-    firstbyte := ReadByte(stream);
-    
-    if firstbyte = 24 then 
-  	    # Reading binary encoding => set reply mode to binary
-  	    IN_SCSCP_BINARY_MODE:=true;  
- 	    gap_obj := GetNextObject( stream, firstbyte );
-     	gap_obj := OMParseXmlObj( gap_obj.content[1] );
-        return rec( object := gap_obj, attributes := OMParseXmlObj( OMTempVars.OMATTR ) );
-    else
-    
-    	if firstbyte = fail then
-      		Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
-      		return fail;
-    	fi;
-    	
-     	# Reading XML encoding => set reply mode to XML
-     	IN_SCSCP_BINARY_MODE:=false;  
-        fromgap := "";                
-        # Get one OpenMath object from 'stream' and put into 'fromgap',
-        # using PipeOpenMathObject
-    
-	    success := PipeOpenMathObject( stream, fromgap, firstbyte );
+    ReadUntil("<?scscp start ?>");
+    tree := OMGetTree(stream);
+    ReadUntil("<?scscp end ?>");
 
-    	if success <> true  then
-      		Info( InfoSCSCP, 2, "OpenMath object not retrieved by PipeOpenMathObject" );
-      		return fail;
-    	fi;
-    
-    	# Now 'fromgap' is the string with OpenMath encoding
-        
-    	if InfoLevel( InfoSCSCP ) > 2 then
-      		Print("#I Received message: \n");
-      		Print( fromgap );
-      		Print( "\n" );
-    	fi;
-
-    	# read new line until <?scscp end ?>
-    	repeat
-      		readline:=ReadLine(stream);
-      		if readline=fail then
-        		return fail;
-      		fi;  
-      		NormalizeWhitespace( readline );
-      		if Length( readline ) > 0 then 
-        		Info( InfoSCSCP, 2, readline );
-      		fi; 
-    	until readline= "<?scscp end ?>";
-
-    	# convert the OpenMath string into a Gap object using an appropriate
-    	# function
-
-        if return_tree then
-        	return OMgetObjectXMLTreeWithAttributes( fromgap : return_tree );
-        else
-            return OMgetObjectXMLTreeWithAttributes( fromgap );
-        fi;   
+    if ValueOption("return_tree") = fail then
+        return OMParseXmlObj( tree.content[1] );
     fi;
-end );
+    return tree;
+end);
 
 
 #############################################################################
