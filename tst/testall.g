@@ -1,40 +1,34 @@
 ############################################################################
 #
-# This is an extended test file for the SCSCP package.
-# It is not listed in PackageInfo.g because it requires starting two SCSCP 
-# servers at ports 26133 and 26134 in advance. Also, some of the test files 
-# show technical details like random call identfiers - these discrepancies
-# are safe to ignore.
+# This is a test file for the SCSCP package.
 #
-
 LoadPackage( "scscp" );
 
-TestMyPackage := function( pkgname, testfiles )
-local pkgdir, ff, fn;
-LoadPackage( pkgname );
-pkgdir := DirectoriesPackageLibrary( pkgname, "tst" );
-
-for ff in testfiles do
-  fn := Filename( pkgdir, ff );
-  Print("#I  Testing ", fn, "\n");
-  Test( fn, rec(compareFunction := "uptowhitespace") );
-od;  
-end;
-
-# Arrange testfiles in the order in which they should run
-
-if PingSCSCPservice( "localhost", 26133 ) = true then
-    TestMyPackage( "scscp", [ "scscp04.tst", "scscp05.tst", "scscp06.tst", "scscp07.tst", 
-                   "scscp09.tst", "scscp.tst", "offline.tst" ] );
-else
+# First check that SCSCP servers are available
+if PingSCSCPservice( "localhost", 26133 ) = fail then
   Print("No SCSCP server at port 26133 - test terminated.\n");
+  FORCE_QUIT_GAP(1);
 fi;
 
-if PingSCSCPservice( "localhost", 26134 ) = true then
-  TestMyPackage( "scscp", [ "scscp08.tst" ] );
-else
-  Print("No SCSCP server at ports 26134 - test terminated.\n");
+if PingSCSCPservice( "localhost", 26134 ) = fail then
+  Print("No SCSCP server at port 26134 - test terminated.\n");
+  FORCE_QUIT_GAP(1);
 fi;
 
-                   
+# TODO: "scscp08.tst" requires also the 2nd server at port 26134
+# Currently the test hangs, and its testing is suppressed.
 
+# Run tests which include technical details like random call
+# identifiers and need manual inspection
+TestDirectory(DirectoriesPackageLibrary( "scscp", "tst" ),
+  rec(exitGAP     := false,
+      exclude     := [ "scscp08.tst", "scscp.tst", "offline.tst" ],
+      testOptions := rec(compareFunction := "uptowhitespace") ) );
+
+# Run test files which should have no diffs
+TestDirectory(DirectoriesPackageLibrary( "scscp", "tst" ),
+  rec(exitGAP     := true,
+      exclude     := [ "scscp04.tst", "scscp05.tst", "scscp06.tst", "scscp07.tst", "scscp08.tst", "scscp09.tst" ],
+      testOptions := rec(compareFunction := "uptowhitespace") ) );
+
+FORCE_QUIT_GAP(1); # if we ever get here, there was an error

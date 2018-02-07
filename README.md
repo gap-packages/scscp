@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/gap-packages/scscp.svg?branch=master)](https://travis-ci.org/gap-packages/scscp)
+[![Code Coverage](https://codecov.io/github/gap-packages/scscp/coverage.svg?branch=master&token=)](https://codecov.io/gh/gap-packages/scscp)
+
 # SCSCP
 
 The GAP package SCSCP implements the Symbolic Computation Software
