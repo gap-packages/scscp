@@ -6,7 +6,7 @@
 #############################################################################
 
 if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-	CALL_WITH_CATCH := CallFuncList;
+	  CALL_WITH_CATCH := CallFuncList;
 fi;
 
 SCSCP_UNBIND_MODE := false;
@@ -45,8 +45,8 @@ InstallGlobalFunction( SCSCP_STORE_PERSISTENT, x -> x[1] );
 #
 InstallGlobalFunction( SCSCP_UNBIND,
 function( varnameasstring )
-UnbindGlobal( varnameasstring[1] );
-return not IsBoundGlobal( varnameasstring[1] );
+    UnbindGlobal( varnameasstring[1] );
+    return not IsBoundGlobal( varnameasstring[1] );
 end);
 
 
@@ -56,30 +56,30 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_ALLOWED_HEADS,
 function( x )
-# the function should have an argument, which in this case will be an 
-# empty list, since 'get_allowed_heads' has no arguments
-local range, cd, name, omstr;
-if x <> [] then 
-  Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x, 
-         " which will be ignored!\n");
-fi;
-omstr:="<OMA>\n";
-Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
-# we may eventually have more than one transient CD, then the loop will be uncommented
-if SCSCPserverAcceptsOnlyTransientCD then
-	range := [ "scscp_transient_1" ];
-else
-	range := RecNames(OMsymRecord);
-fi;
-for cd in range do
-  for name in RecNames(OMsymRecord.(cd)) do
-    if OMsymRecord.(cd).(name) <> fail then
-      Append( omstr, Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>\n" ) );
-    fi;  
-  od;
-od;
-Append( omstr, "</OMA>" );
-return OMPlainString( omstr );
+    # the function should have an argument, which in this case will be an
+    # empty list, since 'get_allowed_heads' has no arguments
+    local range, cd, name, omstr;
+    if x <> [] then
+        Print( "WARNING: get_allowed_heads has no arguments, but called with argument ", x,
+               " which will be ignored!\n");
+    fi;
+    omstr:="<OMA>\n";
+    Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set\"/>\n" );
+    # we may eventually have more than one transient CD, then the loop will be uncommented
+    if SCSCPserverAcceptsOnlyTransientCD then
+        range := [ "scscp_transient_1" ];
+    else
+        range := RecNames(OMsymRecord);
+    fi;
+    for cd in range do
+        for name in RecNames(OMsymRecord.(cd)) do
+            if OMsymRecord.(cd).(name) <> fail then
+                Append( omstr, Concatenation( "<OMS cd=\"", cd, "\" name=\"", name, "\"/>\n" ) );
+            fi;
+        od;
+    od;
+    Append( omstr, "</OMA>" );
+    return OMPlainString( omstr );
 end);
 
 
@@ -89,15 +89,15 @@ end);
 #
 InstallGlobalFunction( SCSCP_IS_ALLOWED_HEAD,
 function( x )
-local tran, s, symb, t;
-if IsBound( OMsymRecord.(x[1]) ) then
-  if IsBound( OMsymRecord.(x[1]).(x[2]) ) then
-    if OMsymRecord.(x[1]).(x[2]) <> fail then
-      return true;
+    local tran, s, symb, t;
+    if IsBound( OMsymRecord.(x[1]) ) then
+        if IsBound( OMsymRecord.(x[1]).(x[2]) ) then
+            if OMsymRecord.(x[1]).(x[2]) <> fail then
+                return true;
+            fi;
+        fi;
     fi;
-  fi;
-fi;
-return false;
+    return false;
 end);
 
 
@@ -107,19 +107,19 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_SERVICE_DESCRIPTION,
 function( x )
-local omstr;
-# the function should have an argument, which in this case will be an 
-# empty list, since 'get_allowed_heads' has no arguments
-if x <> [] then 
-  Print( "WARNING: get_service_description has no arguments, but called with argument ", x, 
-         " which will be ignored!\n");
-fi;
-omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"service_description\"/>\n";
-Append( omstr, Concatenation("<OMSTR>", SCSCPserviceName, "</OMSTR>\n" ) );
-Append( omstr, Concatenation("<OMSTR>", SCSCPserviceVersion, "</OMSTR>\n" ) );
-Append( omstr, Concatenation("<OMSTR>", SCSCPserviceDescription, "</OMSTR>\n" ) );
-Append( omstr, "</OMA>" );
-return OMPlainString( omstr );
+    local omstr;
+    # the function should have an argument, which in this case will be an
+    # empty list, since 'get_allowed_heads' has no arguments
+    if x <> [] then
+        Print( "WARNING: get_service_description has no arguments, but called with argument ", x,
+               " which will be ignored!\n");
+    fi;
+    omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"service_description\"/>\n";
+    Append( omstr, Concatenation("<OMSTR>", SCSCPserviceName, "</OMSTR>\n" ) );
+    Append( omstr, Concatenation("<OMSTR>", SCSCPserviceVersion, "</OMSTR>\n" ) );
+    Append( omstr, Concatenation("<OMSTR>", SCSCPserviceDescription, "</OMSTR>\n" ) );
+    Append( omstr, "</OMA>" );
+    return OMPlainString( omstr );
 end);
 
 
@@ -129,26 +129,26 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_TRANSIENT_CD,
 function( x )
-local omstr, procname;
-if not IsBound( OMsymRecord.(x[1]) ) then
-    Error("no_such_transient_cd");
-else
-    omstr:="<CD>\n<CDName>scscp_transient_1</CDName>\n";
-    Append( omstr, Concatenation( "<CDReviewDate>", DateISO8601(), "</CDReviewDate>\n" ) );
-    Append( omstr, Concatenation( "<CDDate>", DateISO8601(), "</CDDate>\n" ) );
-    Append( omstr, Concatenation( "<CDVersion>", "0", "</CDVersion>\n" ) );
-    Append( omstr, Concatenation( "<CDRevision>", "0", "</CDRevision>\n" ) );
-    Append( omstr, "<CDStatus>private</CDStatus>\n" );
-    Append( omstr, "<Description>This is a transient CD for the GAP SCSCP service</Description>\n" );
-    for procname in RecNames( OMsymRecord.(x[1]) ) do
-        Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>", procname, "</Name>\n" ) );
-        Append( omstr, Concatenation( "<Description>",
-                                      SCSCPtransientCDs.(x[1]).(procname).Description,
-                                      "</Description>\n</CDDefinition>\n" ) );
-    od;
-fi;
-Append( omstr, "</CD>" );
-return OMPlainString( omstr );
+    local omstr, procname;
+    if not IsBound( OMsymRecord.(x[1]) ) then
+        Error("no_such_transient_cd");
+    else
+        omstr:="<CD>\n<CDName>scscp_transient_1</CDName>\n";
+        Append( omstr, Concatenation( "<CDReviewDate>", DateISO8601(), "</CDReviewDate>\n" ) );
+        Append( omstr, Concatenation( "<CDDate>", DateISO8601(), "</CDDate>\n" ) );
+        Append( omstr, Concatenation( "<CDVersion>", "0", "</CDVersion>\n" ) );
+        Append( omstr, Concatenation( "<CDRevision>", "0", "</CDRevision>\n" ) );
+        Append( omstr, "<CDStatus>private</CDStatus>\n" );
+        Append( omstr, "<Description>This is a transient CD for the GAP SCSCP service</Description>\n" );
+        for procname in RecNames( OMsymRecord.(x[1]) ) do
+            Append( omstr, Concatenation( "<CDDefinition>\n", "<Name>", procname, "</Name>\n" ) );
+            Append( omstr, Concatenation( "<Description>",
+                    SCSCPtransientCDs.(x[1]).(procname).Description,
+                    "</Description>\n</CDDefinition>\n" ) );
+        od;
+    fi;
+    Append( omstr, "</CD>" );
+    return OMPlainString( omstr );
 end);
 
 
@@ -158,22 +158,22 @@ end);
 #
 InstallGlobalFunction( SCSCP_GET_SIGNATURE,
 function( x )
-local omstr;
-if not IsBound( OMsymRecord.(x[1]) ) then
-    Error("no_such_transient_cd");
-else
-    if not IsBound( OMsymRecord.(x[1]).(x[2]) ) then
-        Error("no_such_symbol");
+    local omstr;
+    if not IsBound( OMsymRecord.(x[1]) ) then
+        Error("no_such_transient_cd");
     else
-        omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"signature\"/>\n";
-        Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
-        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Minarg : noomobj ), "\n" ) );
-        Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Maxarg : noomobj ), "\n" ) );
-        Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
-        Append( omstr, "</OMA>" );
-        return OMPlainString( omstr );
+        if not IsBound( OMsymRecord.(x[1]).(x[2]) ) then
+            Error("no_such_symbol");
+        else
+            omstr:="<OMA>\n<OMS cd=\"scscp2\" name=\"signature\"/>\n";
+            Append( omstr, Concatenation( "<OMS cd=\"", x[1], "\" name=\"", x[2], "\"/>\n" ) );
+            Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Minarg : noomobj ), "\n" ) );
+            Append( omstr, Concatenation( OMString( SCSCPtransientCDs.(x[1]).(x[2]).Maxarg : noomobj ), "\n" ) );
+            Append( omstr, "<OMS cd=\"scscp2\" name=\"symbol_set_all\"/>\n" );
+            Append( omstr, "</OMA>" );
+            return OMPlainString( omstr );
+        fi;
     fi;
-fi;        
 end);
 
 
@@ -182,13 +182,13 @@ end);
 ##  Extending global record OMsymRecord previously created in OpenMath package
 ##
 OMsymRecord.scscp1 := rec(
-	procedure_call := x -> x[1], # x is already converted from OM to GAP 
-	procedure_completed := 
-    	function(x); 
-        if IsBound(x[1]) then 
-        	return x[1];
+  procedure_call := x -> x[1], # x is already converted from OM to GAP
+  procedure_completed :=
+      function(x);
+        if IsBound(x[1]) then
+          return x[1];
         else # when no object is returned
-        	return "procedure completed";
+          return "procedure completed";
         fi;
         end,
     procedure_terminated := x -> x[1],
@@ -207,7 +207,7 @@ OMsymRecord.scscp1 := rec(
     error_CAS := "error_CAS"
 );
 
-OMsymRecord.scscp2 := rec( 
+OMsymRecord.scscp2 := rec(
     store_session := SCSCP_STORE_SESSION,
     store_persistent := SCSCP_STORE_PERSISTENT,
     retrieve := SCSCP_RETRIEVE,
@@ -218,11 +218,11 @@ OMsymRecord.scscp2 := rec(
     get_transient_cd := SCSCP_GET_TRANSIENT_CD,
     get_signature := SCSCP_GET_SIGNATURE
 );
-    
+
 OMsymRecord.meta := rec(
-	CDName := x -> x[1]
+  CDName := x -> x[1]
 );
-       
+
 
 #############################################################################
 ##
@@ -232,8 +232,8 @@ OMsymRecord.meta := rec(
 ##  Takes precisely one object off <stream> (using PipeOpenMathObject)
 ##  and puts it into a string.
 ##  From there the OpenMath object is turned into a record r with fields
-##  r.object, containing the corresponding GAP object, and r.attributes, 
-##  which is a list of pairs [ name, value ], for example 
+##  r.object, containing the corresponding GAP object, and r.attributes,
+##  which is a list of pairs [ name, value ], for example
 ##  [ ["call_id", "user007" ], ["option_runtime", 300000] ]
 ##  This is a counterpart of the function OMGetObject from OpenMath package .
 ##
@@ -462,7 +462,7 @@ end;
 #############################################################################
 ##
 ##  OMPutProcedureCall ( stream, proc_name, objrec : cd:=cdname )
-## 
+##
 ##  The first argument is a stream
 ##  The second argument is procedure name as a string.
 ##  The third is a record similar to those returned by
@@ -474,164 +474,164 @@ end;
 ##
 InstallGlobalFunction( OMPutProcedureCall,
 function( stream, proc_name, objrec )
-local writer, cdname, debug_option, has_attributes, attr, nameandargs;
-if IN_SCSCP_BINARY_MODE then
-	writer:=OpenMathBinaryWriter(stream);
-else 
-	writer:=OpenMathXMLWriter(stream);
-fi;
-if IsClosedStream( stream )  then
-  Error( "OMPutProcedureCall: the 1st argument <proc_name> must be an open stream \n" );
-fi;
-
-if IsBound( objrec.object ) and not IsList( objrec.object ) then
-  Error( "OMPutProcedureCall: in the 3nd argument <objrec.object> must be a list \n" );
-fi;
-
-if IsOutputTextStream( stream )  then
-  SetPrintFormattingStatus( stream, false );
-fi;
-
-if ValueOption("cd") <> fail then
-  cdname := ValueOption("cd");
-  if cdname="" then
-    cdname := "scscp_transient_1";
-  fi;  
-else
-  cdname := "scscp_transient_1";
-fi;
-
-if ValueOption("debuglevel") <> fail then
-  debug_option := ValueOption("debuglevel");
-else
-  debug_option := 0;
-fi;
-
-OMIndent := 0;
-if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage( stream![3][1] ); fi;
-WriteLine( stream, "<?scscp start ?>" );
-OMPutOMOBJ( writer );
-if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
-  has_attributes:=true;
-  OMPutOMATTR( writer );
-  OMPutOMATP( writer );
-  for attr in objrec.attributes do
-    OMPutSymbol( writer, "scscp1", attr[1] );
-    if attr[1] in [ "call_id", "option_min_memory", "option_max_memory",
-                      "option_runtime", "option_debuglevel" ] then
-      OMPut( writer, attr[2] );
-    elif attr[1] in [ "option_return_object", 
-                      "option_return_cookie",
-                      "option_return_nothing",
-                      "option_return_deferred" ] then
-      OMPut( writer, "" );
+    local writer, cdname, debug_option, has_attributes, attr, nameandargs;
+    if IN_SCSCP_BINARY_MODE then
+        writer:=OpenMathBinaryWriter(stream);
     else
-      Error("Unsupported option : ", attr[1], "\n" );
+        writer:=OpenMathXMLWriter(stream);
     fi;
-  od;
-  OMPutEndOMATP( writer );
-else
-  has_attributes:=false;
-fi;
-OMPutOMA( writer );
-OMPutSymbol( writer, "scscp1", "procedure_call" );
-if proc_name in [ "get_allowed_heads", 
-                  "get_service_description", 
-                  "get_signature", 
-                  "get_transient_cd", 
-                  "is_allowed_head", 
-                  "retrieve", 
-                  "store_session", 
-                  "store_persistent", 
-                  "unbind" ] then
-  OMPutApplication( writer, "scscp2", proc_name, objrec.object );
-else
-  OMPutApplication( writer, cdname, proc_name, objrec.object );
-fi;
-OMPutEndOMA( writer );
-if has_attributes then
-  OMPutEndOMATTR( writer );
-fi;
-OMPutEndOMOBJ( writer );
-WriteLine( stream, "<?scscp end ?>" );
-if IsInputOutputTCPStream( stream ) then
-  IO_Flush( stream![1] );
-fi;
-return true;
+    if IsClosedStream( stream )  then
+        Error( "OMPutProcedureCall: the 1st argument <proc_name> must be an open stream \n" );
+    fi;
+
+    if IsBound( objrec.object ) and not IsList( objrec.object ) then
+        Error( "OMPutProcedureCall: in the 3nd argument <objrec.object> must be a list \n" );
+    fi;
+
+    if IsOutputTextStream( stream )  then
+        SetPrintFormattingStatus( stream, false );
+    fi;
+
+    if ValueOption("cd") <> fail then
+        cdname := ValueOption("cd");
+        if cdname="" then
+            cdname := "scscp_transient_1";
+        fi;
+    else
+        cdname := "scscp_transient_1";
+    fi;
+
+    if ValueOption("debuglevel") <> fail then
+        debug_option := ValueOption("debuglevel");
+    else
+        debug_option := 0;
+    fi;
+
+    OMIndent := 0;
+    if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage( stream![3][1] ); fi;
+    WriteLine( stream, "<?scscp start ?>" );
+    OMPutOMOBJ( writer );
+    if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
+        has_attributes:=true;
+        OMPutOMATTR( writer );
+        OMPutOMATP( writer );
+        for attr in objrec.attributes do
+            OMPutSymbol( writer, "scscp1", attr[1] );
+            if attr[1] in [ "call_id", "option_min_memory", "option_max_memory",
+                       "option_runtime", "option_debuglevel" ] then
+                OMPut( writer, attr[2] );
+            elif attr[1] in [ "option_return_object",
+                    "option_return_cookie",
+                    "option_return_nothing",
+                    "option_return_deferred" ] then
+                OMPut( writer, "" );
+            else
+                Error("Unsupported option : ", attr[1], "\n" );
+            fi;
+        od;
+        OMPutEndOMATP( writer );
+    else
+        has_attributes:=false;
+    fi;
+    OMPutOMA( writer );
+    OMPutSymbol( writer, "scscp1", "procedure_call" );
+    if proc_name in [ "get_allowed_heads",
+               "get_service_description",
+               "get_signature",
+               "get_transient_cd",
+               "is_allowed_head",
+               "retrieve",
+               "store_session",
+               "store_persistent",
+               "unbind" ] then
+        OMPutApplication( writer, "scscp2", proc_name, objrec.object );
+    else
+        OMPutApplication( writer, cdname, proc_name, objrec.object );
+    fi;
+    OMPutEndOMA( writer );
+    if has_attributes then
+        OMPutEndOMATTR( writer );
+    fi;
+    OMPutEndOMOBJ( writer );
+    WriteLine( stream, "<?scscp end ?>" );
+    if IsInputOutputTCPStream( stream ) then
+        IO_Flush( stream![1] );
+    fi;
+    return true;
 end);
 
 
 #############################################################################
 ##
 ##  OMPutProcedureCompleted ( stream, objrec )
-## 
+##
 ##  The first argument is a stream
 ##  The second argument is a record like the one returned by
 ##  OMGetObjectWithAttributes, for example:
 ##  rec ( object := 120,
-##    attributes := [ [ "info_runtime", 1000 ], 
+##    attributes := [ [ "info_runtime", 1000 ],
 ##                    [ "info_memory", 2048 ],
 ##                    [ "call_id", "user007" ] ] )
 ##
 InstallGlobalFunction( OMPutProcedureCompleted,
 function( stream, objrec )
-local writer, has_attributes, attr;
-if IN_SCSCP_BINARY_MODE then
-	writer:=OpenMathBinaryWriter(stream);
-else 
-	writer:=OpenMathXMLWriter(stream);
-fi;
-if IsClosedStream( stream )  then
-  Error( "closed stream" );
-fi;
-if IsOutputTextStream( stream )  then
-  SetPrintFormattingStatus( stream, false );
-fi;
-OMIndent := 0;
-if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
-WriteLine( stream, "<?scscp start ?>" );
-OMPutOMOBJ( writer );
-if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
-  has_attributes:=true;
-  OMPutOMATTR( writer );
-  OMPutOMATP( writer );
-  for attr in objrec.attributes do
-  	if attr[1] in [ "call_id", "info_memory", "info_message", "info_runtime" ] then
-      OMPutSymbol( writer, "scscp1", attr[1] );
-      OMPut( writer, attr[2] );
+    local writer, has_attributes, attr;
+    if IN_SCSCP_BINARY_MODE then
+        writer:=OpenMathBinaryWriter(stream);
     else
-      Error("Unsupported attribute : ", attr[1], "\n" );
+        writer:=OpenMathXMLWriter(stream);
     fi;
-  od;
-  OMPutEndOMATP( writer );
-else
-  has_attributes:=false;
-fi;
-if IsBound(objrec.object) then
-  OMPutApplication( writer, "scscp1", "procedure_completed", [ objrec.object ] );
-else
-  OMPutApplication( writer, "scscp1", "procedure_completed", [ ] );
-fi;  
-if has_attributes then
-  OMPutEndOMATTR( writer );
-fi;
-OMPutEndOMOBJ( writer );
-WriteLine( stream, "<?scscp end ?>" );
-if IsInputOutputTCPStream( stream ) then
-  IO_Flush( stream![1] );
-fi;
-return true;
+    if IsClosedStream( stream )  then
+        Error( "closed stream" );
+    fi;
+    if IsOutputTextStream( stream )  then
+        SetPrintFormattingStatus( stream, false );
+    fi;
+    OMIndent := 0;
+    if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
+    WriteLine( stream, "<?scscp start ?>" );
+    OMPutOMOBJ( writer );
+    if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
+        has_attributes:=true;
+        OMPutOMATTR( writer );
+        OMPutOMATP( writer );
+        for attr in objrec.attributes do
+            if attr[1] in [ "call_id", "info_memory", "info_message", "info_runtime" ] then
+                OMPutSymbol( writer, "scscp1", attr[1] );
+                OMPut( writer, attr[2] );
+            else
+                Error("Unsupported attribute : ", attr[1], "\n" );
+            fi;
+        od;
+        OMPutEndOMATP( writer );
+    else
+        has_attributes:=false;
+    fi;
+    if IsBound(objrec.object) then
+        OMPutApplication( writer, "scscp1", "procedure_completed", [ objrec.object ] );
+    else
+        OMPutApplication( writer, "scscp1", "procedure_completed", [ ] );
+    fi;
+    if has_attributes then
+        OMPutEndOMATTR( writer );
+    fi;
+    OMPutEndOMOBJ( writer );
+    WriteLine( stream, "<?scscp end ?>" );
+    if IsInputOutputTCPStream( stream ) then
+        IO_Flush( stream![1] );
+    fi;
+    return true;
 end);
 
 
 #############################################################################
 ##
 ##  OMPutProcedureTerminated( stream, objrec, error_cd, error_type )
-## 
+##
 ##  The first argument is a stream
 ##  The second argument is a record like the one returned by
 ##  OMGetObjectWithAttributes, for example:
-##  rec (  attributes := [ [ "info_runtime", 1000 ], 
+##  rec (  attributes := [ [ "info_runtime", 1000 ],
 ##                         [ "info_memory", 2048 ],
 ##                         [ "call_id", "user007" ] ],
 ##  object := "localhost:26133 reports : Rational operations: <divisor> must not be zero")
@@ -642,54 +642,54 @@ end);
 ##
 InstallGlobalFunction( OMPutProcedureTerminated,
 function( stream, objrec, error_cd, error_type )
-local writer, has_attributes, attr;
-if IN_SCSCP_BINARY_MODE then
-	writer:=OpenMathBinaryWriter(stream);
-else 
-	writer:=OpenMathXMLWriter(stream);
-fi;
-if IsClosedStream( stream )  then
-  Error( "closed stream" );
-fi;
-if IsOutputTextStream( stream )  then
-  SetPrintFormattingStatus( stream, false );
-fi;
-OMIndent := 0;
-if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
-WriteLine( stream, "<?scscp start ?>" );
-OMPutOMOBJ( writer );
-if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
-  has_attributes:=true;
-  OMPutOMATTR( writer );
-  OMPutOMATP( writer );
-  for attr in objrec.attributes do
-    if attr[1] in [ "call_id", "info_memory", "info_runtime" ] then
-    	OMPutSymbol( writer, "scscp1", attr[1] );
-    	OMPut( writer, attr[2] );
+    local writer, has_attributes, attr;
+    if IN_SCSCP_BINARY_MODE then
+        writer:=OpenMathBinaryWriter(stream);
     else
-      Error("Unsupported attribute : ", attr[1], "\n" );
+        writer:=OpenMathXMLWriter(stream);
     fi;
-  od;
-  OMPutEndOMATP( writer );
-else
-  has_attributes:=false;
-fi;
-OMPutOMA( writer );
-OMPutSymbol( writer, "scscp1", "procedure_terminated" );
-OMPutError( writer, error_cd, error_type, [ objrec.object ] );
-OMPutEndOMA( writer );
-if has_attributes then
-  OMPutEndOMATTR( writer );
-fi;
-OMPutEndOMOBJ( writer );
-WriteLine( stream, "<?scscp end ?>" );
-if IsInputOutputTCPStream( stream ) then
-  IO_Flush( stream![1] );
-fi;
-return true;
+    if IsClosedStream( stream )  then
+        Error( "closed stream" );
+    fi;
+    if IsOutputTextStream( stream )  then
+        SetPrintFormattingStatus( stream, false );
+    fi;
+    OMIndent := 0;
+    if IN_SCSCP_TRACING_MODE then SCSCPTraceSendMessage(0); fi;
+    WriteLine( stream, "<?scscp start ?>" );
+    OMPutOMOBJ( writer );
+    if IsBound(objrec.attributes) and Length(objrec.attributes)>0 then
+        has_attributes:=true;
+        OMPutOMATTR( writer );
+        OMPutOMATP( writer );
+        for attr in objrec.attributes do
+            if attr[1] in [ "call_id", "info_memory", "info_runtime" ] then
+                OMPutSymbol( writer, "scscp1", attr[1] );
+                OMPut( writer, attr[2] );
+            else
+                Error("Unsupported attribute : ", attr[1], "\n" );
+            fi;
+        od;
+        OMPutEndOMATP( writer );
+    else
+        has_attributes:=false;
+    fi;
+    OMPutOMA( writer );
+    OMPutSymbol( writer, "scscp1", "procedure_terminated" );
+    OMPutError( writer, error_cd, error_type, [ objrec.object ] );
+    OMPutEndOMA( writer );
+    if has_attributes then
+        OMPutEndOMATTR( writer );
+    fi;
+    OMPutEndOMOBJ( writer );
+    WriteLine( stream, "<?scscp end ?>" );
+    if IsInputOutputTCPStream( stream ) then
+        IO_Flush( stream![1] );
+    fi;
+    return true;
 end);
 
 ###########################################################################
 ##
-#E 
+#E
 ##
