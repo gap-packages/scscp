@@ -81,6 +81,12 @@
 ##
 DeclareGlobalFunction( "OMGetObjectWithAttributes" );
 
+
+DeclareGlobalFunction( "FilterContent" );
+DeclareGlobalFunction( "SCSCP_GetProcedureCall");
+DeclareGlobalFunction( "SCSCP_IsTransientProcedureCall");
+DeclareGlobalFunction( "SCSCP_IsDeferredProcedureCall");
+
 DeclareGlobalFunction( "OMgetObjectXMLTreeWithAttributes" );
 
 
