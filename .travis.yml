@@ -3,6 +3,7 @@ env:
   global:
     - GAPROOT=gaproot
     - COVDIR=coverage
+    - GAP_PKGS_TO_BUILD="anupq io profiling"
 
 addons:
   apt_packages:
@@ -28,8 +29,14 @@ branches:
 before_script:
   - export GAPROOT="$HOME/gap"
   - scripts/build_gap.sh
+
+# start two SCSCP servers, allow some time for them to load, then run tests
 script:
-  - scripts/build_pkg.sh && scripts/run_tests.sh
+  - scripts/build_pkg.sh
+  - ./gapd.sh -p 26133 GAPROOT=${GAPROOT}
+  - ./gapd.sh -p 26134 GAPROOT=${GAPROOT}
+  - sleep 60
+  - scripts/run_tests.sh
 after_script:
   - bash scripts/gather-coverage.sh
   - bash <(curl -s https://codecov.io/bash)
