@@ -23,10 +23,6 @@ InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing,
 # The 1st argument may also be 'true' to listen to all network interfaces
 # or 'false' to bind the server strictly to "localhost".
 #
-if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-    CALL_WITH_CATCH := CallFuncList;
-fi;
-
 InstallGlobalFunction( RunSCSCPserver, function( server, port )
 
 local socket, lookup, bindaddr, addr, res, disconnect, socket_descriptor, 
@@ -159,11 +155,9 @@ else
                     callresult:=CALL_WITH_CATCH( IO_Select, 
                                   [  [ stream![1] ], [ ], [ ], [ ], 60*60, 0 ] );
                     if IN_SCSCP_TRACING_MODE then SCSCPTraceRunThread(); fi;
-                    if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-                        if not callresult[1] then
-                            disconnect:=true;
-                            break;         
-                        fi;
+                    if not callresult[1] then
+                        disconnect:=true;
+                        break;
                     fi;
 
                     Info(InfoSCSCP, 1, "Retrieving and evaluating ...");
@@ -171,11 +165,6 @@ else
                     callresult:=CALL_WITH_CATCH( OMGetObjectWithAttributes, [ stream ] );
                     rt2 := Runtime();
                     Info(InfoSCSCP, 1, "Evaluation completed");
-
-                    # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                    if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-                    	callresult := [ true, callresult ];
-                    fi;
 
                     objrec := callresult[2]; # can be record, fail or list of strings
 
@@ -275,12 +264,7 @@ else
                                                        attributes:=callinfo ), 
                                                       errormessage[2], 
                                                       errormessage[3] ] );
-                                          
-                        # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                        if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then 
-                            responseresult := [ true, responseresult ]; 
-                        fi;
-                                          
+
                         if responseresult[1] then
                             Info(InfoSCSCP, 1, "procedure_terminated message sent, closing connection ...");
                         else
@@ -337,11 +321,6 @@ else
  
                     responseresult := CALL_WITH_CATCH( OMPutProcedureCompleted, [ stream, output ] );
 
-                    # FOR COMPATIBILITY WITH 4.4.12 WITH REDUCED FUNCTIONALITY
-                    if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then 
-                        responseresult := [ true, responseresult ]; 
-                    fi;
-                                        
                     if not responseresult[1] then
                         Info(InfoSCSCP, 1, "client already disconnected, closing connection on server side ...");               
                         disconnect:=true;

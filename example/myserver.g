@@ -201,10 +201,8 @@ InstallSCSCPprocedure( "PointImages", PointImages,
 # from the GAP small groups library
 #
 if LoadPackage("unitlib") = true then
-  if CompareVersionNumbers( GAPInfo.PackagesInfo.("unitlib")[1].Version, "3.0.0" ) then
 	InstallSCSCPprocedure( "NormalizedUnitCFpower", NormalizedUnitCFpower );
 	InstallSCSCPprocedure( "NormalizedUnitCFcommutator", NormalizedUnitCFcommutator );
-  fi;		
 fi;
 
 

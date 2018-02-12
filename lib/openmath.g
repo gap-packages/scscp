@@ -5,10 +5,6 @@
 ##
 #############################################################################
 
-if not CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-	CALL_WITH_CATCH := CallFuncList;
-fi;
-
 SCSCP_UNBIND_MODE := false;
 SCSCP_STORE_SESSION_MODE := true;
 

@@ -5,8 +5,6 @@
 ##
 #############################################################################
 
-if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-
 MakeReadWriteGlobal( "ErrorInner" );
 UnbindGlobal( "ErrorInner" );
 
@@ -67,8 +65,6 @@ BindGlobal( "ErrorInner", function( arg )
     JUMP_TO_CATCH( arg[2] ); # arg[2] = earlyMessage in the library version of ErrorInner
     
     end );
-
-fi;
 
 ###########################################################################
 ##
