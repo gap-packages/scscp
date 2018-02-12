@@ -114,12 +114,8 @@ InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel,
 # After this call, the break loop will occure on the server again.
 #
 SCSCPRestoreErrorsOnServer:=function( )
-if CompareVersionNumbers( GAPInfo.Version, "4.5.0") then
-	RereadLib("error.g"); # to restore the library version of ErrorInner 
-	return true;
-else 
-	Error( "SCSCPRestoreErrorsOnServer: server must run version 4.5 or 4.dev" );
-fi;	
+RereadLib("error.g"); # to restore the library version of ErrorInner
+return true;
 end;
 
 InstallSCSCPprocedure( "SCSCPRestoreErrorsOnServer", SCSCPRestoreErrorsOnServer, 
