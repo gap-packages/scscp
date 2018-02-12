@@ -30,13 +30,18 @@ before_script:
   - export GAPROOT="$HOME/gap"
   - scripts/build_gap.sh
 
-# start two SCSCP servers, allow some time for them to load, then run tests
+# Create directory to collect coverage data.
+# Start two SCSCP servers, collect coverage from the one running
+# on the default port (it is exercised by more tests).
+# Sleep to allow servers to be up and running, then run tests.
 script:
   - scripts/build_pkg.sh
-  - ./gapd.sh -p 26133 GAPROOT=${GAPROOT}
-  - ./gapd.sh -p 26134 GAPROOT=${GAPROOT}
-  - sleep 60
+  - mkdir ${COVDIR}
+  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/${GAPROOT}; --cover ${COVDIR}/test-server.coverage" ./gapd.sh -p 26133
+  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/${GAPROOT};" ./gapd.sh -p 26134
+  - sleep 30
   - scripts/run_tests.sh
 after_script:
+  - ls ${COVDIR}
   - bash scripts/gather-coverage.sh
   - bash <(curl -s https://codecov.io/bash)

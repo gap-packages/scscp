@@ -240,7 +240,6 @@ InstallSCSCPprocedure(
   i -> WeightVecFFE( AClosestVectorCombinationsMatFFEVecFFE( 
          SCSCPMINDISTG, SCSCPMINDISTF, SCSCPMINDISTzero, i, 1) ) );
                            
-                           
 #############################################################################
 #
 # Finally, we start the SCSCP server. 
