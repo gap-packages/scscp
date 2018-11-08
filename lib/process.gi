@@ -35,6 +35,7 @@ ProcessDefaultType := NewType( ProcessesFamily,
 
 if IsReadOnlyGlobal("OnQuit") then
     MakeReadWriteGlobal("OnQuit");
+    BindGlobal("OriginalOnQuit", OnQuit);
 fi;
 
 OnQuit:=function()
@@ -46,13 +47,7 @@ if SCSCP_CURRENT_SESSION_STREAM <> fail then
     fi;    
     SCSCP_CURRENT_SESSION_STREAM := fail;
 fi;    
-if not IsEmpty( OptionsStack )  then
-    repeat
-        PopOptions(  );
-    until IsEmpty( OptionsStack );
-    Info( InfoWarning, 1, "Options stack has been reset" );
-fi;
-return;
+OriginalOnQuit();
 end;
 
 MakeReadOnlyGlobal("OnQuit");
