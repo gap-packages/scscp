@@ -117,7 +117,8 @@ if [ $unimode = "yes" ]; then
 	host=":=true;"
 fi;
 
-echo "Starting SCSCP server with output to $OUTFILE" 
+echo "Starting SCSCP server with output to $OUTFILE"
+echo "Command to start GAP:" $GAP
 
 # The next line starts GAP SCSCP server. 
 # To redirect stderr to /dev/null as well,
