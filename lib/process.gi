@@ -248,10 +248,7 @@ end);
 # TerminateProcess( <process> )
 #
 InstallGlobalFunction( TerminateProcess, function( process )
-# THIS WORKS ONLY LOCALLY
-if process![1]![2]="localhost" then
-  IO_kill( process![2], IO.SIGINT );
-fi;  
+CloseStream(process![1]);
 end);
 
 
@@ -399,8 +396,7 @@ while Length(waitinglist) > 0 do
   if result[nrprocess].object = true then
     Info( InfoSCSCP, 1, "Process number ", nrprocess, " returned true, closing remaining processes");
     for i in waitinglist do
-      # TerminateProcess( processes[i] );
-      CloseStream( processes[i]![1]);
+      TerminateProcess( processes[i] );
     od;
     return result;
   fi;    
@@ -436,8 +432,7 @@ elif descriptors[2]<>fail then # 2nd process is ready
   result[2] := CompleteProcess( b );
   if result[2].object = true then
     Info( InfoSCSCP, 1, "Process number 2 returned true, closing process number 1");
-    CloseStream( a![1] );
-    # TerminateProcess( a );
+    TerminateProcess( a );
     return result;
   fi;  
   Info( InfoSCSCP, 1, "Closed 2nd process, waiting for 1st ...");  

@@ -37,11 +37,13 @@ gap> Print(t);
 <?scscp end ?>
 
 #
+gap> InstallSCSCPprocedure("WS_Factorial",Factorial : force);
 gap> tt := ParseTreeXMLString(t);;
-gap> SCSCP_GetProcedureCall(tt);
-fail
-gap> node := tt.content[3];; FilterContent(node);; node := node.content[1];;
-gap> SCSCP_GetProcedureCall(node);
-rec( cd := "scscp_transient_1", name := "WS_Factorial" )
-
-#
+gap> node := tt.content[3];;
+gap> node.content := Filtered( node.content, OMIsNotDummyLeaf );;
+gap> attrs := List( Filtered( node.content[1].content, t -> t.name = "OMATP" ), OMParseXmlObj );
+[ [ [ "call_id", "user007" ], [ "option_runtime", 1000 ], 
+      [ "option_min_memory", 1024 ], [ "option_max_memory", 2048 ], 
+      [ "option_debuglevel", 1 ], [ "option_return_object", "" ] ] ]
+gap> OMParseXmlObj( node.content[1] );
+120
