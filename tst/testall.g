@@ -15,14 +15,11 @@ if PingSCSCPservice( "localhost", 26134 ) = fail then
   FORCE_QUIT_GAP(1);
 fi;
 
-# TODO: "scscp08.tst" requires also the 2nd server at port 26134
-# Currently the test hangs, and its testing is suppressed.
-
 # Run tests which include technical details like random call
 # identifiers and need manual inspection
 TestDirectory(DirectoriesPackageLibrary( "scscp", "tst" ),
   rec(exitGAP     := false,
-      exclude     := [ "scscp08.tst", "scscp.tst", "offline.tst" ],
+      exclude     := [ "scscp.tst", "offline.tst", "xmltree.tst" ],
       testOptions := rec(compareFunction := "uptowhitespace") ) );
 
 # Run test files which should have no diffs
