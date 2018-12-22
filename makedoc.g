@@ -95,7 +95,7 @@ CopyHTMLStyleFiles( "doc" );
 # package is referring to your package
 GAPDocManualLab( "scscp" );; 
  
-ExtractMyManualExamples( "SCSCP", "manual.xml", SCSCPMANUALFILES );
+ExtractMyManualExamples( "scscp", "manual.xml", SCSCPMANUALFILES );
 
 QUIT;
 
