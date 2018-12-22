@@ -325,56 +325,6 @@ function( stream )
     fi;
 end );
 
-# FIXME: This should be done on creation of the tree
-InstallGlobalFunction(FilterContent,
-function(node)
-    node.content := Filtered(node.content, OMIsNotDummyLeaf);
-    return node;
-end);
-
-# FIXME: Does the SCSCP specification actually guarantee the order
-#        of content?
-#        Do we need to enable more fine-grained error messages?
-#        Maybe we can make this more transparent
-#
-#! @Description
-#!   Extracts an SCSCP procedure call from a record XML-Tree
-#!   representation and returns a record containing the cd and
-#!   the name of the procedure that is to be called.
-#!   If the record does not contain a valid SCSCP call, then
-#!   this function returns fail.
-InstallGlobalFunction(SCSCP_GetProcedureCall,
-function(node)
-    local pos, apply;
-
-	  # expecting scscp1.procedure_call
-    pos := PositionProperty( node.content, r -> r.name="OMA");
-    if pos <> fail then
-        apply := node.content[pos];
-        FilterContent(apply);
-        FilterContent(apply.content[2]);
-        if IsBound( apply.content[1] ) and
-           IsBound( apply.content[1].attributes ) and
-           (apply.content[1].attributes in
-            [ rec( name := "procedure_call", cd := "scscp1" ),
-              rec( name := "procedure_completed", cd := "scscp1" ),
-              rec( name := "procedure_terminated", cd := "scscp1") ] ) and
-           IsBound( apply.content[2].content[1] ) and
-           IsBound( apply.content[2].content[1].attributes ) and
-           IsBound( apply.content[2].content[1].attributes.cd ) and
-           IsBound( apply.content[2].content[1].attributes.name ) then
-            return rec( cd := apply.content[2].content[1].attributes.cd
-                      , name := apply.content[2].content[1].attributes.name );
-        fi;
-    fi;
-    return fail;
-end);
-
-InstallGlobalFunction(SCSCP_IsTransientProcedureCall,
-                      apply -> Length( apply.cd ) >= 5 and apply.cd{[1..5]} = "scscp");
-
-InstallGlobalFunction(SCSCP_IsDeferredProcedureCall,
-                      attrs -> ForAny( attrs, t -> t[1] = "option_return_deferred"));
 
 #############################################################################
 ##
@@ -384,7 +334,7 @@ InstallGlobalFunction(SCSCP_IsDeferredProcedureCall,
 ##
 InstallGlobalFunction( OMgetObjectXMLTreeWithAttributes,
 function(string)
-    local return_tree, apply, node, attrs, obj, cd, name;
+    local return_tree, return_deferred, node, attrs, t, obj, pos, name;
 
     if ValueOption("return_tree") <> fail then
         return_tree := true;
@@ -400,13 +350,14 @@ function(string)
 
     node := ParseTreeXMLString( string ).content[1];
 
-    FilterContent(node);
+    node.content := Filtered( node.content, OMIsNotDummyLeaf );
+
+    # Print( "ParseTreeXMLString( string ) = ", node.content, "\n" );
 
     attrs := List( Filtered( node.content[1].content, t -> t.name = "OMATP" ), OMParseXmlObj );
 
-    # TODO: Justify this
-    if Length(attrs) = 1 then
-        attrs := attrs[1];
+    if Length(attrs)=1 then
+        attrs:=attrs[1];
     fi;
 
     # At this point we already know attributes BEFORE the the real computation is started.
@@ -415,44 +366,86 @@ function(string)
 
     # Now we will check that this is really procedure_call message and that
     # the procedure is allowed, that is, it is from scscp{1,2} or scscp_transient_X CD
+
     if SCSCPserverMode then
-        # TODO: This is global state, what does it do
-        #       and can we make it non-global?
+
         SCSCP_UNBIND_MODE := false;
         SCSCP_STORE_SESSION_MODE := true;
 
-        apply := SCSCP_GetProcedureCall(node.content[1].content);
-        if apply = fail then
-            return rec( object := [ "Message rejected: expected scscp1.procedure_call" ],
-                        attributes := attrs, is_error := true );
-        fi;
-
-        if SCSCPserverAcceptsOnlyTransientCD and
-           not SCSCP_IsTransientProcedureCall(apply) then
-            return rec( object := [ "Message rejected: no permission to execute ",
-                                    apply.cd, ".", apply.name, "."],
-                        attributes := attrs, is_error := true );
-        fi;
-
-        # some checks for some particular special procedures might be here
-        # FIXME: This should really have a handler?
-        if apply.cd = "scscp2" then
-            if apply.name = "unbind" then
-                SCSCP_UNBIND_MODE := true;
-            elif apply.name = "store_persistent" then
-                SCSCP_STORE_SESSION_MODE := false;
+        pos:=PositionProperty( node.content[1].content, r -> r.name="OMA");	# expected scscp1.procedure_call
+        if pos=fail then
+            return rec( object := [ "Message rejected: it must be a proper scscp1.procedure_call" ],
+                        attributes := attrs, is_error:=true );
+        else
+            node.content[1].content[pos].content :=
+              Filtered( node.content[1].content[pos].content, OMIsNotDummyLeaf );
+            if not IsBound( node.content[1].content[pos].content[1] ) or
+               not IsBound( node.content[1].content[pos].content[1].attributes ) or
+               not node.content[1].content[pos].content[1].attributes in
+               [ rec( name := "procedure_call", cd := "scscp1" ),
+                 rec( name := "procedure_completed", cd := "scscp1" ),
+                 rec( name := "procedure_terminated", cd := "scscp1") ]
+              then
+                return rec( object := [ "Message rejected because it is not a proper scscp1.procedure_call" ],
+                            attributes := attrs, is_error:=true );
+            else
+                node.content[1].content[pos].content[2].content :=
+                  Filtered( node.content[1].content[pos].content[2].content, OMIsNotDummyLeaf );
+                if not IsBound( node.content[1].content[pos].content[2].content[1] ) or
+                   not IsBound( node.content[1].content[pos].content[2].content[1].attributes ) or
+                   not IsBound( node.content[1].content[pos].content[2].content[1].attributes.cd ) then
+                    return rec( object := [ "Message rejected because it is not properly formatted" ],
+                                attributes := attrs, is_error:=true );
+                elif SCSCPserverAcceptsOnlyTransientCD and
+                  ( Length( node.content[1].content[pos].content[2].content[1].attributes.cd ) < 5 or
+                    not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" ) then
+                    return rec( object := [
+                                   "Message rejected because the procedure ",
+                                   node.content[1].content[pos].content[2].content[1].attributes.cd, ".",
+                                   node.content[1].content[pos].content[2].content[1].attributes.name,
+                                   " is not allowed"],
+                                attributes := attrs, is_error:=true );
+                else
+                    # some checks for some particular special procedures might be here
+                    if node.content[1].content[pos].content[2].content[1].attributes.cd = "scscp2" then
+                        name := node.content[1].content[pos].content[2].content[1].attributes.name;
+                        if name = "unbind" then
+                            SCSCP_UNBIND_MODE := true;
+                        elif name = "store_persistent" then
+                            SCSCP_STORE_SESSION_MODE := false;
+                        fi;
+                    fi;
+                fi;
             fi;
         fi;
+
     fi;
 
-    if return_tree or SCSCP_IsDeferredProcedureCall(attrs) then
+    # if the security check is done, we may proceed
+    if ForAny( attrs, t -> t[1]="option_return_deferred" ) then
+        return_deferred := true;
+    else
+        return_deferred := false;
+    fi;
+
+    if return_tree or return_deferred then
         obj := node.content[1];
     else
         obj := OMParseXmlObj( node.content[1] );
     fi;
 
-    return rec( object := obj
-              , attributes := attrs );
+    # the next check was is a temporary measure to verify that
+    # attributes were identified properly
+
+    #if OMTempVars.OMATTR <> rec() then
+    #  if OMParseXmlObj( OMTempVars.OMATTR ) <> attrs then
+    #    Error("Attributes were not properly identified:\n",
+    #    "OMParseXmlObj( OMTempVars.OMATTR ) = ", OMParseXmlObj( OMTempVars.OMATTR ), "\n",
+    #    "attrs = ", attrs );
+    #  fi;
+    #fi;
+
+    return rec( object:=obj, attributes:=attrs );
 end );
 
 
