@@ -36,8 +36,8 @@ before_script:
 script:
   - scripts/build_pkg.sh
   - mkdir ${COVDIR}
-  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/${GAPROOT}; --cover ${COVDIR}/test-server.coverage" ./gapd.sh -p 26133
-  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/${GAPROOT};" ./gapd.sh -p 26134
+  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/gaproot; --cover ${COVDIR}/test-server.coverage" ./gapd.sh -p 26133
+  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
   - sleep 30
   - scripts/run_tests.sh
 after_script:
