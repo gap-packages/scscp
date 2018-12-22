@@ -47,8 +47,8 @@
 ##  Define the local call of GAP and call options, if necessary, for 
 ##  example, memory usage, start with the workspace etc. The path may be 
 ##  relative (to start from this directory) or absolute. 
-##  
-GAP="$GAPROOT/bin/gap.sh -b -r"
+##
+GAP="$GAPROOT/bin/gap.sh -b -r $GAPOPTS"
 ##
 ###########################################################################
 ##

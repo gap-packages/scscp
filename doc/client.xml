@@ -121,14 +121,36 @@ gap> x := [ Z(3)^0, Z(3), 0*Z(3) ];
 The XML &OpenMath; encoding of such objects is quite bulky:
 <Example>
 <![CDATA[
-gap> OMString( x );
-"<OMOBJ xmlns=\"http://www.openmath.org/OpenMath\" version=\"2.0\"> <OMA> <OMS\
- cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> \
-<OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0<\
-/OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> <OMS cd=\"finfiel\
-d1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>1</OMI> </OMA> <OMA\
-> <OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfield1\" name=\"primi\
-tive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </OMA> </OMOBJ>"
+gap> OMPrint( x );
+<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
+	<OMA>
+		<OMS cd="list1" name="list"/>
+		<OMA>
+			<OMS cd="arith1" name="power"/>
+			<OMA>
+				<OMS cd="finfield1" name="primitive_element"/>
+				<OMI>3</OMI>
+			</OMA>
+			<OMI>0</OMI>
+		</OMA>
+		<OMA>
+			<OMS cd="arith1" name="power"/>
+			<OMA>
+				<OMS cd="finfield1" name="primitive_element"/>
+				<OMI>3</OMI>
+			</OMA>
+			<OMI>1</OMI>
+		</OMA>
+		<OMA>
+			<OMS cd="arith1" name="times"/>
+			<OMA>
+				<OMS cd="finfield1" name="primitive_element"/>
+				<OMI>3</OMI>
+			</OMA>
+			<OMI>0</OMI>
+		</OMA>
+	</OMA>
+</OMOBJ>
 gap> Length( OMString(x) );
 507
 ]]>
