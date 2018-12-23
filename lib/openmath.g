@@ -533,7 +533,7 @@ if IsBound( node.attributes.href ) then
           Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
         fi;    
       else # for a "foreign" object
-        return EvaluateBySCSCP( "retrieve", [ name ], server, port ).object;
+        return EvaluateBySCSCP( "retrieve", [ RemoteObject(name,server,port) ], server, port ).object;
       fi;    
     else # in the client's mode
       return RemoteObject( node.attributes.href, server, port );
