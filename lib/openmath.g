@@ -397,6 +397,10 @@ function(string)
                     return rec( object := [ "Message rejected because it is not properly formatted" ],
                                 attributes := attrs, is_error:=true );
                 elif SCSCPserverAcceptsOnlyTransientCD and
+                  # check that we are not parsing procedure_completed message
+                  # while resolving a reference to a remote object
+                  not node.content[1].content[pos].content[1].attributes =
+                      rec( name := "procedure_completed", cd := "scscp1" ) and
                   ( Length( node.content[1].content[pos].content[2].content[1].attributes.cd ) < 5 or
                     not node.content[1].content[pos].content[2].content[1].attributes.cd{[1..5]} = "scscp" ) then
                     return rec( object := [
@@ -533,7 +537,7 @@ if IsBound( node.attributes.href ) then
           Error( "Client request refers to an unbound variable ", node.attributes.href, "\n");
         fi;    
       else # for a "foreign" object
-        return EvaluateBySCSCP( "retrieve", [ name ], server, port ).object;
+        return EvaluateBySCSCP( "retrieve", [ RemoteObject(name,server,port) ], server, port ).object;
       fi;    
     else # in the client's mode
       return RemoteObject( node.attributes.href, server, port );

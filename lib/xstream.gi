@@ -34,7 +34,13 @@ if Length( arg ) = 2 then # client case
   if not ( IsInt(port) and port >= 0 ) then
     Error( "InputOutputTCPStream: <port> must be a non-negative integer! \n");  
   fi;
-  lookup := IO_gethostbyname( hostname );
+  # try to lookup the host for up to ten times
+  for i in [1..10] do
+    lookup := IO_gethostbyname( hostname );
+    if lookup <> fail then
+      break;
+    fi;
+  od;
   if lookup = fail then
     Print( "InputOutputTCPStream: cannot find hostname ", hostname, "\n");
     return fail;
