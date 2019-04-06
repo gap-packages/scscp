@@ -15,13 +15,11 @@ and &OpenMath; <Cite Key="openmath"/>.
 The &SCSCP; package is distributed in standard formats (<File>tar.gz</File>, 
 <File>tar.bz2</File>) and can be obtained from 
 <URL>https://gap-packages.github.io/scscp/</URL> or from the &GAP; 
-web site (the latter also offers <File>zoo</File>- and <File>win.zip</File>-archives.
-To unpack the <File>zoo</File>-archive the program <File>unzoo</File> is needed,
-which can be obtained from the &GAP; homepage <URL>http://www.gap-system.org/</URL> 
-(see section `Distribution'). To install &SCSCP; package, put its <File>zoo</File>-archive
-into the <File>pkg</File> subdirectory of your &GAP;4.4 installation and 
-enter the command <C>unzoo -x scscp-X.X.X.zoo</C>, then the subdirectory <File>scscp</File> 
-(containing subdirectories <File>doc</File>, <File>lib</File> etc.) will be created in 
+web site (the latter also offers <File>win.zip</File>-archives). To install
+&SCSCP; package, put its <File>tar.gz</File>-archive into the <File>pkg</File>
+subdirectory of your &GAP;4 installation and enter the command
+<C>tar -xzf scscp-X.X.X.tar.gz</C>, then the subdirectory <File>scscp</File>
+(containing subdirectories <File>doc</File>, <File>lib</File> etc.) will be created in
 the <File>pkg</File> subdirectory. Installation using other archive formats is performed 
 in a similar way.
 <P/>
