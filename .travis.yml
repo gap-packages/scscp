@@ -1,7 +1,6 @@
 language: c
 env:
   global:
-    - GAPROOT=gaproot
     - COVDIR=coverage
     - GAP_PKGS_TO_BUILD="anupq io profiling"
 
@@ -9,15 +8,20 @@ addons:
   apt_packages:
     - libgmp-dev
     - libreadline-dev
-    - libgmp-dev:i386
-    - libreadline-dev:i386
-    - gcc-multilib
-    - g++-multilib
+    - zlib1g-dev
+    - gcc-multilib  # FIXME: for anupq 3.2; hopefully not needed with newer anupq
 
 matrix:
   include:
     - env: GAPBRANCH=master ABI=64
     - env: GAPBRANCH=master ABI=32
+      addons:
+        apt_packages:
+          - libgmp-dev:i386
+          - libreadline-dev:i386
+          - zlib1g-dev:i386
+          - gcc-multilib
+          - g++-multilib
     - env: GAPBRANCH=stable-4.9
     - env: GAPBRANCH=stable-4.10
 
@@ -26,7 +30,7 @@ branches:
     - master
 
 before_script:
-  - export GAPROOT="$HOME/gap"
+  - git clone https://github.com/gap-system/pkg-ci-scripts.git scripts
   - scripts/build_gap.sh
 
 # Create directory to collect coverage data.
@@ -35,9 +39,9 @@ before_script:
 # Sleep to allow servers to be up and running, then run tests.
 script:
   - scripts/build_pkg.sh
-  - mkdir ${COVDIR}
-  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/gaproot; --cover ${COVDIR}/test-server.coverage" ./gapd.sh -p 26133
-  - GAPROOT=${GAPROOT} GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
+  - mkdir -p ${COVDIR}
+  - GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot; --cover ${COVDIR}/test-server.coverage" ./gapd.sh -p 26133
+  - GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
   - sleep 30
   - scripts/run_tests.sh
 after_script:
