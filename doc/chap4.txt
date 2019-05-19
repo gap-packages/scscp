@@ -19,7 +19,7 @@
   
   [1X4.1-1 StartSCSCPsession[101X
   
-  [29X[2XStartSCSCPsession[102X( [3Xstream[103X ) [32X function
+  [33X[1;0Y[29X[2XStartSCSCPsession[102X( [3Xstream[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring[133X
   
   [33X[0;0YInitialises  [5XSCSCP[105X  session and negotiates with the server about the version
@@ -42,7 +42,7 @@
   
   [1X4.1-2 OMPutProcedureCall[101X
   
-  [29X[2XOMPutProcedureCall[102X( [3Xstream[103X, [3Xproc_name[103X, [3Xobjrec[103X ) [32X function
+  [33X[1;0Y[29X[2XOMPutProcedureCall[102X( [3Xstream[103X, [3Xproc_name[103X, [3Xobjrec[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YTakes  a stream [3Xstream[103X, the string [3Xproc_name[103X and a record [3Xobjrec[103X, and writes
@@ -106,7 +106,7 @@
   
   [1X4.1-3 SCSCPwait[101X
   
-  [29X[2XSCSCPwait[102X( [3Xstream[103X[, [3Xtimeout[103X] ) [32X function
+  [33X[1;0Y[29X[2XSCSCPwait[102X( [3Xstream[103X[, [3Xtimeout[103X] ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YThis  function may be used by the [5XSCSCP[105X client to wait (using [2XIO_select[102X ([14XIO:
@@ -117,7 +117,7 @@
   
   [1X4.1-4 OMGetObjectWithAttributes[101X
   
-  [29X[2XOMGetObjectWithAttributes[102X( [3Xstream[103X ) [32X function
+  [33X[1;0Y[29X[2XOMGetObjectWithAttributes[102X( [3Xstream[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X, or [9Xfail[109X[133X
   
   [33X[0;0YThis  function  is  similar  to  the  function [10XOMGetObject[110X from the [5XOpenMath[105X
@@ -181,7 +181,7 @@
   
   [1X4.2-1 OMPutProcedureCompleted[101X
   
-  [29X[2XOMPutProcedureCompleted[102X( [3Xstream[103X, [3Xobjrec[103X ) [32X function
+  [33X[1;0Y[29X[2XOMPutProcedureCompleted[102X( [3Xstream[103X, [3Xobjrec[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X[133X
   
   [33X[0;0YTakes a stream [3Xstream[103X, and a record [3Xobjrec[103X, and writes to [3Xstream[103X an [5XOpenMath[105X
@@ -216,7 +216,7 @@
   
   [1X4.2-2 OMPutProcedureTerminated[101X
   
-  [29X[2XOMPutProcedureTerminated[102X( [3Xstream[103X, [3Xobjrec[103X, [3Xerror_cd[103X, [3Xerror_type[103X ) [32X function
+  [33X[1;0Y[29X[2XOMPutProcedureTerminated[102X( [3Xstream[103X, [3Xobjrec[103X, [3Xerror_cd[103X, [3Xerror_type[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YTakes  a  stream  [3Xstream[103X,  and  a  record  with an error message [3Xobjrec[103X (for

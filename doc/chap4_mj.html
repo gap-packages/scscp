@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <script type="text/javascript"
-  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <title>GAP (scscp) - Chapter 4: Message exchange by SCSCP</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -58,7 +58,7 @@
 
 <h5>4.1-1 StartSCSCPsession</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StartSCSCPsession</code>( <var class="Arg">stream</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StartSCSCPsession</code>( <var class="Arg">stream</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: string</p>
 
 <p>Initialises <strong class="pkg">SCSCP</strong> session and negotiates with the server about the version of the protocol. Returns the string with the <code class="code">service_id</code> (which may be used later as a part of the call identifier) or causes an error message if can not perform these tasks.</p>
@@ -80,7 +80,7 @@
 
 <h5>4.1-2 OMPutProcedureCall</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureCall</code>( <var class="Arg">stream</var>, <var class="Arg">proc_name</var>, <var class="Arg">objrec</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureCall</code>( <var class="Arg">stream</var>, <var class="Arg">proc_name</var>, <var class="Arg">objrec</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
 <p>Takes a stream <var class="Arg">stream</var>, the string <var class="Arg">proc_name</var> and a record <var class="Arg">objrec</var>, and writes to <var class="Arg">stream</var> an <strong class="pkg">OpenMath</strong> object <code class="code">procedure_call</code> for the procedure <var class="Arg">proc_name</var> with arguments given by the list <code class="code">objrec.object</code> and procedure call options (which should be encoded as <strong class="pkg">OpenMath</strong> attributes) given in the list <code class="code">objrec.attributes</code>.</p>
@@ -135,16 +135,16 @@
 
 <h5>4.1-3 SCSCPwait</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPwait</code>( <var class="Arg">stream</var>[, <var class="Arg">timeout</var>] )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPwait</code>( <var class="Arg">stream</var>[, <var class="Arg">timeout</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>This function may be used by the <strong class="pkg">SCSCP</strong> client to wait (using <code class="func">IO_select</code> (<a href="../../../pkg/io-4.4.6/doc/chap3_mj.html#X81CA6EE88062010E"><span class="RefLink">IO: IO_select</span></a>)) until the result of the procedure call will be available from <var class="Arg">stream</var>. By default the timeout is one hour, to specify another value give it as the optional second argument in seconds. See the end of this chapter for the example.</p>
+<p>This function may be used by the <strong class="pkg">SCSCP</strong> client to wait (using <code class="func">IO_select</code> (<a href="../../../pkg/io-4.5.4/doc/chap3_mj.html#X81CA6EE88062010E"><span class="RefLink">IO: IO_select</span></a>)) until the result of the procedure call will be available from <var class="Arg">stream</var>. By default the timeout is one hour, to specify another value give it as the optional second argument in seconds. See the end of this chapter for the example.</p>
 
 <p><a id="X7E0FE0CF7DD2E00F" name="X7E0FE0CF7DD2E00F"></a></p>
 
 <h5>4.1-4 OMGetObjectWithAttributes</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMGetObjectWithAttributes</code>( <var class="Arg">stream</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMGetObjectWithAttributes</code>( <var class="Arg">stream</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record with components <code class="code">object</code> and <code class="code">attributes</code>, or <code class="keyw">fail</code></p>
 
 <p>This function is similar to the function <code class="code">OMGetObject</code> from the <strong class="pkg">OpenMath</strong> package, and the main difference is that it is able to understand <strong class="pkg">OpenMath</strong> attribution pairs. It retrieves exactly one <strong class="pkg">OpenMath</strong> object from the stream <var class="Arg">stream</var>, and stores it in the <code class="code">object</code> component of the returned record. If the <strong class="pkg">OpenMath</strong> object has no attributes, the <code class="code">attributes</code> component of the returned record will be an empty list, otherwise it will contain pairs <code class="code">[attribute_name,attribute_value]</code>, where <code class="code">attribute_name</code> is a string, and <code class="code">attribute_value</code> is a <strong class="pkg">GAP</strong> object, whose type is determined by the kind of an attribute. Only attributes, defined by the SCSCP are allowed, otherwise an error message will be displayed.</p>
@@ -197,7 +197,7 @@ rec( attributes := [ [ "call_id", "alexk_9053" ], [ "info_runtime", 1234 ],
 
 <h5>4.2-1 OMPutProcedureCompleted</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureCompleted</code>( <var class="Arg">stream</var>, <var class="Arg">objrec</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureCompleted</code>( <var class="Arg">stream</var>, <var class="Arg">objrec</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code></p>
 
 <p>Takes a stream <var class="Arg">stream</var>, and a record <var class="Arg">objrec</var>, and writes to <var class="Arg">stream</var> an <strong class="pkg">OpenMath</strong> object <code class="code">procedure_completed</code> with the result being <code class="code">objrec.object</code> and information messages (as <strong class="pkg">OpenMath</strong> attributes) given in the list <code class="code">objrec.attributes</code>.</p>
@@ -232,7 +232,7 @@ true
 
 <h5>4.2-2 OMPutProcedureTerminated</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureTerminated</code>( <var class="Arg">stream</var>, <var class="Arg">objrec</var>, <var class="Arg">error_cd</var>, <var class="Arg">error_type</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMPutProcedureTerminated</code>( <var class="Arg">stream</var>, <var class="Arg">objrec</var>, <var class="Arg">error_cd</var>, <var class="Arg">error_type</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
 <p>Takes a stream <var class="Arg">stream</var>, and a record with an error message <var class="Arg">objrec</var> (for example <code class="code">rec( attributes := [ [ "call_id", "localhost:26133:87643:gcX33cCf" ] ],</code> <code class="code">object := "localhost:26133 reports : Rational operations: &lt;divisor&gt; must not be zero")</code> and writes to the <var class="Arg">stream</var> an <strong class="pkg">OpenMath</strong> object <code class="code">procedure_terminated</code> containing an error determined by the symbol <var class="Arg">error_type</var> from the content dictionary <var class="Arg">error_cd</var> (for example, <code class="code">error_memory</code>, <code class="code">error_runtime</code> or <code class="code">error_system_specific</code> from the <strong class="pkg">scscp1</strong> content dictionary (<a href="chapBib_mj.html#biBscscp1cd">[FHK+a]</a>).</p>

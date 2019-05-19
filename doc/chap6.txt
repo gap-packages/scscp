@@ -25,14 +25,14 @@
   
   [1X6.1-1 IsSCSCPconnection[101X
   
-  [29X[2XIsSCSCPconnection[102X[32X filter
+  [33X[1;0Y[29X[2XIsSCSCPconnection[102X[32X filter[133X
   
   [33X[0;0YThis  is  the  category  of  [5XSCSCP[105X connections. Objects in this category are
   created using the function [2XNewSCSCPconnection[102X ([14X6.1-2[114X).[133X
   
   [1X6.1-2 NewSCSCPconnection[101X
   
-  [29X[2XNewSCSCPconnection[102X( [3Xhostname[103X, [3Xport[103X ) [32X function
+  [33X[1;0Y[29X[2XNewSCSCPconnection[102X( [3Xhostname[103X, [3Xport[103X ) [32X function[133X
   
   [33X[0;0YFor a string [3Xhostname[103X and an integer [3Xport[103X, creates an object in the category
   [2XIsSCSCPconnection[102X   ([14X6.1-1[114X).  This  object  will  encapsulate  two  objects:
@@ -59,7 +59,7 @@
   
   [1X6.1-3 CloseSCSCPconnection[101X
   
-  [29X[2XCloseSCSCPconnection[102X( [3Xs[103X ) [32X function
+  [33X[1;0Y[29X[2XCloseSCSCPconnection[102X( [3Xs[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YCloses  [5XSCSCP[105X  connection  [3Xs[103X,  which  must  be  an  object  in  the category
@@ -80,15 +80,15 @@
   
   [1X6.2-1 IsProcess[101X
   
-  [29X[2XIsProcess[102X[32X filter
+  [33X[1;0Y[29X[2XIsProcess[102X[32X filter[133X
   
   [33X[0;0YThis  is  the  category of processes. Processes in this category are created
   using the function [2XNewProcess[102X ([14X6.2-2[114X).[133X
   
   [1X6.2-2 NewProcess[101X
   
-  [29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function
-  [29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function
+  [33X[1;0Y[29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XNewProcess[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yobject in the category [10XIsProcess[110X[133X
   
   [33X[0;0YIn the first form, [3Xcommand[103X and [10Xserver[110X are strings, [3Xlistargs[103X is a list of [5XGAP[105X
@@ -139,7 +139,7 @@
   
   [1X6.2-3 CompleteProcess[101X
   
-  [29X[2XCompleteProcess[102X( [3Xprocess[103X ) [32X function
+  [33X[1;0Y[29X[2XCompleteProcess[102X( [3Xprocess[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
   
   [33X[0;0YThe function waits, if necessary, until the underlying stream of the process
@@ -174,7 +174,7 @@
   
   [1X6.2-4 TerminateProcess[101X
   
-  [29X[2XTerminateProcess[102X( [3Xprocess[103X ) [32X function
+  [33X[1;0Y[29X[2XTerminateProcess[102X( [3Xprocess[103X ) [32X function[133X
   
   [33X[0;0YThe  function  is  supposed  to  send an [21Xout-of-band[121X interrupt signal to the
   server.  Current  implementation  works  only  when the server is running as
@@ -188,8 +188,8 @@
   
   [1X6.3-1 EvaluateBySCSCP[101X
   
-  [29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function
-  [29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function
+  [33X[1;0Y[29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xserver[103X, [3Xport[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XEvaluateBySCSCP[102X( [3Xcommand[103X, [3Xlistargs[103X, [3Xconnection[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
   
   [33X[0;0YIn the first form, [3Xcommand[103X and [10Xserver[110X are strings, [3Xlistargs[103X is a list of [5XGAP[105X
@@ -264,7 +264,7 @@
     [4X[28X[128X[104X
   [4X[32X[104X
   
-  [33X[0;0Ywhich works exactly like [2XIdGroup[102X ([14XReference: IdGroup[114X):[133X
+  [33X[0;0Ywhich works exactly like [2XIdGroup[102X ([14Xsmallgrp: IdGroup[114X):[133X
   
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
@@ -280,8 +280,8 @@
   
   [1X6.4-1 SwitchSCSCPmodeToBinary[101X
   
-  [29X[2XSwitchSCSCPmodeToBinary[102X(  ) [32X function
-  [29X[2XSwitchSCSCPmodeToXML[102X(  ) [32X function
+  [33X[1;0Y[29X[2XSwitchSCSCPmodeToBinary[102X(  ) [32X function[133X
+  [33X[1;0Y[29X[2XSwitchSCSCPmodeToXML[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YThe [5XOpenMath[105X package supports both binary and XML encodings for [5XOpenMath[105X. To
@@ -305,14 +305,36 @@
   
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
-    [4X[25Xgap>[125X [27XOMString( x );[127X[104X
-    [4X[28X"<OMOBJ xmlns=\"http://www.openmath.org/OpenMath\" version=\"2.0\"> <OMA> <OMS\[128X[104X
-    [4X[28X cd=\"list1\" name=\"list\"/> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> \[128X[104X
-    [4X[28X<OMS cd=\"finfield1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>0<\[128X[104X
-    [4X[28X/OMI> </OMA> <OMA> <OMS cd=\"arith1\" name=\"power\"/> <OMA> <OMS cd=\"finfiel\[128X[104X
-    [4X[28Xd1\" name=\"primitive_element\"/> <OMI>3</OMI> </OMA> <OMI>1</OMI> </OMA> <OMA\[128X[104X
-    [4X[25X>[125X [27X<OMS cd=\"arith1\" name=\"times\"/> <OMA> <OMS cd=\"finfield1\" name=\"primi\[127X[104X
-    [4X[28Xtive_element\"/> <OMI>3</OMI> </OMA> <OMI>0</OMI> </OMA> </OMA> </OMOBJ>"[128X[104X
+    [4X[25Xgap>[125X [27XOMPrint( x );[127X[104X
+    [4X[28X<OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">[128X[104X
+    [4X[28X	<OMA>[128X[104X
+    [4X[28X		<OMS cd="list1" name="list"/>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="arith1" name="power"/>[128X[104X
+    [4X[28X			<OMA>[128X[104X
+    [4X[28X				<OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X				<OMI>3</OMI>[128X[104X
+    [4X[28X			</OMA>[128X[104X
+    [4X[28X			<OMI>0</OMI>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="arith1" name="power"/>[128X[104X
+    [4X[28X			<OMA>[128X[104X
+    [4X[28X				<OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X				<OMI>3</OMI>[128X[104X
+    [4X[28X			</OMA>[128X[104X
+    [4X[28X			<OMI>1</OMI>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X		<OMA>[128X[104X
+    [4X[28X			<OMS cd="arith1" name="times"/>[128X[104X
+    [4X[28X			<OMA>[128X[104X
+    [4X[28X				<OMS cd="finfield1" name="primitive_element"/>[128X[104X
+    [4X[28X				<OMI>3</OMI>[128X[104X
+    [4X[28X			</OMA>[128X[104X
+    [4X[28X			<OMI>0</OMI>[128X[104X
+    [4X[28X		</OMA>[128X[104X
+    [4X[28X	</OMA>[128X[104X
+    [4X[28X</OMOBJ>[128X[104X
     [4X[25Xgap>[125X [27XLength( OMString(x) );[127X[104X
     [4X[28X507[128X[104X
     [4X[28X[128X[104X
@@ -516,8 +538,8 @@
   
   [1X6.5-1 StoreAsRemoteObjectPersistently[101X
   
-  [29X[2XStoreAsRemoteObjectPersistently[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function
-  [29X[2XStoreAsRemoteObject[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function
+  [33X[1;0Y[29X[2XStoreAsRemoteObjectPersistently[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XStoreAsRemoteObject[102X( [3Xobj[103X, [3Xserver[103X, [3Xport[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yremote object[133X
   
   [33X[0;0YReturns the remote object corresponding to the object created at [3Xserver[103X[10X:[110X[3Xport[103X
@@ -571,19 +593,19 @@
   
   [1X6.5-2 IsRemoteObject[101X
   
-  [29X[2XIsRemoteObject[102X[32X filter
+  [33X[1;0Y[29X[2XIsRemoteObject[102X[32X filter[133X
   
   [33X[0;0YThis is the category of remote objects.[133X
   
   [1X6.5-3 RemoteObjectsFamily[101X
   
-  [29X[2XRemoteObjectsFamily[102X[32X family
+  [33X[1;0Y[29X[2XRemoteObjectsFamily[102X[32X family[133X
   
   [33X[0;0YThis is the family of remote objects.[133X
   
   [1X6.5-4 RetrieveRemoteObject[101X
   
-  [29X[2XRetrieveRemoteObject[102X( [3Xremoteobject[103X ) [32X function
+  [33X[1;0Y[29X[2XRetrieveRemoteObject[102X( [3Xremoteobject[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yobject[133X
   
   [33X[0;0YThis  function  retrieves  the  remote object from the remote service in the
@@ -601,7 +623,7 @@
   
   [1X6.5-5 UnbindRemoteObject[101X
   
-  [29X[2XUnbindRemoteObject[102X( [3Xremoteobject[103X ) [32X function
+  [33X[1;0Y[29X[2XUnbindRemoteObject[102X( [3Xremoteobject[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YRemoves  any  value  currently  bound  to  the global variable determined by

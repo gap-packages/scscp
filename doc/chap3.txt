@@ -23,7 +23,7 @@
   
   [1X3.1-1 IsInputOutputTCPStream[101X
   
-  [29X[2XIsInputOutputTCPStream[102X[32X filter
+  [33X[1;0Y[29X[2XIsInputOutputTCPStream[102X[32X filter[133X
   
   [33X[0;0Y[2XIsInputOutputTCPStream[102X  is  a subcategory of [2XIsInputOutputStream[102X ([14XReference:
   IsInputOutputStream[114X).  Streams  in  the  category [2XIsInputOutputTCPStream[102X are
@@ -34,15 +34,15 @@
   
   [1X3.1-2 IsInputOutputTCPStreamRep[101X
   
-  [29X[2XIsInputOutputTCPStreamRep[102X[32X filter
+  [33X[1;0Y[29X[2XIsInputOutputTCPStreamRep[102X[32X filter[133X
   
   [33X[0;0YThis   is   the   representation   used   for   streams   in   the  category
   [2XIsInputOutputTCPStream[102X ([14X3.1-1[114X).[133X
   
   [1X3.1-3 InputOutputTCPStream[101X
   
-  [29X[2XInputOutputTCPStream[102X( [3Xdesc[103X ) [32X function
-  [29X[2XInputOutputTCPStream[102X( [3Xhost[103X, [3Xport[103X ) [32X function
+  [33X[1;0Y[29X[2XInputOutputTCPStream[102X( [3Xdesc[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XInputOutputTCPStream[102X( [3Xhost[103X, [3Xport[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystream[133X
   
   [33X[0;0YThe  one-argument version must be called from the [5XSCSCP[105X server. Its argument

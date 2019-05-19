@@ -11,11 +11,9 @@
   
   [33X[0;0YThe  [5XSCSCP[105X  package is distributed in standard formats ([11Xtar.gz[111X, [11Xtar.bz2[111X) and
   can  be  obtained from [7Xhttps://gap-packages.github.io/scscp/[107X or from the [5XGAP[105X
-  web  site  (the  latter also offers [11Xzoo[111X- and [11Xwin.zip[111X-archives. To unpack the
-  [11Xzoo[111X-archive  the program [11Xunzoo[111X is needed, which can be obtained from the [5XGAP[105X
-  homepage [7Xhttp://www.gap-system.org/[107X (see section `Distribution'). To install
-  [5XSCSCP[105X  package, put its [11Xzoo[111X-archive into the [11Xpkg[111X subdirectory of your [5XGAP[105X4.4
-  installation  and  enter  the  command  [10Xunzoo  -x  scscp-X.X.X.zoo[110X, then the
+  web  site  (the  latter  also  offers  [11Xwin.zip[111X-archives).  To  install [5XSCSCP[105X
+  package,  put  its  [11Xtar.gz[111X-archive  into  the  [11Xpkg[111X subdirectory of your [5XGAP[105X4
+  installation  and  enter  the  command [10Xtar -xzf scscp-X.X.X.tar.gz[110X, then the
   subdirectory [11Xscscp[111X (containing subdirectories [11Xdoc[111X, [11Xlib[111X etc.) will be created
   in  the  [11Xpkg[111X  subdirectory.  Installation  using  other  archive  formats is
   performed in a similar way.[133X

@@ -6,7 +6,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <script type="text/javascript"
-  src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 <title>GAP (scscp) - Chapter 3: Using streams</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -51,25 +51,25 @@
 
 <h5>3.1-1 IsInputOutputTCPStream</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInputOutputTCPStream</code></td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInputOutputTCPStream</code></td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p><code class="func">IsInputOutputTCPStream</code> is a subcategory of <code class="func">IsInputOutputStream</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap10_mj.html#X82822D3D8339F635"><span class="RefLink">Reference: IsInputOutputStream</span></a>). Streams in the category <code class="func">IsInputOutputTCPStream</code> are created with the help of the function <code class="func">InputOutputTCPStream</code> (<a href="chap3_mj.html#X7E3D43CF7B049F04"><span class="RefLink">3.1-3</span></a>) with one or two arguments dependently on whether they will be used in the client or server mode. Examples of their creation and usage will be given in subsequent sections.</p>
 
 <p><a id="X817A945B83659813" name="X817A945B83659813"></a></p>
 
 <h5>3.1-2 IsInputOutputTCPStreamRep</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInputOutputTCPStreamRep</code></td><td class="tdright">( filter )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInputOutputTCPStreamRep</code></td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
 <p>This is the representation used for streams in the category <code class="func">IsInputOutputTCPStream</code> (<a href="chap3_mj.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>).</p>
 
 <p><a id="X7E3D43CF7B049F04" name="X7E3D43CF7B049F04"></a></p>
 
 <h5>3.1-3 InputOutputTCPStream</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InputOutputTCPStream</code>( <var class="Arg">desc</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InputOutputTCPStream</code>( <var class="Arg">host</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InputOutputTCPStream</code>( <var class="Arg">desc</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InputOutputTCPStream</code>( <var class="Arg">host</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: stream</p>
 
-<p>The one-argument version must be called from the <strong class="pkg">SCSCP</strong> server. Its argument <var class="Arg">desc</var> must be a socket descriptor obtained using <code class="func">IO_accept</code> (<a href="../../../pkg/io-4.4.6/doc/chap3_mj.html#X7E474E9787012FE4"><span class="RefLink">IO: IO_accept</span></a>) function from the <strong class="pkg">IO</strong> package (see the example below). It returns a stream in the category <code class="func">IsInputOutputTCPStream</code> (<a href="chap3_mj.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>) which will use this socket to accept incoming connections. In most cases, the one-argument version is called automatically from <code class="func">RunSCSCPserver</code> (<a href="chap5_mj.html#X831C84577884215E"><span class="RefLink">5.2-1</span></a>) rather then manually.</p>
+<p>The one-argument version must be called from the <strong class="pkg">SCSCP</strong> server. Its argument <var class="Arg">desc</var> must be a socket descriptor obtained using <code class="func">IO_accept</code> (<a href="../../../pkg/io-4.5.4/doc/chap3_mj.html#X7E474E9787012FE4"><span class="RefLink">IO: IO_accept</span></a>) function from the <strong class="pkg">IO</strong> package (see the example below). It returns a stream in the category <code class="func">IsInputOutputTCPStream</code> (<a href="chap3_mj.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>) which will use this socket to accept incoming connections. In most cases, the one-argument version is called automatically from <code class="func">RunSCSCPserver</code> (<a href="chap5_mj.html#X831C84577884215E"><span class="RefLink">5.2-1</span></a>) rather then manually.</p>
 
 <p>The version with two arguments, a string <var class="Arg">host</var> and an integer <var class="Arg">port</var>, must be called from the <strong class="pkg">SCSCP</strong> client. It returns a stream in the category <code class="func">IsInputOutputTCPStream</code> (<a href="chap3_mj.html#X805BB9468642A787"><span class="RefLink">3.1-1</span></a>) which will be used by the client for communication with the <strong class="pkg">SCSCP</strong> server running at hostname <var class="Arg">host</var> on port <var class="Arg">port</var>. In most cases, the two-argument version is called automatically from the higher level functions, for example, <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>).</p>
 

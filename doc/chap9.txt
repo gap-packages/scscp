@@ -6,7 +6,7 @@
   
   [1X9.1-1 PingSCSCPservice[101X
   
-  [29X[2XPingSCSCPservice[102X( [3Xhostname[103X, [3Xportnumber[103X ) [32X function
+  [33X[1;0Y[29X[2XPingSCSCPservice[102X( [3Xhostname[103X, [3Xportnumber[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfail[109X[133X
   
   [33X[0;0YThis  function  returns [9Xtrue[109X if the client can establish connection with the
@@ -26,7 +26,7 @@
   
   [1X9.1-2 PingStatistic[101X
   
-  [29X[2XPingStatistic[102X( [3Xhostname[103X, [3Xportnumber[103X, [3Xn[103X ) [32X function
+  [33X[1;0Y[29X[2XPingStatistic[102X( [3Xhostname[103X, [3Xportnumber[103X, [3Xn[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ynothing[133X
   
   [33X[0;0YThe  function  is  similar  to  the UNIX [10Xping[110X. It tries [3Xn[103X times to establish
@@ -46,7 +46,7 @@
   
   [1X9.2-1 InfoSCSCP[101X
   
-  [29X[2XInfoSCSCP[102X[32X info class
+  [33X[1;0Y[29X[2XInfoSCSCP[102X[32X info class[133X
   
   [33X[0;0Y[2XInfoSCSCP[102X  is  a  special  Info  class  for the [5XSCSCP[105X package. The amount of
   information  to  be  displayed  can  be  specified  by  the  user by setting
@@ -152,7 +152,7 @@
   
   [1X9.2-2 InfoMasterWorker[101X
   
-  [29X[2XInfoMasterWorker[102X[32X info class
+  [33X[1;0Y[29X[2XInfoMasterWorker[102X[32X info class[133X
   
   [33X[0;0Y[10XInfoMasterWorker[110X  is  a  special  Info  class for the Master-Worker skeleton
   [2XParListWithSCSCP[102X  ([14X8.2-1[114X).  The amount of information to be displayed can be
@@ -215,7 +215,7 @@
   
   [1X9.3-1 DateISO8601[101X
   
-  [29X[2XDateISO8601[102X(  ) [32X function
+  [33X[1;0Y[29X[2XDateISO8601[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring[133X
   
   [33X[0;0YReturns  the  current  date  in  the  ISO-8601 YYYY-MM-DD format. This is an
@@ -232,7 +232,7 @@
   
   [1X9.3-2 CurrentTimestamp[101X
   
-  [29X[2XCurrentTimestamp[102X(  ) [32X function
+  [33X[1;0Y[29X[2XCurrentTimestamp[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring[133X
   
   [33X[0;0YReturns  the result of the call to [11Xdate[111X. This is an internal function of the
@@ -247,7 +247,7 @@
   
   [1X9.3-3 Hostname[101X
   
-  [29X[2XHostname[102X(  ) [32X function
+  [33X[1;0Y[29X[2XHostname[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring[133X
   
   [33X[0;0YReturns the result of the call to [11Xhostname[111X. This function may be used in the
@@ -264,7 +264,7 @@
   
   [1X9.3-4 MemoryUsageByGAPinKbytes[101X
   
-  [29X[2XMemoryUsageByGAPinKbytes[102X(  ) [32X function
+  [33X[1;0Y[29X[2XMemoryUsageByGAPinKbytes[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Yinteger[133X
   
   [33X[0;0YReturns  the  current volume of the memory used by [5XGAP[105X in kylobytes. This is
@@ -283,7 +283,7 @@
   
   [1X9.3-5 LastReceivedCallID[101X
   
-  [29X[2XLastReceivedCallID[102X(  ) [32X function
+  [33X[1;0Y[29X[2XLastReceivedCallID[102X(  ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring[133X
   
   [33X[0;0YReturns  the call ID contained in the most recently received message. It may
@@ -300,7 +300,7 @@
   
   [1X9.3-6 IO_PickleToString[101X
   
-  [29X[2XIO_PickleToString[102X( [3Xobj[103X ) [32X function
+  [33X[1;0Y[29X[2XIO_PickleToString[102X( [3Xobj[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Ystring containing "pickled" object[133X
   
   [33X[0;0YThis  function  "pickles" or "serialises" the object [3Xobj[103X using the operation
@@ -324,7 +324,7 @@
   
   [1X9.3-7 IO_UnpickleFromString[101X
   
-  [29X[2XIO_UnpickleFromString[102X( [3Xs[103X ) [32X function
+  [33X[1;0Y[29X[2XIO_UnpickleFromString[102X( [3Xs[103X ) [32X function[133X
   [6XReturns:[106X  [33X[0;10Y"unpickled" GAP object[133X
   
   [33X[0;0YThis  function "unpickles" the string [3Xs[103X which was created using the function

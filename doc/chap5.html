@@ -72,7 +72,7 @@
 
 <h5>5.1-1 InstallSCSCPprocedure</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InstallSCSCPprocedure</code>( <var class="Arg">procname</var>, <var class="Arg">procfunc</var>[, <var class="Arg">description</var>][, <var class="Arg">narg1</var>[, <var class="Arg">narg2</var>][, <var class="Arg">signature</var>]] )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InstallSCSCPprocedure</code>( <var class="Arg">procname</var>, <var class="Arg">procfunc</var>[, <var class="Arg">description</var>][, <var class="Arg">narg1</var>[, <var class="Arg">narg2</var>][, <var class="Arg">signature</var>]] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
 <p>For a string <var class="Arg">procname</var> and a function <var class="Arg">procfunc</var>, <code class="func">InstallSCSCPprocedure</code> makes the <var class="Arg">procfunc</var> available as SCSCP procedure under the name <var class="Arg">procname</var>, adding it to the transient <strong class="pkg">OpenMath</strong> content dictionary <code class="code">scscp_transient_1</code> that will exist during the service lifetime.</p>
@@ -164,7 +164,7 @@ InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 
 <h5>5.1-2 OMsymRecord</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMsymRecord</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OMsymRecord</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p>This is the global record from the <strong class="pkg">OpenMath</strong> package used for the conversion from <strong class="pkg">OpenMath</strong> to <strong class="pkg">GAP</strong>. It is extended in the <strong class="pkg">SCSCP</strong> package by adding support for symbols from <code class="code">scscp1</code> and <code class="code">scscp2</code> content dictionaries (<a href="chapBib.html#biBscscp1cd">[FHK+a]</a>, <a href="chapBib.html#biBscscp2cd">[FHK+c]</a>). Additionally, <code class="func">InstallSCSCPprocedure</code> (<a href="chap5.html#X8031C2F4787E0C1A"><span class="RefLink">5.1-1</span></a>) adds to this record a component corresponding to the appropriate transient content dictionary (by default, <code class="code">scscp_transient_1</code>) defining mappings between <strong class="pkg">OpenMath</strong> symbols from this content dictionary and installed <strong class="pkg">SCSCP</strong> procedures.</p>
 
 <p><a id="X865409A27C7BBD7B" name="X865409A27C7BBD7B"></a></p>
@@ -175,7 +175,7 @@ InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 
 <h5>5.2-1 RunSCSCPserver</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RunSCSCPserver</code>( <var class="Arg">servertype</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RunSCSCPserver</code>( <var class="Arg">servertype</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
 <p>Will start the <strong class="pkg">SCSCP</strong> server at port given by the integer <var class="Arg">port</var>. The first parameter <var class="Arg">servertype</var> is either <code class="keyw">true</code>, <code class="keyw">false</code> or a string containing the server hostname:</p>
@@ -225,7 +225,7 @@ Waiting for new client connection at localhost:26133 ...
 
 <h5>5.3-1 GetServiceDescription</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetServiceDescription</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetServiceDescription</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record</p>
 
 <p>Returns the record with three components containing strings with the name, version and description of the service as specified by the service provider in the <code class="file">scscp/config.g</code> (for details about configuration files, see <a href="chap2.html#X878084B083D5217F"><span class="RefLink">2.2</span></a>).</p>
@@ -245,7 +245,7 @@ rec(
 
 <h5>5.3-2 GetAllowedHeads</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetAllowedHeads</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetAllowedHeads</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record</p>
 
 <p>Returns the record with components corresponding to content dictionaries. The name of each component is the name of the content dictionary, and its the value is either a boolean or a list of strings. In case it's value is a list, it contains names of symbols from the corresponding content dictionary which are allowed to appear as a "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code>) in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. If it's value is <code class="keyw">true</code>, it means the server allows all symbols from the corresponding content dictionary.</p>
@@ -278,7 +278,7 @@ rec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE",
 
 <h5>5.3-3 IsAllowedHead</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAllowedHead</code>( <var class="Arg">cd</var>, <var class="Arg">symbol</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAllowedHead</code>( <var class="Arg">cd</var>, <var class="Arg">symbol</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
 
 <p>Checks whether the <strong class="pkg">OpenMath</strong> symbol <var class="Arg">cd</var><code class="code">.</code><var class="Arg">symbol</var>, which may be a symbol from a standard or transient <strong class="pkg">OpenMath</strong> content dictionary, is allowed to appear as "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code> in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. This enables the client to check whether a particular symbol is allowed without requesting the full list of symbols.</p>
@@ -301,7 +301,7 @@ false
 
 <h5>5.3-4 GetTransientCD</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetTransientCD</code>( <var class="Arg">transient_cd</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetTransientCD</code>( <var class="Arg">transient_cd</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record</p>
 
 <p>Returns a record with the transient content dictionary <var class="Arg">transient_cd</var> from the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. Names of components of this record correspond to symbols from the <code class="code">meta</code> content dictionary.</p>
@@ -332,7 +332,7 @@ rec( CDDate := "2017-02-08",
 
 <h5>5.3-5 GetSignature</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetSignature</code>( <var class="Arg">transientcd</var>, <var class="Arg">symbol</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetSignature</code>( <var class="Arg">transientcd</var>, <var class="Arg">symbol</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record</p>
 
 <p>Returns a record with the signature of the <strong class="pkg">OpenMath</strong> symbol <var class="Arg">transientcd</var><code class="code">.</code><var class="Arg">symbol</var> from a transient <strong class="pkg">OpenMath</strong> content dictionary. This record contains components corresponding to the <strong class="pkg">OpenMath</strong> symbol whose signature is described, the minimal and maximal number of its children (that is, of its arguments), and symbols which may be used in the <strong class="pkg">OpenMath</strong> encoding of its children. Note that it is acceptable for a symbol from a transient content dictionary to overstate the set of symbols which may occur in its children using the <code class="code">scscp2.symbol_set_all</code> symbol, and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later, like in the example below: using such approach, the procedure <code class="code">WS_Factorial</code> is defined to accept not only immediate <code class="code">&lt;OMI&gt;</code> objects but anything which could be evaluated to an integer.</p>

@@ -55,8 +55,8 @@
 
 <h5>8.1-1 SynchronizeProcesses</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SynchronizeProcesses</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SynchronizeProcesses</code>( <var class="Arg">proclist</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SynchronizeProcesses</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SynchronizeProcesses</code>( <var class="Arg">proclist</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: list of records with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
 <p>The function collects results of from each process given in the argument, and returns the list, <span class="SimpleMath">i</span>-th entry of which is the result obtained from the <span class="SimpleMath">i</span>-th process. The function accepts both one argument that is a list of processes, and arbitrary number of arguments, each of them being a process.</p>
@@ -80,8 +80,8 @@
 
 <h5>8.1-2 FirstProcess</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstProcess</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstProcess</code>( <var class="Arg">proclist</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstProcess</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstProcess</code>( <var class="Arg">proclist</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: records with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
 <p>The function waits for the result from each process given in the argument, and returns the result coming first, terminating all remaining processes at the same time. The function accepts both one argument that is a list of processes, and arbitrary number of arguments, each of them being a process.</p>
@@ -103,7 +103,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 
 <h5>8.1-3 SCSCPservers</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPservers</code></td><td class="tdright">( global variable )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPservers</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
 <p><code class="func">SCSCPservers</code> is a list of hosts and ports to search for <strong class="pkg">SCSCP</strong> services (which may be not only represented by <strong class="pkg">GAP</strong> services, but also by another <strong class="pkg">SCSCP</strong>-compliant systems).</p>
 
 <p>It is used by parallel skeletons <code class="func">ParQuickWithSCSCP</code> (<a href="chap8.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>).</p>
@@ -114,7 +114,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 
 <h5>8.1-4 ParQuickWithSCSCP</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParQuickWithSCSCP</code>( <var class="Arg">commands</var>, <var class="Arg">listargs</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParQuickWithSCSCP</code>( <var class="Arg">commands</var>, <var class="Arg">listargs</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
 <p>This function is constructed using the <code class="func">FirstProcess</code> (<a href="chap8.html#X7B56C3BB87C0A226"><span class="RefLink">8.1-2</span></a>). It is useful when it is not known which partcular method is more efficient, because it allows to call in parallel several procedures (given by the list of their names <var class="Arg">commands</var>) with the same list of arguments <var class="Arg">listargs</var> (having the same meaning as in <code class="func">EvaluateBySCSCP</code> (<a href="chap6.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>)) and obtain the result of that procedure call which will be computed faster.</p>
@@ -135,8 +135,8 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <h5>8.1-5 FirstTrueProcess</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstTrueProcess</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstTrueProcess</code>( <var class="Arg">proclist</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstTrueProcess</code>( <var class="Arg">process1</var>, <var class="Arg">process2</var>, <var class="Arg">...</var>, <var class="Arg">processN</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstTrueProcess</code>( <var class="Arg">proclist</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: list of records</p>
 
 <p>The function waits for the result from each process given in the argument, and stops waiting as soon as the first <code class="keyw">true</code> is returned, abandoning all remaining processes. It retuns a list containing a records with components <code class="code">object</code> and <code class="code">attributes</code> at the position corresponding to the process that returned <code class="keyw">true</code>. If none of the processes returned true, it will return a complete list of procedure call results.</p>
@@ -205,7 +205,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <h5>8.2-1 ParListWithSCSCP</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParListWithSCSCP</code>( <var class="Arg">listargs</var>, <var class="Arg">procname</var> )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParListWithSCSCP</code>( <var class="Arg">listargs</var>, <var class="Arg">procname</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: list</p>
 
 <p><code class="func">ParListWithSCSCP</code> implements the well-known master-worker skeleton: we have a master (<strong class="pkg">SCSCP</strong> client) and a number of workers (<strong class="pkg">SCSCP</strong> servers) which obtain pieces of work from the client, perform the required job and report back with the result, waiting for the next job.</p>
@@ -236,7 +236,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <h5>8.2-2 SCSCPreset</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPreset</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPreset</code>(  )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
 <p>If an error occurs during a call of <code class="func">ParQuickWithSCSCP</code> (<a href="chap8.html#X8783850E81463D0F"><span class="RefLink">8.1-4</span></a>) and <code class="func">ParListWithSCSCP</code> (<a href="chap8.html#X788208B57D4C497F"><span class="RefLink">8.2-1</span></a>), some of parallel requests may be still running at the remaining services, making them inaccessible for further procedure calls. <code class="func">SCSCPreset</code> resets them by closing all open streams to <strong class="pkg">SCSCP</strong> servers.</p>
@@ -245,8 +245,8 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 
 <h5>8.2-3 SCSCPLogTracesToGlobal</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>( <var class="Arg">testname</var> )</td><td class="tdright">( function )</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>(  )</td><td class="tdright">( function )</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>( <var class="Arg">testname</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPLogTracesToGlobal</code>(  )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>To analyse the performance of parallel <strong class="pkg">SCSCP</strong> framework, we make use of the <strong class="pkg">EdenTV</strong> program <a href="chapBib.html#biBEdenTV">[BL07]</a> developed initially to visualize the performance of parallel programs written in functional programming language Eden, and now distributed under the GNU Public License and available from <span class="URL"><a href="http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV">http://www.mathematik.uni-marburg.de/~eden/?content=EdenTV</a></span>.</p>
 
 <p>Called with the string containing the name of the test, this functions turns on writing information about key activity events into trace files in current directories for the client and servers listed <code class="func">SCSCPservers</code> (<a href="chap8.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>). The trace file will have the name of the format <var class="Arg">testname</var><code class="code">.client.tr</code> for the client and <var class="Arg">testname</var><code class="code">.&lt;hostname&gt;.&lt;port&gt;.tr</code> for the server. After the test these files should be collected from remote servers and concatenated (e.g. using <code class="file">cat</code>) together with the standard preamble from the file <code class="file">scscp/tracing/stdhead.txt</code> (we recommend to put after the preamble first all traces from servers and then the client's traces to have nicer diagrams). The resulting file then may be opened with <strong class="pkg">EdenTV</strong>.</p>
