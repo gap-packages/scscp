@@ -24,7 +24,7 @@ function( arg )
 # 2) basename --> hostname
 # 3) argts --> ??? arguments to be communicated to the hostname?
 # 4) false --> false # what'is the meaning of this?
-local hostname, port, lookup, sock, res, fio, socket_descriptor;
+local hostname, port, lookup, sock, res, fio, socket_descriptor, i;
 if Length( arg ) = 2 then # client case
   hostname := arg[1];
   port := arg[2];
