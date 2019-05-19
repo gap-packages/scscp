@@ -39,7 +39,7 @@ for i in [ 1 .. Length(tst) ] do
     AppendTo(output, "gap> START_TEST( \"", basename, "\");\n\n");
     for a in ch do
       location := a[2][1];
-      pos := PositionSublist(location,pkgname);
+      pos := PositionSublist(location,Concatenation(pkgname,"/"));
       if pos <> fail then
         comment := location{[ pos+Length(pkgname)+1 .. Length(location) ]};
       else
