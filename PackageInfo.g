@@ -9,13 +9,13 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.3.0",
-Date := "19/05/2019", # dd/mm/yyyy format
+Version := "2.3.1",
+Date := "22/01/2020", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.3.0">
-##  <!ENTITY RELEASEDATE "19 May 2019">
-##  <!ENTITY RELEASEYEAR "2019">
+##  <!ENTITY VERSION "2.3.1">
+##  <!ENTITY RELEASEDATE "22 January 2020">
+##  <!ENTITY RELEASEYEAR "2020">
 ##  <#/GAPDoc>
 
 SourceRepository := rec(
