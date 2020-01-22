@@ -71,7 +71,7 @@ Status := "accepted",
 CommunicatedBy := "David Joyner (Annapolis)",
 AcceptDate := "08/2010",
  
-AbstractHTML := "This package implements the <a href=\"http://www.symbolic-computing.org/scscp\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
+AbstractHTML := "This package implements the <a href=\"https://www.openmath.org/standard/scscp/\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
 
 PackageDoc := rec(
   BookName := "SCSCP",

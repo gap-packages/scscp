@@ -50,7 +50,7 @@
 
 The &GAP; package &SCSCP; implements
 the Symbolic Computation Software Composability 
-protocol (<URL>http://www.symbolic-computing.org/scscp</URL>) 
+protocol (<URL>https://www.openmath.org/standard/scscp/</URL>) 
 for the computational algebra system &GAP;.
 
 </Abstract>
@@ -83,8 +83,8 @@ for the computational algebra system &GAP;.
 The development of the &SCSCP; package has been supported by:
 <List>
   <Item>EU FP6 Programme project 026133
-  <Q>SCIEnce - Symbolic Computation Infrastructure for Europe</Q>
-  (see <URL>http://www.symbolic-computing.org/</URL>).</Item>
+  <Q>SCIEnce - Symbolic Computation Infrastructure for Europe</Q>.
+  </Item>
   <Item>OpenDreamKit Horizon 2020 European Research Infrastructures project #676541
   (see <URL>http://opendreamkit.org/</URL>).</Item>
 </List>

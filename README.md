@@ -8,7 +8,7 @@ Composability Protocol for the computational algebra system GAP in
 accordance with:
 
 * SCSCP specification:
-    http://www.symbolic-computing.org/scscp
+    https://www.openmath.org/standard/scscp/
 * OpenMath content dictionary scscp1:
     http://www.win.tue.nl/SCIEnce/cds/scscp1.html
 * OpenMath content dictionary scscp2:
