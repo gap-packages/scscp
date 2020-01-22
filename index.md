@@ -47,7 +47,7 @@ The following additional GAP packages are not required, but suggested:
 
 The development of the SCSCP package has been supported by:
 - EU FP6 Programme project 026133
-  ["SCIEnce - Symbolic Computation Infrastructure for Europe"](http://www.symbolic-computing.org/).
+  "SCIEnce - Symbolic Computation Infrastructure for Europe".
 - [OpenDreamKit](http://opendreamkit.org/) Horizon 2020
   European Research Infrastructures project #676541.
 
