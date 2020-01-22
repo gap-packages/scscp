@@ -6,10 +6,10 @@
               [1XSymbolic Computation Software Composability Protocol[101X
   
   
-                                 Version 2.3.0
+                                 Version 2.3.1
   
   
-                                  19 May 2019
+                                22 January 2020
   
   
                               Alexander Konovalov
@@ -40,13 +40,13 @@
   -------------------------------------------------------
   [1XAbstract[101X
   [33X[0;0YThe   [5XGAP[105X   package  [5XSCSCP[105X  implements  the  Symbolic  Computation  Software
-  Composability  protocol  ([7Xhttp://www.symbolic-computing.org/scscp[107X)  for  the
+  Composability  protocol  ([7Xhttps://www.openmath.org/standard/scscp/[107X)  for the
   computational algebra system [5XGAP[105X.[133X
   
   
   -------------------------------------------------------
   [1XCopyright[101X
-  [33X[0;0Y© 2007-2019 by Alexander Konovalov and Steve Linton[133X
+  [33X[0;0Y© 2007-2020 by Alexander Konovalov and Steve Linton[133X
   
   [33X[0;0Y[5XSCSCP[105X  is  free software; you can redistribute it and/or modify it under the
   terms  of  the  GNU General Public License as published by the Free Software
@@ -61,7 +61,7 @@
   [5XSCSCP[105X, please cite it in the following form:[133X
   
   [33X[0;0YA.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
-  Composability          Protocol,         Version         2.3.0;[113X         2019
+  Composability          Protocol,         Version         2.3.1;[113X         2020
   ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
   
   
@@ -70,7 +70,7 @@
   [33X[0;0YThe development of the [5XSCSCP[105X package has been supported by:[133X
   
   [30X    [33X[0;6YEU  FP6  Programme  project  026133  [21XSCIEnce  -  Symbolic  Computation
-        Infrastructure for Europe[121X (see [7Xhttp://www.symbolic-computing.org/[107X).[133X
+        Infrastructure for Europe[121X.[133X
   
   [30X    [33X[0;6YOpenDreamKit  Horizon  2020  European Research Infrastructures project
         #676541 (see [7Xhttp://opendreamkit.org/[107X).[133X
@@ -99,6 +99,8 @@
   [30X    [33X[0;6YVersion 2.1 - March 2012.[133X
   
   [30X    [33X[0;6YVersion 2.2 - February 2017.[133X
+  
+  [30X    [33X[0;6YVersion 2.3 - May 2019.[133X
   
   
   -------------------------------------------------------

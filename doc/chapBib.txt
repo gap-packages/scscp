@@ -18,7 +18,7 @@
   [[20XFHK+b[120X]  [16XFreundt,  S.,  Horn, P., Konovalov, A., Lesseni, S., Linton, S. and
   Roozemond,  D.[116X, [17XSymbolic Computation Software Composability Protocol (SCSCP)
   specification,                Version               1.3,               2009[117X,
-  (\url{http://www.symbolic-computing.org/scscp}).
+  (\url{https://www.openmath.org/standard/scscp/}).
   
   [[20XFHK+c[120X]  [16XFreundt, S., Horn, P., Konovalov, A., Linton, S. and Roozemond, D.[116X,
   [17XOpenMath           content          dictionary          \tt          scscp2[117X,

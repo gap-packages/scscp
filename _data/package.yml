@@ -1,6 +1,6 @@
 name: SCSCP
-version: 2.3.0
-date: 2019-05-19
+version: 2.3.1
+date: 2020-01-22
 description: |
     Symbolic Computation Software Composability Protocol in GAP
 
@@ -35,10 +35,10 @@ packageinfo: https://gap-packages.github.io/scscp/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/scscp/releases/download/v2.3.0/SCSCP-2.3.0.tar.gz
+      url: https://github.com/gap-packages/scscp/releases/download/v2.3.1/SCSCP-2.3.1.tar.gz
 
 abstract: |
-    This package implements the <a href="http://www.symbolic-computing.org/scscp">Symbolic Computation Software Composability Protocol</a> for the GAP system.
+    This package implements the <a href="https://www.openmath.org/standard/scscp/">Symbolic Computation Software Composability Protocol</a> for the GAP system.
 
 status: accepted
 doc-html: doc/chap0.html

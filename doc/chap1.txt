@@ -13,9 +13,9 @@
   [7Xhttp://java.symcomp.org/[107X    or   [7Xhttp://www.imcce.fr/Equipes/ASD/trip/scscp/[107X
   providing  an [5XSCSCP[105X API. Such communication will go into seamless manner for
   the [5XGAP[105X user, since all conversions from [5XGAP[105X to [5XOpenMath[105X and vice versa will
-  be   performed   in   the  background.  See  the  SCIEnce  project  homepage
-  [7Xhttp://www.symbolic-computing.org/[107X  for  the  details about computer algebra
-  systems and other sotware supporting [5XSCSCP[105X[133X
+  be   performed   in   the   background.   See   the   SCSCP   protocol  page
+  [7Xhttps://www.openmath.org/standard/scscp/[107X  for  the  details  about  computer
+  algebra systems and other sotware supporting [5XSCSCP[105X[133X
   
   [33X[0;0YThe [5XSCSCP[105X package for [5XGAP[105X has two main components:[133X
   
@@ -100,8 +100,8 @@
   several instances of the [5XGAP[105X system, but the same behaviour is expected from
   any  [5XSCSCP[105X-compliant  application:  the  set  of  supported [5XOpenMath[105X symbols
   clearly  will  be  different,  but  the rules of communication are precisely
-  specified  in  the  [5XSCSCP[105X  specification  [FHK+b].  See  the homepage of the
-  SCIEnce project [7Xhttp://www.symbolic-computing.org/[107X for the information about
+  specified  in  the  [5XSCSCP[105X specification [FHK+b]. See the SCSCP protocol page
+  [7Xhttps://www.openmath.org/standard/scscp/[107X    for    the   information   about
   [5XSCSCP[105X-compliant  computer  algebra  systems and other tools developed in the
   project.[133X
   
