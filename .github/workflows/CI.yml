@@ -1,0 +1,36 @@
+name: CI
+
+# Trigger the workflow on push or pull request
+on:
+  - push
+  - pull_request
+
+jobs:
+  # The CI test job
+  test:
+    name: ${{ matrix.gap-branch }}
+    runs-on: ubuntu-latest
+    # Don't run this twice on PRs for branches pushed to the same repository
+    if: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository) }}
+    strategy:
+      fail-fast: false
+      matrix:
+        gap-branch:
+          - master
+          - stable-4.11
+          - stable-4.10
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: gap-actions/setup-gap@v2
+        with:
+          GAP_PKGS_TO_BUILD: "anupq io profiling"
+          GAPBRANCH: ${{ matrix.gap-branch }}
+      - uses: gap-actions/build-pkg@v1
+      - name: "Start SCSCP servers"
+        run: |
+          GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26133
+          GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
+      - uses: gap-actions/run-pkg-tests@v2
+      - uses: gap-actions/process-coverage@v2
+      - uses: codecov/codecov-action@v1
