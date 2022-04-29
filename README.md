@@ -10,9 +10,9 @@ accordance with:
 * SCSCP specification:
     https://www.openmath.org/standard/scscp/
 * OpenMath content dictionary scscp1:
-    http://www.win.tue.nl/SCIEnce/cds/scscp1.html
+    https://openmath.org/cd/scscp1.html
 * OpenMath content dictionary scscp2:
-    http://www.win.tue.nl/SCIEnce/cds/scscp2.html
+    https://openmath.org/cd/scscp2.html
 
 To run the demo, open two terminal windows. In the first window,
 start the server with
