@@ -89,49 +89,7 @@ other specified conditions to prevent forgotten jobs from infinite running.
     or leave the loop in case of "procedure_terminated"
 
 ###########################################################################
-2.RELEASE HOW-TO
-###########################################################################
-
-* replace version number in PackageInfo.g and doc/manual.xml
-
-* rebuild the manual
-
-* commit PackageInfo.g and doc/manual.xml
-
-* copy package to another location to wrap archives
-
-* remove SVN subdirectories
-rm -r .svn/ */.svn/ */*/.svn/
-
-* replace paths from my local machine to something more neutral in gapd.sh
-  
-* remove files: parscscp.g, todo.txt, example/private.g, example/rings.g, 
-  tracing/glue.sh, and all from 'par' directory except parlist.g
-
-* remove possibly hidden files left e.g. '.DS_Store' left by Mac OS
-
-* remove lines for loading example/private.g file from example/myserver.g
-
-* remove getting IP address of the client, if it is not yet using IO package
-
-* wrap the archive with the right version number:
-cd ..
-tar cfvz scscp-1.2.0.tar.gz scscp/
-tar cjvf scscp-1.2.0.tar.bz2 scscp/
-
-* copy archive, PackageInfo.g, README to web page:
-scp scscp-* scscp/PackageInfo.g scscp/README.scscp alexk@shell.cs.st-and.ac.uk:~/public_html/scscp/
-
-* copy manual to the web page:
-scp scscp/doc/*.html scscp/doc/*.css scscp/doc/*.pdf alexk@shell.cs.st-and.ac.uk:~/public_html/scscp/
-
-* check the PackageInfo.g, README, archive and the manual online:
-http://www.cs.st-andrews.ac.uk/~alexk/scscp.htm
-
-* update the web-page: modify version and links.
-
-###########################################################################
-3.TODO
+2.TODO
 ###########################################################################
 
 * Think about authentication using private/public keys or another method
