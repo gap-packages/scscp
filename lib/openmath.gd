@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W openmath.gd              The SCSCP package             Alexander Konovalov
+#W openmath.gd              The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 #############################################################################

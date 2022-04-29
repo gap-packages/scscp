@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W client.g                The SCSCP package            Alexander Konovalov
+#W client.g                The SCSCP package             Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

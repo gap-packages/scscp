@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W todo.txt                 The SCSCP package           Alexander Konovalov
+#W todo.txt                 The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W buildman.g               The SCSCP package           Alexander Konovalov
+#W buildman.g               The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

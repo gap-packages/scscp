@@ -34,4 +34,4 @@ to run the next command, and press 'q' to stop the demo.
 Please submit bug reports, suggestions for improvements and patches
 via the issue tracker: https://github.com/gap-packages/scscp/issues.
 
-Alexander Konovalov, Steve Linton
+Olexandr Konovalov, Steve Linton

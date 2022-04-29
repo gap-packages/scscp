@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W config.g                 The SCSCP package           Alexander Konovalov
+#W config.g                 The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ## This is a sample configuration file for the GAP package SCSCP. 

@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W process.gi              The SCSCP package            Alexander Konovalov
+#W process.gi              The SCSCP package             Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W xstream.gi               The SCSCP package             Alexander Konovalov
+#W xstream.gi               The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 ###########################################################################

@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W remote.gi                The SCSCP package             Alexander Konovalov
+#W remote.gi                The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 #############################################################################

@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W orbit.g                  The SCSCP package             Alexander Konovalov
+#W orbit.g                  The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 #############################################################################

@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W errors.g                 The SCSCP package             Alexander Konovalov
+#W errors.g                 The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 #############################################################################

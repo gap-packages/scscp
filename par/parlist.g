@@ -1,6 +1,6 @@
 #############################################################################
 ##
-#W parlist.g                The SCSCP package             Alexander Konovalov
+#W parlist.g                The SCSCP package              Olexandr Konovalov
 #W                                                               Steve Linton
 ##
 #############################################################################

@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W init.g                   The SCSCP package           Alexander Konovalov
+#W init.g                   The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

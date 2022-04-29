@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W webservice.g             The SCSCP package           Alexander Konovalov
+#W webservice.g             The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

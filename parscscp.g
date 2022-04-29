@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W parscscp.g             The SCSCP package             Alexander Konovalov
+#W parscscp.g             The SCSCP package              Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################

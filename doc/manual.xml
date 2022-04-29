@@ -20,9 +20,9 @@
   <Subtitle>Symbolic Computation Software Composability Protocol</Subtitle>
   <Version>Version &VERSION;</Version>
 
-  <Author>Alexander Konovalov
-          <Email>alexander dot konovalov at st-andrews dot ac dot uk</Email>
-	      <Homepage>http://www.cs.st-andrews.ac.uk/&tilde;alexk/</Homepage>
+  <Author>Olexandr Konovalov
+          <Email>obk1 at st-andrews dot ac dot uk</Email>
+	      <Homepage>https://alex-konovalov.github.io/</Homepage>
           <Address>
             School of Computer Science<Br/>
             University of St Andrews<Br/>
@@ -56,7 +56,7 @@ for the computational algebra system &GAP;.
 </Abstract>
 
 <Copyright>
-  &copyright; 2007-&RELEASEYEAR; by Alexander Konovalov and Steve Linton<P/>
+  &copyright; 2007-&RELEASEYEAR; by Olexandr Konovalov and Steve Linton<P/>
 
   &SCSCP; is free software; you can redistribute it and/or modify it 
   under the terms of the GNU General Public License as published by 
@@ -73,7 +73,7 @@ for the computational algebra system &GAP;.
   &SCSCP;, please cite it in the following form:
   <P/>
 
-  A. Konovalov and S. Linton. 
+  O. Konovalov and S. Linton. 
   <E>SCSCP --- Symbolic Computation Software Composability Protocol, 
   Version &VERSION;;</E> &RELEASEYEAR; 
   (<URL>https://gap-packages.github.io/scscp/</URL>).
