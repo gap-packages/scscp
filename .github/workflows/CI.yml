@@ -43,3 +43,23 @@ jobs:
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
       - uses: codecov/codecov-action@v3
+
+  # The documentation job
+  manual:
+    name: Build manuals
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: gap-actions/setup-gap@v2
+        with:
+          GAP_PKGS_TO_BUILD: ''
+      - uses: gap-actions/build-pkg-docs@v1
+        with:
+          use-latex: 'true'
+      - name: 'Upload documentation'
+        uses: actions/upload-artifact@v3
+        with:
+          name: manual
+          path: ./doc/manual.pdf
+          if-no-files-found: error
