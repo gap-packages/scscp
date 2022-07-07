@@ -76,7 +76,7 @@ AbstractHTML := "This package implements the <a href=\"https://www.openmath.org/
 PackageDoc := rec(
   BookName := "SCSCP",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile := "doc/manual.pdf",
   SixFile := "doc/manual.six",
   LongTitle := "Symbolic Computation Software Composability Protocol",
