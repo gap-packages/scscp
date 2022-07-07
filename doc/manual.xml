@@ -62,7 +62,7 @@ for the computational algebra system &GAP;.
   under the terms of the GNU General Public License as published by 
   the Free Software Foundation; either version 2 of the License, or 
   (at your option) any later version. For details, see the FSF's own site
-  <URL>http://www.gnu.org/licenses/gpl.html</URL>.
+  <URL>https://www.gnu.org/licenses/gpl.html</URL>.
   <P/>
 
   If you obtained &SCSCP;, we would be grateful for a short notification
@@ -86,7 +86,7 @@ The development of the &SCSCP; package has been supported by:
   <Q>SCIEnce - Symbolic Computation Infrastructure for Europe</Q>.
   </Item>
   <Item>OpenDreamKit Horizon 2020 European Research Infrastructures project #676541
-  (see <URL>http://opendreamkit.org/</URL>).</Item>
+  (see <URL>https://opendreamkit.org/</URL>).</Item>
 </List>
 </Acknowledgements>
 
