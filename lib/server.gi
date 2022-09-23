@@ -284,7 +284,7 @@ else
                     if return_cookie then
                         cookie := TemporaryGlobalVarName( Concatenation( "TEMPVarSCSCP", RandomString(8) ) );  
                         ASS_GVAR( cookie, objrec.object );
-                        if ISBOUND_GLOBAL( cookie ) then                                             
+                        if IsBoundGlobal( cookie ) then                                             
                             Info( InfoSCSCP, 2, "Result stored in the global variable ", cookie );  
                         else
                             Error( "Failed to store result in the global variable ", cookie, "\n" );                                                  
