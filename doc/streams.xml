@@ -49,7 +49,7 @@ client (of course, if you will try this example, the numbers denoting
 descriptors may be different).
 <P/>
 
-Firts, we will start two &GAP; sessions, one for the server, another one
+First, we will start two &GAP; sessions, one for the server, another one
 for the client. Now we enter the following commands on the server's side:
 
 <Log>

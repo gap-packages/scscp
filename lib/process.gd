@@ -270,7 +270,7 @@ DeclareGlobalFunction ( "FirstProcess" );
 ##  <Description>
 ##  The function waits for the result from each process given in the argument,
 ##  and stops waiting as soon as the first <K>true</K> is returned, abandoning
-##  all remaining processes. It retuns a list containing a records with 
+##  all remaining processes. It returns a list containing a records with 
 ##  components <C>object</C> and <C>attributes</C> at the position corresponding
 ##  to the process that returned <K>true</K>. If none of the processes 
 ##  returned true, it will return a complete list of procedure call results.

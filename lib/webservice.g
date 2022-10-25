@@ -75,7 +75,7 @@ if IsBound( arg[3] ) then
                 maxarg := arg[pos+1];   
                 if maxarg < minarg then
                     Error("InstallSCSCPprocedure: the maximal number of ",
-                      "arguments can not be smaller than their minumum number!\n");
+                      "arguments can not be smaller than their minimum number!\n");
                 fi;
             else
                 maxarg := minarg;

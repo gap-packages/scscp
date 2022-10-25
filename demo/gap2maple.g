@@ -84,7 +84,7 @@ res:=EvaluateBySCSCP("DefiniteIntegration",[sin,varx,range],
 #
 # IndefiniteIntegration
 #
-# In this example, we form valide Maple input from OpenMath symbols for 
+# In this example, we form valid Maple input from OpenMath symbols for 
 # objects which are non-native for GAP. The result contains cos(x) so 
 # GAP can't evaluate it, but we may suppress evaluattion, request back 
 # a parsed three which then may be inpected in GAP. 

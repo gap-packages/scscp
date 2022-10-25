@@ -56,7 +56,7 @@ computation on another available server;
 </Item>
 <Item>
 it allows to add dynamically new workers during the computation
-on hostnames and ports from a range perviously declared in
+on hostnames and ports from a range previously declared in
 <Ref Var="SCSCPservers" />.
 </Item>
 </List>

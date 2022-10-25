@@ -1,7 +1,7 @@
 #############################################################################
 #
 # Experimental functions for rings workflows, not included in the release.
-# Currenly not working (deadlock) after changing return_nothing rules.
+# Currently not working (deadlock) after changing return_nothing rules.
 #
 #############################################################################
 
