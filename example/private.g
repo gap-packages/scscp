@@ -111,7 +111,7 @@ InstallSCSCPprocedure( "ChangeInfoLevel", ChangeInfoLevel,
 #
 # SCSCPRestoreErrorsOnServer( )
 #
-# After this call, the break loop will occure on the server again.
+# After this call, the break loop will occur on the server again.
 #
 SCSCPRestoreErrorsOnServer:=function( )
 RereadLib("error.g"); # to restore the library version of ErrorInner

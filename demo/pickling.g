@@ -36,7 +36,7 @@ IN_SCSCP_BINARY_MODE:=false;; t1:=TimeRoundtrip( x );
 IN_SCSCP_BINARY_MODE:=true;; t2:=TimeRoundtrip( x );
 Float(t1/t2);
 
-# String with 10^6 charcters
+# String with 10^6 characters
 y:=ListWithIdenticalEntries(1000000,'a');;
 IN_SCSCP_BINARY_MODE:=false;; t1:=TimeRoundtrip( y );
 IN_SCSCP_BINARY_MODE:=true;; t2:=TimeRoundtrip( y );

@@ -73,7 +73,7 @@ end;
 # the minimal x with L(x)>0. 
 #
 # A computer-aided search reported in [ R. Sherman Lehman, 
-# On Liouville's Funcion, Mathematics of Computation, Vol.14, 
+# On Liouville's Function, Mathematics of Computation, Vol.14, 
 # No.72 (Oct., 1960), pp.311-320 ] found the counterexample to 
 # be L(906180359)=+1, without claiming its minimality.
 #

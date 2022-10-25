@@ -579,7 +579,7 @@ DeclareGlobalFunction( "EvaluateBySCSCP" );
 ##  </Returns>	 
 ##  <Description>
 ##  This function is constructed using the <Ref Func="FirstProcess"/>.
-##  It is useful when it is not known which partcular method is
+##  It is useful when it is not known which particular method is
 ##  more efficient, because it allows to call in parallel several procedures
 ##  (given by the list of their names <A>commands</A>) 
 ##  with the same list of arguments <A>listargs</A> (having

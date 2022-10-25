@@ -19,7 +19,7 @@ Description:
 
 1) GAP Server is started from the GAP session or during GAP startup.
 During GAP Server startup it:
-* loads all functions which has to be acessible as SCSCP services
+* loads all functions which has to be accessible as SCSCP services
 * loads lookup mechanisms for them
 * starts to listen specified port (default 26133, as registered by IANA)
 

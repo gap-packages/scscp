@@ -104,7 +104,7 @@ else
         #   UnbindGlobal( cookie );
         # od;
         # session_cookies := [];
-        repeat # until disconnect: this loop is a signle SCSCP session
+        repeat # until disconnect: this loop is a single SCSCP session
             # We accept connections from everywhere
             Info(InfoSCSCP, 1, "Waiting for new client connection at ", 
                                server, ":", port, " ..." );
