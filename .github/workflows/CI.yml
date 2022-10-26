@@ -25,6 +25,7 @@ jobs:
       matrix:
         gap-branch:
           - master
+          - stable-4.12
           - stable-4.11
           - stable-4.10
 
@@ -41,4 +42,4 @@ jobs:
           GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
       - uses: gap-actions/run-pkg-tests@v2
       - uses: gap-actions/process-coverage@v2
-      - uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
