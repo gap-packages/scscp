@@ -9,7 +9,6 @@
 gap> START_TEST( "scscp06.tst");
 
 # doc/../lib/connect.gd:47-61
-
 gap> SetInfoLevel( InfoSCSCP, 2 );
 gap> s:=NewSCSCPconnection("localhost",26133);
 #I  Creating a socket ...
@@ -23,14 +22,12 @@ gap> s:=NewSCSCPconnection("localhost",26133);
 gap> CloseSCSCPconnection(s);
 
 # doc/../lib/connect.gd:85-92
-
 gap> SetInfoLevel( InfoSCSCP, 0 );
 gap> s:=NewSCSCPconnection("localhost",26133);
 < connection to localhost:26133 session_id=localhost:26133:52918 >
 gap> CloseSCSCPconnection(s);
 
 # doc/../lib/process.gd:142-150
-
 gap> s := NewProcess( "WS_Factorial", [10], "localhost", 26133 );                  
 < process at localhost:26133 pid=52918 >
 gap> x := CompleteProcess(s);
@@ -38,7 +35,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
   object := 3628800 )
 
 # doc/../lib/scscp.gd:541-561
-
 gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 #I  Creating a socket ...
 #I  Connecting to a remote socket via TCP/IP ...
@@ -58,7 +54,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:9QHQrCjv" ] ],
   object := "procedure completed" )
 
 # doc/client.xml:60-73
-
 gap> G:=SymmetricGroup(4);
 Sym( [ 1 .. 4 ] )
 gap> gens:=GeneratorsOfGroup(G);
@@ -71,7 +66,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
   object := [ 24, 12 ] )
 
 # doc/client.xml:77-91
-
 gap> IdGroupWS := function( G )
 >    local H, result;
 >    if not IsPermGroup(G) then
@@ -85,19 +79,16 @@ gap> IdGroupWS := function( G )
 > end;;
 
 # doc/client.xml:95-102
-
 gap> G:=DihedralGroup(64);
 <pc group of size 64 with 6 generators>
 gap> IdGroupWS(G);
 [ 64, 52 ]
 
 # doc/client.xml:115-120
-
 gap> x := [ Z(3)^0, Z(3), 0*Z(3) ];
 [ Z(3)^0, Z(3), 0*Z(3) ]
 
 # doc/client.xml:122-157
-
 gap> OMPrint( x );
 <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 	<OMA>
@@ -132,7 +123,6 @@ gap> Length( OMString(x) );
 507
 
 # doc/client.xml:295-333
-
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
 < input/output TCP stream to localhost:26133 >
 gap> StartSCSCPsession(stream);
@@ -170,12 +160,10 @@ rec( attributes := [ [ "call_id", "4" ] ],
 gap> CloseStream(stream);
 
 # doc/../lib/remote.gd:74-79
-
 gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
 < remote object scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3 >
 
 # doc/client.xml:359-368
-
 gap> s![1]; 
 "TEMPVarSCSCPLvIUUtL3"
 gap> s![2];
@@ -184,40 +172,35 @@ gap> s![3];
 26133
 
 # doc/client.xml:374-381
-
 gap> OMPrint(s);
 <OMOBJ>
       <OMR href="scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3" />
 </OMOBJ>
 
 # doc/client.xml:386-393
-
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
 rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],
 Line 183 : 
   object := [ 6, 1 ] )
 
 # doc/../lib/remote.gd:105-110
-
 gap> RetrieveRemoteObject(s);
 Group([ (1,2,3), (1,2) ])
 
 # doc/../lib/remote.gd:134-139
-
 gap> UnbindRemoteObject(s);
 true
 
 # doc/client.xml:403-410
-
 gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
 < remote object scscp://localhost:26133/TEMPVarSCSCPNqc8Bkan >
 gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );
 rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )
 
 # doc/client.xml:414-420
-
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : output:="cookie" );
 rec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ], 
   object := < remote object scscp://localhost:26133/TEMPVarSCSCPS9SVe9PZ > )
 
+#
 gap> STOP_TEST("scscp06.tst", 1 );

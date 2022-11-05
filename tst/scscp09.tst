@@ -9,7 +9,6 @@
 gap> START_TEST( "scscp09.tst");
 
 # doc/../lib/scscp.gd:429-439
-
 gap> PingSCSCPservice("localhost",26133);
 true
 gap> PingSCSCPservice("localhost",26140);                     
@@ -19,13 +18,11 @@ Error: rec(
 fail
 
 # doc/../lib/scscp.gd:463-469
-
 gap> PingStatistic("localhost",26133,1000);
 1000 packets transmitted, 1000 received, 0% packet loss, time 208ms
 min/avg/max = [ 0, 26/125, 6 ]
 
 # doc/../lib/scscp.gd:33-53
-
 gap> SetInfoLevel(InfoSCSCP,2);                              
 gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133); 
 #I  Creating a socket ...
@@ -45,14 +42,12 @@ rec( attributes := [ [ "call_id", "localhost:26133:286:JL6KRQeh" ] ],
   object := 3628800 )
 
 # doc/../lib/scscp.gd:56-63
-
 gap> SetInfoLevel(InfoSCSCP,0);                              
 gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 rec( attributes := [ [ "call_id", "localhost:26133:286:jzjsp6th" ] ], 
   object := 3628800 )
 
 # doc/../lib/scscp.gd:66-121
-
 gap> SetInfoLevel(InfoSCSCP,3);
 gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
 #I  Creating a socket ...
@@ -107,7 +102,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:286:Jok6cQAf" ] ],
 gap> SetInfoLevel(InfoSCSCP,0);
 
 # doc/../lib/scscp.gd:149-160
-
 gap> SetInfoLevel(InfoMasterWorker,2);
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 #I  1/5:master --> localhost:26133
@@ -118,14 +112,12 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 # doc/../lib/scscp.gd:163-170
-
 gap> SetInfoLevel(InfoSCSCP,0);       
 gap> SetInfoLevel(InfoMasterWorker,0);
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 # doc/../lib/scscp.gd:173-190
-
 gap> SetInfoLevel(InfoMasterWorker,5);                                       
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 #I  1/5:master --> localhost:26133 : SymmetricGroup( [ 1 .. 2 ] )
@@ -142,15 +134,14 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 gap> SetInfoLevel(InfoMasterWorker,2);
 
 # doc/../lib/utils.g:202-207
-
 gap> f := IO_PickleToString( GF( 125 ) );
 "FFIEINTG\>15INTG\>13FAIL"
 
 # doc/../lib/utils.g:239-246
-
 gap> IO_UnpickleFromString( f );                    
 GF(5^3)
 gap> f = IO_UnpickleFromString( IO_PickleToString( f ) ); 
 true
 
+#
 gap> STOP_TEST("scscp09.tst", 1 );
