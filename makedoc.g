@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W buildman.g               The SCSCP package            Olexandr Konovalov
+#W makedoc.g                The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################
@@ -46,9 +46,9 @@ for i in [ 1 .. Length(tst) ] do
         pos := PositionSublist(location,".//");
         comment := location{[ pos+3 .. Length(location) ]};
       fi;
-      AppendTo(output, "# ", comment, ":", a[2][2], "-", a[2][3], a[1]);
+      AppendTo(output, "# ", comment, ":", a[2][2], "-", a[2][3], "\n", StripBeginEnd(a[1], "\n"), "\n\n");
     od;
-    AppendTo(output, "gap> STOP_TEST(\"", basename, "\", 1 );\n");
+    AppendTo(output, "#\ngap> STOP_TEST(\"", basename, "\", 1 );\n");
     Print("extracted ", Length(ch), " examples \n");
   else
     Print("no examples \n" );    

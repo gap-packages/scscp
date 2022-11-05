@@ -9,7 +9,6 @@
 gap> START_TEST( "scscp08.tst");
 
 # doc/../lib/process.gd:203-215
-
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
 < process at localhost:26133 pid=2064 >
 gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
@@ -21,7 +20,6 @@ gap> SynchronizeProcesses(a,b);
       object := 2432902008176640000 ) ]
 
 # doc/../lib/process.gd:240-250
-
 gap> a:=NewProcess( "WS_Factorial", [10], "localhost", 26133 );
 < process at localhost:26133 pid=2064 >
 gap> b:=NewProcess( "WS_Factorial", [20], "localhost", 26134 );
@@ -31,14 +29,12 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
   object := 3628800 )
 
 # doc/../lib/scscp.gd:594-601
-
 gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
   object := [ [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 63901 ],
       [ 2175126601, 15767865236223301 ] ] )
 
 # doc/../lib/process.gd:282-292
-
 gap> a:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );
 < process at localhost:26134 pid=42554 >
 gap> b:=NewProcess( "IsPrimeInt", [2^521-1], "localhost", 26133 );
@@ -48,7 +44,6 @@ gap> FirstTrueProcess(a,b);
       object := true ) ]
 
 # doc/../lib/process.gd:294-306
-
 gap> a:=NewProcess( "IsPrimeInt", [2^520-1], "localhost", 26133 );
 < process at localhost:26133 pid=42448 >
 gap> b:=NewProcess( "IsPrimeInt", [2^15013-1], "localhost", 26134 );
@@ -60,7 +55,6 @@ gap> FirstTrueProcess(a,b);
       object := false ) ]
 
 # doc/../lib/scscp.gd:639-654
-
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 #I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 2 ] )
 #I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 3 ] )
@@ -75,7 +69,6 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 # doc/parallel.xml:176-189
-
 gap> ReadPackage("scscp/example/karatsuba.g");
 gap> fam:=FamilyObj(1);;
 gap> f:=LaurentPolynomialByCoefficients( fam, 
@@ -87,4 +80,5 @@ gap> t2:=KaratsubaPolynomialMultiplication(f,g);;time;
 gap> t3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;
 2974
 
+#
 gap> STOP_TEST("scscp08.tst", 1 );

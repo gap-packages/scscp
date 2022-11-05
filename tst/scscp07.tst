@@ -9,7 +9,6 @@
 gap> START_TEST( "scscp07.tst");
 
 # doc/examples.xml:71-84
-
 gap> LoadPackage("anupq", false);
 true
 gap> G := DihedralGroup( 512 );            
@@ -22,7 +21,6 @@ gap> IdStandardPresented512Group( H );
 [ 512, 2042 ]
 
 # doc/examples.xml:135-148
-
 gap> IdGroup512 := function( G )
 >    local code, result;
 >    if Size( G ) <> 512 then
@@ -35,8 +33,8 @@ gap> IdGroup512 := function( G )
 > end;;
 
 # doc/examples.xml:154-159
-
 gap> IdGroup512(DihedralGroup(512));
 [ 512, 2042 ]
 
+#
 gap> STOP_TEST("scscp07.tst", 1 );
