@@ -116,6 +116,7 @@ InstallSCSCPprocedure( "GroupIdentificationService", IdGroupByGenerators,
 	"Accepts a list of permutations and returns IdGroup of the group they generate", 1, infinity );
 InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP", 1, 1 );
 
+InstallSCSCPprocedure( "WS_QUIT_GAP", QUIT_GAP, "quit GAP", 0, 1 );
 
 ###########################################################################
 #
