@@ -8,19 +8,9 @@
 #
 gap> START_TEST( "scscp07.tst");
 
-# doc/examples.xml:71-94
+# doc/examples.xml:71-84
 
-gap> LoadPackage("anupq");
----------------------------------------------------------------------------
-Loading    ANUPQ (ANU p-Quotient) 3.1.4
-GAP code by  Greg Gamble <Greg.Gamble@uwa.edu.au> (address for correspondence)
-           Werner Nickel (http://www.mathematik.tu-darmstadt.de/~nickel/)
-           [uses ANU pq binary (C code program) version: 1.9]
-C code by  Eamonn O'Brien (http://www.math.auckland.ac.nz/~obrien)
-Co-maintained by Max Horn <max.horn@math.uni-giessen.de>
-
-            For help, type: ?ANUPQ
----------------------------------------------------------------------------
+gap> LoadPackage("anupq", false);
 true
 gap> G := DihedralGroup( 512 );            
 <pc group of size 512 with 9 generators>
@@ -31,7 +21,7 @@ gap> H := PcGroupFpGroup( F );
 gap> IdStandardPresented512Group( H );
 [ 512, 2042 ]
 
-# doc/examples.xml:145-158
+# doc/examples.xml:135-148
 
 gap> IdGroup512 := function( G )
 >    local code, result;
@@ -44,7 +34,7 @@ gap> IdGroup512 := function( G )
 >    return result.object;
 > end;;
 
-# doc/examples.xml:164-169
+# doc/examples.xml:154-159
 
 gap> IdGroup512(DihedralGroup(512));
 [ 512, 2042 ]
