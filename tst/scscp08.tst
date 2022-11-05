@@ -28,7 +28,7 @@ gap>  FirstProcess(a,b);
 rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ], 
   object := 3628800 )
 
-# doc/../lib/scscp.gd:594-601
+# doc/../lib/scscp.gd:587-594
 gap> ParQuickWithSCSCP( [ "WS_FactorsECM", "WS_FactorsMPQS" ], [ 2^150+1 ] );
 rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
   object := [ [ 5, 5, 5, 13, 41, 61, 101, 1201, 1321, 63901 ],
@@ -54,7 +54,7 @@ gap> FirstTrueProcess(a,b);
   rec( attributes := [ [ "call_id", "localhost:26134:42554:JnEYuXL8" ] ], 
       object := false ) ]
 
-# doc/../lib/scscp.gd:639-654
+# doc/../lib/scscp.gd:632-647
 gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 #I  master -> [ "localhost", 26133 ] : SymmetricGroup( [ 1 .. 2 ] )
 #I  master -> [ "localhost", 26134 ] : SymmetricGroup( [ 1 .. 3 ] )
@@ -68,8 +68,9 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 #I  [ "localhost", 26134 ] --> master : [ 120, 34 ]
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
-# doc/parallel.xml:176-189
+# doc/parallel.xml:176-190
 gap> ReadPackage("scscp/example/karatsuba.g");
+true
 gap> fam:=FamilyObj(1);;
 gap> f:=LaurentPolynomialByCoefficients( fam, 
 >         List([1..32000],i->Random(Integers)), 0, 1 );;

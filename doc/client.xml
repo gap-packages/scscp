@@ -386,8 +386,7 @@ in the same manner like we do this with usual objects:
 <Example>
 <![CDATA[
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
-rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],
-Line 183 : 
+rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ], 
   object := [ 6, 1 ] )
 ]]>
 </Example>

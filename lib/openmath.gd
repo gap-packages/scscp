@@ -63,7 +63,7 @@
 ##  rec( 
 ##    attributes := [ [ "call_id", "alexk_9053" ], [ "option_runtime", 300000 ], 
 ##        [ "option_min_memory", 40964 ], [ "option_max_memory", 134217728 ], 
-##        [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ],
+##        [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ], 
 ##    object := [ 24, 12 ] )
 ##  gap> OMGetObjectWithAttributes(stream);
 ##  rec( 
