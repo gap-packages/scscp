@@ -34,15 +34,8 @@ gap> x := CompleteProcess(s);
 rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
   object := 3628800 )
 
-# doc/../lib/scscp.gd:541-561
+# doc/../lib/scscp.gd:541-554
 gap> EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-#I  Waiting for reply ...
 rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
   object := 3628800 )
 gap> SetInfoLevel(InfoSCSCP,0);
@@ -177,10 +170,9 @@ gap> OMPrint(s);
       <OMR href="scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3" />
 </OMOBJ>
 
-# doc/client.xml:386-393
+# doc/client.xml:386-392
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
-rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],
-Line 183 : 
+rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ], 
   object := [ 6, 1 ] )
 
 # doc/../lib/remote.gd:105-110
@@ -191,13 +183,13 @@ Group([ (1,2,3), (1,2) ])
 gap> UnbindRemoteObject(s);
 true
 
-# doc/client.xml:403-410
+# doc/client.xml:402-409
 gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
 < remote object scscp://localhost:26133/TEMPVarSCSCPNqc8Bkan >
 gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );
 rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )
 
-# doc/client.xml:414-420
+# doc/client.xml:413-419
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : output:="cookie" );
 rec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ], 
   object := < remote object scscp://localhost:26133/TEMPVarSCSCPS9SVe9PZ > )

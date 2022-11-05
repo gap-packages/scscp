@@ -8,14 +8,14 @@
 #
 gap> START_TEST( "scscp05.tst");
 
-# doc/../lib/scscp.gd:734-742
+# doc/../lib/scscp.gd:727-735
 gap> GetServiceDescription( "localhost", 26133 );
 rec( 
   description := "Started with the configuration file scscp/example/myserver.g\
   on Thu 16 Feb 2017 16:03:56 GMT", service_name := "GAP SCSCP service", 
   version := "GAP 4.8.6 + SCSCP 2.2.1" )
 
-# doc/../lib/scscp.gd:692-711
+# doc/../lib/scscp.gd:685-704
 gap> GetAllowedHeads("localhost",26133);
 rec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE", 
       "Determinant", "GroupIdentificationService", 
@@ -33,7 +33,7 @@ rec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE",
       "WS_SmallGroup", "WS_SymmetricGroup", "WS_TransitiveGroup", "addition" 
      ] )
 
-# doc/../lib/scscp.gd:861-870
+# doc/../lib/scscp.gd:854-863
 gap> IsAllowedHead( "permgp1", "group", "localhost", 26133 );
 true
 gap> IsAllowedHead( "setname1", "Q", "localhost", 26133 );
@@ -41,7 +41,7 @@ true
 gap> IsAllowedHead( "setname1", "R", "localhost", 26133 );
 false
 
-# doc/../lib/scscp.gd:813-830
+# doc/../lib/scscp.gd:806-823
 gap> GetTransientCD( "scscp_transient_1", "localhost", 26133 );
 rec( CDDate := "2017-02-08", 
   CDDefinitions := 
@@ -57,7 +57,7 @@ rec( CDDate := "2017-02-08",
   CDVersion := "0", 
   Description := "This is a transient CD for the GAP SCSCP service" )
 
-# doc/../lib/scscp.gd:775-782
+# doc/../lib/scscp.gd:768-775
 gap> GetSignature("scscp_transient_1","WS_Factorial","localhost",26133);
 rec( maxarg := 1, minarg := 1,
   symbol := rec( cd := "scscp_transient_1", name := "WS_Factorial" ),
