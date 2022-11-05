@@ -38,9 +38,16 @@ jobs:
       - uses: gap-actions/build-pkg@v1
       - name: "Start SCSCP servers"
         run: |
-          GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26133
-          GAPROOT="$HOME/gap" GAPOPTS="-l $PWD/gaproot;" ./gapd.sh -p 26134
+          mkdir -p coverage
+          GAPROOT="$HOME/gap" GAPOPTS="-l /tmp/gaproot; --cover coverage/test-server1.coverage" ./gapd.sh -p 26133
+          GAPROOT="$HOME/gap" GAPOPTS="-l /tmp/gaproot; --cover coverage/test-server2.coverage" ./gapd.sh -p 26134
+          sleep 5
       - uses: gap-actions/run-pkg-tests@v2
+        with:
+          GAP_TESTFILE: "tst/testall.g"
+      - name: "Stop SCSCP servers"
+        run: |
+           gap shutdown.g
       - uses: gap-actions/process-coverage@v2
       - uses: codecov/codecov-action@v3
 
