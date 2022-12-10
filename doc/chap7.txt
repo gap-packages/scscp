@@ -60,22 +60,12 @@
     [4X[28X[128X[104X
   [4X[32X[104X
   
-  [33X[0;0YHowever,     the    [5XGAP[105X    package    [5XANUPQ[105X    [GNO]    has    a    function
+  [33X[0;0YHowever,    the    [5XGAP[105X    package    [5XANUPQ[105X    [GNOH]    has    a    function
   [10XIdStandardPresented512Group[110X that does this work as demonstrated below:[133X
   
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
-    [4X[25Xgap>[125X [27XLoadPackage("anupq");[127X[104X
-    [4X[28X---------------------------------------------------------------------------[128X[104X
-    [4X[28XLoading    ANUPQ (ANU p-Quotient) 3.1.4[128X[104X
-    [4X[28XGAP code by  Greg Gamble <Greg.Gamble@uwa.edu.au> (address for correspondence)[128X[104X
-    [4X[28X           Werner Nickel (http://www.mathematik.tu-darmstadt.de/~nickel/)[128X[104X
-    [4X[28X           [uses ANU pq binary (C code program) version: 1.9][128X[104X
-    [4X[28XC code by  Eamonn O'Brien (http://www.math.auckland.ac.nz/~obrien)[128X[104X
-    [4X[28XCo-maintained by Max Horn <max.horn@math.uni-giessen.de>[128X[104X
-    [4X[28X[128X[104X
-    [4X[28X            For help, type: ?ANUPQ[128X[104X
-    [4X[28X---------------------------------------------------------------------------[128X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("anupq", false);[127X[104X
     [4X[28Xtrue[128X[104X
     [4X[25Xgap>[125X [27XG := DihedralGroup( 512 );            [127X[104X
     [4X[28X<pc group of size 512 with 9 generators>[128X[104X

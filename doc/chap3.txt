@@ -23,7 +23,7 @@
   
   [1X3.1-1 IsInputOutputTCPStream[101X
   
-  [33X[1;0Y[29X[2XIsInputOutputTCPStream[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsInputOutputTCPStream[102X [32X filter[133X
   
   [33X[0;0Y[2XIsInputOutputTCPStream[102X  is  a subcategory of [2XIsInputOutputStream[102X ([14XReference:
   IsInputOutputStream[114X).  Streams  in  the  category [2XIsInputOutputTCPStream[102X are
@@ -34,7 +34,7 @@
   
   [1X3.1-2 IsInputOutputTCPStreamRep[101X
   
-  [33X[1;0Y[29X[2XIsInputOutputTCPStreamRep[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsInputOutputTCPStreamRep[102X [32X filter[133X
   
   [33X[0;0YThis   is   the   representation   used   for   streams   in   the  category
   [2XIsInputOutputTCPStream[102X ([14X3.1-1[114X).[133X
@@ -69,7 +69,7 @@
   by  step  what  is  happens on server and client (of course, if you will try
   this example, the numbers denoting descriptors may be different).[133X
   
-  [33X[0;0YFirts,  we  will start two [5XGAP[105X sessions, one for the server, another one for
+  [33X[0;0YFirst,  we  will start two [5XGAP[105X sessions, one for the server, another one for
   the client. Now we enter the following commands on the server's side:[133X
   
   [4X[32X  Example  [32X[104X

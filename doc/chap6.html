@@ -231,13 +231,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
 <div class="example"><pre>
 
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);</span>
-#I  Creating a socket ...
-#I  Connecting to a remote socket via TCP/IP ...
-#I  Got connection initiation message
-#I  Requesting version 1.3 from the server ...
-#I  Server confirmed version 1.3 to the client ...
-#I  Request sent ...
-#I  Waiting for reply ...
 rec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], 
   object := 3628800 )
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetInfoLevel(InfoSCSCP,0);</span>
@@ -287,7 +280,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
 
 </pre></div>
 
-<p>which works exactly like <code class="func">IdGroup</code> (<a href="../../../pkg/SmallGrp-1.3/doc/chap1.html#X83044B9D7E3BDF35"><span class="RefLink">smallgrp: IdGroup</span></a>):</p>
+<p>which works exactly like <code class="func">IdGroup</code> (<a href="../../../pkg/smallgrp/doc/chap1.html#X83044B9D7E3BDF35"><span class="RefLink">smallgrp: IdGroup</span></a>):</p>
 
 
 <div class="example"><pre>
@@ -596,8 +589,7 @@ rec( attributes := [ [ "call_id", "4" ] ],
 <div class="example"><pre>
 
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  </span>
-rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],
-Line 183 : 
+rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ], 
   object := [ 6, 1 ] )
 
 </pre></div>

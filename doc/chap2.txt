@@ -7,7 +7,7 @@
   [33X[0;0YBoth [5XSCSCP[105X client and server for [5XGAP[105X work in Linux, OS X and Windows.[133X
   
   [33X[0;0YTo  use the [5XSCSCP[105X package it is necessary to install recent versions of [5XGAP[105X4
-  packages [5XIO[105X [Neu], [5XGAPDoc[105X [LN] and [5XOpenMath[105X [CKS].[133X
+  packages [5XIO[105X [Neu], [5XGAPDoc[105X [LN] and [5XOpenMath[105X [CKNS].[133X
   
   [33X[0;0YThe  [5XSCSCP[105X  package is distributed in standard formats ([11Xtar.gz[111X, [11Xtar.bz2[111X) and
   can  be  obtained from [7Xhttps://gap-packages.github.io/scscp/[107X or from the [5XGAP[105X

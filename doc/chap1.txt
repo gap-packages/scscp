@@ -63,13 +63,6 @@
   parameter  can be easily modified), and on each iteration evaluates the next
   request from the queue.[133X
   
-  [33X[0;0YThere  is an [5XSCSCP[105X server accessible at [11Xscscp.gap-system.org[111X, port 26133. It
-  is  running  under development versions of the [5XGAP[105X system and a selection of
-  currently  distributed  packages.  The  reader  is  encouraged to try to use
-  examples  from  the  manual to access this service, replacing [11X"localhost"[111X by
-  its  address, where appropriate. Please report to Alexander Konovalov if you
-  will discover any bugs or if the server seems not available.[133X
-  
   [33X[0;0YThe SCSCP client:[133X
   
   [30X    [33X[0;6Yestablishes  connection  with  the  specified  server at the specified

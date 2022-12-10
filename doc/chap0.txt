@@ -6,21 +6,21 @@
               [1XSymbolic Computation Software Composability Protocol[101X
   
   
-                                 Version 2.3.1
+                                 Version 2.4.0
   
   
-                                22 January 2020
+                                10 December 2022
   
   
-                              Alexander Konovalov
+                               Olexandr Konovalov
   
                                   Steve Linton
   
   
   
-  Alexander Konovalov
-      Email:    [7Xmailto:alexander dot konovalov at st-andrews dot ac dot uk[107X
-      Homepage: [7Xhttp://www.cs.st-andrews.ac.uk/~alexk/[107X
+  Olexandr Konovalov
+      Email:    [7Xmailto:obk1 at st-andrews dot ac dot uk[107X
+      Homepage: [7Xhttps://alex-konovalov.github.io/[107X
       Address:  [33X[0;14YSchool of Computer Science[133X
                 [33X[0;14YUniversity of St Andrews[133X
                 [33X[0;14YJack Cole Building, North Haugh,[133X
@@ -46,13 +46,13 @@
   
   -------------------------------------------------------
   [1XCopyright[101X
-  [33X[0;0Y© 2007-2020 by Alexander Konovalov and Steve Linton[133X
+  [33X[0;0Y© 2007-2022 by Olexandr Konovalov and Steve Linton[133X
   
   [33X[0;0Y[5XSCSCP[105X  is  free software; you can redistribute it and/or modify it under the
   terms  of  the  GNU General Public License as published by the Free Software
   Foundation;  either  version 2 of the License, or (at your option) any later
   version.      For      details,      see      the     FSF's     own     site
-  [7Xhttp://www.gnu.org/licenses/gpl.html[107X.[133X
+  [7Xhttps://www.gnu.org/licenses/gpl.html[107X.[133X
   
   [33X[0;0YIf you obtained [5XSCSCP[105X, we would be grateful for a short notification sent to
   one of the authors.[133X
@@ -60,8 +60,8 @@
   [33X[0;0YIf  you  publish  a  result  which  was partially obtained with the usage of
   [5XSCSCP[105X, please cite it in the following form:[133X
   
-  [33X[0;0YA.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
-  Composability          Protocol,         Version         2.3.1;[113X         2020
+  [33X[0;0YO.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
+  Composability          Protocol,         Version         2.4.0;[113X         2022
   ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
   
   
@@ -73,7 +73,7 @@
         Infrastructure for Europe[121X.[133X
   
   [30X    [33X[0;6YOpenDreamKit  Horizon  2020  European Research Infrastructures project
-        #676541 (see [7Xhttp://opendreamkit.org/[107X).[133X
+        #676541 (see [7Xhttps://opendreamkit.org/[107X).[133X
   
   
   -------------------------------------------------------

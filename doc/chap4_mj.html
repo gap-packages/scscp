@@ -138,7 +138,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SCSCPwait</code>( <var class="Arg">stream</var>[, <var class="Arg">timeout</var>] )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>This function may be used by the <strong class="pkg">SCSCP</strong> client to wait (using <code class="func">IO_select</code> (<a href="../../../pkg/io-4.6.0/doc/chap3_mj.html#X81CA6EE88062010E"><span class="RefLink">IO: IO_select</span></a>)) until the result of the procedure call will be available from <var class="Arg">stream</var>. By default the timeout is one hour, to specify another value give it as the optional second argument in seconds. See the end of this chapter for the example.</p>
+<p>This function may be used by the <strong class="pkg">SCSCP</strong> client to wait (using <code class="func">IO_select</code> (<a href="../../../pkg/io/doc/chap3_mj.html#X81CA6EE88062010E"><span class="RefLink">IO: IO_select</span></a>)) until the result of the procedure call will be available from <var class="Arg">stream</var>. By default the timeout is one hour, to specify another value give it as the optional second argument in seconds. See the end of this chapter for the example.</p>
 
 <p><a id="X7E0FE0CF7DD2E00F" name="X7E0FE0CF7DD2E00F"></a></p>
 
@@ -149,7 +149,7 @@
 
 <p>This function is similar to the function <code class="code">OMGetObject</code> from the <strong class="pkg">OpenMath</strong> package, and the main difference is that it is able to understand <strong class="pkg">OpenMath</strong> attribution pairs. It retrieves exactly one <strong class="pkg">OpenMath</strong> object from the stream <var class="Arg">stream</var>, and stores it in the <code class="code">object</code> component of the returned record. If the <strong class="pkg">OpenMath</strong> object has no attributes, the <code class="code">attributes</code> component of the returned record will be an empty list, otherwise it will contain pairs <code class="code">[attribute_name,attribute_value]</code>, where <code class="code">attribute_name</code> is a string, and <code class="code">attribute_value</code> is a <strong class="pkg">GAP</strong> object, whose type is determined by the kind of an attribute. Only attributes, defined by the SCSCP are allowed, otherwise an error message will be displayed.</p>
 
-<p>If the procedure was not successful, the function returns <code class="keyw">fail</code> instead of an error message like the function <code class="func">OMGetObject</code> (<a href="../../../pkg/OpenMath-11.4.2/doc/chap2_mj.html#X7FBDCB3C83BBB115"><span class="RefLink">OpenMath: OMGetObject</span></a>) does. Returning <code class="keyw">fail</code> is useful when <code class="code">OMGetObjectWithAttributes</code> is used inside accept-evaluate-return loop.</p>
+<p>If the procedure was not successful, the function returns <code class="keyw">fail</code> instead of an error message like the function <code class="func">OMGetObject</code> (<a href="../../../pkg/openmath/doc/chap2_mj.html#X7FBDCB3C83BBB115"><span class="RefLink">OpenMath: OMGetObject</span></a>) does. Returning <code class="keyw">fail</code> is useful when <code class="code">OMGetObjectWithAttributes</code> is used inside accept-evaluate-return loop.</p>
 
 <p>As an example, the file <code class="file">scscp/tst/omdemo.om</code> contains some <strong class="pkg">OpenMath</strong> objects, including those from the SCSCP Specification <a href="chapBib_mj.html#biBSCSCP">[FHK+b]</a>. We can retrieve them from this file, preliminary installing some SCSCP procedures using the function <code class="func">InstallSCSCPprocedure</code> (<a href="chap5_mj.html#X8031C2F4787E0C1A"><span class="RefLink">5.1-1</span></a>):</p>
 
@@ -176,7 +176,7 @@ rec( attributes := [  ], object := 120 )
 rec( 
   attributes := [ [ "call_id", "alexk_9053" ], [ "option_runtime", 300000 ], 
       [ "option_min_memory", 40964 ], [ "option_max_memory", 134217728 ], 
-      [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ],
+      [ "option_debuglevel", 2 ], [ "option_return_object", "" ] ], 
   object := [ 24, 12 ] )
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OMGetObjectWithAttributes(stream);</span>
 rec( 

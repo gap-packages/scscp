@@ -1,6 +1,6 @@
 ###########################################################################
 ##
-#W PackageInfo.g            The SCSCP package           Alexander Konovalov
+#W PackageInfo.g            The SCSCP package            Olexandr Konovalov
 #W                                                             Steve Linton
 ##
 ###########################################################################
@@ -9,13 +9,13 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.3.1",
-Date := "22/01/2020", # dd/mm/yyyy format
+Version := "2.4.0",
+Date := "10/12/2022", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.3.1">
-##  <!ENTITY RELEASEDATE "22 January 2020">
-##  <!ENTITY RELEASEYEAR "2020">
+##  <!ENTITY VERSION "2.4.0">
+##  <!ENTITY RELEASEDATE "10 December 2022">
+##  <!ENTITY RELEASEYEAR "2022">
 ##  <#/GAPDoc>
 
 SourceRepository := rec(
@@ -37,11 +37,11 @@ BinaryFiles := ["demo/maple2gap.mw"],
 Persons := [
   rec(
     LastName      := "Konovalov",
-    FirstNames    := "Alexander",
+    FirstNames    := "Olexandr",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "alexander.konovalov@st-andrews.ac.uk",
-    WWWHome       := "http://www.cs.st-andrews.ac.uk/~alexk/",
+    Email         := "obk1@st-andrews.ac.uk",
+    WWWHome       := "https://alex-konovalov.github.io/",
     PostalAddress := Concatenation( [
                      "School of Computer Science\n",
                      "University of St Andrews\n",
@@ -76,7 +76,7 @@ AbstractHTML := "This package implements the <a href=\"https://www.openmath.org/
 PackageDoc := rec(
   BookName := "SCSCP",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0.html",
+  HTMLStart := "doc/chap0_mj.html",
   PDFFile := "doc/manual.pdf",
   SixFile := "doc/manual.six",
   LongTitle := "Symbolic Computation Software Composability Protocol",
@@ -84,7 +84,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">=4.9",
+  GAP := ">=4.10",
   NeededOtherPackages := [ ["GAPDoc", ">= 1.5"], 
                            ["openmath", ">= 11.4.1"],
                            ["IO", ">= 4.4"] ],

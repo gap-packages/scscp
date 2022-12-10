@@ -1,22 +1,22 @@
 name: SCSCP
-version: 2.3.1
-date: 2020-01-22
+version: 2.4.0
+date: 2022-12-10
 description: |
     Symbolic Computation Software Composability Protocol in GAP
 
 authors:
-    - name: Alexander Konovalov
-      url: http://www.cs.st-andrews.ac.uk/~alexk/
+    - name: Olexandr Konovalov
+      url: https://alex-konovalov.github.io/
     - name: Steve Linton
       url: http://www.cs.st-and.ac.uk/~sal/
 
 maintainers:
-    - name: Alexander Konovalov
-      url: http://www.cs.st-andrews.ac.uk/~alexk/
+    - name: Olexandr Konovalov
+      url: https://alex-konovalov.github.io/
     - name: Steve Linton
       url: http://www.cs.st-and.ac.uk/~sal/
 
-GAP: ">=4.9"
+GAP: ">=4.10"
 
 needed-pkgs:
     - name: "GAPDoc"
@@ -35,11 +35,11 @@ packageinfo: https://gap-packages.github.io/scscp/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/scscp/releases/download/v2.3.1/SCSCP-2.3.1.tar.gz
+      url: https://github.com/gap-packages/scscp/releases/download/v2.4.0/SCSCP-2.4.0.tar.gz
 
 abstract: |
     This package implements the <a href="https://www.openmath.org/standard/scscp/">Symbolic Computation Software Composability Protocol</a> for the GAP system.
 
 status: accepted
-doc-html: doc/chap0.html
+doc-html: doc/chap0_mj.html
 doc-pdf: doc/manual.pdf

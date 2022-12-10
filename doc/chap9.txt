@@ -46,7 +46,7 @@
   
   [1X9.2-1 InfoSCSCP[101X
   
-  [33X[1;0Y[29X[2XInfoSCSCP[102X[32X info class[133X
+  [33X[1;0Y[29X[2XInfoSCSCP[102X [32X info class[133X
   
   [33X[0;0Y[2XInfoSCSCP[102X  is  a  special  Info  class  for the [5XSCSCP[105X package. The amount of
   information  to  be  displayed  can  be  specified  by  the  user by setting
@@ -152,7 +152,7 @@
   
   [1X9.2-2 InfoMasterWorker[101X
   
-  [33X[1;0Y[29X[2XInfoMasterWorker[102X[32X info class[133X
+  [33X[1;0Y[29X[2XInfoMasterWorker[102X [32X info class[133X
   
   [33X[0;0Y[10XInfoMasterWorker[110X  is  a  special  Info  class for the Master-Worker skeleton
   [2XParListWithSCSCP[102X  ([14X8.2-1[114X).  The amount of information to be displayed can be

@@ -25,7 +25,7 @@
   
   [1X6.1-1 IsSCSCPconnection[101X
   
-  [33X[1;0Y[29X[2XIsSCSCPconnection[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsSCSCPconnection[102X [32X filter[133X
   
   [33X[0;0YThis  is  the  category  of  [5XSCSCP[105X connections. Objects in this category are
   created using the function [2XNewSCSCPconnection[102X ([14X6.1-2[114X).[133X
@@ -80,7 +80,7 @@
   
   [1X6.2-1 IsProcess[101X
   
-  [33X[1;0Y[29X[2XIsProcess[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsProcess[102X [32X filter[133X
   
   [33X[0;0YThis  is  the  category of processes. Processes in this category are created
   using the function [2XNewProcess[102X ([14X6.2-2[114X).[133X
@@ -209,13 +209,6 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XEvaluateBySCSCP( "WS_Factorial",[10],"localhost",26133);[127X[104X
-    [4X[28X#I  Creating a socket ...[128X[104X
-    [4X[28X#I  Connecting to a remote socket via TCP/IP ...[128X[104X
-    [4X[28X#I  Got connection initiation message[128X[104X
-    [4X[28X#I  Requesting version 1.3 from the server ...[128X[104X
-    [4X[28X#I  Server confirmed version 1.3 to the client ...[128X[104X
-    [4X[28X#I  Request sent ...[128X[104X
-    [4X[28X#I  Waiting for reply ...[128X[104X
     [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:2442:6hMEN40d" ] ], [128X[104X
     [4X[28X  object := 3628800 )[128X[104X
     [4X[25Xgap>[125X [27XSetInfoLevel(InfoSCSCP,0);[127X[104X
@@ -585,21 +578,20 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XEvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  [127X[104X
-    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],[128X[104X
-    [4X[28XLine 183 : [128X[104X
+    [4X[28Xrec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ], [128X[104X
     [4X[28X  object := [ 6, 1 ] )[128X[104X
     [4X[28X[128X[104X
   [4X[32X[104X
   
   [1X6.5-2 IsRemoteObject[101X
   
-  [33X[1;0Y[29X[2XIsRemoteObject[102X[32X filter[133X
+  [33X[1;0Y[29X[2XIsRemoteObject[102X [32X filter[133X
   
   [33X[0;0YThis is the category of remote objects.[133X
   
   [1X6.5-3 RemoteObjectsFamily[101X
   
-  [33X[1;0Y[29X[2XRemoteObjectsFamily[102X[32X family[133X
+  [33X[1;0Y[29X[2XRemoteObjectsFamily[102X [32X family[133X
   
   [33X[0;0YThis is the family of remote objects.[133X
   

@@ -120,7 +120,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:2064:mdb8RaO2" ] ],
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ParQuickWithSCSCP</code>( <var class="Arg">commands</var>, <var class="Arg">listargs</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record with components <code class="code">object</code> and <code class="code">attributes</code></p>
 
-<p>This function is constructed using the <code class="func">FirstProcess</code> (<a href="chap8_mj.html#X7B56C3BB87C0A226"><span class="RefLink">8.1-2</span></a>). It is useful when it is not known which partcular method is more efficient, because it allows to call in parallel several procedures (given by the list of their names <var class="Arg">commands</var>) with the same list of arguments <var class="Arg">listargs</var> (having the same meaning as in <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>)) and obtain the result of that procedure call which will be computed faster.</p>
+<p>This function is constructed using the <code class="func">FirstProcess</code> (<a href="chap8_mj.html#X7B56C3BB87C0A226"><span class="RefLink">8.1-2</span></a>). It is useful when it is not known which particular method is more efficient, because it allows to call in parallel several procedures (given by the list of their names <var class="Arg">commands</var>) with the same list of arguments <var class="Arg">listargs</var> (having the same meaning as in <code class="func">EvaluateBySCSCP</code> (<a href="chap6_mj.html#X7C745B2878E0AC41"><span class="RefLink">6.3-1</span></a>)) and obtain the result of that procedure call which will be computed faster.</p>
 
 <p>In the example below we call two factorisation methods from the <strong class="pkg">GAP</strong> package <strong class="pkg">FactInt</strong> to factorise <span class="SimpleMath">\(2^{150}+1\)</span>. The example is selected in such a way that the runtime of these two methods is approximately the same, so you should expect results from both methods in some random order from repeated calls.</p>
 
@@ -142,7 +142,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FirstTrueProcess</code>( <var class="Arg">proclist</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: list of records</p>
 
-<p>The function waits for the result from each process given in the argument, and stops waiting as soon as the first <code class="keyw">true</code> is returned, abandoning all remaining processes. It retuns a list containing a records with components <code class="code">object</code> and <code class="code">attributes</code> at the position corresponding to the process that returned <code class="keyw">true</code>. If none of the processes returned true, it will return a complete list of procedure call results.</p>
+<p>The function waits for the result from each process given in the argument, and stops waiting as soon as the first <code class="keyw">true</code> is returned, abandoning all remaining processes. It returns a list containing a records with components <code class="code">object</code> and <code class="code">attributes</code> at the position corresponding to the process that returned <code class="keyw">true</code>. If none of the processes returned true, it will return a complete list of procedure call results.</p>
 
 <p>The function accepts both one argument that is a list of processes, and arbitrary number of arguments, each of them being a process.</p>
 
@@ -198,7 +198,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:53877:GQX8MhC8" ] ],
 <li><p>if one of servers (i.e. workers) will be lost, it will retry the computation on another available server;</p>
 
 </li>
-<li><p>it allows to add dynamically new workers during the computation on hostnames and ports from a range perviously declared in <code class="func">SCSCPservers</code> (<a href="chap8_mj.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>).</p>
+<li><p>it allows to add dynamically new workers during the computation on hostnames and ports from a range previously declared in <code class="func">SCSCPservers</code> (<a href="chap8_mj.html#X7CDA73307ABE9998"><span class="RefLink">8.1-3</span></a>).</p>
 
 </li>
 </ul>
@@ -341,6 +341,7 @@ v := EvalString( wsresult[2].object );
 <div class="example"><pre>
 
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReadPackage("scscp/example/karatsuba.g");</span>
+true
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fam:=FamilyObj(1);;</span>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">f:=LaurentPolynomialByCoefficients( fam, </span>
 <span class="GAPprompt">&gt;</span> <span class="GAPinput">        List([1..32000],i-&gt;Random(Integers)), 0, 1 );;</span>

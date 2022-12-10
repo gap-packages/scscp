@@ -151,7 +151,7 @@
   
   [1X5.1-2 OMsymRecord[101X
   
-  [33X[1;0Y[29X[2XOMsymRecord[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XOMsymRecord[102X [32X global variable[133X
   
   [33X[0;0YThis  is the global record from the [5XOpenMath[105X package used for the conversion
   from  [5XOpenMath[105X to [5XGAP[105X. It is extended in the [5XSCSCP[105X package by adding support

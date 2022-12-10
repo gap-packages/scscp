@@ -58,7 +58,7 @@
   
   [1X8.1-3 SCSCPservers[101X
   
-  [33X[1;0Y[29X[2XSCSCPservers[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XSCSCPservers[102X [32X global variable[133X
   
   [33X[0;0Y[2XSCSCPservers[102X  is  a  list  of  hosts  and ports to search for [5XSCSCP[105X services
   (which  may  be  not  only  represented by [5XGAP[105X services, but also by another
@@ -76,7 +76,7 @@
   [6XReturns:[106X  [33X[0;10Yrecord with components [10Xobject[110X and [10Xattributes[110X[133X
   
   [33X[0;0YThis  function  is  constructed using the [2XFirstProcess[102X ([14X8.1-2[114X). It is useful
-  when  it  is  not known which partcular method is more efficient, because it
+  when  it  is not known which particular method is more efficient, because it
   allows  to  call  in parallel several procedures (given by the list of their
   names  [3Xcommands[103X)  with  the same list of arguments [3Xlistargs[103X (having the same
   meaning  as  in  [2XEvaluateBySCSCP[102X  ([14X6.3-1[114X))  and  obtain  the  result of that
@@ -104,7 +104,7 @@
   
   [33X[0;0YThe  function  waits for the result from each process given in the argument,
   and  stops  waiting  as  soon  as the first [9Xtrue[109X is returned, abandoning all
-  remaining  processes.  It retuns a list containing a records with components
+  remaining  processes. It returns a list containing a records with components
   [10Xobject[110X  and  [10Xattributes[110X  at  the  position corresponding to the process that
   returned  [9Xtrue[109X.  If  none  of  the processes returned true, it will return a
   complete list of procedure call results.[133X
@@ -159,7 +159,7 @@
         computation on another available server;[133X
   
   [30X    [33X[0;6Yit  allows  to  add  dynamically new workers during the computation on
-        hostnames  and  ports from a range perviously declared in [2XSCSCPservers[102X
+        hostnames  and  ports from a range previously declared in [2XSCSCPservers[102X
         ([14X8.1-3[114X).[133X
   
   [33X[0;0YTo  configure  this  functionality,  the  file [11Xscscp/configpar.g[111X assigns the
@@ -356,6 +356,7 @@
   [4X[32X  Example  [32X[104X
     [4X[28X[128X[104X
     [4X[25Xgap>[125X [27XReadPackage("scscp/example/karatsuba.g");[127X[104X
+    [4X[28Xtrue[128X[104X
     [4X[25Xgap>[125X [27Xfam:=FamilyObj(1);;[127X[104X
     [4X[25Xgap>[125X [27Xf:=LaurentPolynomialByCoefficients( fam, [127X[104X
     [4X[25X>[125X [27X        List([1..32000],i->Random(Integers)), 0, 1 );;[127X[104X
