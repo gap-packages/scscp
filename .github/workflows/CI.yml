@@ -34,6 +34,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "anupq io profiling"
+          GAP_PKGS_TO_CLONE: "anupq"
           GAPBRANCH: ${{ matrix.gap-branch }}
       - uses: gap-actions/build-pkg@v1
       - name: "Start SCSCP servers"
