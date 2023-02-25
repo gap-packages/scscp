@@ -9,13 +9,13 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.4.0",
-Date := "10/12/2022", # dd/mm/yyyy format
+Version := "2.4.1",
+Date := "25/02/2023", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.4.0">
-##  <!ENTITY RELEASEDATE "10 December 2022">
-##  <!ENTITY RELEASEYEAR "2022">
+##  <!ENTITY VERSION "2.4.1">
+##  <!ENTITY RELEASEDATE "25 February 2023">
+##  <!ENTITY RELEASEYEAR "2023">
 ##  <#/GAPDoc>
 
 SourceRepository := rec(
@@ -41,7 +41,7 @@ Persons := [
     IsAuthor      := true,
     IsMaintainer  := true,
     Email         := "obk1@st-andrews.ac.uk",
-    WWWHome       := "https://alex-konovalov.github.io/",
+    WWWHome       := "https://olexandr-konovalov.github.io/",
     PostalAddress := Concatenation( [
                      "School of Computer Science\n",
                      "University of St Andrews\n",

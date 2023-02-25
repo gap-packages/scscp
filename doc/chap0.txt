@@ -6,10 +6,10 @@
               [1XSymbolic Computation Software Composability Protocol[101X
   
   
-                                 Version 2.4.0
+                                 Version 2.4.1
   
   
-                                10 December 2022
+                                25 February 2023
   
   
                                Olexandr Konovalov
@@ -46,7 +46,7 @@
   
   -------------------------------------------------------
   [1XCopyright[101X
-  [33X[0;0Y© 2007-2022 by Olexandr Konovalov and Steve Linton[133X
+  [33X[0;0Y© 2007-2023 by Olexandr Konovalov and Steve Linton[133X
   
   [33X[0;0Y[5XSCSCP[105X  is  free software; you can redistribute it and/or modify it under the
   terms  of  the  GNU General Public License as published by the Free Software
@@ -61,7 +61,7 @@
   [5XSCSCP[105X, please cite it in the following form:[133X
   
   [33X[0;0YO.  Konovalov  and  S.  Linton.  [13XSCSCP  ---  Symbolic  Computation  Software
-  Composability          Protocol,         Version         2.4.0;[113X         2022
+  Composability          Protocol,         Version         2.4.1;[113X         2023
   ([7Xhttps://gap-packages.github.io/scscp/[107X).[133X
   
   
