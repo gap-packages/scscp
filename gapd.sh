@@ -48,7 +48,7 @@
 ##  example, memory usage, start with the workspace etc. The path may be 
 ##  relative (to start from this directory) or absolute. 
 ##
-GAP="$GAPROOT/bin/gap.sh -b $GAPOPTS"
+GAP="$GAPROOT/gap -b $GAPOPTS"
 ##
 ###########################################################################
 ##
