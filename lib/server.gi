@@ -14,6 +14,29 @@ InstallSCSCPprocedure( "SCSCPStopTracing", SCSCPStopTracing,
     "To turn off tracing mode on the server", 
     0, 0 : force );     
 
+
+#############################################################################
+##
+##  SCSCP_TemporaryGlobalVarName( <prefix> ) returns a string that can be used
+##  as the name of a global variable that is not bound at the time when
+##  SCSCP_TemporaryGlobalVarName() is called. The optional argument prefix can
+##  specify a string with which the name of the global variable starts.
+##
+##  WARNING: this is not thread safe
+BindGlobal( "SCSCP_TemporaryGlobalVarName", function( prefix )
+    local nr,  gvar;
+
+    nr := 0;
+    gvar:= prefix;
+    while IsBoundGlobal( gvar ) do
+        nr := nr + 1;
+        gvar := Concatenation( prefix, String(nr) );
+    od;
+
+    return gvar;
+end );
+
+
 #############################################################################
 #
 # RunSCSCPserver( <server>, <port> )
@@ -282,7 +305,7 @@ else
                     Info( InfoSCSCP, 2, "call_id ", call_id_value, " : sending to client ", objrec.object ); 
             
                     if return_cookie then
-                        cookie := TemporaryGlobalVarName( Concatenation( "TEMPVarSCSCP", RandomString(8) ) );  
+                        cookie := SCSCP_TemporaryGlobalVarName( Concatenation( "TEMPVarSCSCP", RandomString(8) ) );
                         ASS_GVAR( cookie, objrec.object );
                         if IsBoundGlobal( cookie ) then                                             
                             Info( InfoSCSCP, 2, "Result stored in the global variable ", cookie );  
