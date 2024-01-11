@@ -69,7 +69,7 @@ gap> ParListWithSCSCP( List( [2..6], n -> SymmetricGroup(n)), "WS_IdGroup" );
 [ [ 2, 1 ], [ 6, 1 ], [ 24, 12 ], [ 120, 34 ], [ 720, 763 ] ]
 
 # doc/parallel.xml:176-190
-gap> ReadPackage("scscp/example/karatsuba.g");
+gap> ReadPackage("scscp", "example/karatsuba.g");
 true
 gap> fam:=FamilyObj(1);;
 gap> f:=LaurentPolynomialByCoefficients( fam, 

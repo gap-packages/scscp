@@ -9,7 +9,7 @@ gap> EvaluateBySCSCP( "WS_IdGroup", [ SymmetricGroup(3) ], server, 26133 ).objec
 [ 6, 1 ]
 gap> EvaluateBySCSCP( "GroupIdentificationService", [ [ (1,2,3), (2,3) ] ], server, 26133 ).object;
 [ 6, 1 ]
-gap> ReadPackage("scscp/example/id512.g");
+gap> ReadPackage("scscp", "example/id512.g");
 true
 gap> IdGroup512( DihedralGroup( 512 ) );
 [ 512, 2042 ]
