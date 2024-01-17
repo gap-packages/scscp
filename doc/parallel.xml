@@ -175,7 +175,7 @@ of degree 32000:
 
 <Example>
 <![CDATA[
-gap> ReadPackage("scscp/example/karatsuba.g");
+gap> ReadPackage("scscp", "example/karatsuba.g");
 true
 gap> fam:=FamilyObj(1);;
 gap> f:=LaurentPolynomialByCoefficients( fam, 
