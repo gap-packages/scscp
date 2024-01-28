@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 ###########################################################################
 ##
 #W gapd.sh                The SCSCP package              Olexandr Konovalov
@@ -124,7 +125,17 @@ echo "Command to start GAP:" $GAP
 # To redirect stderr to /dev/null as well,
 # replace $OUTFILE 2>&1 & with $OUTFILE &
 
-echo 'LoadPackage("scscp");SetInfoLevel(InfoSCSCP,0);SCSCPserverAddress'$host'SCSCPserverPort'$port'Read("'$SCSCP_CONFIG'"); if SCSCPserverStatus=fail then QUIT_GAP(); fi;' | exec $GAP > $OUTFILE &
+exec $GAP > $OUTFILE -c '
+LoadPackage("scscp");
+SetInfoLevel(InfoSCSCP,0);
+SCSCPserverAddress'$host'
+SCSCPserverPort'$port'
+Read("'$SCSCP_CONFIG'");
+if IsBound(SCSCPserverStatus) then
+  QUIT_GAP(SCSCPserverStatus);
+fi;
+QUIT_GAP(true);
+' &
 
 ###########################################################################
 ##
