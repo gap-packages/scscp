@@ -10,6 +10,10 @@ The current version of this package is version {{site.data.package.version}}, re
 For more information, please refer to [the package manual]({{site.data.package.doc-html}}).
 There is also a [README](README.html) file.
 
+{% if site.data.package.license %}
+  License: [{{ site.data.package.license }}](https://spdx.org/licenses/{{ site.data.package.license }})
+{% endif %}
+
 ## Dependencies
 
 This package requires GAP version {{site.data.package.GAP}}
@@ -50,6 +54,20 @@ The development of the SCSCP package has been supported by:
   "SCIEnce - Symbolic Computation Infrastructure for Europe".
 - [OpenDreamKit](http://opendreamkit.org/) Horizon 2020
   European Research Infrastructures project #676541.
+
+{% if site.data.package.citeas %}
+## Citing
+
+Please, cite this package as
+
+{{site.data.package.citeas}}
+
+You can get more info by typing `Cite("{{ site.data.package.name }}");` in the gap prompt.
+
+{% include button-bibtex.html %}
+
+{% endif %}
+
 
 {% if site.github.issues_url %}
 ## Feedback
