@@ -64,7 +64,7 @@
 
 </li>
 </ul>
-<p>Each of these use cases requires certain control over the level of functionality exposed to the client. To achieve this, before starting <strong class="pkg">SCSCP</strong> service its provider must call the function <code class="func">InstallSCSCPprocedure</code> (<a href="chap5.html#X8031C2F4787E0C1A"><span class="RefLink">5.1-1</span></a>) to make required procedures "visible" for the client.</p>
+<p>Each of these use cases requires certain control over the level of functionality exposed to the client. To achieve this, before starting <strong class="pkg">SCSCP</strong> service its provider must call the function <code class="func">InstallSCSCPprocedure</code> (<a href="chap5.html#X8031C2F4787E0C1A"><span class="RefLink">5.1-1</span></a>) to make required procedures <q>visible</q> for the client.</p>
 
 <p>Additionally, the service can be made made accessible only for clients running on the same computer, or accessible only through a particular network interface, or generally accessible. This customization is made at the stage of starting the <strong class="pkg">SCSCP</strong> server with the function <code class="func">RunSCSCPserver</code> (<a href="chap5.html#X831C84577884215E"><span class="RefLink">5.2-1</span></a>).</p>
 
@@ -182,7 +182,7 @@ InstallSCSCPprocedure( "WS_IdGroup", IdGroup, "See ?IdGroup in GAP" );
 
 
 <ul>
-<li><p>when <var class="Arg">servertype</var> is <code class="keyw">true</code>, the server will be started in a "universal" mode and will accept all incoming connections;</p>
+<li><p>when <var class="Arg">servertype</var> is <code class="keyw">true</code>, the server will be started in a <q>universal</q> mode and will accept all incoming connections;</p>
 
 </li>
 <li><p>when <var class="Arg">servertype</var> is <code class="keyw">false</code>, the server will be started at <code class="file">localhost</code> and will not accept any incoming connections from outside;</p>
@@ -248,9 +248,9 @@ rec(
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GetAllowedHeads</code>( <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: record</p>
 
-<p>Returns the record with components corresponding to content dictionaries. The name of each component is the name of the content dictionary, and its the value is either a boolean or a list of strings. In case it's value is a list, it contains names of symbols from the corresponding content dictionary which are allowed to appear as a "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code>) in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. If it's value is <code class="keyw">true</code>, it means the server allows all symbols from the corresponding content dictionary.</p>
+<p>Returns the record with components corresponding to content dictionaries. The name of each component is the name of the content dictionary, and its the value is either a boolean or a list of strings. In case it's value is a list, it contains names of symbols from the corresponding content dictionary which are allowed to appear as a <q>head</q> symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code>) in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. If it's value is <code class="keyw">true</code>, it means the server allows all symbols from the corresponding content dictionary.</p>
 
-<p>Note that it is acceptable (although not quite desirable) for a server to "overstate" the set of symbols it accepts and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later.</p>
+<p>Note that it is acceptable (although not quite desirable) for a server to <q>overstate</q> the set of symbols it accepts and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later.</p>
 
 
 <div class="example"><pre>
@@ -281,9 +281,9 @@ rec( scscp_transient_1 := [ "AClosestVectorCombinationsMatFFEVecFFE",
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAllowedHead</code>( <var class="Arg">cd</var>, <var class="Arg">symbol</var>, <var class="Arg">server</var>, <var class="Arg">port</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
 
-<p>Checks whether the <strong class="pkg">OpenMath</strong> symbol <var class="Arg">cd</var><code class="code">.</code><var class="Arg">symbol</var>, which may be a symbol from a standard or transient <strong class="pkg">OpenMath</strong> content dictionary, is allowed to appear as "head" symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code> in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. This enables the client to check whether a particular symbol is allowed without requesting the full list of symbols.</p>
+<p>Checks whether the <strong class="pkg">OpenMath</strong> symbol <var class="Arg">cd</var><code class="code">.</code><var class="Arg">symbol</var>, which may be a symbol from a standard or transient <strong class="pkg">OpenMath</strong> content dictionary, is allowed to appear as <q>head</q> symbol (i.e. the first child of the outermost <code class="code">&lt;OMA&gt;</code> in an <strong class="pkg">SCSCP</strong> procedure call to the <strong class="pkg">SCSCP</strong> server running at <var class="Arg">server</var><code class="code">:</code><var class="Arg">port</var>. This enables the client to check whether a particular symbol is allowed without requesting the full list of symbols.</p>
 
-<p>Also, it is acceptable (although not necessarily desirable) for a server to "overstate" the set of symbols it accepts and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later.</p>
+<p>Also, it is acceptable (although not necessarily desirable) for a server to <q>overstate</q> the set of symbols it accepts and use standard <strong class="pkg">OpenMath</strong> errors to reject requests later.</p>
 
 
 <div class="example"><pre>
@@ -354,6 +354,6 @@ rec( maxarg := 1, minarg := 1,
 <div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
-<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
 </body>
 </html>

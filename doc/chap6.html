@@ -106,7 +106,7 @@
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CloseSCSCPconnection</code>( <var class="Arg">s</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
 <p>Returns: nothing</p>
 
-<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap10_mj.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
+<p>Closes <strong class="pkg">SCSCP</strong> connection <var class="Arg">s</var>, which must be an object in the category <code class="func">IsSCSCPconnection</code> (<a href="chap6.html#X7B7A635581A56B05"><span class="RefLink">6.1-1</span></a>). Internally, it just calls <code class="func">CloseStream</code> (<a href="https://docs.gap-system.org/doc/ref/chap10_mj.html#X786E5520803FDE00"><span class="RefLink">Reference: CloseStream</span></a>) on the underlying input/output TCP stream of <var class="Arg">s</var>.</p>
 
 
 <div class="example"><pre>
@@ -159,7 +159,7 @@
 <li><p><code class="code">cd:="cdname"</code> is used to specify that the <strong class="pkg">OpenMath</strong> symbol corresponding to the first argument <var class="Arg">command</var> should be looked up in the particular content dictionary <code class="code">cdname</code>. Otherwise, it will be looked for in the default content dictionary (<code class="code">scscp_transient_1</code> for the <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server);</p>
 
 </li>
-<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="https://www.gap-system.org/Manuals/doc/ref/chap12_mj.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
+<li><p><code class="code">debuglevel:=N</code> is used to obtain additional information attributes together with the result. The <strong class="pkg">GAP</strong> <strong class="pkg">SCSCP</strong> server does the following: if <code class="code">N=1</code>, it will report about the CPU time in milliseconds required to compute the result; if <code class="code">N=2</code> it will additionally report about the amount of memory used by <strong class="pkg">GAP</strong> in bytes will be returned (using the output of <code class="func">MemoryUsageByGAPinKbytes</code> (<a href="chap9.html#X8312112E79686EF6"><span class="RefLink">9.3-4</span></a>) converted to bytes); if <code class="code">N=3</code> it will additionally report the amount of memory in bytes used by the resulting object and its subobjects (using the output of <code class="func">MemoryUsage</code> (<a href="https://docs.gap-system.org/doc/ref/chap12_mj.html#X7F4D216B7DF7BE9D"><span class="RefLink">Reference: MemoryUsage</span></a>)).</p>
 
 </li>
 </ul>
@@ -205,7 +205,7 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:TPNiMjCT" ] ],
 <h5>6.2-4 TerminateProcess</h5>
 
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TerminateProcess</code>( <var class="Arg">process</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
-<p>The function is supposed to send an "out-of-band" interrupt signal to the server. Current implementation works only when the server is running as "localhost" by sending a <code class="code">SIGINT</code> to the server using its PID contained in the <var class="Arg">process</var>. It will do nothing if the server is running remotely, as the <strong class="pkg">SCSCP</strong> specification allows the server to ignore interrupt messages. Remote interrupts will be introduced in one of the next versions of the package.</p>
+<p>The function is supposed to send an <q>out-of-band</q> interrupt signal to the server. Current implementation works only when the server is running as <q>localhost</q> by sending a <code class="code">SIGINT</code> to the server using its PID contained in the <var class="Arg">process</var>. It will do nothing if the server is running remotely, as the <strong class="pkg">SCSCP</strong> specification allows the server to ignore interrupt messages. Remote interrupts will be introduced in one of the next versions of the package.</p>
 
 <p><a id="X823C050B7A5A1C56" name="X823C050B7A5A1C56"></a></p>
 
@@ -672,6 +672,6 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ],
 <div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
-<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
 </body>
 </html>
