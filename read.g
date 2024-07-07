@@ -11,7 +11,6 @@ ReadPackage("scscp", "lib/xstream.gi");
 ReadPackage("scscp", "lib/remote.gi");
 ReadPackage("scscp", "lib/connect.gi");
 ReadPackage("scscp", "lib/process.gi");
-ReadPackage("scscp", "lib/openmath.gi");
 
 ###########################################################################
 ##
