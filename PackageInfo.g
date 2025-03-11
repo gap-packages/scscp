@@ -87,7 +87,6 @@ PackageDoc := rec(
   PDFFile := "doc/manual.pdf",
   SixFile := "doc/manual.six",
   LongTitle := "Symbolic Computation Software Composability Protocol",
-  Autoload := true
 ),
 
 Dependencies := rec(
@@ -100,7 +99,6 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := ReturnTrue,
-Autoload := false,
 TestFile := "tst/offline.tst",
 
 Keywords := [ "SCSCP", "software composability", "interface", 
