@@ -9,13 +9,13 @@ SetPackageInfo( rec(
 
 PackageName := "SCSCP",
 Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.4.3",
-Date := "07/07/2024", # dd/mm/yyyy format
+Version := "2.4.4",
+Date := "27/08/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.4.2">
-##  <!ENTITY RELEASEDATE "7 Juy 2024">
-##  <!ENTITY RELEASEYEAR "2024">
+##  <!ENTITY VERSION "2.4.4">
+##  <!ENTITY RELEASEDATE "27 August 2025">
+##  <!ENTITY RELEASEYEAR "2025">
 ##  <#/GAPDoc>
 
 SourceRepository := rec(
@@ -87,7 +87,6 @@ PackageDoc := rec(
   PDFFile := "doc/manual.pdf",
   SixFile := "doc/manual.six",
   LongTitle := "Symbolic Computation Software Composability Protocol",
-  Autoload := true
 ),
 
 Dependencies := rec(
@@ -100,7 +99,6 @@ Dependencies := rec(
 ),
 
 AvailabilityTest := ReturnTrue,
-Autoload := false,
 TestFile := "tst/offline.tst",
 
 Keywords := [ "SCSCP", "software composability", "interface", 

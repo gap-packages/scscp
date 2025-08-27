@@ -1,7 +1,7 @@
 name: SCSCP
-version: "2.4.3"
+version: "2.4.4"
 license: "GPL-2.0-or-later"
-date: 2024-07-07
+date: 2025-08-27
 description: |
     Symbolic Computation Software Composability Protocol in GAP
 
@@ -38,7 +38,7 @@ packageinfo: https://gap-packages.github.io/scscp/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/scscp/releases/download/v2.4.3/SCSCP-2.4.3.tar.gz
+      url: https://github.com/gap-packages/scscp/releases/download/v2.4.4/SCSCP-2.4.4.tar.gz
 
 abstract: |
     This package implements the <a href="https://www.openmath.org/standard/scscp/">Symbolic Computation Software Composability Protocol</a> for the GAP system.
@@ -50,10 +50,10 @@ keywords: |
     SCSCP, software composability, interface, parallel computing, OpenMath.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>KLT24</span>]   <b class='BibAuthor'>Konovalov, O., Linton, S. and GAP Team, T.</b>,
+    [<span class='BibKey'>KLT25</span>]   <b class='BibAuthor'>Konovalov, O., Linton, S. and GAP Team, T.</b>,
      <i class='BibTitle'>SCSCP, Symbolic Computation Software Composability Protocol in GAP,
-             Version 2.4.3</i>
-     (<span class='BibYear'>2024</span>)<br />
+             Version 2.4.4</i>
+     (<span class='BibYear'>2025</span>)<br />
     (<span class='BibNote'>GAP package</span>),
     <span class='BibHowpublished'><a href="https://gap-packages.github.io/scscp">https://gap-packages.github.io/scscp</a></span>.
     </p>
@@ -62,16 +62,16 @@ citeas: |
 bibtex: |
     @misc{ SCSCP,
       author =           {Konovalov, O. and Linton, S. and GAP Team, T.},
-      title =            {{SCSCP},  Symbolic  Computation Software Composability
-                          Protocol in GAP, {V}ersion 2.4.3},
-      month =            {Jul},
-      year =             {2024},
+      title =            {{SCSCP},  {Symbolic Computation Software Composability
+                          Protocol in GAP}, {V}ersion 2.4.4},
+      month =            {Aug},
+      year =             {2025},
       note =             {GAP package},
       howpublished =     {\href           {https://gap-packages.github.io/scscp}
                           {\texttt{https://gap\texttt{\symbol{45}}packages.github.io/}\discretionary
                           {}{}{}\texttt{scscp}}},
       keywords =         {SCSCP;  software  composability;  interface;  parallel
                           computing; OpenMath},
-      printedkey =       {KLT24}
+      printedkey =       {KLT25}
     }
 
