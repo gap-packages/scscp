@@ -3,6 +3,7 @@
 # This is a test file for the SCSCP package.
 #
 LoadPackage( "scscp" );
+LoadPackage( "smallgrp" );
 
 # First check that SCSCP servers are available
 if PingSCSCPservice( "localhost", 26133 ) = fail then
