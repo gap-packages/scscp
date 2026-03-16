@@ -102,24 +102,20 @@ it, modify the server configuration file adding to it the command to
 read the file <File>scscp/example/karatsuba.g</File>, then define there
 the following function
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 KaratsubaPolynomialMultiplicationExtRepByString:=function(s1,s2)
     return String( KaratsubaPolynomialMultiplicationExtRep( 
                    EvalString(s1), EvalString(s2) ) );
 end;;
-]]>
-</Log>
+]]></Log>
 
 and finally add the following lines to made it available as an &SCSCP; 
 procedure under the name <C>WS_Karatsuba</C>:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 InstallSCSCPprocedure( "WS_Karatsuba", 
                        KaratsubaPolynomialMultiplicationExtRepByString);
-]]>
-</Log>
+]]></Log>
 
 (we do not include it into the default <File>scscp/example/myserver.g</File>
 since the code contains a call to <Ref BookName="ref" Func="EvalString"/>).
@@ -139,8 +135,7 @@ exchange format was chosen).
         
 We are going to parallelize the following part of the client's code:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 ...
 u := KaratsubaPolynomialMultiplicationExtRep(f1,g1);
 v := KaratsubaPolynomialMultiplicationExtRep(f0,g0);
@@ -148,15 +143,13 @@ w := KaratsubaPolynomialMultiplicationExtRep(
        PlusLaurentPolynomialsExtRep(f1,f0),
        PlusLaurentPolynomialsExtRep(g1,g0) );
 ...
-]]>
-</Log>
+]]></Log>
 
 and this can be done straightforwardly - we replace two first calls by
 calls of the appropriate &SCSCP; services, then perform the 3rd call locally
 and then collect the results from the two remote calls:
           
-<Log>
-<![CDATA[
+<Log><![CDATA[
 ...
 u := NewProcess( "WS_Karatsuba",[ String(f1), String(g1) ],"localhost", 26133);   
 v := NewProcess( "WS_Karatsuba",[ String(f0), String(g0) ],"localhost", 26134);   
@@ -167,14 +160,12 @@ wsresult:=SynchronizeProcesses2( u,v );
 u := EvalString( wsresult[1].object );
 v := EvalString( wsresult[2].object );
 ...
-]]>
-</Log>
+]]></Log>
 
 We obtain almost double speedup on three cores on randomly generated polynomials
 of degree 32000:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> ReadPackage("scscp", "example/karatsuba.g");
 true
 gap> fam:=FamilyObj(1);;
@@ -186,8 +177,7 @@ gap> t2:=KaratsubaPolynomialMultiplication(f,g);;time;
 5892
 gap> t3:=KaratsubaPolynomialMultiplicationWS(f,g);;time;
 2974
-]]>
-</Example>
+]]></Example>
 
 </Section>
 

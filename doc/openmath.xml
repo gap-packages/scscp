@@ -47,8 +47,7 @@ call identifier.
 The call ID is a mandatory attribute for any procedure call, however, 
 it is not nesessarily random; for example, it may be just a string 
 with the number of the procedure call.
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
 < input/output TCP stream to localhost:26133 >
 gap> sid := StartSCSCPsession( stream );
@@ -66,8 +65,7 @@ gap> for i in [1..10] do
 gap> CloseStream(stream);
 gap> res;
 [ 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800 ]
-]]>
-</Example>
+]]></Example>
 Also note the usage of <Ref Func="SCSCPwait"/> to wait
 until the result of the computation will be available from 
 <C>stream</C>.

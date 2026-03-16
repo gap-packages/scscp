@@ -57,8 +57,7 @@ same time, they should not block each other with long-lasting connections.
 Now we demonstrate the procedure <C>GroupIdentificationService</C>,
 also given in the previous chapter:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> G:=SymmetricGroup(4);
 Sym( [ 1 .. 4 ] )
 gap> gens:=GeneratorsOfGroup(G);
@@ -69,13 +68,11 @@ rec( attributes := [ [ "call_id", "localhost:26133:2442:xOilXtnw" ],
       [ "info_runtime", 4 ], [ "info_memory", 2596114432 ], 
       [ "info_message", "Memory usage for the result is 48 bytes" ] ], 
   object := [ 24, 12 ] )
-]]>
-</Example>
+]]></Example>
 
 Service provider may suggest to the client to use a counterpart function
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> IdGroupWS := function( G )
 >    local H, result;
 >    if not IsPermGroup(G) then
@@ -87,19 +84,16 @@ gap> IdGroupWS := function( G )
 >                [ GeneratorsOfGroup(H) ], "localhost", 26133 );
 >    return result.object;
 > end;;
-]]>
-</Example>
+]]></Example>
 
 which works exactly like <Ref BookName="smallgrp" Func="IdGroup" />:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> G:=DihedralGroup(64);
 <pc group of size 64 with 6 generators>
 gap> IdGroupWS(G);
 [ 64, 52 ]
-]]>
-</Example>
+]]></Example>
 
 </Section>
 
@@ -112,15 +106,12 @@ gap> IdGroupWS(G);
 <#Include Label="SwitchSCSCPmodeToBinary"/>
 
 For example, let us create a vector over <M>GF(3)</M>:
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> x := [ Z(3)^0, Z(3), 0*Z(3) ];
 [ Z(3)^0, Z(3), 0*Z(3) ]
-]]>
-</Example>
+]]></Example>
 The XML &OpenMath; encoding of such objects is quite bulky:
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> OMPrint( x );
 <OMOBJ xmlns="http://www.openmath.org/OpenMath" version="2.0">
 	<OMA>
@@ -153,13 +144,11 @@ gap> OMPrint( x );
 </OMOBJ>
 gap> Length( OMString(x) );
 507
-]]>
-</Example>
+]]></Example>
 We call the &SCSCP; procedure <C>Identity</C> just to test how this object
 may be sent back and forth. The total length of the procedure call message
 is 969 symbols:
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> SetInfoLevel(InfoSCSCP,3);
 gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 #I  Creating a socket ...
@@ -219,11 +208,10 @@ gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 ...
 rec( attributes := [ [ "call_id", "localhost:26133:42448:IOs9ZkBU" ] ], 
   object := [ Z(3)^0, Z(3), 0*Z(3) ] )
-  ]]>
-</Log>
+  
+]]></Log>
 Now we switch to binary mode:
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> SwitchSCSCPmodeToBinary();
 gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 #I  Creating a socket ...
@@ -252,8 +240,7 @@ gap> EvaluateBySCSCP("Identity",[x],"localhost",26133);
 rec( attributes := [ [ "call_id", "localhost:26133:42448:2VgZUbuZ" ] ], 
   object := [ Z(3)^0, Z(3), 0*Z(3) ] )
 gap> SetInfoLevel(InfoSCSCP,3);
-]]>
-</Log>
+]]></Log>
 As we can see, the size of the message is almost three times shorter, and
 this is not the limit. Switching to binary &OpenMath; encoding in 
 combination with pickling and unpickling from &IO; package (see in the last
@@ -292,8 +279,7 @@ group <M>S_3</M> on the client and store it remotely on the server
 (call 1), then we compute set of images for <M>i=1,2</M> (calls 2,3) and 
 finally demonstrate that we may retrieve the group from the server (call 4):
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> stream:=InputOutputTCPStream( "localhost", 26133 );
 < input/output TCP stream to localhost:26133 >
 gap> StartSCSCPsession(stream);
@@ -329,8 +315,7 @@ gap> OMGetObjectWithAttributes( stream );
 rec( attributes := [ [ "call_id", "4" ] ], 
   object := Group([ (1,2,3), (1,2) ]) )
 gap> CloseStream(stream);
-]]>
-</Example>
+]]></Example>
 
 After the stream is closed, it is no longer possible to retrieve the
 group <M>G</M> again or use it as an argument.
@@ -356,40 +341,34 @@ closed. Such remote objects may be accessed later, for example, by:
 Internally, the remote object carries all the information which is required 
 to get access to the original object: its identifier, server and port:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> s![1]; 
 "TEMPVarSCSCPLvIUUtL3"
 gap> s![2];
 "localhost"
 gap> s![3];
 26133
-]]>
-</Example>
+]]></Example>
 
 When the remote object is printed in the &OpenMath; format, we
 use symbols <C>@</C> and <C>:</C> to combine these parameters
 in the &OpenMath; reference:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> OMPrint(s);
 <OMOBJ>
       <OMR href="scscp://localhost:26133/TEMPVarSCSCPLvIUUtL3" />
 </OMOBJ>
-]]>
-</Example>
+]]></Example>
 
 This allows substitution of remote object as arguments into procedure calls 
 in the same manner like we do this with usual objects:
 
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133);  
 rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ], 
   object := [ 6, 1 ] )
-]]>
-</Example>
+]]></Example>
 
 <#Include Label="IsRemoteObject"/>
 <#Include Label="RemoteObjectsFamily"/>
@@ -399,24 +378,20 @@ rec( attributes := [ [ "call_id", "localhost:26133:52918:Viq6EWBP" ] ],
 Finally, we show an example when first we create a group on the service
 running on port 26133, and then identify it on the service running on port
 26134:
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> s:=StoreAsRemoteObject( SymmetricGroup(3), "localhost", 26133 );
 < remote object scscp://localhost:26133/TEMPVarSCSCPNqc8Bkan >
 gap> EvaluateBySCSCP( "WS_IdGroup", [ s ], "localhost", 26134 );
 rec( object := [ 6, 1 ], attributes := [ [ "call_id", "localhost:26134:7414" ] ] )
-]]>
-</Example>
+]]></Example>
 Instead of transmitting the group to the client and then sending it
 as an argument to the second service, the latter service directly 
 retrieves the group from the first service:
-<Example>
-<![CDATA[
+<Example><![CDATA[
 gap> EvaluateBySCSCP("WS_IdGroup",[s],"localhost",26133 : output:="cookie" );
 rec( attributes := [ [ "call_id", "localhost:26133:52918:mRU6w471" ] ], 
   object := < remote object scscp://localhost:26133/TEMPVarSCSCPS9SVe9PZ > )
-]]>
-</Example>
+]]></Example>
 
 </Section>
 

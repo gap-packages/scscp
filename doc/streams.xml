@@ -52,8 +52,7 @@ descriptors may be different).
 First, we will start two &GAP; sessions, one for the server, another one
 for the client. Now we enter the following commands on the server's side:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> sock := IO_socket( IO.PF_INET, IO.SOCK_STREAM, "tcp" );
 3
 gap> lookup := IO_gethostbyname( "localhost" );
@@ -66,82 +65,67 @@ true
 gap> IO_listen( sock, 5 );
 true
 gap> socket_descriptor := IO_accept( sock, IO_MakeIPAddressPort("0.0.0.0",0) );
-]]>
-</Log>
+]]></Log>
 
 After the last command you will not see the &GAP; prompt because the 
 server starts to wait for an incoming connection. 
 Now we go to the client's side and create an input-output TCP stream to
 the server. Here it can be created in one step:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> clientstream:=InputOutputTCPStream( "localhost", 26133 );
 Creating a socket...
 Connecting to a remote socket via TCP/IP...
-]]>
-</Log>
+]]></Log>
 
 Now we are trying to connect to the server, and as soon as the connection 
 will be established, the stream will be created at the client side, and 
 we will see the output and the new &GAP; prompt:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 < input/output TCP stream to localhost >
 gap>
-]]>
-</Log>
+]]></Log>
 
 On the server you will get the socket descriptor and then you will be able
 to create a stream from it:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 4
 gap> serverstream := InputOutputTCPStream( socket_descriptor );
 < input/output TCP stream to socket >
-]]>
-</Log>
+]]></Log>
 
 Now we can write to this stream on the client side and then read from it
 on the server side and backwards. First, write on the client:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> WriteLine( clientstream, "12345" );
 true
-]]>
-</Log>
+]]></Log>
 
 Now read and write on the server:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> ReadLine( serverstream );
 "12345\n"
 gap> WriteLine( serverstream, "54321" );
 true
-]]>
-</Log>
+]]></Log>
 
 And finally we read on the client and close the stream:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> ReadLine( clientstream );
 "54321\n"
 gap> CloseStream( clientstream );
-]]>
-</Log>
+]]></Log>
 
 and similarly close the stream on the server:
 
-<Log>
-<![CDATA[
+<Log><![CDATA[
 gap> CloseStream( serverstream );
-]]>
-</Log>
+]]></Log>
 
 In this way one can organise remote communication between two copies of 
 &GAP; in various ways. In subsequent chapters we explain how it is 
