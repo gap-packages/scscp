@@ -1,6 +1,8 @@
 gap> START_TEST( "offline.tst" );
 gap> LoadPackage("scscp");
 true
+gap> LoadPackage("smallgrp", false); # for the IdGroup/SmallGroup services below
+true
 gap> SetInfoLevel( InfoSCSCP, 0 );
 gap> t:="";; stream:=OutputTextString(t,true);;
 gap> OMPutProcedureCall( stream, "WS_Factorial", rec( object:= [ 5 ], 
