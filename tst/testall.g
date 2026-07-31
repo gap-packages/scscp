@@ -26,7 +26,7 @@ TestDirectory(DirectoriesPackageLibrary( "scscp", "tst" ),
 # Run test files which should have no diffs
 TestDirectory(DirectoriesPackageLibrary( "scscp", "tst" ),
   rec(exitGAP     := true,
-      exclude     := [ "scscp04.tst", "scscp05.tst", "scscp06.tst", "scscp07.tst", "scscp08.tst", "scscp09.tst" ],
+      exclude     := [ "scscp01.tst", "scscp02.tst", "scscp03.tst", "scscp04.tst", "scscp05.tst", "scscp06.tst" ],
       testOptions := rec(compareFunction := "uptowhitespace") ) );
 
 FORCE_QUIT_GAP(1); # if we ever get here, there was an error
