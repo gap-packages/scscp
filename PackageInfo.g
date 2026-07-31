@@ -12,11 +12,6 @@ Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
 Version := "2.4.4",
 Date := "27/08/2025", # dd/mm/yyyy format
 License := "GPL-2.0-or-later",
-##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.4.4">
-##  <!ENTITY RELEASEDATE "27 August 2025">
-##  <!ENTITY RELEASEYEAR "2025">
-##  <#/GAPDoc>
 
 SourceRepository := rec(
     Type := "git",
@@ -101,6 +96,29 @@ Dependencies := rec(
 AvailabilityTest := ReturnTrue,
 TestFile := "tst/offline.tst",
 
-Keywords := [ "SCSCP", "software composability", "interface", 
-              "parallel computing", "OpenMath" ]
+Keywords := [ "SCSCP", "software composability", "interface",
+              "parallel computing", "OpenMath" ],
+
+AutoDoc := rec(
+    entities := rec(
+        IO := "<Package>IO</Package>",
+        OpenMath := "<Package>OpenMath</Package>",
+        scscp1 := "<Package>scscp1</Package>",
+        scscp2 := "<Package>scscp2</Package>",
+        ANUPQ := "<Package>ANUPQ</Package>",
+        EdenTV := "<Package>EdenTV</Package>",
+        VERSION := ~.Version,
+        RELEASEYEAR := ~.Date{[7..10]},
+        RELEASEDATE := function(date)
+          local day, month, year, allMonths;
+          day := Int(date{[1,2]});
+          month := Int(date{[4,5]});
+          year := Int(date{[7..10]});
+          allMonths := [ "January", "February", "March", "April", "May", "June", "July",
+                         "August", "September", "October", "November", "December"];
+          return Concatenation(String(day)," ", allMonths[month], " ", String(year));
+        end(~.Date),
+    ),
+),
+
 ));

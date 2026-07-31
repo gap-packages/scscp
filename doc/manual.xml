@@ -2,16 +2,9 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE Book SYSTEM "gapdoc.dtd"
-    [ <!ENTITY IO "<Package>IO</Package>">
-      <!ENTITY OpenMath "<Package>OpenMath</Package>">
-      <!ENTITY scscp1 "<Package>scscp1</Package>">
-      <!ENTITY scscp2 "<Package>scscp2</Package>">
-      <!ENTITY ANUPQ "<Package>ANUPQ</Package>">
-      <!ENTITY EdenTV "<Package>EdenTV</Package>">
-      <!ENTITY SCSCP "<Package>SCSCP</Package>">
-      <#Include Label="PKGVERSIONDATA">      
-    ] >
+<!DOCTYPE Book SYSTEM "gapdoc.dtd" [
+  <#Include SYSTEM "_entities.xml">
+] >
 
 <Book Name="scscp">
 
