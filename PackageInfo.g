@@ -1,106 +1,103 @@
-###########################################################################
+#############################################################################
+##  
+##  Demo PackageInfo.g for the GitHubPagesForGAP
 ##
-#W PackageInfo.g            The SCSCP package            Olexandr Konovalov
-#W                                                             Steve Linton
-##
-###########################################################################
 
 SetPackageInfo( rec(
 
-PackageName := "SCSCP",
-Subtitle := "Symbolic Computation Software Composability Protocol in GAP",
-Version := "2.4.4",
-Date := "27/08/2025", # dd/mm/yyyy format
-License := "GPL-2.0-or-later",
-##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "2.4.4">
-##  <!ENTITY RELEASEDATE "27 August 2025">
-##  <!ENTITY RELEASEYEAR "2025">
-##  <#/GAPDoc>
+PackageName := "GitHubPagesForGAP",
 
-SourceRepository := rec(
-    Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/", LowercaseString(~.PackageName) ),
-),
-IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", LowercaseString(~.PackageName) ),
-README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
-PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
-ArchiveURL      := Concatenation( ~.SourceRepository.URL,
-                                 "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName, "-", ~.Version ),
-ArchiveFormats := ".tar.gz",
-
-#TextFiles := ["init.g", ......],
-BinaryFiles := ["demo/maple2gap.mw"],
+Subtitle := "A GitHub Pages generator for GAP packages",
+Version := "0.4",
+Date := "10/04/2025", # dd/mm/yyyy format
+License := "0BSD",
 
 Persons := [
   rec(
-    LastName      := "Konovalov",
-    FirstNames    := "Olexandr",
+    LastName      := "Horn",
+    FirstNames    := "Max",
     IsAuthor      := true,
     IsMaintainer  := true,
-    Email         := "obk1@st-andrews.ac.uk",
-    WWWHome       := "https://olexandr-konovalov.github.io/",
-    PostalAddress := Concatenation( [
-                     "School of Computer Science\n",
-                     "University of St Andrews\n",
-                     "Jack Cole Building, North Haugh,\n",
-                     "St Andrews, Fife, KY16 9SX, Scotland" ] ),
-    Place         := "St Andrews",
-    Institution   := "University of St Andrews"
-     ),
+    Email         := "mhorn@rptu.de",
+    WWWHome       := "https://www.quendi.de/math",
+    GitHubUsername:= "fingolfin",
+    PostalAddress := Concatenation(
+                       "Fachbereich Mathematik\n",
+                       "RPTU Kaiserslautern-Landau\n",
+                       "Gottlieb-Daimler-Straße 48\n",
+                       "67663 Kaiserslautern\n",
+                       "Germany" ),
+    Place         := "Kaiserslautern, Germany",
+    Institution   := "RPTU Kaiserslautern-Landau"
+  ),
+
   rec(
-    LastName      := "Linton",
-    FirstNames    := "Steve",
+    LastName      := "Thor",
+    FirstNames    := "A. U.",
     IsAuthor      := true,
-    IsMaintainer  := true,
-    Email         := "sal@cs.st-and.ac.uk",
-    WWWHome       := "http://www.cs.st-and.ac.uk/~sal/",
-    PostalAddress := Concatenation( [
-                     "School of Computer Science\n",
-                     "University of St Andrews\n",
-                     "Jack Cole Building, North Haugh,\n",
-                     "St Andrews, Fife, KY16 9SX, Scotland" ] ),
-    Place         := "St Andrews",
-    Institution   := "University of St Andrews"
-     ),
+    IsMaintainer  := false,
+    #Email         := "author@example.com",
+  ),
+
   rec(
-    LastName      := "GAP Team",
-    FirstNames    := "The",
+    LastName      := "Itor",
+    FirstNames    := "Jan",
     IsAuthor      := false,
     IsMaintainer  := true,
-    Email         := "support@gap-system.org",
+    #Email         := "janitor@example.com",
   ),
 ],
 
-Status := "accepted",
-CommunicatedBy := "David Joyner (Annapolis)",
-AcceptDate := "08/2010",
- 
-AbstractHTML := "This package implements the <a href=\"https://www.openmath.org/standard/scscp/\">Symbolic Computation Software Composability Protocol</a> for the GAP system.",
+Status := "other",
+
+# The following are not strictly necessary in your own PackageInfo.g
+# (in the sense that update.g only looks at the usual fields
+# like PackageWWWHome, ArchiveURL etc.). But they are convenient
+# if you use exactly the scheme for your package website that we propose.
+GithubUser := "gap-system",
+GithubRepository := ~.PackageName,
+GithubWWW := Concatenation("https://github.com/", ~.GithubUser, "/", ~.GithubRepository),
+
+PackageWWWHome := Concatenation("https://", ~.GithubUser, ".github.io/", ~.GithubRepository, "/"),
+README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
+# The following assumes you are using the Github releases system. If not, adjust
+# it accordingly.
+ArchiveURL     := Concatenation(~.GithubWWW,
+                    "/releases/download/v", ~.Version, "/",
+                    ~.GithubRepository, "-", ~.Version),
+
+ArchiveFormats := ".tar.gz .tar.bz2",
+
+AbstractHTML := 
+  "This is a pseudo package that contains no actual\
+  <span class=\"pkgname\">GAP</span> code. Instead, it is a template for other\
+  GAP packages that allows to quickly setup GitHub Pages.",
 
 PackageDoc := rec(
-  BookName := "SCSCP",
+  BookName  := "GitHubPagesForGAP",
   ArchiveURLSubset := ["doc"],
-  HTMLStart := "doc/chap0_mj.html",
-  PDFFile := "doc/manual.pdf",
-  SixFile := "doc/manual.six",
-  LongTitle := "Symbolic Computation Software Composability Protocol",
+  HTMLStart := "doc/chap0.html",
+  PDFFile   := "doc/manual.pdf",
+  SixFile   := "doc/manual.six",
+  LongTitle := "A GitHub Pages generator for GAP packages",
 ),
 
+# The following dependencies are fake and for testing / demo purposes
 Dependencies := rec(
-  GAP := ">=4.10",
-  NeededOtherPackages := [ ["GAPDoc", ">= 1.5"], 
-                           ["openmath", ">= 11.4.1"],
-                           ["IO", ">= 4.4"] ],
-  SuggestedOtherPackages := [],
+  GAP := ">=4.8.1",
+  NeededOtherPackages := [
+    ["GAPDoc", ">= 1.2"],
+    ["IO", ">= 4.1"],
+  ],
+  SuggestedOtherPackages := [["orb", ">= 4.2"]],
   ExternalConditions := []
 ),
 
 AvailabilityTest := ReturnTrue,
-TestFile := "tst/offline.tst",
 
-Keywords := [ "SCSCP", "software composability", "interface", 
-              "parallel computing", "OpenMath" ]
+Keywords := ["GitHub Pages", "GAP"]
+
 ));
+
+
