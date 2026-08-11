@@ -29,7 +29,7 @@
     <OMATTR>
         <OMATP>
             <OMS cd="scscp1" name="call_id" />
-            <OMSTR>alexk_9053</OMSTR>
+            <OMSTR>user_9053</OMSTR>
             <OMS cd="scscp1" name="option_runtime" />
             <OMI>300000</OMI>
             <OMS cd="scscp1" name="option_min_memory" />
@@ -69,7 +69,7 @@
     <OMATTR>
         <OMATP>
             <OMS cd="scscp1" name="call_id" />
-            <OMSTR>alexk_9053</OMSTR>
+            <OMSTR>user_9053</OMSTR>
             <OMS cd="scscp1" name="option_return_cookie" />
             <OMSTR></OMSTR>
         </OMATP>
@@ -93,7 +93,7 @@
     <OMATTR>
         <OMATP>
             <OMS cd="scscp1" name="call_id" />
-            <OMSTR>alexk_9053</OMSTR>
+            <OMSTR>user_9053</OMSTR>
             <OMS cd="scscp1" name="info_runtime" />
             <!-- The runtime in milliseconds as OM integer -->
             <OMI>1234</OMI>
@@ -120,7 +120,7 @@
     <OMATTR>
         <OMATP>
             <OMS cd="scscp1" name="call_id" />
-            <OMSTR>alexk_9053</OMSTR>
+            <OMSTR>user_9053</OMSTR>
         </OMATP>
         <OMA>
             <OMS cd="scscp1" name="procedure_terminated" />

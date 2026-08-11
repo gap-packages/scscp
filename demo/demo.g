@@ -30,7 +30,7 @@ WriteLine( stream, "<?scscp end ?>");
 s:=OMGetObjectWithAttributes( stream );
 
 WriteLine( stream, "<?scscp start ?>");
-WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_id\"/><OMSTR>alexk_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_Factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
+WriteLine( stream, "<OMOBJ><OMATTR><OMATP><OMS cd=\"scscp1\" name=\"call_id\"/><OMSTR>user_9053</OMSTR></OMATP><OMA><OMS cd=\"scscp1\" name=\"procedure_call\" /><OMSTR>WS_Factorial</OMSTR><OMI>1713</OMI></OMA></OMATTR></OMOBJ>" );
 WriteLine( stream, "<?scscp end ?>");
 
 s:=OMGetObjectWithAttributes( stream );
